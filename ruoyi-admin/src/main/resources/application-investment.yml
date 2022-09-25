@@ -1,0 +1,12 @@
+# 投顾管家相关配置
+investment:
+  #沪深A股基本信息
+  stock-list: http://20.push2.eastmoney.com/api/qt/clist/get?pn=1&pz=1000000&po=1&np=1&fltt=2&invt=2&fid=f3&fs=m:0+t:6,m:0+t:13,m:0+t:80,m:1+t:2,m:1+t:23&fields=f12,f14
+  #沪深A股公司概况
+  company-detail: http://f10.eastmoney.com/CompanySurvey/CompanySurveyAjax?code=
+
+  #沪深A股财务分析
+  #重要指标>>>报告期-年-季度
+  finance-zyzb-period: https://emweb.securities.eastmoney.com/PC_HSF10/NewFinanceAnalysis/ZYZBAjaxNew?type=0&code=
+  finance-zyzb-year: https://emweb.securities.eastmoney.com/PC_HSF10/NewFinanceAnalysis/ZYZBAjaxNew?type=1&code=
+  finance-zyzb-quarter: https://emweb.securities.eastmoney.com/PC_HSF10/NewFinanceAnalysis/ZYZBAjaxNew?type=2&code=
