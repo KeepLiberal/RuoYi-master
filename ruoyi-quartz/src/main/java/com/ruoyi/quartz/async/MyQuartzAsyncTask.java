@@ -6,11 +6,14 @@ import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.NumFormatUtil;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
+import com.ruoyi.investment.domain.InvFinanceZyzbPeriod;
 import com.ruoyi.investment.domain.InvFinanceZyzbQuarter;
 import com.ruoyi.investment.domain.InvFinanceZyzbYear;
 import com.ruoyi.investment.domain.InvStock;
+import com.ruoyi.investment.mapper.InvFinanceZyzbPeriodMapper;
 import com.ruoyi.investment.mapper.InvFinanceZyzbQuarterMapper;
 import com.ruoyi.investment.mapper.InvFinanceZyzbYearMapper;
+import com.ruoyi.quartz.task.RyTask;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
@@ -33,10 +36,44 @@ public class MyQuartzAsyncTask {
     private Environment ev;
 
     @Resource
+    private InvFinanceZyzbPeriodMapper invFinanceZyzbPeriodMapper;
+    @Resource
     private InvFinanceZyzbQuarterMapper invFinanceZyzbQuarterMapper;
     @Resource
     private InvFinanceZyzbYearMapper invFinanceZyzbYearMapper;
 
+    /**
+     * @Title: 获取接口所有字段
+     * @Description:
+     * @author weny.yang
+     * @date Sep 9, 2020
+     */
+    @Async("threadPoolTaskExecutor")
+    public void getInterfaceAllKey(InvStock stock, String urlStr, String type) {
+
+        try{
+            String url = ev.getProperty(urlStr);
+            if ("ym".equals(type)) {
+                url += stock.getMarket() + stock.getCode();
+            } else if ("nm".equals(type)) {
+                url += stock.getCode();
+            }
+            String jsonStr = HttpUtils.sendGet(url, "", "UTF-8");
+            if (null != jsonStr && !"".equals(jsonStr)) {
+                JSONObject json = JSONObject.parseObject(jsonStr);// 解析jsonStr
+                JSONArray dataArray = json.getJSONArray("data");
+                if(null!=dataArray){
+                    Iterator<Object> iterator = dataArray.iterator();
+                    if (iterator.hasNext()){
+                        JSONObject jsonObject = (JSONObject)iterator.next();
+                        RyTask.keySet.addAll(jsonObject.keySet());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error(">>>getInterfaceAllKey("+stock.getCode()+")异常" + e);
+        }
+    }
 
     /**
      * @Title: 异步执行invFinanceZyzbQuarterTask任务
@@ -45,15 +82,15 @@ public class MyQuartzAsyncTask {
      * @date Sep 9, 2020
      */
     @Async("threadPoolTaskExecutor")
-    public void invFinanceZyzbQuarterTask(InvStock stock) {
+    public void invFinanceZyzbPeriodTask(InvStock stock) {
         try{
-            String url = ev.getProperty("investment.finance-zyzb-quarter") + stock.getMarket() + stock.getCode();
+            String url = ev.getProperty("investment.finance-zyzb-period") + stock.getMarket() + stock.getCode();
             String jsonStr = HttpUtils.sendGet(url, "", "UTF-8");
             if (null != jsonStr && !"".equals(jsonStr)) {
-                List<InvFinanceZyzbQuarter> invFinanceZyzbQuarterList = invFinanceZyzbQuarterMapper.selectInvFinanceZyzbQuarterList(new InvFinanceZyzbQuarter(stock.getCode()));
-                Map<String, InvFinanceZyzbQuarter> zyzbQuarterMap = new HashMap<>();
-                for (InvFinanceZyzbQuarter zyzbQuarter : invFinanceZyzbQuarterList) {
-                    zyzbQuarterMap.put(zyzbQuarter.getReportDate().toString(), zyzbQuarter);
+                List<InvFinanceZyzbPeriod> invFinanceZyzbPeriodList = invFinanceZyzbPeriodMapper.selectInvFinanceZyzbPeriodList(new InvFinanceZyzbPeriod(stock.getCode()));
+                Map<String, InvFinanceZyzbPeriod> zyzbPeriodMap = new HashMap<>();
+                for (InvFinanceZyzbPeriod zyzbPeriod : invFinanceZyzbPeriodList) {
+                    zyzbPeriodMap.put(zyzbPeriod.getReportDate().toString(), zyzbPeriod);
                 }
                 JSONObject json = JSONObject.parseObject(jsonStr);// 解析jsonStr
                 JSONArray dataArray = json.getJSONArray("data");
@@ -62,8 +99,8 @@ public class MyQuartzAsyncTask {
                     while(iterator.hasNext()){
                         JSONObject jsonObject = (JSONObject)iterator.next();
                         //反射赋值
-                        InvFinanceZyzbQuarter zyzbQuarter = new InvFinanceZyzbQuarter(stock.getCode());
-                        Class<? extends InvFinanceZyzbQuarter> clazz = zyzbQuarter.getClass();
+                        InvFinanceZyzbPeriod zyzbPeriod = new InvFinanceZyzbPeriod(stock.getCode());
+                        Class<? extends InvFinanceZyzbPeriod> clazz = zyzbPeriod.getClass();
                         Field[] declaredFields = clazz.getDeclaredFields();
                         for(Field field : declaredFields){
                             field.setAccessible(true);
@@ -71,27 +108,27 @@ public class MyQuartzAsyncTask {
                             String valueString = jsonObject.getString(StringUtils.toUnderScoreCase(field.getName()).toUpperCase());
                             if ("class java.lang.Double".equals(genericType)) {
                                 Double value = NumFormatUtil.toDouble(valueString);
-                                field.set(zyzbQuarter, value);
+                                field.set(zyzbPeriod, value);
                             } else if ("class java.util.Date".equals(genericType)) {
                                 Date value = DateUtils.parseDate(valueString);
-                                field.set(zyzbQuarter, value);
+                                field.set(zyzbPeriod, value);
                             }
                         }
 
-                        if(zyzbQuarterMap.containsKey(zyzbQuarter.getReportDate().toString())){//数据库已有code指定日期报告
-                            InvFinanceZyzbQuarter companies = zyzbQuarterMap.get(zyzbQuarter.getReportDate().toString());
+                        if(zyzbPeriodMap.containsKey(zyzbPeriod.getReportDate().toString())){//数据库已有code指定日期报告
+                            InvFinanceZyzbPeriod companies = zyzbPeriodMap.get(zyzbPeriod.getReportDate().toString());
                             companies.setId(null);
-                            if(!companies.equals(zyzbQuarter)){//报告数据不相同，以最新获取为准更新数据库
-                                invFinanceZyzbQuarterMapper.updateInvFinanceZyzbQuarter(zyzbQuarter);
+                            if(!companies.equals(zyzbPeriod)){//报告数据不相同，以最新获取为准更新数据库
+                                invFinanceZyzbPeriodMapper.updateInvFinanceZyzbPeriod(zyzbPeriod);
                             }
                         }else{//数据库没有code指定日期报告，插入
-                            invFinanceZyzbQuarterMapper.insertInvFinanceZyzbQuarter(zyzbQuarter);
+                            invFinanceZyzbPeriodMapper.insertInvFinanceZyzbPeriod(zyzbPeriod);
                         }
                     }
                 }
             }
         } catch (Exception e) {
-            log.error(">>>MyQuartzAsyncTask.invFinanceZyzbQuarterTask("+stock.getCode()+")异常" + e);
+            log.error(">>>MyQuartzAsyncTask.invFinanceZyzbPeriodTask("+stock.getCode()+")异常" + e);
         }
     }
 
@@ -153,4 +190,61 @@ public class MyQuartzAsyncTask {
         }
     }
 
+
+    /**
+     * @Title: 异步执行invFinanceZyzbQuarterTask任务
+     * @Description:
+     * @author weny.yang
+     * @date Sep 9, 2020
+     */
+    @Async("threadPoolTaskExecutor")
+    public void invFinanceZyzbQuarterTask(InvStock stock) {
+        try{
+            String url = ev.getProperty("investment.finance-zyzb-quarter") + stock.getMarket() + stock.getCode();
+            String jsonStr = HttpUtils.sendGet(url, "", "UTF-8");
+            if (null != jsonStr && !"".equals(jsonStr)) {
+                List<InvFinanceZyzbQuarter> invFinanceZyzbQuarterList = invFinanceZyzbQuarterMapper.selectInvFinanceZyzbQuarterList(new InvFinanceZyzbQuarter(stock.getCode()));
+                Map<String, InvFinanceZyzbQuarter> zyzbQuarterMap = new HashMap<>();
+                for (InvFinanceZyzbQuarter zyzbQuarter : invFinanceZyzbQuarterList) {
+                    zyzbQuarterMap.put(zyzbQuarter.getReportDate().toString(), zyzbQuarter);
+                }
+                JSONObject json = JSONObject.parseObject(jsonStr);// 解析jsonStr
+                JSONArray dataArray = json.getJSONArray("data");
+                if(null!=dataArray){
+                    Iterator<Object> iterator = dataArray.iterator();
+                    while(iterator.hasNext()){
+                        JSONObject jsonObject = (JSONObject)iterator.next();
+                        //反射赋值
+                        InvFinanceZyzbQuarter zyzbQuarter = new InvFinanceZyzbQuarter(stock.getCode());
+                        Class<? extends InvFinanceZyzbQuarter> clazz = zyzbQuarter.getClass();
+                        Field[] declaredFields = clazz.getDeclaredFields();
+                        for(Field field : declaredFields){
+                            field.setAccessible(true);
+                            String genericType = field.getGenericType().toString();
+                            String valueString = jsonObject.getString(StringUtils.toUnderScoreCase(field.getName()).toUpperCase());
+                            if ("class java.lang.Double".equals(genericType)) {
+                                Double value = NumFormatUtil.toDouble(valueString);
+                                field.set(zyzbQuarter, value);
+                            } else if ("class java.util.Date".equals(genericType)) {
+                                Date value = DateUtils.parseDate(valueString);
+                                field.set(zyzbQuarter, value);
+                            }
+                        }
+
+                        if(zyzbQuarterMap.containsKey(zyzbQuarter.getReportDate().toString())){//数据库已有code指定日期报告
+                            InvFinanceZyzbQuarter companies = zyzbQuarterMap.get(zyzbQuarter.getReportDate().toString());
+                            companies.setId(null);
+                            if(!companies.equals(zyzbQuarter)){//报告数据不相同，以最新获取为准更新数据库
+                                invFinanceZyzbQuarterMapper.updateInvFinanceZyzbQuarter(zyzbQuarter);
+                            }
+                        }else{//数据库没有code指定日期报告，插入
+                            invFinanceZyzbQuarterMapper.insertInvFinanceZyzbQuarter(zyzbQuarter);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error(">>>MyQuartzAsyncTask.invFinanceZyzbQuarterTask("+stock.getCode()+")异常" + e);
+        }
+    }
 }

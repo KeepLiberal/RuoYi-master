@@ -1,6 +1,6 @@
 -- 菜单 SQL
 insert into sys_menu (menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('财务分析-重要指标-季度', '2000', '1', '/investment/invFinanceZyzbQuarter', 'C', '0', 'investment:invFinanceZyzbQuarter:view', '#', 'admin', sysdate(), '', null, '财务分析-重要指标-季度菜单');
+values('财务分析-重要指标-季度', '6', '1', '/investment/invFinanceZyzbQuarter', 'C', '0', 'investment:invFinanceZyzbQuarter:view', '#', 'admin', sysdate(), '', null, '财务分析-重要指标-季度菜单');
 
 -- 按钮父菜单ID
 SELECT @parentId := LAST_INSERT_ID();

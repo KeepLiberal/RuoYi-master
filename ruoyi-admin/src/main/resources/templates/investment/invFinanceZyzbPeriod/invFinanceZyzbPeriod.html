@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('财务分析-重要指标-年度列表')" />
+    <th:block th:include="include :: header('财务分析-重要指标-报告期列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -36,16 +36,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="investment:invFinanceZyzbYear:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="investment:invFinanceZyzbPeriod:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="investment:invFinanceZyzbYear:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="investment:invFinanceZyzbPeriod:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="investment:invFinanceZyzbYear:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="investment:invFinanceZyzbPeriod:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="investment:invFinanceZyzbYear:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="investment:invFinanceZyzbPeriod:export">
                     <i class="fa fa-download"></i> 导出
                 </a>
             </div>
@@ -56,9 +56,9 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('investment:invFinanceZyzbYear:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('investment:invFinanceZyzbYear:remove')}]];
-        var prefix = ctx + "investment/invFinanceZyzbYear";
+        var editFlag = [[${@permission.hasPermi('investment:invFinanceZyzbPeriod:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('investment:invFinanceZyzbPeriod:remove')}]];
+        var prefix = ctx + "investment/invFinanceZyzbPeriod";
 
         $(function() {
             var options = {
@@ -67,7 +67,7 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "财务分析-重要指标-年度",
+                modalName: "财务分析-重要指标-报告期",
                 columns: [{
                     checkbox: true
                 },
@@ -93,138 +93,6 @@
                     title: '修改日期'
                 },
                 {
-                    field: 'mgwfplr',
-                    title: '每股未分配利润(元)'
-                },
-                {
-                    field: 'mgjyxjje',
-                    title: '每股经营现金流(元)'
-                },
-                {
-                    field: 'epsxs',
-                    title: '稀释每股收益(元)'
-                },
-                {
-                    field: 'epskcjb',
-                    title: '扣非每股收益(元)'
-                },
-                {
-                    field: 'mgzbgj',
-                    title: '每股公积金(元)'
-                },
-                {
-                    field: 'bps',
-                    title: '每股净资产(元)'
-                },
-                {
-                    field: 'epsjb',
-                    title: '基本每股收益(元)'
-                },
-                {
-                    field: 'yyzsrgdhbzc',
-                    title: '营业总收入滚动环比增长(%)'
-                },
-                {
-                    field: 'totaloperatereve',
-                    title: '营业总收入(元)'
-                },
-                {
-                    field: 'kfjlrgdhbzc',
-                    title: '扣非净利润滚动环比增长(%)'
-                },
-                {
-                    field: 'kcfjcxsyjlr',
-                    title: '扣非净利润(元)'
-                },
-                {
-                    field: 'epsjbtz',
-                    title: '归属净利润同比增长(%)'
-                },
-                {
-                    field: 'kcfjcxsyjlrtz',
-                    title: '扣非净利润同比增长(%)'
-                },
-                {
-                    field: 'parentnetprofit',
-                    title: '归属净利润(元)'
-                },
-                {
-                    field: 'netprofitrphbzc',
-                    title: '归属净利润滚动环比增长(%)'
-                },
-                {
-                    field: 'totaloperaterevetz',
-                    title: '营业总收入同比增长(%)'
-                },
-                {
-                    field: 'roekcjq',
-                    title: '净资产收益率(扣非/加权)(%)'
-                },
-                {
-                    field: 'zzcjll',
-                    title: '总资产收益率(加权)(%)'
-                },
-                {
-                    field: 'roejq',
-                    title: '净资产收益率(加权)(%)'
-                },
-                {
-                    field: 'xsmll',
-                    title: '毛利率(%)'
-                },
-                {
-                    field: 'xsjll',
-                    title: '净利率(%)'
-                },
-                {
-                    field: 'cqbl',
-                    title: '产权比率'
-                },
-                {
-                    field: 'zcfzl',
-                    title: '资产负债率(%)'
-                },
-                {
-                    field: 'qycs',
-                    title: '权益乘数'
-                },
-                {
-                    field: 'sd',
-                    title: '速动比率'
-                },
-                {
-                    field: 'xjllb',
-                    title: '现金流量比率'
-                },
-                {
-                    field: 'ld',
-                    title: '流动比率'
-                },
-                {
-                    field: 'zzczzts',
-                    title: '总资产周转天数(天)'
-                },
-                {
-                    field: 'yszkzzl',
-                    title: '应收账款周转率(次)'
-                },
-                {
-                    field: 'yszkzzts',
-                    title: '应收账款周转天数(天)'
-                },
-                {
-                    field: 'chzzts',
-                    title: '存货周转天数(天)'
-                },
-                {
-                    field: 'chzzl',
-                    title: '存货周转率(次)'
-                },
-                {
-                    field: 'toazzl',
-                    title: '总资产周转率(次)'
-                },
-                {
                     field: 'yszkyysr',
                     title: '预收账款/营业总收入'
                 },
@@ -241,8 +109,16 @@
                     title: '存款总额(元)'
                 },
                 {
+                    field: 'xsjll',
+                    title: '净利率(%)'
+                },
+                {
                     field: 'mlr',
                     title: '毛利润(元)'
+                },
+                {
+                    field: 'kcfjcxsyjlr',
+                    title: '扣非净利润(元)'
                 },
                 {
                     field: 'earnedPremium',
@@ -253,12 +129,32 @@
                     title: '净资本/净资产'
                 },
                 {
+                    field: 'zzczzts',
+                    title: '总资产周转天数(天)'
+                },
+                {
+                    field: 'mgwfplr',
+                    title: '每股未分配利润(元)'
+                },
+                {
                     field: 'taxrate',
                     title: '实际税率(%)'
                 },
                 {
+                    field: 'yszkzzl',
+                    title: '应收账款周转率(次)'
+                },
+                {
+                    field: 'cqbl',
+                    title: '产权比率'
+                },
+                {
                     field: 'zygpgmjzc',
                     title: '自营股票规模/净资产'
+                },
+                {
+                    field: 'kfjlrgdhbzc',
+                    title: '扣非净利润滚动环比增长(%)'
                 },
                 {
                     field: 'ltdrr',
@@ -269,6 +165,10 @@
                     title: '偿付能力充足率(%)'
                 },
                 {
+                    field: 'epsjb',
+                    title: '基本每股收益(元)'
+                },
+                {
                     field: 'jjywfxzb',
                     title: '经纪业务风险准备(元)'
                 },
@@ -277,16 +177,80 @@
                     title: '证券自营业务风险准备(元)'
                 },
                 {
+                    field: 'roekcjq',
+                    title: '净资产收益率(扣非/加权)(%)'
+                },
+                {
                     field: 'surrenderRateLife',
                     title: '退保率(%)'
+                },
+                {
+                    field: 'yyzsrgdhbzc',
+                    title: '营业总收入滚动环比增长(%)'
+                },
+                {
+                    field: 'zcfzl',
+                    title: '资产负债率(%)'
                 },
                 {
                     field: 'jyxjlyysr',
                     title: '经营净现金流/营业总收入'
                 },
                 {
+                    field: 'qycs',
+                    title: '权益乘数'
+                },
+                {
+                    field: 'zzcjll',
+                    title: '总资产收益率(加权)(%)'
+                },
+                {
+                    field: 'bps',
+                    title: '每股净资产(元)'
+                },
+                {
                     field: 'nzbje',
                     title: '资本净额(元)'
+                },
+                {
+                    field: 'roejq',
+                    title: '净资产收益率(加权)(%)'
+                },
+                {
+                    field: 'yszkzzts',
+                    title: '应收账款周转天数(天)'
+                },
+                {
+                    field: 'djdDeductdpnpYoy',
+                    title: '-'
+                },
+                {
+                    field: 'xsmll',
+                    title: '毛利率(%)'
+                },
+                {
+                    field: 'kcfjcxsyjlrtz',
+                    title: '扣非净利润同比增长(%)'
+                },
+                {
+                    field: 'totaloperatereve',
+                    title: '营业总收入(元)'
+                },
+                {
+                    field: 'sd',
+                    title: '速动比率'
+                },
+                {
+                    field: 'chzzts',
+                    title: '存货周转天数(天)'
+                },
+                {
+                    field: 'mgzbgj',
+                    title: '每股公积金(元)'
+                },
+                {
+                    field: 'parentnetprofit',
+                    title: '归属净利润(元)'
                 },
                 {
                     field: 'nonperloan',
@@ -301,6 +265,10 @@
                     title: '证券承销业务风险准备(元)'
                 },
                 {
+                    field: 'chzzl',
+                    title: '存货周转率(次)'
+                },
+                {
                     field: 'netRoi',
                     title: '净投资收益率(%)'
                 },
@@ -309,12 +277,32 @@
                     title: '贷款总额(元)'
                 },
                 {
+                    field: 'epskcjb',
+                    title: '扣非每股收益(元)'
+                },
+                {
+                    field: 'netprofitrphbzc',
+                    title: '归属净利润滚动环比增长(%)'
+                },
+                {
                     field: 'hxyjbczl',
                     title: '核心资本充足率(%)'
                 },
                 {
                     field: 'parentnetprofittz',
                     title: '归属净利润同比增长(%)'
+                },
+                {
+                    field: 'toazzl',
+                    title: '总资产周转率(次)'
+                },
+                {
+                    field: 'totaloperaterevetz',
+                    title: '营业总收入同比增长(%)'
+                },
+                {
+                    field: 'epsxs',
+                    title: '稀释每股收益(元)'
                 },
                 {
                     field: 'compensateExpense',
@@ -329,8 +317,16 @@
                     title: '净资本(元)'
                 },
                 {
+                    field: 'djdToiYoy',
+                    title: '-'
+                },
+                {
                     field: 'bldkbbl',
                     title: '不良贷款拨备覆盖率(%)'
+                },
+                {
+                    field: 'ld',
+                    title: '流动比率'
                 },
                 {
                     field: 'newcapitalader',
@@ -341,39 +337,39 @@
                     title: '销售净现金流/营业总收入'
                 },
                 {
+                    field: 'mgjyxjje',
+                    title: '每股经营现金流(元)'
+                },
+                {
                     field: 'yyfxzb',
                     title: '营运风险准备(元)'
                 },
                 {
-                    field: 'zcfzltz',
+                    field: 'xjllb',
+                    title: '现金流量比率'
+                },
+                {
+                    field: 'epsjbtz',
+                    title: '归属净利润同比增长(%)'
+                },
+                {
+                    field: 'djdDeductdpnpQoq',
                     title: '-'
                 },
                 {
-                    field: 'nbvRate',
+                    field: 'mgwfplrtz',
                     title: '-'
                 },
                 {
-                    field: 'roejqtz',
+                    field: 'djdToiQoq',
                     title: '-'
                 },
                 {
-                    field: 'djdDeductdpnpYoy',
+                    field: 'nbvLife',
                     title: '-'
                 },
                 {
-                    field: 'bpstz',
-                    title: '-'
-                },
-                {
-                    field: 'roic',
-                    title: '-'
-                },
-                {
-                    field: 'roictz',
-                    title: '-'
-                },
-                {
-                    field: 'reportYear',
+                    field: 'nhjzCurrentAmt',
                     title: '-'
                 },
                 {
@@ -397,27 +393,27 @@
                     title: '-'
                 },
                 {
-                    field: 'mgwfplrtz',
+                    field: 'roic',
                     title: '-'
                 },
                 {
-                    field: 'djdDeductdpnpQoq',
+                    field: 'roictz',
                     title: '-'
                 },
                 {
-                    field: 'nbvLife',
+                    field: 'zcfzltz',
                     title: '-'
                 },
                 {
-                    field: 'nhjzCurrentAmt',
+                    field: 'nbvRate',
                     title: '-'
                 },
                 {
-                    field: 'djdToiQoq',
+                    field: 'roejqtz',
                     title: '-'
                 },
                 {
-                    field: 'djdToiYoy',
+                    field: 'bpstz',
                     title: '-'
                 },
                 {

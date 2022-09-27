@@ -7,7 +7,7 @@ import com.ruoyi.investment.domain.InvFinanceZyzbYear;
  * 财务分析-重要指标-年度Service接口
  * 
  * @author wenyong.yang
- * @date 2022-09-24
+ * @date 2022-09-26
  */
 public interface IInvFinanceZyzbYearService 
 {

@@ -12,9 +12,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 定时任务调度测试
@@ -50,7 +48,26 @@ public class RyTask {
         System.out.println("执行无参方法");
     }
 
+    /**
+     * 获取接口所有字段
+     */
+    public static Set<String> keySet = new HashSet<>();
+    public void getInterfaceAllKey(String urls, String type) {//"investment.finance-zyzb-quarter"
+        log.info("========getInterfaceAllKey任务线程分发开始=========");
+        List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
+        String[] urlArr = urls.split(";");
+        for (InvStock stock : stockList) {
+            for(String url : urlArr){
+                myQuartzAsyncTask.getInterfaceAllKey(stock,url,type);
+            }
+        }
 
+        for (String key : keySet){
+            System.out.println("`"+key+"` double DEFAULT NULL COMMENT '',");
+        }
+        log.info("========getInterfaceAllKey任务线程分发完成=========");
+
+    }
 
 
     /**
@@ -96,21 +113,17 @@ public class RyTask {
         log.info("========invStockTask任务完成=========");
     }
 
-
-
-
     /**
-     * 沪深A股财务分析-重要指标-季度 数据抓取任务
+     * 沪深A股财务分析-重要指标-报告期 数据抓取任务
      */
-    public void invFinanceZyzbQuarterTask() {
-        log.info("========invFinanceZyzbQuarterTask任务线程分发开始=========");
+    public void invFinanceZyzbPeriodTask() {
+        log.info("========invFinanceZyzbPeriodTask任务线程分发开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
         for (InvStock stock : stockList) {
-            myQuartzAsyncTask.invFinanceZyzbQuarterTask(stock);
+            myQuartzAsyncTask.invFinanceZyzbPeriodTask(stock);
         }
-        log.info("========invFinanceZyzbQuarterTask任务线程分发完成=========");
+        log.info("========invFinanceZyzbPeriodTask任务线程分发完成=========");
     }
-
 
     /**
      * 沪深A股财务分析-重要指标-年度 数据抓取任务
@@ -124,6 +137,17 @@ public class RyTask {
         log.info("========invFinanceZyzbYearTask任务线程分发完成=========");
     }
 
+    /**
+     * 沪深A股财务分析-重要指标-季度 数据抓取任务
+     */
+    public void invFinanceZyzbQuarterTask() {
+        log.info("========invFinanceZyzbQuarterTask任务线程分发开始=========");
+        List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
+        for (InvStock stock : stockList) {
+            myQuartzAsyncTask.invFinanceZyzbQuarterTask(stock);
+        }
+        log.info("========invFinanceZyzbQuarterTask任务线程分发完成=========");
+    }
 
 
 

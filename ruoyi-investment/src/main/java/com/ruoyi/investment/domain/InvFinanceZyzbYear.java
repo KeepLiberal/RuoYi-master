@@ -13,7 +13,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 财务分析-重要指标-年度对象 inv_finance_zyzb_year
  * 
  * @author wenyong.yang
- * @date 2022-09-24
+ * @date 2022-09-26
  */
 public class InvFinanceZyzbYear extends BaseEntity
 {
@@ -293,80 +293,80 @@ public class InvFinanceZyzbYear extends BaseEntity
     @Excel(name = "营运风险准备(元)")
     private Double yyfxzb;
 
-    /** 1 */
-    @Excel(name = "1")
+    /** - */
+    @Excel(name = "-")
     private Double zcfzltz;
 
-    /** 1 */
-    @Excel(name = "1")
+    /** - */
+    @Excel(name = "-")
     private Double nbvRate;
 
-    /** 1 */
-    @Excel(name = "1")
+    /** - */
+    @Excel(name = "-")
     private Double roejqtz;
 
-    /** 1 */
-    @Excel(name = "1")
+    /** - */
+    @Excel(name = "-")
     private Double djdDeductdpnpYoy;
 
-    /** 1 */
-    @Excel(name = "1")
+    /** - */
+    @Excel(name = "-")
     private Double bpstz;
 
-    /** 1 */
-    @Excel(name = "1")
+    /** - */
+    @Excel(name = "-")
     private Double roic;
 
-    /** 1 */
-    @Excel(name = "1")
+    /** - */
+    @Excel(name = "-")
     private Double roictz;
 
-    /** 1 */
-    @Excel(name = "1")
+    /** - */
+    @Excel(name = "-")
     private Double reportYear;
 
-    /** 1 */
-    @Excel(name = "1")
+    /** - */
+    @Excel(name = "-")
     private Double mgjyxjjetz;
 
-    /** 1 */
-    @Excel(name = "1")
+    /** - */
+    @Excel(name = "-")
     private Double djdDpnpYoy;
 
-    /** 1 */
-    @Excel(name = "1")
+    /** - */
+    @Excel(name = "-")
     private Double mgzbgjtz;
 
-    /** 1 */
-    @Excel(name = "1")
+    /** - */
+    @Excel(name = "-")
     private Double zzcjlltz;
 
-    /** 1 */
-    @Excel(name = "1")
+    /** - */
+    @Excel(name = "-")
     private Double djdDpnpQoq;
 
-    /** 1 */
-    @Excel(name = "1")
+    /** - */
+    @Excel(name = "-")
     private Double mgwfplrtz;
 
-    /** 1 */
-    @Excel(name = "1")
+    /** - */
+    @Excel(name = "-")
     private Double djdDeductdpnpQoq;
 
-    /** 1 */
-    @Excel(name = "1")
+    /** - */
+    @Excel(name = "-")
     private Double nbvLife;
 
-    /** 1 */
-    @Excel(name = "1")
+    /** - */
+    @Excel(name = "-")
     private Double nhjzCurrentAmt;
 
-    /** 1 */
-    @Excel(name = "1")
+    /** - */
+    @Excel(name = "-")
     private Double djdToiQoq;
 
-    /** 1 */
-    @Excel(name = "1")
+    /** - */
+    @Excel(name = "-")
     private Double djdToiYoy;
 
     public void setId(Long id) 

@@ -2,7 +2,6 @@
 财务分析-重要指标-季度列表
 */
 
-
 DROP TABLE IF EXISTS `inv_finance_zyzb_quarter`;
 CREATE TABLE `inv_finance_zyzb_quarter` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -14,7 +13,7 @@ CREATE TABLE `inv_finance_zyzb_quarter` (
   `per_unassign_profit` double DEFAULT NULL COMMENT '每股未分配利润(元)',
   `per_netcash` double DEFAULT NULL COMMENT '每股经营现金流(元)',
   `totaloperatereve` double DEFAULT NULL COMMENT '营业总收入(元)',
-  `gross_profit` double DEFAULT NULL,
+  `GROSS_PROFIT` double DEFAULT NULL COMMENT '毛利润(元)',
   `parentnetprofit` double DEFAULT NULL COMMENT '归属净利润(元)',
   `dedu_parent_profit` double DEFAULT NULL COMMENT '扣非净利润(元)',
   `totaloperaterevetz` double DEFAULT NULL COMMENT '营业总收入同比增长(%)',

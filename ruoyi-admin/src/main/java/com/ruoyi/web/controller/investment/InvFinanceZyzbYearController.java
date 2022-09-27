@@ -23,7 +23,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 财务分析-重要指标-年度Controller
  * 
  * @author wenyong.yang
- * @date 2022-09-24
+ * @date 2022-09-26
  */
 @Controller
 @RequestMapping("/investment/invFinanceZyzbYear")

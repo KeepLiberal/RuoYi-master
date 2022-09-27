@@ -1,6 +1,6 @@
 -- 菜单 SQL
 insert into sys_menu (menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('沪深A股基本信息', '2000', '1', '/investment/invStock', 'C', '0', 'investment:invStock:view', '#', 'admin', sysdate(), '', null, '沪深A股基本信息菜单');
+values('沪深A股基本信息', '5', '1', '/investment/invStock', 'C', '0', 'investment:invStock:view', '#', 'admin', sysdate(), '', null, '沪深A股基本信息菜单');
 
 -- 按钮父菜单ID
 SELECT @parentId := LAST_INSERT_ID();
