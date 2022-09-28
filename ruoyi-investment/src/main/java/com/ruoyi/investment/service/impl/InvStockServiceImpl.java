@@ -11,8 +11,8 @@ import com.ruoyi.common.core.text.Convert;
 /**
  * 沪深A股基本信息Service业务层处理
  * 
- * @author wenyong.yang
- * @date 2022-09-24
+ * @author ruoyi
+ * @date 2022-09-28
  */
 @Service
 public class InvStockServiceImpl implements IInvStockService 

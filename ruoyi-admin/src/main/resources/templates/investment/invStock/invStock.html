@@ -11,10 +11,6 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>股票代码：</label>
-                                <input type="text" name="code"/>
-                            </li>
-                            <li>
                                 <label>股票简称：</label>
                                 <input type="text" name="name"/>
                             </li>
@@ -69,7 +65,8 @@
                 },
                 {
                     field: 'code',
-                    title: '股票代码'
+                    title: '股票代码',
+                    visible: false
                 },
                 {
                     field: 'name',
@@ -78,6 +75,10 @@
                 {
                     field: 'market',
                     title: '股票市场'
+                },
+                {
+                    field: 'companyType',
+                    title: '公司类型'
                 },
                 {
                     title: '操作',

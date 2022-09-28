@@ -10,15 +10,14 @@ import java.util.Objects;
 /**
  * 沪深A股基本信息对象 inv_stock
  * 
- * @author wenyong.yang
- * @date 2022-09-24
+ * @author ruoyi
+ * @date 2022-09-28
  */
 public class InvStock extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** 股票代码 */
-    @Excel(name = "股票代码")
     private String code;
 
     /** 股票简称 */
@@ -28,6 +27,10 @@ public class InvStock extends BaseEntity
     /** 股票市场 */
     @Excel(name = "股票市场")
     private String market;
+
+    /** 公司类型 */
+    @Excel(name = "公司类型")
+    private String companyType;
 
     public void setCode(String code) 
     {
@@ -52,7 +55,20 @@ public class InvStock extends BaseEntity
         this.market = market;
     }
 
-    public String getMarket() { return market; }
+    public String getMarket() 
+    {
+        return market;
+    }
+    public void setCompanyType(String companyType) 
+    {
+        this.companyType = companyType;
+    }
+
+    public String getCompanyType() 
+    {
+        return companyType;
+    }
+
 
     public InvStock() {
         super();
@@ -69,12 +85,12 @@ public class InvStock extends BaseEntity
         if (this == o) return true;
         if (!(o instanceof InvStock)) return false;
         InvStock invStock = (InvStock) o;
-        return Objects.equals(code, invStock.code) && Objects.equals(name, invStock.name) && Objects.equals(market, invStock.market);
+        return Objects.equals(code, invStock.code) && Objects.equals(name, invStock.name) && Objects.equals(market, invStock.market) && Objects.equals(companyType, invStock.companyType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, name, market);
+        return Objects.hash(code, name, market, companyType);
     }
 
     @Override
@@ -83,6 +99,7 @@ public class InvStock extends BaseEntity
             .append("code", getCode())
             .append("name", getName())
             .append("market", getMarket())
+            .append("companyType", getCompanyType())
             .toString();
     }
 }

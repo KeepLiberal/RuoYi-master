@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 定时任务调度测试
@@ -76,12 +77,13 @@ public class RyTask {
     public void invStockTask() {
         log.info("========invStockTask任务开始=========");
         String url = ev.getProperty("investment.stock-list");
-        String jsonStr = HttpUtils.sendGet(url, "", "UTF-8");
+        String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(3));
 
         if (null != jsonStr) {
             List<InvStock> invStocks = invStockMapper.selectInvStockList(null);
             Map<String, InvStock> stockMap = new HashMap<>();
             for (InvStock stock : invStocks) {
+                stock.setCompanyType(null);//下方stockMap.get(code).equals(stock)方法忽略companyType
                 stockMap.put(stock.getCode(), stock);
             }
 
@@ -149,6 +151,19 @@ public class RyTask {
         log.info("========invFinanceZyzbQuarterTask任务线程分发完成=========");
     }
 
+    /**
+     * 沪深A股财务分析-资产负债-季度 数据抓取任务
+     */
+    public void invFinanceZcfzPeriodTask() {
+        log.info("========invFinanceZcfzPeriodTask任务线程分发开始=========");
+        List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
+        for (InvStock stock : stockList) {
+            myQuartzAsyncTask.invFinanceZcfzPeriodTask(stock);
+        }
+
+        //myQuartzAsyncTask.invFinanceZcfzPeriodTask(new InvStock("000001","","sz"));
+        log.info("========invFinanceZcfzPeriodTask任务线程分发完成=========");
+    }
 
 
 
