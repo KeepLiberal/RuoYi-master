@@ -2,6 +2,7 @@ package com.ruoyi.quartz.task;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.investment.domain.InvStock;
@@ -53,16 +54,20 @@ public class RyTask {
      * 获取接口所有字段
      */
     public static Set<String> keySet = new HashSet<>();
-    public void getInterfaceAllKey(String urls, String type) {//"investment.finance-zyzb-quarter"
+    public void getInterfaceAllKey(String urls, String type) throws InterruptedException {//"investment.finance-zyzb-quarter"
+        keySet.clear();
         log.info("========getInterfaceAllKey任务线程分发开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
         String[] urlArr = urls.split(";");
         for (InvStock stock : stockList) {
-            for(String url : urlArr){
-                myQuartzAsyncTask.getInterfaceAllKey(stock,url,type);
+            if ("4".equals(stock.getCompanyType())){
+                for(String url : urlArr){
+                    myQuartzAsyncTask.getInterfaceAllKey(stock,url,type);
+                }
             }
         }
 
+        Thread.sleep(60000);
         for (String key : keySet){
             System.out.println("`"+key+"` double DEFAULT NULL COMMENT '',");
         }
@@ -83,7 +88,6 @@ public class RyTask {
             List<InvStock> invStocks = invStockMapper.selectInvStockList(null);
             Map<String, InvStock> stockMap = new HashMap<>();
             for (InvStock stock : invStocks) {
-                stock.setCompanyType(null);//下方stockMap.get(code).equals(stock)方法忽略companyType
                 stockMap.put(stock.getCode(), stock);
             }
 
@@ -158,10 +162,11 @@ public class RyTask {
         log.info("========invFinanceZcfzPeriodTask任务线程分发开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
         for (InvStock stock : stockList) {
+            if ("000001".equals(stock.getCode())){
+                //myQuartzAsyncTask.invFinanceZcfzPeriodTask(stock);
+            };
             myQuartzAsyncTask.invFinanceZcfzPeriodTask(stock);
         }
-
-        //myQuartzAsyncTask.invFinanceZcfzPeriodTask(new InvStock("000001","","sz"));
         log.info("========invFinanceZcfzPeriodTask任务线程分发完成=========");
     }
 

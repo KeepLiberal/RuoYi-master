@@ -1,10 +1,12 @@
 package com.ruoyi.investment.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -28,9 +30,14 @@ public class InvStock extends BaseEntity
     @Excel(name = "股票市场")
     private String market;
 
-    /** 公司类型 */
-    @Excel(name = "公司类型")
+    /** 公司类型 1:证劵 2:保险 3:银行 4:普通 */
+    @Excel(name = "公司类型 1:证劵 2:保险 3:银行 4:普通")
     private String companyType;
+
+    /** 资产负债报告期开始日期 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "资产负债报告期开始日期", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date zcfzPeriodStart;
 
     public void setCode(String code) 
     {
@@ -68,7 +75,15 @@ public class InvStock extends BaseEntity
     {
         return companyType;
     }
+    public void setZcfzPeriodStart(Date zcfzPeriodStart) 
+    {
+        this.zcfzPeriodStart = zcfzPeriodStart;
+    }
 
+    public Date getZcfzPeriodStart()
+    {
+        return zcfzPeriodStart;
+    }
 
     public InvStock() {
         super();
@@ -85,12 +100,12 @@ public class InvStock extends BaseEntity
         if (this == o) return true;
         if (!(o instanceof InvStock)) return false;
         InvStock invStock = (InvStock) o;
-        return Objects.equals(code, invStock.code) && Objects.equals(name, invStock.name) && Objects.equals(market, invStock.market) && Objects.equals(companyType, invStock.companyType);
+        return Objects.equals(code, invStock.code) && Objects.equals(name, invStock.name) && Objects.equals(market, invStock.market);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, name, market, companyType);
+        return Objects.hash(code, name, market);
     }
 
     @Override
@@ -100,6 +115,7 @@ public class InvStock extends BaseEntity
             .append("name", getName())
             .append("market", getMarket())
             .append("companyType", getCompanyType())
+            .append("zcfzPeriodStart", getZcfzPeriodStart())
             .toString();
     }
 }

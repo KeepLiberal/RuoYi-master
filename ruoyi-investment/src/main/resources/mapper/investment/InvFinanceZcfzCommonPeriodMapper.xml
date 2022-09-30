@@ -1,0 +1,657 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.investment.mapper.InvFinanceZcfzCommonPeriodMapper">
+    
+    <resultMap type="InvFinanceZcfzCommonPeriod" id="InvFinanceZcfzCommonPeriodResult">
+        <result property="id"    column="id"    />
+        <result property="securityCode"    column="security_code"    />
+        <result property="reportDate"    column="report_date"    />
+        <result property="monetaryfunds"    column="monetaryfunds"    />
+        <result property="monetaryfundsYoy"    column="monetaryfunds_yoy"    />
+        <result property="deriveFinasset"    column="derive_finasset"    />
+        <result property="deriveFinassetYoy"    column="derive_finasset_yoy"    />
+        <result property="noteAccountsRece"    column="note_accounts_rece"    />
+        <result property="noteAccountsReceYoy"    column="note_accounts_rece_yoy"    />
+        <result property="noteRece"    column="note_rece"    />
+        <result property="noteReceYoy"    column="note_rece_yoy"    />
+        <result property="accountsRece"    column="accounts_rece"    />
+        <result property="accountsReceYoy"    column="accounts_rece_yoy"    />
+        <result property="financeRece"    column="finance_rece"    />
+        <result property="financeReceYoy"    column="finance_rece_yoy"    />
+        <result property="prepayment"    column="prepayment"    />
+        <result property="prepaymentYoy"    column="prepayment_yoy"    />
+        <result property="totalOtherRece"    column="total_other_rece"    />
+        <result property="totalOtherReceYoy"    column="total_other_rece_yoy"    />
+        <result property="dividendRece"    column="dividend_rece"    />
+        <result property="dividendReceYoy"    column="dividend_rece_yoy"    />
+        <result property="inventory"    column="inventory"    />
+        <result property="inventoryYoy"    column="inventory_yoy"    />
+        <result property="contractAsset"    column="contract_asset"    />
+        <result property="contractAssetYoy"    column="contract_asset_yoy"    />
+        <result property="noncurrentAsset1year"    column="noncurrent_asset_1year"    />
+        <result property="noncurrentAsset1yearYoy"    column="noncurrent_asset_1year_yoy"    />
+        <result property="otherCurrentAsset"    column="other_current_asset"    />
+        <result property="otherCurrentAssetYoy"    column="other_current_asset_yoy"    />
+        <result property="totalCurrentAssets"    column="total_current_assets"    />
+        <result property="totalCurrentAssetsYoy"    column="total_current_assets_yoy"    />
+        <result property="longRece"    column="long_rece"    />
+        <result property="longReceYoy"    column="long_rece_yoy"    />
+        <result property="longEquityInvest"    column="long_equity_invest"    />
+        <result property="longEquityInvestYoy"    column="long_equity_invest_yoy"    />
+        <result property="otherEquityInvest"    column="other_equity_invest"    />
+        <result property="otherEquityInvestYoy"    column="other_equity_invest_yoy"    />
+        <result property="investRealestate"    column="invest_realestate"    />
+        <result property="investRealestateYoy"    column="invest_realestate_yoy"    />
+        <result property="fixedAsset"    column="fixed_asset"    />
+        <result property="fixedAssetYoy"    column="fixed_asset_yoy"    />
+        <result property="cip"    column="cip"    />
+        <result property="cipYoy"    column="cip_yoy"    />
+        <result property="userightAsset"    column="useright_asset"    />
+        <result property="userightAssetYoy"    column="useright_asset_yoy"    />
+        <result property="intangibleAsset"    column="intangible_asset"    />
+        <result property="intangibleAssetYoy"    column="intangible_asset_yoy"    />
+        <result property="developExpense"    column="develop_expense"    />
+        <result property="developExpenseYoy"    column="develop_expense_yoy"    />
+        <result property="longPrepaidExpense"    column="long_prepaid_expense"    />
+        <result property="longPrepaidExpenseYoy"    column="long_prepaid_expense_yoy"    />
+        <result property="deferTaxAsset"    column="defer_tax_asset"    />
+        <result property="deferTaxAssetYoy"    column="defer_tax_asset_yoy"    />
+        <result property="otherNoncurrentAsset"    column="other_noncurrent_asset"    />
+        <result property="otherNoncurrentAssetYoy"    column="other_noncurrent_asset_yoy"    />
+        <result property="totalNoncurrentAssets"    column="total_noncurrent_assets"    />
+        <result property="totalNoncurrentAssetsYoy"    column="total_noncurrent_assets_yoy"    />
+        <result property="totalAssets"    column="total_assets"    />
+        <result property="totalAssetsYoy"    column="total_assets_yoy"    />
+        <result property="shortLoan"    column="short_loan"    />
+        <result property="shortLoanYoy"    column="short_loan_yoy"    />
+        <result property="noteAccountsPayable"    column="note_accounts_payable"    />
+        <result property="noteAccountsPayableYoy"    column="note_accounts_payable_yoy"    />
+        <result property="notePayable"    column="note_payable"    />
+        <result property="notePayableYoy"    column="note_payable_yoy"    />
+        <result property="accountsPayable"    column="accounts_payable"    />
+        <result property="accountsPayableYoy"    column="accounts_payable_yoy"    />
+        <result property="contractLiab"    column="contract_liab"    />
+        <result property="contractLiabYoy"    column="contract_liab_yoy"    />
+        <result property="staffSalaryPayable"    column="staff_salary_payable"    />
+        <result property="staffSalaryPayableYoy"    column="staff_salary_payable_yoy"    />
+        <result property="taxPayable"    column="tax_payable"    />
+        <result property="taxPayableYoy"    column="tax_payable_yoy"    />
+        <result property="totalOtherPayable"    column="total_other_payable"    />
+        <result property="totalOtherPayableYoy"    column="total_other_payable_yoy"    />
+        <result property="dividendPayable"    column="dividend_payable"    />
+        <result property="dividendPayableYoy"    column="dividend_payable_yoy"    />
+        <result property="noncurrentLiab1year"    column="noncurrent_liab_1year"    />
+        <result property="noncurrentLiab1yearYoy"    column="noncurrent_liab_1year_yoy"    />
+        <result property="otherCurrentLiab"    column="other_current_liab"    />
+        <result property="otherCurrentLiabYoy"    column="other_current_liab_yoy"    />
+        <result property="totalCurrentLiab"    column="total_current_liab"    />
+        <result property="totalCurrentLiabYoy"    column="total_current_liab_yoy"    />
+        <result property="longLoan"    column="long_loan"    />
+        <result property="longLoanYoy"    column="long_loan_yoy"    />
+        <result property="leaseLiab"    column="lease_liab"    />
+        <result property="leaseLiabYoy"    column="lease_liab_yoy"    />
+        <result property="longPayable"    column="long_payable"    />
+        <result property="longPayableYoy"    column="long_payable_yoy"    />
+        <result property="longStaffsalaryPayable"    column="long_staffsalary_payable"    />
+        <result property="longStaffsalaryPayableYoy"    column="long_staffsalary_payable_yoy"    />
+        <result property="predictLiab"    column="predict_liab"    />
+        <result property="predictLiabYoy"    column="predict_liab_yoy"    />
+        <result property="deferIncome"    column="defer_income"    />
+        <result property="deferIncomeYoy"    column="defer_income_yoy"    />
+        <result property="deferTaxLiab"    column="defer_tax_liab"    />
+        <result property="deferTaxLiabYoy"    column="defer_tax_liab_yoy"    />
+        <result property="totalNoncurrentLiab"    column="total_noncurrent_liab"    />
+        <result property="totalNoncurrentLiabYoy"    column="total_noncurrent_liab_yoy"    />
+        <result property="totalLiabilities"    column="total_liabilities"    />
+        <result property="totalLiabilitiesYoy"    column="total_liabilities_yoy"    />
+        <result property="shareCapital"    column="share_capital"    />
+        <result property="shareCapitalYoy"    column="share_capital_yoy"    />
+        <result property="capitalReserve"    column="capital_reserve"    />
+        <result property="capitalReserveYoy"    column="capital_reserve_yoy"    />
+        <result property="otherCompreIncome"    column="other_compre_income"    />
+        <result property="otherCompreIncomeYoy"    column="other_compre_income_yoy"    />
+        <result property="specialReserve"    column="special_reserve"    />
+        <result property="specialReserveYoy"    column="special_reserve_yoy"    />
+        <result property="surplusReserve"    column="surplus_reserve"    />
+        <result property="surplusReserveYoy"    column="surplus_reserve_yoy"    />
+        <result property="unassignRpofit"    column="unassign_rpofit"    />
+        <result property="unassignRpofitYoy"    column="unassign_rpofit_yoy"    />
+        <result property="totalParentEquity"    column="total_parent_equity"    />
+        <result property="totalParentEquityYoy"    column="total_parent_equity_yoy"    />
+        <result property="minorityEquity"    column="minority_equity"    />
+        <result property="minorityEquityYoy"    column="minority_equity_yoy"    />
+        <result property="totalEquity"    column="total_equity"    />
+        <result property="totalEquityYoy"    column="total_equity_yoy"    />
+        <result property="totalLiabEquity"    column="total_liab_equity"    />
+        <result property="totalLiabEquityYoy"    column="total_liab_equity_yoy"    />
+        <result property="opinionType"    column="opinion_type"    />
+    </resultMap>
+
+    <sql id="selectInvFinanceZcfzCommonPeriodVo">
+        select id, security_code, report_date, monetaryfunds, monetaryfunds_yoy, derive_finasset, derive_finasset_yoy, note_accounts_rece, note_accounts_rece_yoy, note_rece, note_rece_yoy, accounts_rece, accounts_rece_yoy, finance_rece, finance_rece_yoy, prepayment, prepayment_yoy, total_other_rece, total_other_rece_yoy, dividend_rece, dividend_rece_yoy, inventory, inventory_yoy, contract_asset, contract_asset_yoy, noncurrent_asset_1year, noncurrent_asset_1year_yoy, other_current_asset, other_current_asset_yoy, total_current_assets, total_current_assets_yoy, long_rece, long_rece_yoy, long_equity_invest, long_equity_invest_yoy, other_equity_invest, other_equity_invest_yoy, invest_realestate, invest_realestate_yoy, fixed_asset, fixed_asset_yoy, cip, cip_yoy, useright_asset, useright_asset_yoy, intangible_asset, intangible_asset_yoy, develop_expense, develop_expense_yoy, long_prepaid_expense, long_prepaid_expense_yoy, defer_tax_asset, defer_tax_asset_yoy, other_noncurrent_asset, other_noncurrent_asset_yoy, total_noncurrent_assets, total_noncurrent_assets_yoy, total_assets, total_assets_yoy, short_loan, short_loan_yoy, note_accounts_payable, note_accounts_payable_yoy, note_payable, note_payable_yoy, accounts_payable, accounts_payable_yoy, contract_liab, contract_liab_yoy, staff_salary_payable, staff_salary_payable_yoy, tax_payable, tax_payable_yoy, total_other_payable, total_other_payable_yoy, dividend_payable, dividend_payable_yoy, noncurrent_liab_1year, noncurrent_liab_1year_yoy, other_current_liab, other_current_liab_yoy, total_current_liab, total_current_liab_yoy, long_loan, long_loan_yoy, lease_liab, lease_liab_yoy, long_payable, long_payable_yoy, long_staffsalary_payable, long_staffsalary_payable_yoy, predict_liab, predict_liab_yoy, defer_income, defer_income_yoy, defer_tax_liab, defer_tax_liab_yoy, total_noncurrent_liab, total_noncurrent_liab_yoy, total_liabilities, total_liabilities_yoy, share_capital, share_capital_yoy, capital_reserve, capital_reserve_yoy, other_compre_income, other_compre_income_yoy, special_reserve, special_reserve_yoy, surplus_reserve, surplus_reserve_yoy, unassign_rpofit, unassign_rpofit_yoy, total_parent_equity, total_parent_equity_yoy, minority_equity, minority_equity_yoy, total_equity, total_equity_yoy, total_liab_equity, total_liab_equity_yoy, opinion_type from inv_finance_zcfz_common_period
+    </sql>
+
+    <select id="selectInvFinanceZcfzCommonPeriodList" parameterType="InvFinanceZcfzCommonPeriod" resultMap="InvFinanceZcfzCommonPeriodResult">
+        <include refid="selectInvFinanceZcfzCommonPeriodVo"/>
+        <where>  
+            <if test="securityCode != null  and securityCode != ''"> and security_code = #{securityCode}</if>
+            <if test="reportDate != null "> and report_date = #{reportDate}</if>
+            <if test="monetaryfunds != null "> and monetaryfunds = #{monetaryfunds}</if>
+            <if test="monetaryfundsYoy != null "> and monetaryfunds_yoy = #{monetaryfundsYoy}</if>
+            <if test="deriveFinasset != null "> and derive_finasset = #{deriveFinasset}</if>
+            <if test="deriveFinassetYoy != null "> and derive_finasset_yoy = #{deriveFinassetYoy}</if>
+            <if test="noteAccountsRece != null "> and note_accounts_rece = #{noteAccountsRece}</if>
+            <if test="noteAccountsReceYoy != null "> and note_accounts_rece_yoy = #{noteAccountsReceYoy}</if>
+            <if test="noteRece != null "> and note_rece = #{noteRece}</if>
+            <if test="noteReceYoy != null "> and note_rece_yoy = #{noteReceYoy}</if>
+            <if test="accountsRece != null "> and accounts_rece = #{accountsRece}</if>
+            <if test="accountsReceYoy != null "> and accounts_rece_yoy = #{accountsReceYoy}</if>
+            <if test="financeRece != null "> and finance_rece = #{financeRece}</if>
+            <if test="financeReceYoy != null "> and finance_rece_yoy = #{financeReceYoy}</if>
+            <if test="prepayment != null "> and prepayment = #{prepayment}</if>
+            <if test="prepaymentYoy != null "> and prepayment_yoy = #{prepaymentYoy}</if>
+            <if test="totalOtherRece != null "> and total_other_rece = #{totalOtherRece}</if>
+            <if test="totalOtherReceYoy != null "> and total_other_rece_yoy = #{totalOtherReceYoy}</if>
+            <if test="dividendRece != null "> and dividend_rece = #{dividendRece}</if>
+            <if test="dividendReceYoy != null "> and dividend_rece_yoy = #{dividendReceYoy}</if>
+            <if test="inventory != null "> and inventory = #{inventory}</if>
+            <if test="inventoryYoy != null "> and inventory_yoy = #{inventoryYoy}</if>
+            <if test="contractAsset != null "> and contract_asset = #{contractAsset}</if>
+            <if test="contractAssetYoy != null "> and contract_asset_yoy = #{contractAssetYoy}</if>
+            <if test="noncurrentAsset1year != null "> and noncurrent_asset_1year = #{noncurrentAsset1year}</if>
+            <if test="noncurrentAsset1yearYoy != null "> and noncurrent_asset_1year_yoy = #{noncurrentAsset1yearYoy}</if>
+            <if test="otherCurrentAsset != null "> and other_current_asset = #{otherCurrentAsset}</if>
+            <if test="otherCurrentAssetYoy != null "> and other_current_asset_yoy = #{otherCurrentAssetYoy}</if>
+            <if test="totalCurrentAssets != null "> and total_current_assets = #{totalCurrentAssets}</if>
+            <if test="totalCurrentAssetsYoy != null "> and total_current_assets_yoy = #{totalCurrentAssetsYoy}</if>
+            <if test="longRece != null "> and long_rece = #{longRece}</if>
+            <if test="longReceYoy != null "> and long_rece_yoy = #{longReceYoy}</if>
+            <if test="longEquityInvest != null "> and long_equity_invest = #{longEquityInvest}</if>
+            <if test="longEquityInvestYoy != null "> and long_equity_invest_yoy = #{longEquityInvestYoy}</if>
+            <if test="otherEquityInvest != null "> and other_equity_invest = #{otherEquityInvest}</if>
+            <if test="otherEquityInvestYoy != null "> and other_equity_invest_yoy = #{otherEquityInvestYoy}</if>
+            <if test="investRealestate != null "> and invest_realestate = #{investRealestate}</if>
+            <if test="investRealestateYoy != null "> and invest_realestate_yoy = #{investRealestateYoy}</if>
+            <if test="fixedAsset != null "> and fixed_asset = #{fixedAsset}</if>
+            <if test="fixedAssetYoy != null "> and fixed_asset_yoy = #{fixedAssetYoy}</if>
+            <if test="cip != null "> and cip = #{cip}</if>
+            <if test="cipYoy != null "> and cip_yoy = #{cipYoy}</if>
+            <if test="userightAsset != null "> and useright_asset = #{userightAsset}</if>
+            <if test="userightAssetYoy != null "> and useright_asset_yoy = #{userightAssetYoy}</if>
+            <if test="intangibleAsset != null "> and intangible_asset = #{intangibleAsset}</if>
+            <if test="intangibleAssetYoy != null "> and intangible_asset_yoy = #{intangibleAssetYoy}</if>
+            <if test="developExpense != null "> and develop_expense = #{developExpense}</if>
+            <if test="developExpenseYoy != null "> and develop_expense_yoy = #{developExpenseYoy}</if>
+            <if test="longPrepaidExpense != null "> and long_prepaid_expense = #{longPrepaidExpense}</if>
+            <if test="longPrepaidExpenseYoy != null "> and long_prepaid_expense_yoy = #{longPrepaidExpenseYoy}</if>
+            <if test="deferTaxAsset != null "> and defer_tax_asset = #{deferTaxAsset}</if>
+            <if test="deferTaxAssetYoy != null "> and defer_tax_asset_yoy = #{deferTaxAssetYoy}</if>
+            <if test="otherNoncurrentAsset != null "> and other_noncurrent_asset = #{otherNoncurrentAsset}</if>
+            <if test="otherNoncurrentAssetYoy != null "> and other_noncurrent_asset_yoy = #{otherNoncurrentAssetYoy}</if>
+            <if test="totalNoncurrentAssets != null "> and total_noncurrent_assets = #{totalNoncurrentAssets}</if>
+            <if test="totalNoncurrentAssetsYoy != null "> and total_noncurrent_assets_yoy = #{totalNoncurrentAssetsYoy}</if>
+            <if test="totalAssets != null "> and total_assets = #{totalAssets}</if>
+            <if test="totalAssetsYoy != null "> and total_assets_yoy = #{totalAssetsYoy}</if>
+            <if test="shortLoan != null "> and short_loan = #{shortLoan}</if>
+            <if test="shortLoanYoy != null "> and short_loan_yoy = #{shortLoanYoy}</if>
+            <if test="noteAccountsPayable != null "> and note_accounts_payable = #{noteAccountsPayable}</if>
+            <if test="noteAccountsPayableYoy != null "> and note_accounts_payable_yoy = #{noteAccountsPayableYoy}</if>
+            <if test="notePayable != null "> and note_payable = #{notePayable}</if>
+            <if test="notePayableYoy != null "> and note_payable_yoy = #{notePayableYoy}</if>
+            <if test="accountsPayable != null "> and accounts_payable = #{accountsPayable}</if>
+            <if test="accountsPayableYoy != null "> and accounts_payable_yoy = #{accountsPayableYoy}</if>
+            <if test="contractLiab != null "> and contract_liab = #{contractLiab}</if>
+            <if test="contractLiabYoy != null "> and contract_liab_yoy = #{contractLiabYoy}</if>
+            <if test="staffSalaryPayable != null "> and staff_salary_payable = #{staffSalaryPayable}</if>
+            <if test="staffSalaryPayableYoy != null "> and staff_salary_payable_yoy = #{staffSalaryPayableYoy}</if>
+            <if test="taxPayable != null "> and tax_payable = #{taxPayable}</if>
+            <if test="taxPayableYoy != null "> and tax_payable_yoy = #{taxPayableYoy}</if>
+            <if test="totalOtherPayable != null "> and total_other_payable = #{totalOtherPayable}</if>
+            <if test="totalOtherPayableYoy != null "> and total_other_payable_yoy = #{totalOtherPayableYoy}</if>
+            <if test="dividendPayable != null "> and dividend_payable = #{dividendPayable}</if>
+            <if test="dividendPayableYoy != null "> and dividend_payable_yoy = #{dividendPayableYoy}</if>
+            <if test="noncurrentLiab1year != null "> and noncurrent_liab_1year = #{noncurrentLiab1year}</if>
+            <if test="noncurrentLiab1yearYoy != null "> and noncurrent_liab_1year_yoy = #{noncurrentLiab1yearYoy}</if>
+            <if test="otherCurrentLiab != null "> and other_current_liab = #{otherCurrentLiab}</if>
+            <if test="otherCurrentLiabYoy != null "> and other_current_liab_yoy = #{otherCurrentLiabYoy}</if>
+            <if test="totalCurrentLiab != null "> and total_current_liab = #{totalCurrentLiab}</if>
+            <if test="totalCurrentLiabYoy != null "> and total_current_liab_yoy = #{totalCurrentLiabYoy}</if>
+            <if test="longLoan != null "> and long_loan = #{longLoan}</if>
+            <if test="longLoanYoy != null "> and long_loan_yoy = #{longLoanYoy}</if>
+            <if test="leaseLiab != null "> and lease_liab = #{leaseLiab}</if>
+            <if test="leaseLiabYoy != null "> and lease_liab_yoy = #{leaseLiabYoy}</if>
+            <if test="longPayable != null "> and long_payable = #{longPayable}</if>
+            <if test="longPayableYoy != null "> and long_payable_yoy = #{longPayableYoy}</if>
+            <if test="longStaffsalaryPayable != null "> and long_staffsalary_payable = #{longStaffsalaryPayable}</if>
+            <if test="longStaffsalaryPayableYoy != null "> and long_staffsalary_payable_yoy = #{longStaffsalaryPayableYoy}</if>
+            <if test="predictLiab != null "> and predict_liab = #{predictLiab}</if>
+            <if test="predictLiabYoy != null "> and predict_liab_yoy = #{predictLiabYoy}</if>
+            <if test="deferIncome != null "> and defer_income = #{deferIncome}</if>
+            <if test="deferIncomeYoy != null "> and defer_income_yoy = #{deferIncomeYoy}</if>
+            <if test="deferTaxLiab != null "> and defer_tax_liab = #{deferTaxLiab}</if>
+            <if test="deferTaxLiabYoy != null "> and defer_tax_liab_yoy = #{deferTaxLiabYoy}</if>
+            <if test="totalNoncurrentLiab != null "> and total_noncurrent_liab = #{totalNoncurrentLiab}</if>
+            <if test="totalNoncurrentLiabYoy != null "> and total_noncurrent_liab_yoy = #{totalNoncurrentLiabYoy}</if>
+            <if test="totalLiabilities != null "> and total_liabilities = #{totalLiabilities}</if>
+            <if test="totalLiabilitiesYoy != null "> and total_liabilities_yoy = #{totalLiabilitiesYoy}</if>
+            <if test="shareCapital != null "> and share_capital = #{shareCapital}</if>
+            <if test="shareCapitalYoy != null "> and share_capital_yoy = #{shareCapitalYoy}</if>
+            <if test="capitalReserve != null "> and capital_reserve = #{capitalReserve}</if>
+            <if test="capitalReserveYoy != null "> and capital_reserve_yoy = #{capitalReserveYoy}</if>
+            <if test="otherCompreIncome != null "> and other_compre_income = #{otherCompreIncome}</if>
+            <if test="otherCompreIncomeYoy != null "> and other_compre_income_yoy = #{otherCompreIncomeYoy}</if>
+            <if test="specialReserve != null "> and special_reserve = #{specialReserve}</if>
+            <if test="specialReserveYoy != null "> and special_reserve_yoy = #{specialReserveYoy}</if>
+            <if test="surplusReserve != null "> and surplus_reserve = #{surplusReserve}</if>
+            <if test="surplusReserveYoy != null "> and surplus_reserve_yoy = #{surplusReserveYoy}</if>
+            <if test="unassignRpofit != null "> and unassign_rpofit = #{unassignRpofit}</if>
+            <if test="unassignRpofitYoy != null "> and unassign_rpofit_yoy = #{unassignRpofitYoy}</if>
+            <if test="totalParentEquity != null "> and total_parent_equity = #{totalParentEquity}</if>
+            <if test="totalParentEquityYoy != null "> and total_parent_equity_yoy = #{totalParentEquityYoy}</if>
+            <if test="minorityEquity != null "> and minority_equity = #{minorityEquity}</if>
+            <if test="minorityEquityYoy != null "> and minority_equity_yoy = #{minorityEquityYoy}</if>
+            <if test="totalEquity != null "> and total_equity = #{totalEquity}</if>
+            <if test="totalEquityYoy != null "> and total_equity_yoy = #{totalEquityYoy}</if>
+            <if test="totalLiabEquity != null "> and total_liab_equity = #{totalLiabEquity}</if>
+            <if test="totalLiabEquityYoy != null "> and total_liab_equity_yoy = #{totalLiabEquityYoy}</if>
+            <if test="opinionType != null  and opinionType != ''"> and opinion_type = #{opinionType}</if>
+        </where>
+    </select>
+    
+    <select id="selectInvFinanceZcfzCommonPeriodById" parameterType="Long" resultMap="InvFinanceZcfzCommonPeriodResult">
+        <include refid="selectInvFinanceZcfzCommonPeriodVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInvFinanceZcfzCommonPeriod" parameterType="InvFinanceZcfzCommonPeriod" useGeneratedKeys="true" keyProperty="id">
+        insert into inv_finance_zcfz_common_period
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code,</if>
+            <if test="reportDate != null">report_date,</if>
+            <if test="monetaryfunds != null">monetaryfunds,</if>
+            <if test="monetaryfundsYoy != null">monetaryfunds_yoy,</if>
+            <if test="deriveFinasset != null">derive_finasset,</if>
+            <if test="deriveFinassetYoy != null">derive_finasset_yoy,</if>
+            <if test="noteAccountsRece != null">note_accounts_rece,</if>
+            <if test="noteAccountsReceYoy != null">note_accounts_rece_yoy,</if>
+            <if test="noteRece != null">note_rece,</if>
+            <if test="noteReceYoy != null">note_rece_yoy,</if>
+            <if test="accountsRece != null">accounts_rece,</if>
+            <if test="accountsReceYoy != null">accounts_rece_yoy,</if>
+            <if test="financeRece != null">finance_rece,</if>
+            <if test="financeReceYoy != null">finance_rece_yoy,</if>
+            <if test="prepayment != null">prepayment,</if>
+            <if test="prepaymentYoy != null">prepayment_yoy,</if>
+            <if test="totalOtherRece != null">total_other_rece,</if>
+            <if test="totalOtherReceYoy != null">total_other_rece_yoy,</if>
+            <if test="dividendRece != null">dividend_rece,</if>
+            <if test="dividendReceYoy != null">dividend_rece_yoy,</if>
+            <if test="inventory != null">inventory,</if>
+            <if test="inventoryYoy != null">inventory_yoy,</if>
+            <if test="contractAsset != null">contract_asset,</if>
+            <if test="contractAssetYoy != null">contract_asset_yoy,</if>
+            <if test="noncurrentAsset1year != null">noncurrent_asset_1year,</if>
+            <if test="noncurrentAsset1yearYoy != null">noncurrent_asset_1year_yoy,</if>
+            <if test="otherCurrentAsset != null">other_current_asset,</if>
+            <if test="otherCurrentAssetYoy != null">other_current_asset_yoy,</if>
+            <if test="totalCurrentAssets != null">total_current_assets,</if>
+            <if test="totalCurrentAssetsYoy != null">total_current_assets_yoy,</if>
+            <if test="longRece != null">long_rece,</if>
+            <if test="longReceYoy != null">long_rece_yoy,</if>
+            <if test="longEquityInvest != null">long_equity_invest,</if>
+            <if test="longEquityInvestYoy != null">long_equity_invest_yoy,</if>
+            <if test="otherEquityInvest != null">other_equity_invest,</if>
+            <if test="otherEquityInvestYoy != null">other_equity_invest_yoy,</if>
+            <if test="investRealestate != null">invest_realestate,</if>
+            <if test="investRealestateYoy != null">invest_realestate_yoy,</if>
+            <if test="fixedAsset != null">fixed_asset,</if>
+            <if test="fixedAssetYoy != null">fixed_asset_yoy,</if>
+            <if test="cip != null">cip,</if>
+            <if test="cipYoy != null">cip_yoy,</if>
+            <if test="userightAsset != null">useright_asset,</if>
+            <if test="userightAssetYoy != null">useright_asset_yoy,</if>
+            <if test="intangibleAsset != null">intangible_asset,</if>
+            <if test="intangibleAssetYoy != null">intangible_asset_yoy,</if>
+            <if test="developExpense != null">develop_expense,</if>
+            <if test="developExpenseYoy != null">develop_expense_yoy,</if>
+            <if test="longPrepaidExpense != null">long_prepaid_expense,</if>
+            <if test="longPrepaidExpenseYoy != null">long_prepaid_expense_yoy,</if>
+            <if test="deferTaxAsset != null">defer_tax_asset,</if>
+            <if test="deferTaxAssetYoy != null">defer_tax_asset_yoy,</if>
+            <if test="otherNoncurrentAsset != null">other_noncurrent_asset,</if>
+            <if test="otherNoncurrentAssetYoy != null">other_noncurrent_asset_yoy,</if>
+            <if test="totalNoncurrentAssets != null">total_noncurrent_assets,</if>
+            <if test="totalNoncurrentAssetsYoy != null">total_noncurrent_assets_yoy,</if>
+            <if test="totalAssets != null">total_assets,</if>
+            <if test="totalAssetsYoy != null">total_assets_yoy,</if>
+            <if test="shortLoan != null">short_loan,</if>
+            <if test="shortLoanYoy != null">short_loan_yoy,</if>
+            <if test="noteAccountsPayable != null">note_accounts_payable,</if>
+            <if test="noteAccountsPayableYoy != null">note_accounts_payable_yoy,</if>
+            <if test="notePayable != null">note_payable,</if>
+            <if test="notePayableYoy != null">note_payable_yoy,</if>
+            <if test="accountsPayable != null">accounts_payable,</if>
+            <if test="accountsPayableYoy != null">accounts_payable_yoy,</if>
+            <if test="contractLiab != null">contract_liab,</if>
+            <if test="contractLiabYoy != null">contract_liab_yoy,</if>
+            <if test="staffSalaryPayable != null">staff_salary_payable,</if>
+            <if test="staffSalaryPayableYoy != null">staff_salary_payable_yoy,</if>
+            <if test="taxPayable != null">tax_payable,</if>
+            <if test="taxPayableYoy != null">tax_payable_yoy,</if>
+            <if test="totalOtherPayable != null">total_other_payable,</if>
+            <if test="totalOtherPayableYoy != null">total_other_payable_yoy,</if>
+            <if test="dividendPayable != null">dividend_payable,</if>
+            <if test="dividendPayableYoy != null">dividend_payable_yoy,</if>
+            <if test="noncurrentLiab1year != null">noncurrent_liab_1year,</if>
+            <if test="noncurrentLiab1yearYoy != null">noncurrent_liab_1year_yoy,</if>
+            <if test="otherCurrentLiab != null">other_current_liab,</if>
+            <if test="otherCurrentLiabYoy != null">other_current_liab_yoy,</if>
+            <if test="totalCurrentLiab != null">total_current_liab,</if>
+            <if test="totalCurrentLiabYoy != null">total_current_liab_yoy,</if>
+            <if test="longLoan != null">long_loan,</if>
+            <if test="longLoanYoy != null">long_loan_yoy,</if>
+            <if test="leaseLiab != null">lease_liab,</if>
+            <if test="leaseLiabYoy != null">lease_liab_yoy,</if>
+            <if test="longPayable != null">long_payable,</if>
+            <if test="longPayableYoy != null">long_payable_yoy,</if>
+            <if test="longStaffsalaryPayable != null">long_staffsalary_payable,</if>
+            <if test="longStaffsalaryPayableYoy != null">long_staffsalary_payable_yoy,</if>
+            <if test="predictLiab != null">predict_liab,</if>
+            <if test="predictLiabYoy != null">predict_liab_yoy,</if>
+            <if test="deferIncome != null">defer_income,</if>
+            <if test="deferIncomeYoy != null">defer_income_yoy,</if>
+            <if test="deferTaxLiab != null">defer_tax_liab,</if>
+            <if test="deferTaxLiabYoy != null">defer_tax_liab_yoy,</if>
+            <if test="totalNoncurrentLiab != null">total_noncurrent_liab,</if>
+            <if test="totalNoncurrentLiabYoy != null">total_noncurrent_liab_yoy,</if>
+            <if test="totalLiabilities != null">total_liabilities,</if>
+            <if test="totalLiabilitiesYoy != null">total_liabilities_yoy,</if>
+            <if test="shareCapital != null">share_capital,</if>
+            <if test="shareCapitalYoy != null">share_capital_yoy,</if>
+            <if test="capitalReserve != null">capital_reserve,</if>
+            <if test="capitalReserveYoy != null">capital_reserve_yoy,</if>
+            <if test="otherCompreIncome != null">other_compre_income,</if>
+            <if test="otherCompreIncomeYoy != null">other_compre_income_yoy,</if>
+            <if test="specialReserve != null">special_reserve,</if>
+            <if test="specialReserveYoy != null">special_reserve_yoy,</if>
+            <if test="surplusReserve != null">surplus_reserve,</if>
+            <if test="surplusReserveYoy != null">surplus_reserve_yoy,</if>
+            <if test="unassignRpofit != null">unassign_rpofit,</if>
+            <if test="unassignRpofitYoy != null">unassign_rpofit_yoy,</if>
+            <if test="totalParentEquity != null">total_parent_equity,</if>
+            <if test="totalParentEquityYoy != null">total_parent_equity_yoy,</if>
+            <if test="minorityEquity != null">minority_equity,</if>
+            <if test="minorityEquityYoy != null">minority_equity_yoy,</if>
+            <if test="totalEquity != null">total_equity,</if>
+            <if test="totalEquityYoy != null">total_equity_yoy,</if>
+            <if test="totalLiabEquity != null">total_liab_equity,</if>
+            <if test="totalLiabEquityYoy != null">total_liab_equity_yoy,</if>
+            <if test="opinionType != null">opinion_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">#{securityCode},</if>
+            <if test="reportDate != null">#{reportDate},</if>
+            <if test="monetaryfunds != null">#{monetaryfunds},</if>
+            <if test="monetaryfundsYoy != null">#{monetaryfundsYoy},</if>
+            <if test="deriveFinasset != null">#{deriveFinasset},</if>
+            <if test="deriveFinassetYoy != null">#{deriveFinassetYoy},</if>
+            <if test="noteAccountsRece != null">#{noteAccountsRece},</if>
+            <if test="noteAccountsReceYoy != null">#{noteAccountsReceYoy},</if>
+            <if test="noteRece != null">#{noteRece},</if>
+            <if test="noteReceYoy != null">#{noteReceYoy},</if>
+            <if test="accountsRece != null">#{accountsRece},</if>
+            <if test="accountsReceYoy != null">#{accountsReceYoy},</if>
+            <if test="financeRece != null">#{financeRece},</if>
+            <if test="financeReceYoy != null">#{financeReceYoy},</if>
+            <if test="prepayment != null">#{prepayment},</if>
+            <if test="prepaymentYoy != null">#{prepaymentYoy},</if>
+            <if test="totalOtherRece != null">#{totalOtherRece},</if>
+            <if test="totalOtherReceYoy != null">#{totalOtherReceYoy},</if>
+            <if test="dividendRece != null">#{dividendRece},</if>
+            <if test="dividendReceYoy != null">#{dividendReceYoy},</if>
+            <if test="inventory != null">#{inventory},</if>
+            <if test="inventoryYoy != null">#{inventoryYoy},</if>
+            <if test="contractAsset != null">#{contractAsset},</if>
+            <if test="contractAssetYoy != null">#{contractAssetYoy},</if>
+            <if test="noncurrentAsset1year != null">#{noncurrentAsset1year},</if>
+            <if test="noncurrentAsset1yearYoy != null">#{noncurrentAsset1yearYoy},</if>
+            <if test="otherCurrentAsset != null">#{otherCurrentAsset},</if>
+            <if test="otherCurrentAssetYoy != null">#{otherCurrentAssetYoy},</if>
+            <if test="totalCurrentAssets != null">#{totalCurrentAssets},</if>
+            <if test="totalCurrentAssetsYoy != null">#{totalCurrentAssetsYoy},</if>
+            <if test="longRece != null">#{longRece},</if>
+            <if test="longReceYoy != null">#{longReceYoy},</if>
+            <if test="longEquityInvest != null">#{longEquityInvest},</if>
+            <if test="longEquityInvestYoy != null">#{longEquityInvestYoy},</if>
+            <if test="otherEquityInvest != null">#{otherEquityInvest},</if>
+            <if test="otherEquityInvestYoy != null">#{otherEquityInvestYoy},</if>
+            <if test="investRealestate != null">#{investRealestate},</if>
+            <if test="investRealestateYoy != null">#{investRealestateYoy},</if>
+            <if test="fixedAsset != null">#{fixedAsset},</if>
+            <if test="fixedAssetYoy != null">#{fixedAssetYoy},</if>
+            <if test="cip != null">#{cip},</if>
+            <if test="cipYoy != null">#{cipYoy},</if>
+            <if test="userightAsset != null">#{userightAsset},</if>
+            <if test="userightAssetYoy != null">#{userightAssetYoy},</if>
+            <if test="intangibleAsset != null">#{intangibleAsset},</if>
+            <if test="intangibleAssetYoy != null">#{intangibleAssetYoy},</if>
+            <if test="developExpense != null">#{developExpense},</if>
+            <if test="developExpenseYoy != null">#{developExpenseYoy},</if>
+            <if test="longPrepaidExpense != null">#{longPrepaidExpense},</if>
+            <if test="longPrepaidExpenseYoy != null">#{longPrepaidExpenseYoy},</if>
+            <if test="deferTaxAsset != null">#{deferTaxAsset},</if>
+            <if test="deferTaxAssetYoy != null">#{deferTaxAssetYoy},</if>
+            <if test="otherNoncurrentAsset != null">#{otherNoncurrentAsset},</if>
+            <if test="otherNoncurrentAssetYoy != null">#{otherNoncurrentAssetYoy},</if>
+            <if test="totalNoncurrentAssets != null">#{totalNoncurrentAssets},</if>
+            <if test="totalNoncurrentAssetsYoy != null">#{totalNoncurrentAssetsYoy},</if>
+            <if test="totalAssets != null">#{totalAssets},</if>
+            <if test="totalAssetsYoy != null">#{totalAssetsYoy},</if>
+            <if test="shortLoan != null">#{shortLoan},</if>
+            <if test="shortLoanYoy != null">#{shortLoanYoy},</if>
+            <if test="noteAccountsPayable != null">#{noteAccountsPayable},</if>
+            <if test="noteAccountsPayableYoy != null">#{noteAccountsPayableYoy},</if>
+            <if test="notePayable != null">#{notePayable},</if>
+            <if test="notePayableYoy != null">#{notePayableYoy},</if>
+            <if test="accountsPayable != null">#{accountsPayable},</if>
+            <if test="accountsPayableYoy != null">#{accountsPayableYoy},</if>
+            <if test="contractLiab != null">#{contractLiab},</if>
+            <if test="contractLiabYoy != null">#{contractLiabYoy},</if>
+            <if test="staffSalaryPayable != null">#{staffSalaryPayable},</if>
+            <if test="staffSalaryPayableYoy != null">#{staffSalaryPayableYoy},</if>
+            <if test="taxPayable != null">#{taxPayable},</if>
+            <if test="taxPayableYoy != null">#{taxPayableYoy},</if>
+            <if test="totalOtherPayable != null">#{totalOtherPayable},</if>
+            <if test="totalOtherPayableYoy != null">#{totalOtherPayableYoy},</if>
+            <if test="dividendPayable != null">#{dividendPayable},</if>
+            <if test="dividendPayableYoy != null">#{dividendPayableYoy},</if>
+            <if test="noncurrentLiab1year != null">#{noncurrentLiab1year},</if>
+            <if test="noncurrentLiab1yearYoy != null">#{noncurrentLiab1yearYoy},</if>
+            <if test="otherCurrentLiab != null">#{otherCurrentLiab},</if>
+            <if test="otherCurrentLiabYoy != null">#{otherCurrentLiabYoy},</if>
+            <if test="totalCurrentLiab != null">#{totalCurrentLiab},</if>
+            <if test="totalCurrentLiabYoy != null">#{totalCurrentLiabYoy},</if>
+            <if test="longLoan != null">#{longLoan},</if>
+            <if test="longLoanYoy != null">#{longLoanYoy},</if>
+            <if test="leaseLiab != null">#{leaseLiab},</if>
+            <if test="leaseLiabYoy != null">#{leaseLiabYoy},</if>
+            <if test="longPayable != null">#{longPayable},</if>
+            <if test="longPayableYoy != null">#{longPayableYoy},</if>
+            <if test="longStaffsalaryPayable != null">#{longStaffsalaryPayable},</if>
+            <if test="longStaffsalaryPayableYoy != null">#{longStaffsalaryPayableYoy},</if>
+            <if test="predictLiab != null">#{predictLiab},</if>
+            <if test="predictLiabYoy != null">#{predictLiabYoy},</if>
+            <if test="deferIncome != null">#{deferIncome},</if>
+            <if test="deferIncomeYoy != null">#{deferIncomeYoy},</if>
+            <if test="deferTaxLiab != null">#{deferTaxLiab},</if>
+            <if test="deferTaxLiabYoy != null">#{deferTaxLiabYoy},</if>
+            <if test="totalNoncurrentLiab != null">#{totalNoncurrentLiab},</if>
+            <if test="totalNoncurrentLiabYoy != null">#{totalNoncurrentLiabYoy},</if>
+            <if test="totalLiabilities != null">#{totalLiabilities},</if>
+            <if test="totalLiabilitiesYoy != null">#{totalLiabilitiesYoy},</if>
+            <if test="shareCapital != null">#{shareCapital},</if>
+            <if test="shareCapitalYoy != null">#{shareCapitalYoy},</if>
+            <if test="capitalReserve != null">#{capitalReserve},</if>
+            <if test="capitalReserveYoy != null">#{capitalReserveYoy},</if>
+            <if test="otherCompreIncome != null">#{otherCompreIncome},</if>
+            <if test="otherCompreIncomeYoy != null">#{otherCompreIncomeYoy},</if>
+            <if test="specialReserve != null">#{specialReserve},</if>
+            <if test="specialReserveYoy != null">#{specialReserveYoy},</if>
+            <if test="surplusReserve != null">#{surplusReserve},</if>
+            <if test="surplusReserveYoy != null">#{surplusReserveYoy},</if>
+            <if test="unassignRpofit != null">#{unassignRpofit},</if>
+            <if test="unassignRpofitYoy != null">#{unassignRpofitYoy},</if>
+            <if test="totalParentEquity != null">#{totalParentEquity},</if>
+            <if test="totalParentEquityYoy != null">#{totalParentEquityYoy},</if>
+            <if test="minorityEquity != null">#{minorityEquity},</if>
+            <if test="minorityEquityYoy != null">#{minorityEquityYoy},</if>
+            <if test="totalEquity != null">#{totalEquity},</if>
+            <if test="totalEquityYoy != null">#{totalEquityYoy},</if>
+            <if test="totalLiabEquity != null">#{totalLiabEquity},</if>
+            <if test="totalLiabEquityYoy != null">#{totalLiabEquityYoy},</if>
+            <if test="opinionType != null">#{opinionType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInvFinanceZcfzCommonPeriod" parameterType="InvFinanceZcfzCommonPeriod">
+        update inv_finance_zcfz_common_period
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code = #{securityCode},</if>
+            <if test="reportDate != null">report_date = #{reportDate},</if>
+            <if test="monetaryfunds != null">monetaryfunds = #{monetaryfunds},</if>
+            <if test="monetaryfundsYoy != null">monetaryfunds_yoy = #{monetaryfundsYoy},</if>
+            <if test="deriveFinasset != null">derive_finasset = #{deriveFinasset},</if>
+            <if test="deriveFinassetYoy != null">derive_finasset_yoy = #{deriveFinassetYoy},</if>
+            <if test="noteAccountsRece != null">note_accounts_rece = #{noteAccountsRece},</if>
+            <if test="noteAccountsReceYoy != null">note_accounts_rece_yoy = #{noteAccountsReceYoy},</if>
+            <if test="noteRece != null">note_rece = #{noteRece},</if>
+            <if test="noteReceYoy != null">note_rece_yoy = #{noteReceYoy},</if>
+            <if test="accountsRece != null">accounts_rece = #{accountsRece},</if>
+            <if test="accountsReceYoy != null">accounts_rece_yoy = #{accountsReceYoy},</if>
+            <if test="financeRece != null">finance_rece = #{financeRece},</if>
+            <if test="financeReceYoy != null">finance_rece_yoy = #{financeReceYoy},</if>
+            <if test="prepayment != null">prepayment = #{prepayment},</if>
+            <if test="prepaymentYoy != null">prepayment_yoy = #{prepaymentYoy},</if>
+            <if test="totalOtherRece != null">total_other_rece = #{totalOtherRece},</if>
+            <if test="totalOtherReceYoy != null">total_other_rece_yoy = #{totalOtherReceYoy},</if>
+            <if test="dividendRece != null">dividend_rece = #{dividendRece},</if>
+            <if test="dividendReceYoy != null">dividend_rece_yoy = #{dividendReceYoy},</if>
+            <if test="inventory != null">inventory = #{inventory},</if>
+            <if test="inventoryYoy != null">inventory_yoy = #{inventoryYoy},</if>
+            <if test="contractAsset != null">contract_asset = #{contractAsset},</if>
+            <if test="contractAssetYoy != null">contract_asset_yoy = #{contractAssetYoy},</if>
+            <if test="noncurrentAsset1year != null">noncurrent_asset_1year = #{noncurrentAsset1year},</if>
+            <if test="noncurrentAsset1yearYoy != null">noncurrent_asset_1year_yoy = #{noncurrentAsset1yearYoy},</if>
+            <if test="otherCurrentAsset != null">other_current_asset = #{otherCurrentAsset},</if>
+            <if test="otherCurrentAssetYoy != null">other_current_asset_yoy = #{otherCurrentAssetYoy},</if>
+            <if test="totalCurrentAssets != null">total_current_assets = #{totalCurrentAssets},</if>
+            <if test="totalCurrentAssetsYoy != null">total_current_assets_yoy = #{totalCurrentAssetsYoy},</if>
+            <if test="longRece != null">long_rece = #{longRece},</if>
+            <if test="longReceYoy != null">long_rece_yoy = #{longReceYoy},</if>
+            <if test="longEquityInvest != null">long_equity_invest = #{longEquityInvest},</if>
+            <if test="longEquityInvestYoy != null">long_equity_invest_yoy = #{longEquityInvestYoy},</if>
+            <if test="otherEquityInvest != null">other_equity_invest = #{otherEquityInvest},</if>
+            <if test="otherEquityInvestYoy != null">other_equity_invest_yoy = #{otherEquityInvestYoy},</if>
+            <if test="investRealestate != null">invest_realestate = #{investRealestate},</if>
+            <if test="investRealestateYoy != null">invest_realestate_yoy = #{investRealestateYoy},</if>
+            <if test="fixedAsset != null">fixed_asset = #{fixedAsset},</if>
+            <if test="fixedAssetYoy != null">fixed_asset_yoy = #{fixedAssetYoy},</if>
+            <if test="cip != null">cip = #{cip},</if>
+            <if test="cipYoy != null">cip_yoy = #{cipYoy},</if>
+            <if test="userightAsset != null">useright_asset = #{userightAsset},</if>
+            <if test="userightAssetYoy != null">useright_asset_yoy = #{userightAssetYoy},</if>
+            <if test="intangibleAsset != null">intangible_asset = #{intangibleAsset},</if>
+            <if test="intangibleAssetYoy != null">intangible_asset_yoy = #{intangibleAssetYoy},</if>
+            <if test="developExpense != null">develop_expense = #{developExpense},</if>
+            <if test="developExpenseYoy != null">develop_expense_yoy = #{developExpenseYoy},</if>
+            <if test="longPrepaidExpense != null">long_prepaid_expense = #{longPrepaidExpense},</if>
+            <if test="longPrepaidExpenseYoy != null">long_prepaid_expense_yoy = #{longPrepaidExpenseYoy},</if>
+            <if test="deferTaxAsset != null">defer_tax_asset = #{deferTaxAsset},</if>
+            <if test="deferTaxAssetYoy != null">defer_tax_asset_yoy = #{deferTaxAssetYoy},</if>
+            <if test="otherNoncurrentAsset != null">other_noncurrent_asset = #{otherNoncurrentAsset},</if>
+            <if test="otherNoncurrentAssetYoy != null">other_noncurrent_asset_yoy = #{otherNoncurrentAssetYoy},</if>
+            <if test="totalNoncurrentAssets != null">total_noncurrent_assets = #{totalNoncurrentAssets},</if>
+            <if test="totalNoncurrentAssetsYoy != null">total_noncurrent_assets_yoy = #{totalNoncurrentAssetsYoy},</if>
+            <if test="totalAssets != null">total_assets = #{totalAssets},</if>
+            <if test="totalAssetsYoy != null">total_assets_yoy = #{totalAssetsYoy},</if>
+            <if test="shortLoan != null">short_loan = #{shortLoan},</if>
+            <if test="shortLoanYoy != null">short_loan_yoy = #{shortLoanYoy},</if>
+            <if test="noteAccountsPayable != null">note_accounts_payable = #{noteAccountsPayable},</if>
+            <if test="noteAccountsPayableYoy != null">note_accounts_payable_yoy = #{noteAccountsPayableYoy},</if>
+            <if test="notePayable != null">note_payable = #{notePayable},</if>
+            <if test="notePayableYoy != null">note_payable_yoy = #{notePayableYoy},</if>
+            <if test="accountsPayable != null">accounts_payable = #{accountsPayable},</if>
+            <if test="accountsPayableYoy != null">accounts_payable_yoy = #{accountsPayableYoy},</if>
+            <if test="contractLiab != null">contract_liab = #{contractLiab},</if>
+            <if test="contractLiabYoy != null">contract_liab_yoy = #{contractLiabYoy},</if>
+            <if test="staffSalaryPayable != null">staff_salary_payable = #{staffSalaryPayable},</if>
+            <if test="staffSalaryPayableYoy != null">staff_salary_payable_yoy = #{staffSalaryPayableYoy},</if>
+            <if test="taxPayable != null">tax_payable = #{taxPayable},</if>
+            <if test="taxPayableYoy != null">tax_payable_yoy = #{taxPayableYoy},</if>
+            <if test="totalOtherPayable != null">total_other_payable = #{totalOtherPayable},</if>
+            <if test="totalOtherPayableYoy != null">total_other_payable_yoy = #{totalOtherPayableYoy},</if>
+            <if test="dividendPayable != null">dividend_payable = #{dividendPayable},</if>
+            <if test="dividendPayableYoy != null">dividend_payable_yoy = #{dividendPayableYoy},</if>
+            <if test="noncurrentLiab1year != null">noncurrent_liab_1year = #{noncurrentLiab1year},</if>
+            <if test="noncurrentLiab1yearYoy != null">noncurrent_liab_1year_yoy = #{noncurrentLiab1yearYoy},</if>
+            <if test="otherCurrentLiab != null">other_current_liab = #{otherCurrentLiab},</if>
+            <if test="otherCurrentLiabYoy != null">other_current_liab_yoy = #{otherCurrentLiabYoy},</if>
+            <if test="totalCurrentLiab != null">total_current_liab = #{totalCurrentLiab},</if>
+            <if test="totalCurrentLiabYoy != null">total_current_liab_yoy = #{totalCurrentLiabYoy},</if>
+            <if test="longLoan != null">long_loan = #{longLoan},</if>
+            <if test="longLoanYoy != null">long_loan_yoy = #{longLoanYoy},</if>
+            <if test="leaseLiab != null">lease_liab = #{leaseLiab},</if>
+            <if test="leaseLiabYoy != null">lease_liab_yoy = #{leaseLiabYoy},</if>
+            <if test="longPayable != null">long_payable = #{longPayable},</if>
+            <if test="longPayableYoy != null">long_payable_yoy = #{longPayableYoy},</if>
+            <if test="longStaffsalaryPayable != null">long_staffsalary_payable = #{longStaffsalaryPayable},</if>
+            <if test="longStaffsalaryPayableYoy != null">long_staffsalary_payable_yoy = #{longStaffsalaryPayableYoy},</if>
+            <if test="predictLiab != null">predict_liab = #{predictLiab},</if>
+            <if test="predictLiabYoy != null">predict_liab_yoy = #{predictLiabYoy},</if>
+            <if test="deferIncome != null">defer_income = #{deferIncome},</if>
+            <if test="deferIncomeYoy != null">defer_income_yoy = #{deferIncomeYoy},</if>
+            <if test="deferTaxLiab != null">defer_tax_liab = #{deferTaxLiab},</if>
+            <if test="deferTaxLiabYoy != null">defer_tax_liab_yoy = #{deferTaxLiabYoy},</if>
+            <if test="totalNoncurrentLiab != null">total_noncurrent_liab = #{totalNoncurrentLiab},</if>
+            <if test="totalNoncurrentLiabYoy != null">total_noncurrent_liab_yoy = #{totalNoncurrentLiabYoy},</if>
+            <if test="totalLiabilities != null">total_liabilities = #{totalLiabilities},</if>
+            <if test="totalLiabilitiesYoy != null">total_liabilities_yoy = #{totalLiabilitiesYoy},</if>
+            <if test="shareCapital != null">share_capital = #{shareCapital},</if>
+            <if test="shareCapitalYoy != null">share_capital_yoy = #{shareCapitalYoy},</if>
+            <if test="capitalReserve != null">capital_reserve = #{capitalReserve},</if>
+            <if test="capitalReserveYoy != null">capital_reserve_yoy = #{capitalReserveYoy},</if>
+            <if test="otherCompreIncome != null">other_compre_income = #{otherCompreIncome},</if>
+            <if test="otherCompreIncomeYoy != null">other_compre_income_yoy = #{otherCompreIncomeYoy},</if>
+            <if test="specialReserve != null">special_reserve = #{specialReserve},</if>
+            <if test="specialReserveYoy != null">special_reserve_yoy = #{specialReserveYoy},</if>
+            <if test="surplusReserve != null">surplus_reserve = #{surplusReserve},</if>
+            <if test="surplusReserveYoy != null">surplus_reserve_yoy = #{surplusReserveYoy},</if>
+            <if test="unassignRpofit != null">unassign_rpofit = #{unassignRpofit},</if>
+            <if test="unassignRpofitYoy != null">unassign_rpofit_yoy = #{unassignRpofitYoy},</if>
+            <if test="totalParentEquity != null">total_parent_equity = #{totalParentEquity},</if>
+            <if test="totalParentEquityYoy != null">total_parent_equity_yoy = #{totalParentEquityYoy},</if>
+            <if test="minorityEquity != null">minority_equity = #{minorityEquity},</if>
+            <if test="minorityEquityYoy != null">minority_equity_yoy = #{minorityEquityYoy},</if>
+            <if test="totalEquity != null">total_equity = #{totalEquity},</if>
+            <if test="totalEquityYoy != null">total_equity_yoy = #{totalEquityYoy},</if>
+            <if test="totalLiabEquity != null">total_liab_equity = #{totalLiabEquity},</if>
+            <if test="totalLiabEquityYoy != null">total_liab_equity_yoy = #{totalLiabEquityYoy},</if>
+            <if test="opinionType != null">opinion_type = #{opinionType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInvFinanceZcfzCommonPeriodById" parameterType="Long">
+        delete from inv_finance_zcfz_common_period where id = #{id}
+    </delete>
+
+    <delete id="deleteInvFinanceZcfzCommonPeriodByIds" parameterType="String">
+        delete from inv_finance_zcfz_common_period where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

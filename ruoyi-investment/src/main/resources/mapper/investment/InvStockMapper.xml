@@ -9,10 +9,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="name"    column="name"    />
         <result property="market"    column="market"    />
         <result property="companyType"    column="company_type"    />
+        <result property="zcfzPeriodStart"    column="zcfz_period_start"    />
     </resultMap>
 
     <sql id="selectInvStockVo">
-        select code, name, market, company_type from inv_stock
+        select code, name, market, company_type, zcfz_period_start from inv_stock
     </sql>
 
     <select id="selectInvStockList" parameterType="InvStock" resultMap="InvStockResult">
@@ -21,6 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="market != null  and market != ''"> and market = #{market}</if>
             <if test="companyType != null  and companyType != ''"> and company_type = #{companyType}</if>
+            <if test="zcfzPeriodStart != null "> and zcfz_period_start = #{zcfzPeriodStart}</if>
         </where>
     </select>
 
@@ -41,12 +43,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="name != null and name != ''">name,</if>
             <if test="market != null">market,</if>
             <if test="companyType != null">company_type,</if>
+            <if test="zcfzPeriodStart != null">zcfz_period_start,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="code != null">#{code},</if>
             <if test="name != null and name != ''">#{name},</if>
             <if test="market != null">#{market},</if>
             <if test="companyType != null">#{companyType},</if>
+            <if test="zcfzPeriodStart != null">#{zcfzPeriodStart},</if>
          </trim>
     </insert>
 
@@ -56,6 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="name != null and name != ''">name = #{name},</if>
             <if test="market != null">market = #{market},</if>
             <if test="companyType != null">company_type = #{companyType},</if>
+            <if test="zcfzPeriodStart != null">zcfz_period_start = #{zcfzPeriodStart},</if>
         </trim>
         where code = #{code}
     </update>

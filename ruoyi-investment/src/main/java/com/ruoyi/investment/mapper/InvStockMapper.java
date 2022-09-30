@@ -7,7 +7,7 @@ import com.ruoyi.investment.domain.InvStock;
  * 沪深A股基本信息Mapper接口
  * 
  * @author ruoyi
- * @date 2022-09-28
+ * @date 2022-09-30
  */
 public interface InvStockMapper 
 {
