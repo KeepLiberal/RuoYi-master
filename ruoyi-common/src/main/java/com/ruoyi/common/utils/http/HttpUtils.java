@@ -1,27 +1,17 @@
 package com.ruoyi.common.utils.http;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
-import java.net.URL;
-import java.net.URLConnection;
+import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.utils.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.net.ssl.*;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.security.cert.X509Certificate;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.ruoyi.common.constant.Constants;
-import com.ruoyi.common.utils.StringUtils;
 
 /**
  * 通用http发送方法
@@ -81,24 +71,24 @@ public class HttpUtils {
             }
             //log.info("recv - {}", result);
         } catch (ConnectException e) {
-            if(count.get()>0){
+            if (count.get() > 0) {
                 count.decrementAndGet();
                 sendGet(url, param, contentType, count);
-            }else{
+            } else {
                 log.error("调用HttpUtils.sendGet ConnectException, url=" + url + ",param=" + param, e);
             }
         } catch (SocketTimeoutException e) {
-            if(count.get()>0){
+            if (count.get() > 0) {
                 count.decrementAndGet();
                 sendGet(url, param, contentType, count);
-            }else {
+            } else {
                 log.error("调用HttpUtils.sendGet SocketTimeoutException, url=" + url + ",param=" + param, e);
             }
         } catch (IOException e) {
-            if(count.get()>0){
+            if (count.get() > 0) {
                 count.decrementAndGet();
                 sendGet(url, param, contentType, count);
-            }else {
+            } else {
                 log.error("调用HttpUtils.sendGet IOException, url=" + url + ",param=" + param, e);
             }
         } catch (Exception e) {
@@ -149,31 +139,31 @@ public class HttpUtils {
             }
             log.info("recv - {}", result);
         } catch (ConnectException e) {
-            if(count.get()>0){
+            if (count.get() > 0) {
                 count.decrementAndGet();
                 sendGet(url, param, count);
-            }else {
+            } else {
                 log.error("调用HttpUtils.sendPost ConnectException, url=" + url + ",param=" + param, e);
             }
         } catch (SocketTimeoutException e) {
-            if(count.get()>0){
+            if (count.get() > 0) {
                 count.decrementAndGet();
                 sendGet(url, param, count);
-            }else {
+            } else {
                 log.error("调用HttpUtils.sendPost SocketTimeoutException, url=" + url + ",param=" + param, e);
             }
         } catch (IOException e) {
-            if(count.get()>0){
+            if (count.get() > 0) {
                 count.decrementAndGet();
                 sendGet(url, param, count);
-            }else {
+            } else {
                 log.error("调用HttpUtils.sendPost IOException, url=" + url + ",param=" + param, e);
             }
         } catch (Exception e) {
-            if(count.get()>0){
+            if (count.get() > 0) {
                 count.decrementAndGet();
                 sendGet(url, param, count);
-            }else {
+            } else {
                 log.error("调用HttpsUtil.sendPost Exception, url=" + url + ",param=" + param, e);
             }
         } finally {
@@ -194,12 +184,14 @@ public class HttpUtils {
     public static String sendSSLPost(String url, String param, AtomicInteger count) {
         StringBuilder result = new StringBuilder();
         String urlNameString = url + "?" + param;
+        HttpsURLConnection conn = null;
+        BufferedReader br = null;
         try {
             log.info("sendSSLPost - {}", urlNameString);
             SSLContext sc = SSLContext.getInstance("SSL");
             sc.init(null, new TrustManager[]{new TrustAnyTrustManager()}, new java.security.SecureRandom());
             URL console = new URL(urlNameString);
-            HttpsURLConnection conn = (HttpsURLConnection) console.openConnection();
+            conn = (HttpsURLConnection) console.openConnection();
             conn.setRequestProperty("accept", "*/*");
             conn.setRequestProperty("connection", "Keep-Alive");
             conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
@@ -212,7 +204,8 @@ public class HttpUtils {
             conn.setHostnameVerifier(new TrustAnyHostnameVerifier());
             conn.connect();
             InputStream is = conn.getInputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+            br = new BufferedReader(new InputStreamReader(is));
             String ret = "";
             while ((ret = br.readLine()) != null) {
                 if (ret != null && !ret.trim().equals("")) {
@@ -223,35 +216,103 @@ public class HttpUtils {
             conn.disconnect();
             br.close();
         } catch (ConnectException e) {
-            if(count.get()>0){
+            if (count.get() > 0) {
                 count.decrementAndGet();
                 sendGet(url, param, count);
-            }else {
+            } else {
                 log.error("调用HttpUtils.sendSSLPost ConnectException, url=" + url + ",param=" + param, e);
             }
         } catch (SocketTimeoutException e) {
-            if(count.get()>0){
+            if (count.get() > 0) {
                 count.decrementAndGet();
                 sendGet(url, param, count);
-            }else {
+            } else {
                 log.error("调用HttpUtils.sendSSLPost SocketTimeoutException, url=" + url + ",param=" + param, e);
             }
         } catch (IOException e) {
-            if(count.get()>0){
+            if (count.get() > 0) {
                 count.decrementAndGet();
                 sendGet(url, param, count);
-            }else {
+            } else {
                 log.error("调用HttpUtils.sendSSLPost IOException, url=" + url + ",param=" + param, e);
             }
         } catch (Exception e) {
-            if(count.get()>0){
+            if (count.get() > 0) {
                 count.decrementAndGet();
                 sendGet(url, param, count);
-            }else {
+            } else {
                 log.error("调用HttpsUtil.sendSSLPost Exception, url=" + url + ",param=" + param, e);
+            }
+        } finally {
+            conn.disconnect();
+            if (null != br) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    log.error("br.close Exception, url=" + url, e);
+                }
             }
         }
         return result.toString();
+    }
+
+
+    //*************************************文件下载*********************************************
+    public static void downLoadFile(String url, HttpServletResponse response) {
+
+        InputStream is = null;
+        OutputStream os = null;
+        HttpURLConnection conn = null;
+        try {
+            log.info("下载url为：" + url);
+            conn = (HttpURLConnection) new URL(url).openConnection();
+            conn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9");
+            conn.setRequestProperty("Content-Type", "application/x-download;charset=utf-8");
+            conn.setRequestMethod("GET");
+            conn.setConnectTimeout(60000);
+            conn.setReadTimeout(60000);
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            conn.setUseCaches(false);
+            HttpURLConnection.setFollowRedirects(false);
+            conn.connect();
+
+
+            int resCode = conn.getResponseCode();
+            if (resCode == 200) {
+                is = conn.getInputStream();
+                String fileName = URLEncoder.encode("1000.xls", "UTF-8");
+                //设置HTTP响应头
+                response.addHeader("Content-Disposition", "attachment;filename=\"" + fileName + "\"");//下载文件的名称
+                response.setContentType("application/x-download");//告知浏览器下载文件，而不是直接打开，浏览器默认为打开
+                byte[] b = new byte[1024];
+                int len;
+                while ((len = is.read(b)) > 0) {
+                    response.getOutputStream().write(b, 0, len);
+                }
+                response.getOutputStream().close();
+            }
+        } catch (Exception e) {
+            log.error("调用HttpsUtil.downLoadFile Exception, url=" + url, e);
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    log.error("调用in.close Exception, url=" + url, e);
+                }
+            }
+            if (os != null) {
+                try {
+                    os.close();
+                } catch (IOException e) {
+                    log.error("os.close Exception, url=" + url, e);
+                }
+            }
+        }
     }
 
     private static class TrustAnyTrustManager implements X509TrustManager {

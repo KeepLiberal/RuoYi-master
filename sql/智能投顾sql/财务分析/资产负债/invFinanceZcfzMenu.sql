@@ -1,22 +1,22 @@
 -- 菜单 SQL
 insert into sys_menu (menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('A股基本信息', '4', '1', '/investment/invStock', 'C', '0', 'investment:invStock:view', '#', 'admin', sysdate(), '', null, 'A股基本信息菜单');
+values('财务分析-资产负债', '4', '1', '/investment/invFinanceZcfz', 'C', '0', 'investment:invFinanceZcfz:view', '#', 'admin', sysdate(), '', null, '财务分析-资产负债菜单');
 
 -- 按钮父菜单ID
 SELECT @parentId := LAST_INSERT_ID();
 
 -- 按钮 SQL
 insert into sys_menu (menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('A股基本信息查询', @parentId, '1',  '#',  'F', '0', 'investment:invStock:list',         '#', 'admin', sysdate(), '', null, '');
+values('财务分析-资产负债查询', @parentId, '1',  '#',  'F', '0', 'investment:invFinanceZcfz:list',         '#', 'admin', sysdate(), '', null, '');
 
 insert into sys_menu (menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('A股基本信息新增', @parentId, '2',  '#',  'F', '0', 'investment:invStock:add',          '#', 'admin', sysdate(), '', null, '');
+values('财务分析-资产负债新增', @parentId, '2',  '#',  'F', '0', 'investment:invFinanceZcfz:add',          '#', 'admin', sysdate(), '', null, '');
 
 insert into sys_menu (menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('A股基本信息修改', @parentId, '3',  '#',  'F', '0', 'investment:invStock:edit',         '#', 'admin', sysdate(), '', null, '');
+values('财务分析-资产负债修改', @parentId, '3',  '#',  'F', '0', 'investment:invFinanceZcfz:edit',         '#', 'admin', sysdate(), '', null, '');
 
 insert into sys_menu (menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('A股基本信息删除', @parentId, '4',  '#',  'F', '0', 'investment:invStock:remove',       '#', 'admin', sysdate(), '', null, '');
+values('财务分析-资产负债删除', @parentId, '4',  '#',  'F', '0', 'investment:invFinanceZcfz:remove',       '#', 'admin', sysdate(), '', null, '');
 
 insert into sys_menu (menu_name, parent_id, order_num, url, menu_type, visible, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('A股基本信息导出', @parentId, '5',  '#',  'F', '0', 'investment:invStock:export',       '#', 'admin', sysdate(), '', null, '');
+values('财务分析-资产负债导出', @parentId, '5',  '#',  'F', '0', 'investment:invFinanceZcfz:export',       '#', 'admin', sysdate(), '', null, '');

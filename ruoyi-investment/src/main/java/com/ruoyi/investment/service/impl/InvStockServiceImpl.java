@@ -9,10 +9,10 @@ import com.ruoyi.investment.service.IInvStockService;
 import com.ruoyi.common.core.text.Convert;
 
 /**
- * 沪深A股基本信息Service业务层处理
+ * A股基本信息Service业务层处理
  * 
- * @author ruoyi
- * @date 2022-09-30
+ * @author yangwenyang
+ * @date 2022-10-11
  */
 @Service
 public class InvStockServiceImpl implements IInvStockService 
@@ -21,10 +21,10 @@ public class InvStockServiceImpl implements IInvStockService
     private InvStockMapper invStockMapper;
 
     /**
-     * 查询沪深A股基本信息
+     * 查询A股基本信息
      * 
-     * @param code 沪深A股基本信息主键
-     * @return 沪深A股基本信息
+     * @param code A股基本信息主键
+     * @return A股基本信息
      */
     @Override
     public InvStock selectInvStockByCode(String code)
@@ -33,10 +33,10 @@ public class InvStockServiceImpl implements IInvStockService
     }
 
     /**
-     * 查询沪深A股基本信息列表
+     * 查询A股基本信息列表
      * 
-     * @param invStock 沪深A股基本信息
-     * @return 沪深A股基本信息
+     * @param invStock A股基本信息
+     * @return A股基本信息
      */
     @Override
     public List<InvStock> selectInvStockList(InvStock invStock)
@@ -45,9 +45,9 @@ public class InvStockServiceImpl implements IInvStockService
     }
 
     /**
-     * 新增沪深A股基本信息
+     * 新增A股基本信息
      * 
-     * @param invStock 沪深A股基本信息
+     * @param invStock A股基本信息
      * @return 结果
      */
     @Override
@@ -57,9 +57,9 @@ public class InvStockServiceImpl implements IInvStockService
     }
 
     /**
-     * 修改沪深A股基本信息
+     * 修改A股基本信息
      * 
-     * @param invStock 沪深A股基本信息
+     * @param invStock A股基本信息
      * @return 结果
      */
     @Override
@@ -69,9 +69,9 @@ public class InvStockServiceImpl implements IInvStockService
     }
 
     /**
-     * 批量删除沪深A股基本信息
+     * 批量删除A股基本信息
      * 
-     * @param codes 需要删除的沪深A股基本信息主键
+     * @param codes 需要删除的A股基本信息主键
      * @return 结果
      */
     @Override
@@ -81,9 +81,9 @@ public class InvStockServiceImpl implements IInvStockService
     }
 
     /**
-     * 删除沪深A股基本信息信息
+     * 删除A股基本信息信息
      * 
-     * @param code 沪深A股基本信息主键
+     * @param code A股基本信息主键
      * @return 结果
      */
     @Override

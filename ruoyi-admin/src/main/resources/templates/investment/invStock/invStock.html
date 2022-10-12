@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('沪深A股基本信息列表')" />
+    <th:block th:include="include :: header('A股基本信息列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -21,10 +21,6 @@
                             <li>
                                 <label>股票市场：</label>
                                 <input type="text" name="market"/>
-                            </li>
-                            <li>
-                                <label>股票类型：</label>
-                                <input type="text" name="companytype"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -67,7 +63,7 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "沪深A股基本信息",
+                modalName: "A股基本信息",
                 columns: [{
                     checkbox: true
                 },
@@ -82,10 +78,6 @@
                 {
                     field: 'market',
                     title: '股票市场'
-                },
-                {
-                    field: 'companyType',
-                    title: '股票类型'
                 },
                 {
                     title: '操作',

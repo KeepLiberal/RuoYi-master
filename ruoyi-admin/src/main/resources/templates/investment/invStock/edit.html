@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
-    <th:block th:include="include :: header('修改沪深A股基本信息')" />
+    <th:block th:include="include :: header('修改A股基本信息')" />
     <th:block th:include="include :: datetimepicker-css" />
 </head>
 <body class="white-bg">
@@ -21,10 +21,10 @@
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">资产负债报告期开始日期：</label>
+                <label class="col-sm-3 control-label">资产负债报告开始日期：</label>
                 <div class="col-sm-8">
                     <div class="input-group date">
-                        <input name="zcfzPeriodStart" th:value="${#dates.format(invStock.zcfzPeriodStart, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <input name="zcfzReportDateStart" th:value="${#dates.format(invStock.zcfzReportDateStart, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
             }
         }
 
-        $("input[name='zcfzPeriodStart']").datetimepicker({
+        $("input[name='zcfzReportDateStart']").datetimepicker({
             format: "yyyy-mm-dd",
             minView: "month",
             autoclose: true

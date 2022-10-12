@@ -1,0 +1,2479 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改财务分析-资产负债')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-invFinanceZcfz-edit" th:object="${invFinanceZcfz}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">股票代码：</label>
+                <div class="col-sm-8">
+                    <input name="securityCode" th:field="*{securityCode}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">分类代码：</label>
+                <div class="col-sm-8">
+                    <input name="orgCode" th:field="*{orgCode}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">证劵分类代码：</label>
+                <div class="col-sm-8">
+                    <input name="securityTypeCode" th:field="*{securityTypeCode}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">证劵简称：</label>
+                <div class="col-sm-8">
+                    <input name="securityNameAbbr" th:field="*{securityNameAbbr}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">报告名称：</label>
+                <div class="col-sm-8">
+                    <input name="reportDateName" th:field="*{reportDateName}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">通知日期：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="noticeDate" th:value="${#dates.format(invFinanceZcfz.noticeDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">报告日期：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="reportDate" th:value="${#dates.format(invFinanceZcfz.reportDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">更新日期：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="updateDate" th:value="${#dates.format(invFinanceZcfz.updateDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">货币资金：</label>
+                <div class="col-sm-8">
+                    <input name="monetaryfunds" th:field="*{monetaryfunds}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">货币资金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="monetaryfundsYoy" th:field="*{monetaryfundsYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">客户资金存款：</label>
+                <div class="col-sm-8">
+                    <input name="customerDeposit" th:field="*{customerDeposit}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">客户资金存款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="customerDepositYoy" th:field="*{customerDepositYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">结算备付金：</label>
+                <div class="col-sm-8">
+                    <input name="settleExcessReserve" th:field="*{settleExcessReserve}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">结算备付金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="settleExcessReserveYoy" th:field="*{settleExcessReserveYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">客户备付金：</label>
+                <div class="col-sm-8">
+                    <input name="customerExcessReserve" th:field="*{customerExcessReserve}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">客户备付金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="customerExcessReserveYoy" th:field="*{customerExcessReserveYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">融出资金：</label>
+                <div class="col-sm-8">
+                    <input name="finFund" th:field="*{finFund}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">融出资金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="finFundYoy" th:field="*{finFundYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">以公允价值计量且其变动计入当期损益的金融资产：</label>
+                <div class="col-sm-8">
+                    <input name="fvtplFinasset" th:field="*{fvtplFinasset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">以公允价值计量且其变动计入当期损益的金融资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="fvtplFinassetYoy" th:field="*{fvtplFinassetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">衍生金融资产：</label>
+                <div class="col-sm-8">
+                    <input name="deriveFinasset" th:field="*{deriveFinasset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">衍生金融资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="deriveFinassetYoy" th:field="*{deriveFinassetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">买入返售金融资产：</label>
+                <div class="col-sm-8">
+                    <input name="buyResaleFinasset" th:field="*{buyResaleFinasset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">买入返售金融资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="buyResaleFinassetYoy" th:field="*{buyResaleFinassetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收款项：</label>
+                <div class="col-sm-8">
+                    <input name="receivables" th:field="*{receivables}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收款项(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="receivablesYoy" th:field="*{receivablesYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收利息：</label>
+                <div class="col-sm-8">
+                    <input name="interestRece" th:field="*{interestRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收利息(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="interestReceYoy" th:field="*{interestReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存出保证金：</label>
+                <div class="col-sm-8">
+                    <input name="refundDepositPay" th:field="*{refundDepositPay}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存出保证金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="refundDepositPayYoy" th:field="*{refundDepositPayYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融资产：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinassetNotfvtpl" th:field="*{tradeFinassetNotfvtpl}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinassetNotfvtplYoy" th:field="*{tradeFinassetNotfvtplYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">债权投资：</label>
+                <div class="col-sm-8">
+                    <input name="creditorInvest" th:field="*{creditorInvest}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">债权投资(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="creditorInvestYoy" th:field="*{creditorInvestYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他债权投资：</label>
+                <div class="col-sm-8">
+                    <input name="otherCreditorInvest" th:field="*{otherCreditorInvest}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他债权投资(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherCreditorInvestYoy" th:field="*{otherCreditorInvestYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他权益工具投资：</label>
+                <div class="col-sm-8">
+                    <input name="otherEquityInvest" th:field="*{otherEquityInvest}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他权益工具投资(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherEquityInvestYoy" th:field="*{otherEquityInvestYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">可供出售金融资产：</label>
+                <div class="col-sm-8">
+                    <input name="availableSaleFinasset" th:field="*{availableSaleFinasset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">可供出售金融资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="availableSaleFinassetYoy" th:field="*{availableSaleFinassetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期股权投资：</label>
+                <div class="col-sm-8">
+                    <input name="longEquityInvest" th:field="*{longEquityInvest}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期股权投资(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="longEquityInvestYoy" th:field="*{longEquityInvestYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资性房地产：</label>
+                <div class="col-sm-8">
+                    <input name="investRealestate" th:field="*{investRealestate}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资性房地产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="investRealestateYoy" th:field="*{investRealestateYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">固定资产：</label>
+                <div class="col-sm-8">
+                    <input name="fixedAsset" th:field="*{fixedAsset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">固定资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="fixedAssetYoy" th:field="*{fixedAssetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">在建工程：</label>
+                <div class="col-sm-8">
+                    <input name="cip" th:field="*{cip}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">在建工程(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="cipYoy" th:field="*{cipYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">使用权资产：</label>
+                <div class="col-sm-8">
+                    <input name="userightAsset" th:field="*{userightAsset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">使用权资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="userightAssetYoy" th:field="*{userightAssetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">无形资产：</label>
+                <div class="col-sm-8">
+                    <input name="intangibleAsset" th:field="*{intangibleAsset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">无形资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="intangibleAssetYoy" th:field="*{intangibleAssetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商誉：</label>
+                <div class="col-sm-8">
+                    <input name="goodwill" th:field="*{goodwill}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商誉(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="goodwillYoy" th:field="*{goodwillYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">递延所得税资产：</label>
+                <div class="col-sm-8">
+                    <input name="deferTaxAsset" th:field="*{deferTaxAsset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">递延所得税资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="deferTaxAssetYoy" th:field="*{deferTaxAssetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他资产：</label>
+                <div class="col-sm-8">
+                    <input name="otherAsset" th:field="*{otherAsset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherAssetYoy" th:field="*{otherAssetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产总计：</label>
+                <div class="col-sm-8">
+                    <input name="totalAssets" th:field="*{totalAssets}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产总计(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalAssetsYoy" th:field="*{totalAssetsYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">短期借款：</label>
+                <div class="col-sm-8">
+                    <input name="shortLoan" th:field="*{shortLoan}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">短期借款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="shortLoanYoy" th:field="*{shortLoanYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付短期融资款：</label>
+                <div class="col-sm-8">
+                    <input name="shortFinPayable" th:field="*{shortFinPayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付短期融资款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="shortFinPayableYoy" th:field="*{shortFinPayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆入资金：</label>
+                <div class="col-sm-8">
+                    <input name="borrowFund" th:field="*{borrowFund}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆入资金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="borrowFundYoy" th:field="*{borrowFundYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融负债：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinliabNotfvtpl" th:field="*{tradeFinliabNotfvtpl}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融负债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinliabNotfvtplYoy" th:field="*{tradeFinliabNotfvtplYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">以公允价值计量且其变动计入当期损益的金融负债：</label>
+                <div class="col-sm-8">
+                    <input name="fvtplFinliab" th:field="*{fvtplFinliab}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">以公允价值计量且其变动计入当期损益的金融负债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="fvtplFinliabYoy" th:field="*{fvtplFinliabYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">衍生金融负债：</label>
+                <div class="col-sm-8">
+                    <input name="deriveFinliab" th:field="*{deriveFinliab}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">衍生金融负债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="deriveFinliabYoy" th:field="*{deriveFinliabYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">卖出回购金融资产款：</label>
+                <div class="col-sm-8">
+                    <input name="sellRepoFinasset" th:field="*{sellRepoFinasset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">卖出回购金融资产款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="sellRepoFinassetYoy" th:field="*{sellRepoFinassetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">代理买卖证券款：</label>
+                <div class="col-sm-8">
+                    <input name="agentTradeSecurity" th:field="*{agentTradeSecurity}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">代理买卖证券款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="agentTradeSecurityYoy" th:field="*{agentTradeSecurityYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">代理承销证券款：</label>
+                <div class="col-sm-8">
+                    <input name="agentUnderwriteSecurity" th:field="*{agentUnderwriteSecurity}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">代理承销证券款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="agentUnderwriteSecurityYoy" th:field="*{agentUnderwriteSecurityYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付账款：</label>
+                <div class="col-sm-8">
+                    <input name="accountsPayable" th:field="*{accountsPayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付账款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="accountsPayableYoy" th:field="*{accountsPayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付职工薪酬：</label>
+                <div class="col-sm-8">
+                    <input name="staffSalaryPayable" th:field="*{staffSalaryPayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付职工薪酬(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="staffSalaryPayableYoy" th:field="*{staffSalaryPayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应交税费：</label>
+                <div class="col-sm-8">
+                    <input name="taxPayable" th:field="*{taxPayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应交税费(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="taxPayableYoy" th:field="*{taxPayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付利息：</label>
+                <div class="col-sm-8">
+                    <input name="interestPayable" th:field="*{interestPayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付利息(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="interestPayableYoy" th:field="*{interestPayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期借款：</label>
+                <div class="col-sm-8">
+                    <input name="longLoan" th:field="*{longLoan}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期借款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="longLoanYoy" th:field="*{longLoanYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付债券：</label>
+                <div class="col-sm-8">
+                    <input name="bondPayable" th:field="*{bondPayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付债券(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="bondPayableYoy" th:field="*{bondPayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">租赁负债：</label>
+                <div class="col-sm-8">
+                    <input name="leaseLiab" th:field="*{leaseLiab}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">租赁负债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="leaseLiabYoy" th:field="*{leaseLiabYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">递延所得税负债：</label>
+                <div class="col-sm-8">
+                    <input name="deferTaxLiab" th:field="*{deferTaxLiab}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">递延所得税负债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="deferTaxLiabYoy" th:field="*{deferTaxLiabYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他负债：</label>
+                <div class="col-sm-8">
+                    <input name="otherLiab" th:field="*{otherLiab}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他负债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherLiabYoy" th:field="*{otherLiabYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负债其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="liabOther" th:field="*{liabOther}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负债其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="liabOtherYoy" th:field="*{liabOtherYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负债合计：</label>
+                <div class="col-sm-8">
+                    <input name="totalLiabilities" th:field="*{totalLiabilities}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负债合计(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalLiabilitiesYoy" th:field="*{totalLiabilitiesYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资本或股本：</label>
+                <div class="col-sm-8">
+                    <input name="shareCapital" th:field="*{shareCapital}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资本或股本(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="shareCapitalYoy" th:field="*{shareCapitalYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资本公积：</label>
+                <div class="col-sm-8">
+                    <input name="capitalReserve" th:field="*{capitalReserve}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资本公积(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="capitalReserveYoy" th:field="*{capitalReserveYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他综合收益：</label>
+                <div class="col-sm-8">
+                    <input name="otherCompreIncome" th:field="*{otherCompreIncome}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他综合收益(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherCompreIncomeYoy" th:field="*{otherCompreIncomeYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">盈余公积：</label>
+                <div class="col-sm-8">
+                    <input name="surplusReserve" th:field="*{surplusReserve}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">盈余公积(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="surplusReserveYoy" th:field="*{surplusReserveYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">一般风险准备：</label>
+                <div class="col-sm-8">
+                    <input name="generalRiskReserve" th:field="*{generalRiskReserve}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">一般风险准备(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="generalRiskReserveYoy" th:field="*{generalRiskReserveYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">未分配利润：</label>
+                <div class="col-sm-8">
+                    <input name="unassignRpofit" th:field="*{unassignRpofit}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">未分配利润(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="unassignRpofitYoy" th:field="*{unassignRpofitYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于母公司股东权益总计：</label>
+                <div class="col-sm-8">
+                    <input name="totalParentEquity" th:field="*{totalParentEquity}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于母公司股东权益总计(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalParentEquityYoy" th:field="*{totalParentEquityYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">少数股东权益：</label>
+                <div class="col-sm-8">
+                    <input name="minorityEquity" th:field="*{minorityEquity}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">少数股东权益(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="minorityEquityYoy" th:field="*{minorityEquityYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">股东权益合计：</label>
+                <div class="col-sm-8">
+                    <input name="totalEquity" th:field="*{totalEquity}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">股东权益合计(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalEquityYoy" th:field="*{totalEquityYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负债和股东权益总计：</label>
+                <div class="col-sm-8">
+                    <input name="totalLiabEquity" th:field="*{totalLiabEquity}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负债和股东权益总计(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalLiabEquityYoy" th:field="*{totalLiabEquityYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付次级债券：</label>
+                <div class="col-sm-8">
+                    <input name="subbondPayable" th:field="*{subbondPayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付次级债券(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="subbondPayableYoy" th:field="*{subbondPayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收票据及应收账款：</label>
+                <div class="col-sm-8">
+                    <input name="noteAccountsRece" th:field="*{noteAccountsRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收票据及应收账款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="noteAccountsReceYoy" th:field="*{noteAccountsReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收票据：</label>
+                <div class="col-sm-8">
+                    <input name="noteRece" th:field="*{noteRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收票据(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="noteReceYoy" th:field="*{noteReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收账款：</label>
+                <div class="col-sm-8">
+                    <input name="accountsRece" th:field="*{accountsRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收账款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="accountsReceYoy" th:field="*{accountsReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收款项融资：</label>
+                <div class="col-sm-8">
+                    <input name="financeRece" th:field="*{financeRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收款项融资(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="financeReceYoy" th:field="*{financeReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预付款项：</label>
+                <div class="col-sm-8">
+                    <input name="prepayment" th:field="*{prepayment}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预付款项(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="prepaymentYoy" th:field="*{prepaymentYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他应收款合计：</label>
+                <div class="col-sm-8">
+                    <input name="totalOtherRece" th:field="*{totalOtherRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他应收款合计(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalOtherReceYoy" th:field="*{totalOtherReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收股利：</label>
+                <div class="col-sm-8">
+                    <input name="dividendRece" th:field="*{dividendRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收股利(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="dividendReceYoy" th:field="*{dividendReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存货：</label>
+                <div class="col-sm-8">
+                    <input name="inventory" th:field="*{inventory}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存货(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="inventoryYoy" th:field="*{inventoryYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">合同资产：</label>
+                <div class="col-sm-8">
+                    <input name="contractAsset" th:field="*{contractAsset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">合同资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="contractAssetYoy" th:field="*{contractAssetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">一年内到期的非流动资产：</label>
+                <div class="col-sm-8">
+                    <input name="noncurrentAsset1year" th:field="*{noncurrentAsset1year}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">一年内到期的非流动资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="noncurrentAsset1yearYoy" th:field="*{noncurrentAsset1yearYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他流动资产：</label>
+                <div class="col-sm-8">
+                    <input name="otherCurrentAsset" th:field="*{otherCurrentAsset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他流动资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherCurrentAssetYoy" th:field="*{otherCurrentAssetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">流动资产合计：</label>
+                <div class="col-sm-8">
+                    <input name="totalCurrentAssets" th:field="*{totalCurrentAssets}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">流动资产合计(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalCurrentAssetsYoy" th:field="*{totalCurrentAssetsYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期应收款：</label>
+                <div class="col-sm-8">
+                    <input name="longRece" th:field="*{longRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期应收款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="longReceYoy" th:field="*{longReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">开发支出：</label>
+                <div class="col-sm-8">
+                    <input name="developExpense" th:field="*{developExpense}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">开发支出(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="developExpenseYoy" th:field="*{developExpenseYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期待摊费用：</label>
+                <div class="col-sm-8">
+                    <input name="longPrepaidExpense" th:field="*{longPrepaidExpense}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期待摊费用(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="longPrepaidExpenseYoy" th:field="*{longPrepaidExpenseYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他非流动资产：</label>
+                <div class="col-sm-8">
+                    <input name="otherNoncurrentAsset" th:field="*{otherNoncurrentAsset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他非流动资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherNoncurrentAssetYoy" th:field="*{otherNoncurrentAssetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非流动资产合计：</label>
+                <div class="col-sm-8">
+                    <input name="totalNoncurrentAssets" th:field="*{totalNoncurrentAssets}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非流动资产合计(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalNoncurrentAssetsYoy" th:field="*{totalNoncurrentAssetsYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付票据及应付账款：</label>
+                <div class="col-sm-8">
+                    <input name="noteAccountsPayable" th:field="*{noteAccountsPayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付票据及应付账款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="noteAccountsPayableYoy" th:field="*{noteAccountsPayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付票据：</label>
+                <div class="col-sm-8">
+                    <input name="notePayable" th:field="*{notePayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付票据(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="notePayableYoy" th:field="*{notePayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">合同负债：</label>
+                <div class="col-sm-8">
+                    <input name="contractLiab" th:field="*{contractLiab}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">合同负债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="contractLiabYoy" th:field="*{contractLiabYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他应付款合计：</label>
+                <div class="col-sm-8">
+                    <input name="totalOtherPayable" th:field="*{totalOtherPayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他应付款合计(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalOtherPayableYoy" th:field="*{totalOtherPayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付股利：</label>
+                <div class="col-sm-8">
+                    <input name="dividendPayable" th:field="*{dividendPayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付股利(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="dividendPayableYoy" th:field="*{dividendPayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">一年内到期的非流动负债：</label>
+                <div class="col-sm-8">
+                    <input name="noncurrentLiab1year" th:field="*{noncurrentLiab1year}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">一年内到期的非流动负债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="noncurrentLiab1yearYoy" th:field="*{noncurrentLiab1yearYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他流动负债：</label>
+                <div class="col-sm-8">
+                    <input name="otherCurrentLiab" th:field="*{otherCurrentLiab}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他流动负债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherCurrentLiabYoy" th:field="*{otherCurrentLiabYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">流动负债合计：</label>
+                <div class="col-sm-8">
+                    <input name="totalCurrentLiab" th:field="*{totalCurrentLiab}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">流动负债合计(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalCurrentLiabYoy" th:field="*{totalCurrentLiabYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期应付款：</label>
+                <div class="col-sm-8">
+                    <input name="longPayable" th:field="*{longPayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期应付款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="longPayableYoy" th:field="*{longPayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期应付职工薪酬：</label>
+                <div class="col-sm-8">
+                    <input name="longStaffsalaryPayable" th:field="*{longStaffsalaryPayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期应付职工薪酬(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="longStaffsalaryPayableYoy" th:field="*{longStaffsalaryPayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预计负债：</label>
+                <div class="col-sm-8">
+                    <input name="predictLiab" th:field="*{predictLiab}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预计负债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="predictLiabYoy" th:field="*{predictLiabYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">递延收益：</label>
+                <div class="col-sm-8">
+                    <input name="deferIncome" th:field="*{deferIncome}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">递延收益(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="deferIncomeYoy" th:field="*{deferIncomeYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非流动负债合计：</label>
+                <div class="col-sm-8">
+                    <input name="totalNoncurrentLiab" th:field="*{totalNoncurrentLiab}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非流动负债合计(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalNoncurrentLiabYoy" th:field="*{totalNoncurrentLiabYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">专项储备：</label>
+                <div class="col-sm-8">
+                    <input name="specialReserve" th:field="*{specialReserve}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">专项储备(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="specialReserveYoy" th:field="*{specialReserveYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及存放中央银行款项：</label>
+                <div class="col-sm-8">
+                    <input name="cashDepositPbc" th:field="*{cashDepositPbc}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及存放中央银行款项(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="cashDepositPbcYoy" th:field="*{cashDepositPbcYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放同业款项：</label>
+                <div class="col-sm-8">
+                    <input name="depositInterbank" th:field="*{depositInterbank}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放同业款项(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="depositInterbankYoy" th:field="*{depositInterbankYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">贵金属：</label>
+                <div class="col-sm-8">
+                    <input name="preciousMetal" th:field="*{preciousMetal}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">贵金属(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="preciousMetalYoy" th:field="*{preciousMetalYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆出资金：</label>
+                <div class="col-sm-8">
+                    <input name="lendFund" th:field="*{lendFund}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆出资金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="lendFundYoy" th:field="*{lendFundYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发放贷款及垫款：</label>
+                <div class="col-sm-8">
+                    <input name="loanAdvance" th:field="*{loanAdvance}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发放贷款及垫款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="loanAdvanceYoy" th:field="*{loanAdvanceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">以摊余成本计量的金融资产：</label>
+                <div class="col-sm-8">
+                    <input name="amortizeCostFinasset" th:field="*{amortizeCostFinasset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">以摊余成本计量的金融资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="amortizeCostFinassetyoy" th:field="*{amortizeCostFinassetyoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">以公允价值计量且其变动计入其他综合收益的金融资产：</label>
+                <div class="col-sm-8">
+                    <input name="fvtociFinasset" th:field="*{fvtociFinasset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">以公允价值计量且其变动计入其他综合收益的金融资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="fvtociFinassetYoy" th:field="*{fvtociFinassetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="assetOther" th:field="*{assetOther}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="assetOtherYoy" th:field="*{assetOtherYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">向中央银行借款：</label>
+                <div class="col-sm-8">
+                    <input name="loanPbc" th:field="*{loanPbc}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">向中央银行借款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="loanPbcYoy" th:field="*{loanPbcYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">同业及其他金融机构存放款项：</label>
+                <div class="col-sm-8">
+                    <input name="iofiDeposit" th:field="*{iofiDeposit}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">同业及其他金融机构存放款项(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="iofiDepositYoy" th:field="*{iofiDepositYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">吸收存款：</label>
+                <div class="col-sm-8">
+                    <input name="acceptDeposit" th:field="*{acceptDeposit}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">吸收存款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="acceptDepositYoy" th:field="*{acceptDepositYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他权益工具：</label>
+                <div class="col-sm-8">
+                    <input name="otherEquityOther" th:field="*{otherEquityOther}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他权益工具(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherEquityOtherYoy" th:field="*{otherEquityOtherYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">优先股：</label>
+                <div class="col-sm-8">
+                    <input name="preferredShares" th:field="*{preferredShares}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">优先股(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="preferredSharesYoy" th:field="*{preferredSharesYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">永续债：</label>
+                <div class="col-sm-8">
+                    <input name="perpetualBond" th:field="*{perpetualBond}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">永续债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="perpetualBondYoy" th:field="*{perpetualBondYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收保费：</label>
+                <div class="col-sm-8">
+                    <input name="premiumRece" th:field="*{premiumRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收保费(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="premiumReceYoy" th:field="*{premiumReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收分保账款：</label>
+                <div class="col-sm-8">
+                    <input name="reinsureRece" th:field="*{reinsureRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收分保账款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="reinsureReceYoy" th:field="*{reinsureReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收分保未到期责任准备金：</label>
+                <div class="col-sm-8">
+                    <input name="rudReserveRece" th:field="*{rudReserveRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收分保未到期责任准备金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="rudReserveReceYoy" th:field="*{rudReserveReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收分保未决赔偿准备金：</label>
+                <div class="col-sm-8">
+                    <input name="rucReserveRece" th:field="*{rucReserveRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收分保未决赔偿准备金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="rucReserveReceYoy" th:field="*{rucReserveReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他应收款：</label>
+                <div class="col-sm-8">
+                    <input name="otherRece" th:field="*{otherRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他应收款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherReceYoy" th:field="*{otherReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">定期存款：</label>
+                <div class="col-sm-8">
+                    <input name="timeDeposit" th:field="*{timeDeposit}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">定期存款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="timeDepositYoy" th:field="*{timeDepositYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">持有至到期投资：</label>
+                <div class="col-sm-8">
+                    <input name="holdMaturityInvest" th:field="*{holdMaturityInvest}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">持有至到期投资(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="holdMaturityInvestYoy" th:field="*{holdMaturityInvestYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存出资本保证金：</label>
+                <div class="col-sm-8">
+                    <input name="refundCapitalDeposit" th:field="*{refundCapitalDeposit}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存出资本保证金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="refundCapitalDepositYoy" th:field="*{refundCapitalDepositYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预收账款：</label>
+                <div class="col-sm-8">
+                    <input name="advanceRece" th:field="*{advanceRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预收账款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="advanceReceYoy" th:field="*{advanceReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预收保费：</label>
+                <div class="col-sm-8">
+                    <input name="advancePremium" th:field="*{advancePremium}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预收保费(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="advancePremiumYoy" th:field="*{advancePremiumYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付手续费及佣金：</label>
+                <div class="col-sm-8">
+                    <input name="feeCommissionPayable" th:field="*{feeCommissionPayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付手续费及佣金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="feeCommissionPayableYoy" th:field="*{feeCommissionPayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付分保账款：</label>
+                <div class="col-sm-8">
+                    <input name="reinsurePayable" th:field="*{reinsurePayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付分保账款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="reinsurePayableYoy" th:field="*{reinsurePayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付赔付款：</label>
+                <div class="col-sm-8">
+                    <input name="compensatePayable" th:field="*{compensatePayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付赔付款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="compensatePayableYoy" th:field="*{compensatePayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">待处理抵债资产净额：</label>
+                <div class="col-sm-8">
+                    <input name="netPendmortgageAsset" th:field="*{netPendmortgageAsset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">待处理抵债资产净额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="netPendmortgageAssetYoy" th:field="*{netPendmortgageAssetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">套期储备：</label>
+                <div class="col-sm-8">
+                    <input name="hedgeReserve" th:field="*{hedgeReserve}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">套期储备(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="hedgeReserveYoy" th:field="*{hedgeReserveYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">优先股：</label>
+                <div class="col-sm-8">
+                    <input name="preferredSharesPaybale" th:field="*{preferredSharesPaybale}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">优先股(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="preferredSharesPaybaleYoy" th:field="*{preferredSharesPaybaleYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融资产：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinasset" th:field="*{tradeFinasset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinassetYoy" th:field="*{tradeFinassetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">持有待售资产：</label>
+                <div class="col-sm-8">
+                    <input name="holdsaleAsset" th:field="*{holdsaleAsset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">持有待售资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="holdsaleAssetYoy" th:field="*{holdsaleAssetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">指定以公允价值计量且其变动计入当期损益的金融负债：</label>
+                <div class="col-sm-8">
+                    <input name="appointFvtplFinliab" th:field="*{appointFvtplFinliab}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">指定以公允价值计量且其变动计入当期损益的金融负债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="appointFvtplFinliabYoy" th:field="*{appointFvtplFinliabYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负债平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="liabBalance" th:field="*{liabBalance}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负债平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="liabBalanceYoy" th:field="*{liabBalanceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存款证及应付票据：</label>
+                <div class="col-sm-8">
+                    <input name="cdNotePayable" th:field="*{cdNotePayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存款证及应付票据(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="cdNotePayableYoy" th:field="*{cdNotePayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="assetBalance" th:field="*{assetBalance}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="assetBalanceYoy" th:field="*{assetBalanceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">待处理抵债资产：</label>
+                <div class="col-sm-8">
+                    <input name="pendMortgageAsset" th:field="*{pendMortgageAsset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">待处理抵债资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="pendMortgageAssetYoy" th:field="*{pendMortgageAssetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">持有待售负债：</label>
+                <div class="col-sm-8">
+                    <input name="holdsaleLiab" th:field="*{holdsaleLiab}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">持有待售负债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="holdsaleLiabYoy" th:field="*{holdsaleLiabYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负债及股东权益平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="liabEquityBalance" th:field="*{liabEquityBalance}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负债及股东权益平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="liabEquityBalanceYoy" th:field="*{liabEquityBalanceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于母公司股东权益平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="equityBalance" th:field="*{equityBalance}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于母公司股东权益平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="equityBalanceYoy" th:field="*{equityBalanceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于母公司股东权益平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="parentEquityBalance" th:field="*{parentEquityBalance}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于母公司股东权益平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="parentEquityBalanceYoy" th:field="*{parentEquityBalanceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他权益工具：</label>
+                <div class="col-sm-8">
+                    <input name="otherEquityTool" th:field="*{otherEquityTool}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他权益工具(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherEquityToolYoy" th:field="*{otherEquityToolYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">股东权益其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="equityOther" th:field="*{equityOther}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">股东权益其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="equityOtherYoy" th:field="*{equityOtherYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负债和股东权益其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="liabEquityOther" th:field="*{liabEquityOther}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负债和股东权益其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="liabEquityOtherYoy" th:field="*{liabEquityOtherYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收款项类投资：</label>
+                <div class="col-sm-8">
+                    <input name="investRece" th:field="*{investRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收款项类投资(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="investReceYoy" th:field="*{investReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">库存股：</label>
+                <div class="col-sm-8">
+                    <input name="treasuryShares" th:field="*{treasuryShares}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">库存股(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="treasurySharesYoy" th:field="*{treasurySharesYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">汇出汇款：</label>
+                <div class="col-sm-8">
+                    <input name="outwardRemit" th:field="*{outwardRemit}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">汇出汇款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="outwardRemitYoy" th:field="*{outwardRemitYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">以摊余成本计量的金融负债：</label>
+                <div class="col-sm-8">
+                    <input name="amortizeCostFinliab" th:field="*{amortizeCostFinliab}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">以摊余成本计量的金融负债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="amortizeCostFinliabYoy" th:field="*{amortizeCostFinliabYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">对联营和合营企业的投资：</label>
+                <div class="col-sm-8">
+                    <input name="investJoint" th:field="*{investJoint}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">对联营和合营企业的投资(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="investJointYoy" th:field="*{investJointYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资重估储备：</label>
+                <div class="col-sm-8">
+                    <input name="investRevalueReserve" th:field="*{investRevalueReserve}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资重估储备(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="investRevalueReserveYoy" th:field="*{investRevalueReserveYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">外币报表折算差额：</label>
+                <div class="col-sm-8">
+                    <input name="convertDiff" th:field="*{convertDiff}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">外币报表折算差额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="convertDiffYoy" th:field="*{convertDiffYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融负债：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinliab" th:field="*{tradeFinliab}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融负债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinliabYoy" th:field="*{tradeFinliabYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">建议分派股利：</label>
+                <div class="col-sm-8">
+                    <input name="adviceAssignDividend" th:field="*{adviceAssignDividend}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">建议分派股利(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="adviceAssignDividendYoy" th:field="*{adviceAssignDividendYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">指定以公允价值计量且其变动计入当期损益的金融资产：</label>
+                <div class="col-sm-8">
+                    <input name="appointFvtplFinasset" th:field="*{appointFvtplFinasset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">指定以公允价值计量且其变动计入当期损益的金融资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="appointFvtplFinassetYoy" th:field="*{appointFvtplFinassetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">抵债资产减值准备：</label>
+                <div class="col-sm-8">
+                    <input name="mortgageAssetImpairment" th:field="*{mortgageAssetImpairment}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">抵债资产减值准备(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="mortgageAssetImpairmentYoy" th:field="*{mortgageAssetImpairmentYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">永续债/应付债券：</label>
+                <div class="col-sm-8">
+                    <input name="perpetualBondPaybale" th:field="*{perpetualBondPaybale}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">永续债/应付债券(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="perpetualBondPaybaleYoy" th:field="*{perpetualBondPaybaleYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存款证及应付票据：</label>
+                <div class="col-sm-8">
+                    <input name="depositCertificate" th:field="*{depositCertificate}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存款证及应付票据(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="depositCertificateYoy" th:field="*{depositCertificateYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">对子公司的投资：</label>
+                <div class="col-sm-8">
+                    <input name="investSubsidiary" th:field="*{investSubsidiary}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">对子公司的投资(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="investSubsidiaryYoy" th:field="*{investSubsidiaryYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于母公司股东权益其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="parentEquityOther" th:field="*{parentEquityOther}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于母公司股东权益其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="parentEquityOtherYoy" th:field="*{parentEquityOtherYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">保户储金及投资款：</label>
+                <div class="col-sm-8">
+                    <input name="insuredDepositInvest" th:field="*{insuredDepositInvest}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">保户储金及投资款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="insuredDepositInvestYoy" th:field="*{insuredDepositInvestYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">独立账户负债：</label>
+                <div class="col-sm-8">
+                    <input name="indAccLiab" th:field="*{indAccLiab}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">独立账户负债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="indAccLiabYoy" th:field="*{indAccLiabYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">债权计划投资：</label>
+                <div class="col-sm-8">
+                    <input name="creditorPlanInvest" th:field="*{creditorPlanInvest}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">债权计划投资(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="creditorPlanInvestYoy" th:field="*{creditorPlanInvestYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收分保合同准备金：</label>
+                <div class="col-sm-8">
+                    <input name="rcReserveRece" th:field="*{rcReserveRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收分保合同准备金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="rcReserveReceYoy" th:field="*{rcReserveReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非流动负债其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="noncurrentLiabOther" th:field="*{noncurrentLiabOther}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非流动负债其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="noncurrentLiabOtherYoy" th:field="*{noncurrentLiabOtherYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">独立账户资产：</label>
+                <div class="col-sm-8">
+                    <input name="indAccAsset" th:field="*{indAccAsset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">独立账户资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="indAccAssetYoy" th:field="*{indAccAssetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收补贴款：</label>
+                <div class="col-sm-8">
+                    <input name="subsidyRece" th:field="*{subsidyRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收补贴款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="subsidyReceYoy" th:field="*{subsidyReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">以公允价值计量且其变动计入其他综合收益的非流动金融资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="fvtociNcfinasset" th:field="*{fvtociNcfinasset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">以公允价值计量且其变动计入其他综合收益的非流动金融资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="fvtociNcfinassetYoy" th:field="*{fvtociNcfinassetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他应付款：</label>
+                <div class="col-sm-8">
+                    <input name="otherPayable" th:field="*{otherPayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他应付款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherPayableYoy" th:field="*{otherPayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">寿险责任准备金：</label>
+                <div class="col-sm-8">
+                    <input name="ldReserve" th:field="*{ldReserve}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">寿险责任准备金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="ldReserveYoy" th:field="*{ldReserveYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">流动负债其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="currentLiabOther" th:field="*{currentLiabOther}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">流动负债其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="currentLiabOtherYoy" th:field="*{currentLiabOtherYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">工程物资：</label>
+                <div class="col-sm-8">
+                    <input name="projectMaterial" th:field="*{projectMaterial}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">工程物资(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="projectMaterialYoy" th:field="*{projectMaterialYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">固定资产清理：</label>
+                <div class="col-sm-8">
+                    <input name="fixedAssetDisposal" th:field="*{fixedAssetDisposal}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">固定资产清理(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="fixedAssetDisposalYoy" th:field="*{fixedAssetDisposalYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他非流动负债：</label>
+                <div class="col-sm-8">
+                    <input name="otherNoncurrentLiab" th:field="*{otherNoncurrentLiab}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他非流动负债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherNoncurrentLiabYoy" th:field="*{otherNoncurrentLiabYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">油气资产：</label>
+                <div class="col-sm-8">
+                    <input name="oilGasAsset" th:field="*{oilGasAsset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">油气资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="oilGasAssetYoy" th:field="*{oilGasAssetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非流动负债平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="noncurrentLiabBalance" th:field="*{noncurrentLiabBalance}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非流动负债平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="noncurrentLiabBalanceYoy" th:field="*{noncurrentLiabBalanceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非流动资产平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="noncurrentAssetBalance" th:field="*{noncurrentAssetBalance}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非流动资产平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="noncurrentAssetBalanceYoy" th:field="*{noncurrentAssetBalanceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">流动负债平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="currentLiabBalance" th:field="*{currentLiabBalance}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">流动负债平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="currentLiabBalanceYoy" th:field="*{currentLiabBalanceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付保单红利：</label>
+                <div class="col-sm-8">
+                    <input name="policyBonusPayable" th:field="*{policyBonusPayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付保单红利(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="policyBonusPayableYoy" th:field="*{policyBonusPayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">内部应付款：</label>
+                <div class="col-sm-8">
+                    <input name="internalPayable" th:field="*{internalPayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">内部应付款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="internalPayableYoy" th:field="*{internalPayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">专项应付款：</label>
+                <div class="col-sm-8">
+                    <input name="specialPayable" th:field="*{specialPayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">专项应付款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="specialPayableYoy" th:field="*{specialPayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收分保寿险责任准备金：</label>
+                <div class="col-sm-8">
+                    <input name="rldReserveRece" th:field="*{rldReserveRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收分保寿险责任准备金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="rldReserveReceYoy" th:field="*{rldReserveReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收分保长期健康险责任准备金：</label>
+                <div class="col-sm-8">
+                    <input name="rhdReserveRece" th:field="*{rhdReserveRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收分保长期健康险责任准备金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="rhdReserveReceYoy" th:field="*{rhdReserveReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预计流动负债：</label>
+                <div class="col-sm-8">
+                    <input name="predictCurrentLiab" th:field="*{predictCurrentLiab}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预计流动负债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="predictCurrentLiabYoy" th:field="*{predictCurrentLiabYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存入保证金：</label>
+                <div class="col-sm-8">
+                    <input name="refundDepositRece" th:field="*{refundDepositRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存入保证金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="refundDepositReceYoy" th:field="*{refundDepositReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期健康险责任准备金：</label>
+                <div class="col-sm-8">
+                    <input name="hdReserve" th:field="*{hdReserve}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期健康险责任准备金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="hdReserveYoy" th:field="*{hdReserveYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">保户质押贷款：</label>
+                <div class="col-sm-8">
+                    <input name="insuredPledgeLoan" th:field="*{insuredPledgeLoan}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">保户质押贷款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="insuredPledgeLoanYoy" th:field="*{insuredPledgeLoanYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他非流动金融资产：</label>
+                <div class="col-sm-8">
+                    <input name="otherNoncurrentFinasset" th:field="*{otherNoncurrentFinasset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他非流动金融资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherNoncurrentFinassetYoy" th:field="*{otherNoncurrentFinassetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拟分配现金股利：</label>
+                <div class="col-sm-8">
+                    <input name="assignCashDividend" th:field="*{assignCashDividend}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拟分配现金股利(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="assignCashDividendYoy" th:field="*{assignCashDividendYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预收款项：</label>
+                <div class="col-sm-8">
+                    <input name="advanceReceivables" th:field="*{advanceReceivables}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预收款项(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="advanceReceivablesYoy" th:field="*{advanceReceivablesYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付短期债券：</label>
+                <div class="col-sm-8">
+                    <input name="shortBondPayable" th:field="*{shortBondPayable}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付短期债券(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="shortBondPayableYoy" th:field="*{shortBondPayableYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">流动资产平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="currentAssetBalance" th:field="*{currentAssetBalance}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">流动资产平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="currentAssetBalanceYoy" th:field="*{currentAssetBalanceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">以摊余成本计量的非流动金融负债：</label>
+                <div class="col-sm-8">
+                    <input name="amortizeCostNcfinliab" th:field="*{amortizeCostNcfinliab}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">以摊余成本计量的非流动金融负债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="amortizeCostNcfinliabYoy" th:field="*{amortizeCostNcfinliabYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">以摊余成本计量的非流动金融资产：</label>
+                <div class="col-sm-8">
+                    <input name="amortizeCostNcfinasset" th:field="*{amortizeCostNcfinasset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">以摊余成本计量的非流动金融资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="amortizeCostNcfinassetYoy" th:field="*{amortizeCostNcfinassetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">保险合同准备金：</label>
+                <div class="col-sm-8">
+                    <input name="insuranceContractReserve" th:field="*{insuranceContractReserve}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">保险合同准备金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="insuranceContractReserveYoy" th:field="*{insuranceContractReserveYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">客户信用资金存款：</label>
+                <div class="col-sm-8">
+                    <input name="customerCreditDeposit" th:field="*{customerCreditDeposit}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">客户信用资金存款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="customerCreditDepositYoy" th:field="*{customerCreditDepositYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">未决赔款准备金：</label>
+                <div class="col-sm-8">
+                    <input name="ucReserve" th:field="*{ucReserve}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">未决赔款准备金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="ucReserveYoy" th:field="*{ucReserveYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">信用备付金：</label>
+                <div class="col-sm-8">
+                    <input name="creditExcessReserve" th:field="*{creditExcessReserve}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">信用备付金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="creditExcessReserveYoy" th:field="*{creditExcessReserveYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易席位费：</label>
+                <div class="col-sm-8">
+                    <input name="tradeSeatFee" th:field="*{tradeSeatFee}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易席位费(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="tradeSeatFeeYoy" th:field="*{tradeSeatFeeYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易风险准备：</label>
+                <div class="col-sm-8">
+                    <input name="tradeRiskReserve" th:field="*{tradeRiskReserve}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易风险准备(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="tradeRiskReserveYoy" th:field="*{tradeRiskReserveYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">信用交易代理买卖证券款：</label>
+                <div class="col-sm-8">
+                    <input name="creditAgentSecurity" th:field="*{creditAgentSecurity}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">信用交易代理买卖证券款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="creditAgentSecurityYoy" th:field="*{creditAgentSecurityYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">融出资金中融出证券：</label>
+                <div class="col-sm-8">
+                    <input name="finSecurity" th:field="*{finSecurity}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">融出资金中融出证券(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="finSecurityYoy" th:field="*{finSecurityYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">短期借款中质押借款：</label>
+                <div class="col-sm-8">
+                    <input name="pledgeLoan" th:field="*{pledgeLoan}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">短期借款中质押借款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="pledgeLoanYoy" th:field="*{pledgeLoanYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">未到期责任准备金：</label>
+                <div class="col-sm-8">
+                    <input name="udReserve" th:field="*{udReserve}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">未到期责任准备金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="udReserveYoy" th:field="*{udReserveYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">内部应收款：</label>
+                <div class="col-sm-8">
+                    <input name="internalRece" th:field="*{internalRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">内部应收款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="internalReceYoy" th:field="*{internalReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">未确定的投资损失：</label>
+                <div class="col-sm-8">
+                    <input name="unconfirmInvestLoss" th:field="*{unconfirmInvestLoss}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">未确定的投资损失(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="unconfirmInvestLossYoy" th:field="*{unconfirmInvestLossYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收出口退税：</label>
+                <div class="col-sm-8">
+                    <input name="exportRefundRece" th:field="*{exportRefundRece}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收出口退税(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="exportRefundReceYoy" th:field="*{exportRefundReceYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">流动资产其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="currentAssetOther" th:field="*{currentAssetOther}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">流动资产其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="currentAssetOtherYoy" th:field="*{currentAssetOtherYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非流动资产其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="noncurrentAssetOther" th:field="*{noncurrentAssetOther}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非流动资产其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="noncurrentAssetOtherYoy" th:field="*{noncurrentAssetOtherYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">生产性生物资产：</label>
+                <div class="col-sm-8">
+                    <input name="productiveBiologyAsset" th:field="*{productiveBiologyAsset}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">生产性生物资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="productiveBiologyAssetYoy" th:field="*{productiveBiologyAssetYoy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预提费用：</label>
+                <div class="col-sm-8">
+                    <input name="accruedExpense" th:field="*{accruedExpense}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预提费用(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="accruedExpenseYoy" th:field="*{accruedExpenseYoy}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "investment/invFinanceZcfz";
+        $("#form-invFinanceZcfz-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-invFinanceZcfz-edit').serialize());
+            }
+        }
+
+        $("input[name='noticeDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='reportDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='updateDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>
