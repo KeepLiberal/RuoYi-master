@@ -1,7 +1,6 @@
 /*
 财务分析-资产负债表
 */
-
 drop table if exists `inv_finance_zcfz`;
 create table `inv_finance_zcfz` (
   `id` bigint not null auto_increment comment 'id',
