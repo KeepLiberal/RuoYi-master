@@ -106,7 +106,7 @@ public class RyTask {
         }
         log.info("========getInterfaceAllKey任务线程分发完成=========");
     }
-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      * 沪深A股基础数据抓取任务
      */
@@ -115,7 +115,6 @@ public class RyTask {
         String url = ev.getProperty("investment.stock-list");
         String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(3));
         if (null != jsonStr && !"".equals(jsonStr)) {
-
             JSONObject json = JSONObject.parseObject(jsonStr);// 解析jsonStr
             JSONArray diffArray = json.getJSONObject("data").getJSONArray("diff");
             if (null != diffArray && !diffArray.isEmpty()) {
@@ -155,16 +154,26 @@ public class RyTask {
 
 
     /**
-     * 沪深A股财务分析-资产负债-季度 数据抓取任务
+     * 财务分析-资产负债-报告日期抓取
+     */
+    public void invFinanceReportDateTask() {
+        log.info("========invFinanceReportDateTask任务线程分发开始=========");
+        List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
+        for (InvStock stock : stockList) {
+               myQuartzAsyncTask.invFinanceReportDateTask(stock);
+        }
+        log.info("========invFinanceReportDateTask任务线程分发完成=========");
+    }
+
+
+    /**
+     * 财务分析-资产负债-详细报告数据抓取
      */
     public void invFinanceZcfzTask() {
         log.info("========invFinanceZcfzTask任务线程分发开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
         for (InvStock stock : stockList) {
-//            if ("000001".equals(stock.getCode())) {
-//                myQuartzAsyncTask.invFinanceZcfzTask(stock);
-//            }
-               myQuartzAsyncTask.invFinanceZcfzTask(stock);
+            myQuartzAsyncTask.invFinanceZcfzTask(stock);
         }
         log.info("========invFinanceZcfzTask任务线程分发完成=========");
     }

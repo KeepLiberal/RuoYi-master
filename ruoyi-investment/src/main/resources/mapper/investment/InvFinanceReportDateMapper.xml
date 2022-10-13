@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.investment.mapper.InvFinanceReportDateMapper">
+    
+    <resultMap type="InvFinanceReportDate" id="InvFinanceReportDateResult">
+        <result property="id"    column="id"    />
+        <result property="code"    column="code"    />
+        <result property="reportType"    column="report_type"    />
+        <result property="reportDate"    column="report_date"    />
+    </resultMap>
+
+    <sql id="selectInvFinanceReportDateVo">
+        select id, code, report_type, report_date from inv_finance_report_date
+    </sql>
+
+    <select id="selectInvFinanceReportDateList" parameterType="InvFinanceReportDate" resultMap="InvFinanceReportDateResult">
+        <include refid="selectInvFinanceReportDateVo"/>
+        <where>  
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="reportType != null  and reportType != ''"> and report_type = #{reportType}</if>
+            <if test="reportDate != null "> and report_date = #{reportDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectInvFinanceReportDateById" parameterType="Long" resultMap="InvFinanceReportDateResult">
+        <include refid="selectInvFinanceReportDateVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInvFinanceReportDate" parameterType="InvFinanceReportDate" useGeneratedKeys="true" keyProperty="id">
+        insert into inv_finance_report_date
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">code,</if>
+            <if test="reportType != null and reportType != ''">report_type,</if>
+            <if test="reportDate != null">report_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">#{code},</if>
+            <if test="reportType != null and reportType != ''">#{reportType},</if>
+            <if test="reportDate != null">#{reportDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInvFinanceReportDate" parameterType="InvFinanceReportDate">
+        update inv_finance_report_date
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null and code != ''">code = #{code},</if>
+            <if test="reportType != null and reportType != ''">report_type = #{reportType},</if>
+            <if test="reportDate != null">report_date = #{reportDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInvFinanceReportDateById" parameterType="Long">
+        delete from inv_finance_report_date where id = #{id}
+    </delete>
+
+    <delete id="deleteInvFinanceReportDateByIds" parameterType="String">
+        delete from inv_finance_report_date where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

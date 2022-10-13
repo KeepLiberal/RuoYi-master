@@ -1,25 +1,24 @@
 package com.ruoyi.investment.domain;
 
-import java.util.Date;
-import java.util.Objects;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.util.Objects;
+
 /**
  * A股基本信息对象 inv_stock
  * 
  * @author yangwenyang
- * @date 2022-10-11
+ * @date 2022-10-13
  */
 public class InvStock extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** 股票代码 */
+    @Excel(name = "股票代码")
     private String code;
 
     /** 股票简称 */
@@ -33,11 +32,6 @@ public class InvStock extends BaseEntity
     /** 股票分类 */
     @Excel(name = "股票分类")
     private String companyType;
-
-    /** 资产负债报告开始日期 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "资产负债报告开始日期", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date zcfzReportDateStart;
 
     public void setCode(String code) 
     {
@@ -75,15 +69,6 @@ public class InvStock extends BaseEntity
     {
         return companyType;
     }
-    public void setZcfzReportDateStart(Date zcfzReportDateStart) 
-    {
-        this.zcfzReportDateStart = zcfzReportDateStart;
-    }
-
-    public Date getZcfzReportDateStart() 
-    {
-        return zcfzReportDateStart;
-    }
 
     public InvStock() {
         super();
@@ -115,7 +100,6 @@ public class InvStock extends BaseEntity
             .append("name", getName())
             .append("market", getMarket())
             .append("companyType", getCompanyType())
-            .append("zcfzReportDateStart", getZcfzReportDateStart())
             .toString();
     }
 }

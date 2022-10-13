@@ -23,7 +23,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * A股基本信息Controller
  * 
  * @author yangwenyang
- * @date 2022-10-11
+ * @date 2022-10-13
  */
 @Controller
 @RequestMapping("/investment/invStock")
