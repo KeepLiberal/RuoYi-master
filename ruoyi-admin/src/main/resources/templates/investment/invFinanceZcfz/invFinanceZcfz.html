@@ -15,10 +15,6 @@
                                 <input type="text" name="securityCode"/>
                             </li>
                             <li>
-                                <label>证劵简称：</label>
-                                <input type="text" name="securityNameAbbr"/>
-                            </li>
-                            <li>
                                 <label>报告日期：</label>
                                 <input type="text" class="time-input" placeholder="请选择报告日期" name="reportDate"/>
                             </li>
@@ -54,6 +50,7 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('investment:invFinanceZcfz:edit')}]];
         var removeFlag = [[${@permission.hasPermi('investment:invFinanceZcfz:remove')}]];
+        var idDatas = [[${@dict.getType('${column.dictType}')}]];
         var prefix = ctx + "investment/invFinanceZcfz";
 
         $(function() {
@@ -77,22 +74,6 @@
                     title: '股票代码'
                 },
                 {
-                    field: 'orgCode',
-                    title: '分类代码'
-                },
-                {
-                    field: 'orgType',
-                    title: '分类名称'
-                },
-                {
-                    field: 'securityTypeCode',
-                    title: '证劵分类代码'
-                },
-                {
-                    field: 'securityNameAbbr',
-                    title: '证劵简称'
-                },
-                {
                     field: 'reportType',
                     title: '报告类型'
                 },
@@ -101,16 +82,8 @@
                     title: '报告名称'
                 },
                 {
-                    field: 'noticeDate',
-                    title: '通知日期'
-                },
-                {
                     field: 'reportDate',
                     title: '报告日期'
-                },
-                {
-                    field: 'updateDate',
-                    title: '更新日期'
                 },
                 {
                     field: 'opinionType',

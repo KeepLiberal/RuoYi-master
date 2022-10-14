@@ -173,6 +173,9 @@ public class RyTask {
         log.info("========invFinanceZcfzTask任务线程分发开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
         for (InvStock stock : stockList) {
+//            if("000001".equals(stock.getCode())){
+//                myQuartzAsyncTask.invFinanceZcfzTask(stock);
+//            }
             myQuartzAsyncTask.invFinanceZcfzTask(stock);
         }
         log.info("========invFinanceZcfzTask任务线程分发完成=========");

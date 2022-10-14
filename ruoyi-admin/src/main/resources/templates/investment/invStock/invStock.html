@@ -19,10 +19,6 @@
                                 <input type="text" name="name"/>
                             </li>
                             <li>
-                                <label>股票市场：</label>
-                                <input type="text" name="market"/>
-                            </li>
-                            <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
                             </li>
@@ -74,6 +70,22 @@
                 {
                     field: 'name',
                     title: '股票简称'
+                },
+                {
+                    field: 'orgCode',
+                    title: '组织代码'
+                },
+                {
+                    field: 'orgType',
+                    title: '组织简称'
+                },
+                {
+                    field: 'securityTypeCode',
+                    title: '股票分类代码'
+                },
+                {
+                    field: 'companyType',
+                    title: '股票分类'
                 },
                 {
                     field: 'market',

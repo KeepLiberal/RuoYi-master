@@ -11,7 +11,7 @@ import java.util.Objects;
  * A股基本信息对象 inv_stock
  * 
  * @author yangwenyang
- * @date 2022-10-13
+ * @date 2022-10-14
  */
 public class InvStock extends BaseEntity
 {
@@ -25,13 +25,25 @@ public class InvStock extends BaseEntity
     @Excel(name = "股票简称")
     private String name;
 
-    /** 股票市场 */
-    @Excel(name = "股票市场")
-    private String market;
+    /** 组织代码 */
+    @Excel(name = "组织代码")
+    private String orgCode;
+
+    /** 组织简称 */
+    @Excel(name = "组织简称")
+    private String orgType;
+
+    /** 股票分类代码 */
+    @Excel(name = "股票分类代码")
+    private String securityTypeCode;
 
     /** 股票分类 */
     @Excel(name = "股票分类")
     private String companyType;
+
+    /** 股票市场 */
+    @Excel(name = "股票市场")
+    private String market;
 
     public void setCode(String code) 
     {
@@ -51,14 +63,32 @@ public class InvStock extends BaseEntity
     {
         return name;
     }
-    public void setMarket(String market) 
+    public void setOrgCode(String orgCode) 
     {
-        this.market = market;
+        this.orgCode = orgCode;
     }
 
-    public String getMarket() 
+    public String getOrgCode() 
     {
-        return market;
+        return orgCode;
+    }
+    public void setOrgType(String orgType) 
+    {
+        this.orgType = orgType;
+    }
+
+    public String getOrgType() 
+    {
+        return orgType;
+    }
+    public void setSecurityTypeCode(String securityTypeCode) 
+    {
+        this.securityTypeCode = securityTypeCode;
+    }
+
+    public String getSecurityTypeCode() 
+    {
+        return securityTypeCode;
     }
     public void setCompanyType(String companyType) 
     {
@@ -68,6 +98,15 @@ public class InvStock extends BaseEntity
     public String getCompanyType() 
     {
         return companyType;
+    }
+    public void setMarket(String market) 
+    {
+        this.market = market;
+    }
+
+    public String getMarket() 
+    {
+        return market;
     }
 
     public InvStock() {
@@ -98,8 +137,11 @@ public class InvStock extends BaseEntity
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("code", getCode())
             .append("name", getName())
-            .append("market", getMarket())
+            .append("orgCode", getOrgCode())
+            .append("orgType", getOrgType())
+            .append("securityTypeCode", getSecurityTypeCode())
             .append("companyType", getCompanyType())
+            .append("market", getMarket())
             .toString();
     }
 }

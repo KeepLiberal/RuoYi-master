@@ -2,6 +2,7 @@ package com.ruoyi.quartz.async;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.NumFormatUtil;
 import com.ruoyi.common.utils.StringUtils;
@@ -39,14 +40,6 @@ public class MyQuartzAsyncTask {
     @Resource
     private InvFinanceZcfzMapper invFinanceZcfzMapper;
 
-    private static List<String> mdList = new ArrayList<>();
-
-    static {
-        mdList.add("-03-31");
-        mdList.add("-06-30");
-        mdList.add("-09-30");
-        mdList.add("-12-31");
-    }
 
     /**
      * @Title: 获取接口所有字段
@@ -83,7 +76,7 @@ public class MyQuartzAsyncTask {
                 }
             }
         } catch (Exception e) {
-            log.error(">>>getInterfaceAllKey(" + stock.getCode() + ")异常" + e);
+            log.error(">>>getInterfaceAllKey(" + stock.getCode() + ")异常:", e);
         }
     }
 
@@ -154,7 +147,7 @@ public class MyQuartzAsyncTask {
                 }
             }
         } catch (Exception e) {
-            log.error(">>>MyQuartzAsyncTask.invFinanceZyzbPeriodTask(" + stock.getCode() + ")异常" + e);
+            log.error(">>>MyQuartzAsyncTask.invFinanceZyzbPeriodTask(" + stock.getCode() + ")异常:", e);
         }
     }
     */
@@ -226,7 +219,7 @@ public class MyQuartzAsyncTask {
                 }
             }
         } catch (Exception e) {
-            log.error(">>>MyQuartzAsyncTask.invFinanceReportDateTask(" + stock.getCode() + ")异常" + e);
+            log.error(">>>MyQuartzAsyncTask.invFinanceReportDateTask(" + stock.getCode() + ")异常:", e);
         }
     }
 
@@ -282,37 +275,59 @@ public class MyQuartzAsyncTask {
                     if (null != jsonStr && !"".equals(jsonStr)) {
                         JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                         if (jsonObject.containsKey("data")) {
-                            Iterator<Object> iterator = jsonObject.getJSONArray("data").iterator();
-                            while (iterator.hasNext()) {
-                                //反射赋值
-                                InvFinanceZcfz zcfz = new InvFinanceZcfz(stock.getCode());
-                                Class<? extends InvFinanceZcfz> clazz = zcfz.getClass();
-                                Field[] declaredFields = clazz.getDeclaredFields();
-                                JSONObject next = (JSONObject)iterator.next();
-                                for (Field field : declaredFields) {
-                                    field.setAccessible(true);
-                                    String genericType = field.getGenericType().toString();
-                                    String elementName = StringUtils.toUnderScoreCase(field.getName()).toUpperCase();
-                                    if(next.containsKey(elementName)){
-                                        String valueString = next.getString(elementName);
-                                        if ("class java.lang.Double".equals(genericType)) {
-                                            Double value = NumFormatUtil.toDouble(valueString);
-                                            field.set(zcfz, value);
-                                        } else if ("class java.util.Date".equals(genericType)) {
-                                            Date value = DateUtils.parseDate(valueString);
-                                            field.set(zcfz, value);
-                                        } else if ("class java.lang.String".equals(genericType)) {
-                                            field.set(zcfz, valueString);
+                            JSONArray dataArray = jsonObject.getJSONArray("data");
+                            if(!dataArray.isEmpty()){
+                                //1.更新Stock 的 组织代码orgCode 组织简称orgType 股票分类代码securityTypeCode
+                                boolean updateStockFlag = false;
+                                JSONObject jsonObj = (JSONObject)dataArray.get(0);
+                                if(StringUtils.isEmpty(stock.getOrgCode())){
+                                    stock.setOrgCode(jsonObj.getString("ORG_CODE"));
+                                    updateStockFlag = true;
+                                }
+                                if(StringUtils.isEmpty(stock.getOrgType())){
+                                    stock.setOrgType(jsonObj.getString("ORG_TYPE"));
+                                    updateStockFlag = true;
+                                }
+                                if(StringUtils.isEmpty(stock.getSecurityTypeCode())){
+                                    stock.setSecurityTypeCode(jsonObj.getString("SECURITY_TYPE_CODE"));
+                                    updateStockFlag = true;
+                                }
+                                if(updateStockFlag = true){
+                                    invStockMapper.updateInvStock(stock);
+                                }
+                                //2.保存资产负债数据
+                                Iterator<Object> iterator = dataArray.iterator();
+                                while (iterator.hasNext()) {
+                                    //反射赋值
+                                    InvFinanceZcfz zcfz = new InvFinanceZcfz(stock.getCode());
+                                    Class<? extends InvFinanceZcfz> clazz = zcfz.getClass();
+                                    Field[] declaredFields = clazz.getDeclaredFields();
+                                    JSONObject next = (JSONObject)iterator.next();
+                                    for (Field field : declaredFields) {
+                                        field.setAccessible(true);
+                                        String genericType = field.getGenericType().toString();
+                                        String elementName = StringUtils.toUnderScoreCase(field.getName()).toUpperCase();
+                                        if(next.containsKey(elementName)){
+                                            String valueString = next.getString(elementName);
+                                            if ("class java.lang.Double".equals(genericType)) {
+                                                Double value = NumFormatUtil.toDouble(valueString);
+                                                field.set(zcfz, value);
+                                            } else if ("class java.util.Date".equals(genericType)) {
+                                                Date value = DateUtils.parseDate(valueString);
+                                                field.set(zcfz, value);
+                                            } else if ("class java.lang.String".equals(genericType)) {
+                                                field.set(zcfz, valueString);
+                                            }
                                         }
                                     }
-                                }
-                                if (zcfzMap.containsKey(zcfz.getReportDate().toString())) {//数据库已有code指定日期报告
-                                    InvFinanceZcfz companies = zcfzMap.get(zcfz.getReportDate().toString());
-                                    if (!companies.equals(zcfz)) {//报告数据不相同，以最新获取为准更新数据库
-                                        invFinanceZcfzMapper.updateInvFinanceZcfz(zcfz);
+                                    if (zcfzMap.containsKey(zcfz.getReportDate().toString())) {//数据库已有code指定日期报告
+                                        InvFinanceZcfz companies = zcfzMap.get(zcfz.getReportDate().toString());
+                                        if (!companies.equals(zcfz)) {//报告数据不相同，以最新获取为准更新数据库
+                                            invFinanceZcfzMapper.updateInvFinanceZcfz(zcfz);
+                                        }
+                                    } else {//数据库没有code指定日期报告，插入
+                                        invFinanceZcfzMapper.insertInvFinanceZcfz(zcfz);
                                     }
-                                } else {//数据库没有code指定日期报告，插入
-                                    invFinanceZcfzMapper.insertInvFinanceZcfz(zcfz);
                                 }
                             }
                         }
@@ -320,7 +335,7 @@ public class MyQuartzAsyncTask {
                 }
             }
         } catch (Exception e) {
-            log.error(">>>MyQuartzAsyncTask.invFinanceZcfzTask(" + stock.getCode() + ")异常" + e);
+            log.error(">>>MyQuartzAsyncTask.invFinanceZcfzTask(" + stock.getCode() + ")异常:", e);
         }
     }
 
