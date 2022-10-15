@@ -1,8 +1,6 @@
 package com.ruoyi.investment.domain;
 
 import java.util.Date;
-import java.util.Objects;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -13,7 +11,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 财务分析-报告日期对象 inv_finance_report_date
  * 
  * @author yangwenyang
- * @date 2022-10-12
+ * @date 2022-10-15
  */
 public class InvFinanceReportDate extends BaseEntity
 {
@@ -24,10 +22,14 @@ public class InvFinanceReportDate extends BaseEntity
 
     /** 股票代码 */
     @Excel(name = "股票代码")
-    private String code;
+    private String securityCode;
 
-    /** 报告类型  zcfz-资产负债，lr-利润，xjll-现金流量 */
-    @Excel(name = "报告类型  zcfz-资产负债，lr-利润，xjll-现金流量")
+    /** 财务类型 */
+    @Excel(name = "财务类型")
+    private String financeType;
+
+    /** 报告类型 */
+    @Excel(name = "报告类型")
     private String reportType;
 
     /** 报告日期 */
@@ -44,14 +46,23 @@ public class InvFinanceReportDate extends BaseEntity
     {
         return id;
     }
-    public void setCode(String code) 
+    public void setSecurityCode(String securityCode) 
     {
-        this.code = code;
+        this.securityCode = securityCode;
     }
 
-    public String getCode() 
+    public String getSecurityCode() 
     {
-        return code;
+        return securityCode;
+    }
+    public void setFinanceType(String financeType) 
+    {
+        this.financeType = financeType;
+    }
+
+    public String getFinanceType() 
+    {
+        return financeType;
     }
     public void setReportType(String reportType) 
     {
@@ -76,34 +87,25 @@ public class InvFinanceReportDate extends BaseEntity
         super();
     }
 
-    public InvFinanceReportDate(String code) {
-        this.code = code;
+    public InvFinanceReportDate(String securityCode, String financeType, String reportType) {
+        this.securityCode = securityCode;
+        this.financeType = financeType;
+        this.reportType = reportType;
     }
 
-    public InvFinanceReportDate(String code, String reportType, Date reportDate) {
-        this.code = code;
+    public InvFinanceReportDate(String securityCode, String financeType, String reportType, Date reportDate) {
+        this.securityCode = securityCode;
+        this.financeType = financeType;
         this.reportType = reportType;
         this.reportDate = reportDate;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof InvFinanceReportDate)) return false;
-        InvFinanceReportDate that = (InvFinanceReportDate) o;
-        return Objects.equals(code, that.code) && Objects.equals(reportType, that.reportType) && Objects.equals(reportDate, that.reportDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(code, reportType, reportDate);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
-            .append("code", getCode())
+            .append("securityCode", getSecurityCode())
+            .append("financeType", getFinanceType())
             .append("reportType", getReportType())
             .append("reportDate", getReportDate())
             .toString();

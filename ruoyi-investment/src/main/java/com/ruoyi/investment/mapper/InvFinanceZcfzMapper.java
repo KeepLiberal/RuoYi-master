@@ -7,7 +7,7 @@ import com.ruoyi.investment.domain.InvFinanceZcfz;
  * 财务分析-资产负债Mapper接口
  * 
  * @author yangwenyang
- * @date 2022-10-14
+ * @date 2022-10-15
  */
 public interface InvFinanceZcfzMapper 
 {

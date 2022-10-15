@@ -59,6 +59,7 @@ public class RyTask {
      * 获取接口所有字段
      */
     public static Set<String> keySet = new HashSet<>();
+
     public void getInterfaceAllKey(String urls, String type) {//"investment.finance-zyzb-quarter"
         keySet.clear();
         log.info("========getInterfaceAllKey任务线程分发开始=========");
@@ -72,8 +73,11 @@ public class RyTask {
         log.info("========getInterfaceAllKey任务线程分发完成=========");
     }
 
+    /**
+     * 写出接口所有字段
+     */
     public void writeAllKey() throws IOException {
-        File file = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/ruoyi-quartz/src/main/resources/keys.txt");
+        File file = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/ruoyi-investment/src/main/resources/key/keys.txt");
         // 判断文件是否存在
         if (!file.exists()) {
             file.createNewFile();
@@ -81,7 +85,7 @@ public class RyTask {
         // 遍历写入
         BufferedWriter bw = new BufferedWriter(new FileWriter(file));
         for (String key : keySet) {
-            bw.write("`"+key+"` double default null comment '-',"+"\r\n");
+            bw.write("`" + key + "` double default null comment '-'," + "\r\n");
         }
         bw.flush();
         bw.close();
@@ -90,30 +94,26 @@ public class RyTask {
     }
 
     /**
-     * 获取接口字段描述页面
+     * 下载html
      */
-    public void getInterfaceKeyDes(String key) {//"investment.finance-zyzb-quarter"
-
+    public void downHtml() throws IOException {//"investment.finance-zyzb-quarter"
         log.info("========getInterfaceAllKey任务线程分发开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
-
-        int i = 0;
         for (InvStock stock : stockList) {
-            String url = "https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/Index?type=web&code="+stock.getMarket()+stock.getCode();
-            myQuartzAsyncTask.getInterfaceKeyDes(url, key);
-            System.out.println(i);
-            i++;
+            String url = "https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/Index?type=web&code=" + stock.getMarket() + stock.getCode();
+            myQuartzAsyncTask.downHtml(url, stock.getCode());
         }
         log.info("========getInterfaceAllKey任务线程分发完成=========");
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * 沪深A股基础数据抓取任务
      */
     public void invStockTask() {
         log.info("========invStockTask任务开始=========");
         String url = ev.getProperty("investment.stock-list");
-        String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(3));
+        String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
         if (null != jsonStr && !"".equals(jsonStr)) {
             JSONObject json = JSONObject.parseObject(jsonStr);// 解析jsonStr
             JSONArray diffArray = json.getJSONObject("data").getJSONArray("diff");
@@ -154,13 +154,28 @@ public class RyTask {
 
 
     /**
+     * 财务分析-重要指标
+     */
+    public void invFinanceZyzbTask() {
+        log.info("========invFinanceZyzbTask任务线程分发开始=========");
+        List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
+        for (InvStock stock : stockList) {
+            myQuartzAsyncTask.invFinanceZyzbTask(stock, "investment.finance-zyzb-period", "报告期");
+            myQuartzAsyncTask.invFinanceZyzbTask(stock, "investment.finance-zyzb-year", "年度");
+            myQuartzAsyncTask.invFinanceZyzbTask(stock, "investment.finance-zyzb-quarter", "季度");
+        }
+        log.info("========invFinanceZyzbTask任务线程分发完成=========");
+    }
+
+    /**
      * 财务分析-资产负债-报告日期抓取
      */
     public void invFinanceReportDateTask() {
         log.info("========invFinanceReportDateTask任务线程分发开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
         for (InvStock stock : stockList) {
-               myQuartzAsyncTask.invFinanceReportDateTask(stock);
+            myQuartzAsyncTask.invFinanceReportDateTask(stock, "investment.finance-zcfz-date-period", "资产负债", "报告期");
+            myQuartzAsyncTask.invFinanceReportDateTask(stock, "investment.finance-zcfz-date-year", "资产负债", "年度");
         }
         log.info("========invFinanceReportDateTask任务线程分发完成=========");
     }
@@ -173,10 +188,8 @@ public class RyTask {
         log.info("========invFinanceZcfzTask任务线程分发开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
         for (InvStock stock : stockList) {
-//            if("000001".equals(stock.getCode())){
-//                myQuartzAsyncTask.invFinanceZcfzTask(stock);
-//            }
-            myQuartzAsyncTask.invFinanceZcfzTask(stock);
+            myQuartzAsyncTask.invFinanceZcfzTask(stock, "investment.finance-zcfz-ajax-period", "资产负债", "报告期");
+            myQuartzAsyncTask.invFinanceZcfzTask(stock, "investment.finance-zcfz-ajax-year", "资产负债", "年度");
         }
         log.info("========invFinanceZcfzTask任务线程分发完成=========");
     }
@@ -185,11 +198,10 @@ public class RyTask {
     public static void main(String[] args) {
         String url = "https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/zcfzbAjaxNew?companyType=3&reportDateType=0&reportType=1&dates=2021-12-31&code=sz000001";
 
-        String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(3));
+        String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
         JSONObject json = JSONObject.parseObject(jsonStr);// 解析jsonStr
         System.out.println(json);
     }
-
 
 
 }

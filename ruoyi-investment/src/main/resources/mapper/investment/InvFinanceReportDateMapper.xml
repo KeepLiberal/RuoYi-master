@@ -6,19 +6,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="InvFinanceReportDate" id="InvFinanceReportDateResult">
         <result property="id"    column="id"    />
-        <result property="code"    column="code"    />
+        <result property="securityCode"    column="security_code"    />
+        <result property="financeType"    column="finance_type"    />
         <result property="reportType"    column="report_type"    />
         <result property="reportDate"    column="report_date"    />
     </resultMap>
 
     <sql id="selectInvFinanceReportDateVo">
-        select id, code, report_type, report_date from inv_finance_report_date
+        select id, security_code, finance_type, report_type, report_date from inv_finance_report_date
     </sql>
 
     <select id="selectInvFinanceReportDateList" parameterType="InvFinanceReportDate" resultMap="InvFinanceReportDateResult">
         <include refid="selectInvFinanceReportDateVo"/>
         <where>  
-            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="securityCode != null  and securityCode != ''"> and security_code = #{securityCode}</if>
+            <if test="financeType != null  and financeType != ''"> and finance_type = #{financeType}</if>
             <if test="reportType != null  and reportType != ''"> and report_type = #{reportType}</if>
             <if test="reportDate != null "> and report_date = #{reportDate}</if>
         </where>
@@ -32,12 +34,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertInvFinanceReportDate" parameterType="InvFinanceReportDate" useGeneratedKeys="true" keyProperty="id">
         insert into inv_finance_report_date
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="code != null and code != ''">code,</if>
+            <if test="securityCode != null and securityCode != ''">security_code,</if>
+            <if test="financeType != null and financeType != ''">finance_type,</if>
             <if test="reportType != null and reportType != ''">report_type,</if>
             <if test="reportDate != null">report_date,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="code != null and code != ''">#{code},</if>
+            <if test="securityCode != null and securityCode != ''">#{securityCode},</if>
+            <if test="financeType != null and financeType != ''">#{financeType},</if>
             <if test="reportType != null and reportType != ''">#{reportType},</if>
             <if test="reportDate != null">#{reportDate},</if>
          </trim>
@@ -46,7 +50,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateInvFinanceReportDate" parameterType="InvFinanceReportDate">
         update inv_finance_report_date
         <trim prefix="SET" suffixOverrides=",">
-            <if test="code != null and code != ''">code = #{code},</if>
+            <if test="securityCode != null and securityCode != ''">security_code = #{securityCode},</if>
+            <if test="financeType != null and financeType != ''">finance_type = #{financeType},</if>
             <if test="reportType != null and reportType != ''">report_type = #{reportType},</if>
             <if test="reportDate != null">report_date = #{reportDate},</if>
         </trim>

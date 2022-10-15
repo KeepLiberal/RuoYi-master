@@ -16,6 +16,10 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -35,6 +39,8 @@ public class MyQuartzAsyncTask {
     @Resource
     private InvStockMapper invStockMapper;
 
+    @Resource
+    private InvFinanceZyzbMapper invFinanceZyzbMapper;
     @Resource
     private InvFinanceReportDateMapper invFinanceReportDateMapper;
     @Resource
@@ -64,7 +70,7 @@ public class MyQuartzAsyncTask {
             } else if ("nm".equals(type)) {
                 url += stock.getCode();
             }
-            String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(3));
+            String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
             if (null != jsonStr && !"".equals(jsonStr)) {
                 JSONArray dataArray = JSONObject.parseObject(jsonStr).getJSONArray("data");
                 if (null != dataArray && !dataArray.isEmpty()) {
@@ -81,76 +87,90 @@ public class MyQuartzAsyncTask {
     }
 
     /**
-     * @Title: 获取接口所有字段
+     * @Title: 下载html
      * @Description:
      * @author weny.yang
      * @date Sep 9, 2020
      */
     @Async("threadPoolTaskExecutor")
-    public void getInterfaceKeyDes(String url, String key) {
-        String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(3));
-        if (jsonStr.contains(key)) {
-            System.out.println(url);
+    public void downHtml(String url, String code) throws IOException {
+        String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
+        if (!StringUtils.isEmpty(jsonStr)) {
+            File file = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/ruoyi-investment/src/main/resources/html/" + code + ".html");
+            // 判断文件是否存在
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            bw.write(jsonStr);
+            bw.flush();
+            bw.close();
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
-     * @Title: 异步执行invFinanceZyzbQuarterTask任务
+     * @Title: 异步执行invFinanceZyzbTask任务
      * @Description:
      * @author weny.yang
      * @date Sep 9, 2020
      */
-        /*
     @Async("threadPoolTaskExecutor")
-    public void invFinanceZyzbPeriodTask(InvStock stock) {
+    public void invFinanceZyzbTask(InvStock stock, String url, String reportType) {
         try {
-            String url = ev.getProperty("investment.finance-zyzb-period") + stock.getMarket() + stock.getCode();
-            String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(3));
-            if (null != jsonStr && !"".equals(jsonStr)) {
-                JSONArray dataArray = JSONObject.parseObject(jsonStr).getJSONArray("data");
-                if (null != dataArray && !dataArray.isEmpty()) {
-                    List<InvFinanceZyzbPeriod> invFinanceZyzbPeriodList = invFinanceZyzbPeriodMapper.selectInvFinanceZyzbPeriodList(new InvFinanceZyzbPeriod(stock.getCode()));
-                    Map<String, InvFinanceZyzbPeriod> zyzbPeriodMap = new HashMap<>();
-                    for (InvFinanceZyzbPeriod zyzbPeriod : invFinanceZyzbPeriodList) {
-                        zyzbPeriodMap.put(zyzbPeriod.getReportDate().toString(), zyzbPeriod);
-                    }
-                    Iterator<Object> iterator = dataArray.iterator();
-                    while (iterator.hasNext()) {
-                        JSONObject jsonObject = (JSONObject) iterator.next();
-                        //反射赋值
-                        InvFinanceZyzbPeriod zyzbPeriod = new InvFinanceZyzbPeriod(stock.getCode());
-                        Class<? extends InvFinanceZyzbPeriod> clazz = zyzbPeriod.getClass();
-                        Field[] declaredFields = clazz.getDeclaredFields();
-                        for (Field field : declaredFields) {
-                            field.setAccessible(true);
-                            String genericType = field.getGenericType().toString();
-                            String valueString = jsonObject.getString(StringUtils.toUnderScoreCase(field.getName()).toUpperCase());
-                            if ("class java.lang.Double".equals(genericType)) {
-                                Double value = NumFormatUtil.toDouble(valueString);
-                                field.set(zyzbPeriod, value);
-                            } else if ("class java.util.Date".equals(genericType)) {
-                                Date value = DateUtils.parseDate(valueString);
-                                field.set(zyzbPeriod, value);
-                            }
+            String URL = ev.getProperty(url) + stock.getMarket() + stock.getCode();
+            String jsonStr = HttpUtils.sendGet(URL, new AtomicInteger(10));
+            if (!StringUtils.isEmpty(jsonStr)) {
+                JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+                if (jsonObject.containsKey("data")) {
+                    JSONArray dataArray = jsonObject.getJSONArray("data");
+                    if (null != dataArray && !dataArray.isEmpty()) {
+                        List<InvFinanceZyzb> invFinanceZyzbList = invFinanceZyzbMapper.selectInvFinanceZyzbList(new InvFinanceZyzb(stock.getCode(), reportType));
+                        Map<String, InvFinanceZyzb> zyzbMap = new HashMap<>();
+                        for (InvFinanceZyzb zyzb : invFinanceZyzbList) {
+                            zyzbMap.put(zyzb.getReportDate().toString(), zyzb);
                         }
-
-                        if (zyzbPeriodMap.containsKey(zyzbPeriod.getReportDate().toString())) {//数据库已有code指定日期报告
-                            InvFinanceZyzbPeriod companies = zyzbPeriodMap.get(zyzbPeriod.getReportDate().toString());
-                            companies.setId(null);
-                            if (!companies.equals(zyzbPeriod)) {//报告数据不相同，以最新获取为准更新数据库
-                                invFinanceZyzbPeriodMapper.updateInvFinanceZyzbPeriod(zyzbPeriod);
+                        Iterator<Object> iterator = dataArray.iterator();
+                        while (iterator.hasNext()) {
+                            JSONObject next = (JSONObject) iterator.next();
+                            //反射赋值
+                            InvFinanceZyzb zyzb = new InvFinanceZyzb(stock.getCode(), reportType);
+                            Class<? extends InvFinanceZyzb> clazz = zyzb.getClass();
+                            Field[] declaredFields = clazz.getDeclaredFields();
+                            for (Field field : declaredFields) {
+                                field.setAccessible(true);
+                                String genericType = field.getGenericType().toString();
+                                String fieldName = field.getName();
+                                if (!"reportType".equals(fieldName)) {
+                                    String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
+                                    if ("class java.lang.Double".equals(genericType)) {
+                                        Double value = NumFormatUtil.toDouble(valueString);
+                                        field.set(zyzb, value);
+                                    } else if ("class java.util.Date".equals(genericType)) {
+                                        Date value = DateUtils.parseDate(valueString);
+                                        field.set(zyzb, value);
+                                    } else if ("class java.lang.String".equals(genericType)) {
+                                        field.set(zyzb, valueString);
+                                    }
+                                }
                             }
-                        } else {//数据库没有code指定日期报告，插入
-                            invFinanceZyzbPeriodMapper.insertInvFinanceZyzbPeriod(zyzbPeriod);
+                            if (zyzbMap.containsKey(zyzb.getReportDate().toString())) {//数据库已有code指定日期报告
+                                InvFinanceZyzb companies = zyzbMap.get(zyzb.getReportDate().toString());
+                                if (!companies.equals(zyzb)) {//报告数据不相同，以最新获取为准更新数据库
+                                    invFinanceZyzbMapper.updateInvFinanceZyzb(zyzb);
+                                }
+                            } else {//数据库没有code指定日期报告，插入
+                                invFinanceZyzbMapper.insertInvFinanceZyzb(zyzb);
+                            }
                         }
                     }
                 }
             }
         } catch (Exception e) {
-            log.error(">>>MyQuartzAsyncTask.invFinanceZyzbPeriodTask(" + stock.getCode() + ")异常:", e);
+            log.error(">>>MyQuartzAsyncTask.invFinanceZyzbTask(" + stock.getCode() + ")异常:", e);
         }
     }
-    */
 
 
     /**
@@ -160,7 +180,7 @@ public class MyQuartzAsyncTask {
      * @date Sep 9, 2020
      */
     @Async("threadPoolTaskExecutor")
-    public void invFinanceReportDateTask(InvStock stock) {
+    public void invFinanceReportDateTask(InvStock stock, String url, String financeType, String reportType) {
         try {
             /*
             1.如果公司类型为空，先初始化公司类型
@@ -168,13 +188,13 @@ public class MyQuartzAsyncTask {
              */
             String companyType = stock.getCompanyType();
             if (null != companyType) {
-                String dateUrl = ev.getProperty("investment.finance-zcfz-date").replace("'companyType'", companyType) + stock.getMarket() + stock.getCode();
-                String jsonStr = HttpUtils.sendGet(dateUrl, new AtomicInteger(3));
+                String URL = ev.getProperty(url).replace("'companyType'", companyType) + stock.getMarket() + stock.getCode();
+                String jsonStr = HttpUtils.sendGet(URL, new AtomicInteger(10));
                 if (null != jsonStr && !"".equals(jsonStr)) {
                     JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                     if (jsonObject.containsKey("data")) {
                         //1.查询当前股票已经落数的报告日期集合
-                        List<InvFinanceReportDate> invFinanceReportDateList = invFinanceReportDateMapper.selectInvFinanceReportDateList(new InvFinanceReportDate(stock.getCode()));
+                        List<InvFinanceReportDate> invFinanceReportDateList = invFinanceReportDateMapper.selectInvFinanceReportDateList(new InvFinanceReportDate(stock.getCode(), financeType, reportType));
                         List<String> dateList = new ArrayList<>();
                         for (InvFinanceReportDate reportDate : invFinanceReportDateList) {
                             dateList.add(DateUtils.dateTime(reportDate.getReportDate()));
@@ -183,8 +203,8 @@ public class MyQuartzAsyncTask {
                         Iterator<Object> iterator = jsonObject.getJSONArray("data").iterator();
                         while (iterator.hasNext()) {
                             String report_date = ((JSONObject) iterator.next()).getString("REPORT_DATE").substring(0, 10);
-                            if(!dateList.contains(report_date)){
-                                invFinanceReportDateMapper.insertInvFinanceReportDate(new InvFinanceReportDate(stock.getCode(),"zcfz",DateUtils.dateTime(DateUtils.YYYY_MM_DD, report_date)));
+                            if (!dateList.contains(report_date)) {
+                                invFinanceReportDateMapper.insertInvFinanceReportDate(new InvFinanceReportDate(stock.getCode(), financeType, reportType, DateUtils.dateTime(DateUtils.YYYY_MM_DD, report_date)));
                             }
                         }
                     }
@@ -192,12 +212,12 @@ public class MyQuartzAsyncTask {
             } else {
                 for (int i = 1; i < 20; i++) {//目前财富通为1-4类
                     String dateUrl = ev.getProperty("investment.finance-zcfz-date").replace("'companyType'", String.valueOf(i)) + stock.getMarket() + stock.getCode();
-                    String jsonStr = HttpUtils.sendGet(dateUrl, new AtomicInteger(3));
+                    String jsonStr = HttpUtils.sendGet(dateUrl, new AtomicInteger(10));
                     if (null != jsonStr && !"".equals(jsonStr)) {
                         JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                         if (jsonObject.containsKey("data")) {
                             //1.查询当前股票已经落数的报告日期集合
-                            List<InvFinanceReportDate> invFinanceReportDateList = invFinanceReportDateMapper.selectInvFinanceReportDateList(new InvFinanceReportDate(stock.getCode()));
+                            List<InvFinanceReportDate> invFinanceReportDateList = invFinanceReportDateMapper.selectInvFinanceReportDateList(new InvFinanceReportDate(stock.getCode(), financeType, reportType));
                             List<String> dateList = new ArrayList<>();
                             for (InvFinanceReportDate reportDate : invFinanceReportDateList) {
                                 dateList.add(DateUtils.dateTime(reportDate.getReportDate()));
@@ -209,8 +229,8 @@ public class MyQuartzAsyncTask {
                             Iterator<Object> iterator = jsonObject.getJSONArray("data").iterator();
                             while (iterator.hasNext()) {
                                 String report_date = ((JSONObject) iterator.next()).getString("REPORT_DATE").substring(0, 10);
-                                if(!dateList.contains(report_date)){
-                                    invFinanceReportDateMapper.insertInvFinanceReportDate(new InvFinanceReportDate(stock.getCode(),"zcfz",DateUtils.dateTime(DateUtils.YYYY_MM_DD, report_date)));
+                                if (!dateList.contains(report_date)) {
+                                    invFinanceReportDateMapper.insertInvFinanceReportDate(new InvFinanceReportDate(stock.getCode(), financeType, reportType, DateUtils.dateTime(DateUtils.YYYY_MM_DD, report_date)));
                                 }
                             }
                             break;
@@ -224,7 +244,6 @@ public class MyQuartzAsyncTask {
     }
 
 
-
     /**
      * @Title: 异步执行invFinanceZcfzTask任务
      * @Description:
@@ -232,7 +251,7 @@ public class MyQuartzAsyncTask {
      * @date Sep 9, 2020
      */
     @Async("threadPoolTaskExecutor")
-    public void invFinanceZcfzTask(InvStock stock) {
+    public void invFinanceZcfzTask(InvStock stock, String url, String financeType, String reportType) {
         try {
             /*
             1.最近的5期进行数据同步，如果和数据库一致则跳过，不一致则更新
@@ -240,19 +259,19 @@ public class MyQuartzAsyncTask {
              */
             String companyType = stock.getCompanyType();
             List<String> dateList = new ArrayList<String>();
-            List<InvFinanceReportDate> invFinanceReportDateList = invFinanceReportDateMapper.selectInvFinanceReportDateList(new InvFinanceReportDate(stock.getCode()));
-            for(InvFinanceReportDate reportDate : invFinanceReportDateList){
+            List<InvFinanceReportDate> invFinanceReportDateList = invFinanceReportDateMapper.selectInvFinanceReportDateList(new InvFinanceReportDate(stock.getCode(), financeType, reportType));
+            for (InvFinanceReportDate reportDate : invFinanceReportDateList) {
                 dateList.add(DateUtils.dateTime(reportDate.getReportDate()));
             }
             if (null != companyType && dateList.size() > 0) {
                 List<InvFinanceZcfz> zcfzList = new ArrayList<InvFinanceZcfz>();
-                zcfzList.addAll(invFinanceZcfzMapper.selectInvFinanceZcfzList(new InvFinanceZcfz(stock.getCode())));
+                zcfzList.addAll(invFinanceZcfzMapper.selectInvFinanceZcfzList(new InvFinanceZcfz(stock.getCode(),reportType)));
                 Map<String, InvFinanceZcfz> zcfzMap = new HashMap<String, InvFinanceZcfz>();
-                for (int i=0;i<zcfzList.size();i++) {
+                for (int i = 0; i < zcfzList.size(); i++) {
                     InvFinanceZcfz zcfz = zcfzList.get(i);
-                    if(i<5){
+                    if (i < 5) {
                         zcfzMap.put(zcfz.getReportDate().toString(), zcfz);
-                    }else{
+                    } else {
                         dateList.remove(DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD, zcfz.getReportDate()));
                     }
                 }
@@ -270,45 +289,46 @@ public class MyQuartzAsyncTask {
                             datesSb.append(date);
                         }
                     }
-                    String ajaxUrl = ev.getProperty("investment.finance-zcfz-ajax").replace("'companyType'", stock.getCompanyType()).replace("'dates'", datesSb.toString()) + stock.getMarket() + stock.getCode();
-                    String jsonStr = HttpUtils.sendGet(ajaxUrl, new AtomicInteger(3));
+                    String URL = ev.getProperty(url).replace("'companyType'", stock.getCompanyType()).replace("'dates'", datesSb.toString()) + stock.getMarket() + stock.getCode();
+                    String jsonStr = HttpUtils.sendGet(URL, new AtomicInteger(10));
                     if (null != jsonStr && !"".equals(jsonStr)) {
                         JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                         if (jsonObject.containsKey("data")) {
                             JSONArray dataArray = jsonObject.getJSONArray("data");
-                            if(!dataArray.isEmpty()){
+                            if (!dataArray.isEmpty()) {
                                 //1.更新Stock 的 组织代码orgCode 组织简称orgType 股票分类代码securityTypeCode
                                 boolean updateStockFlag = false;
-                                JSONObject jsonObj = (JSONObject)dataArray.get(0);
-                                if(StringUtils.isEmpty(stock.getOrgCode())){
+                                JSONObject jsonObj = (JSONObject) dataArray.get(0);
+                                if (StringUtils.isEmpty(stock.getOrgCode())) {
                                     stock.setOrgCode(jsonObj.getString("ORG_CODE"));
                                     updateStockFlag = true;
                                 }
-                                if(StringUtils.isEmpty(stock.getOrgType())){
+                                if (StringUtils.isEmpty(stock.getOrgType())) {
                                     stock.setOrgType(jsonObj.getString("ORG_TYPE"));
                                     updateStockFlag = true;
                                 }
-                                if(StringUtils.isEmpty(stock.getSecurityTypeCode())){
+                                if (StringUtils.isEmpty(stock.getSecurityTypeCode())) {
                                     stock.setSecurityTypeCode(jsonObj.getString("SECURITY_TYPE_CODE"));
                                     updateStockFlag = true;
                                 }
-                                if(updateStockFlag = true){
+                                if (updateStockFlag = true) {
                                     invStockMapper.updateInvStock(stock);
                                 }
+
                                 //2.保存资产负债数据
                                 Iterator<Object> iterator = dataArray.iterator();
                                 while (iterator.hasNext()) {
                                     //反射赋值
-                                    InvFinanceZcfz zcfz = new InvFinanceZcfz(stock.getCode());
+                                    InvFinanceZcfz zcfz = new InvFinanceZcfz(stock.getCode(),reportType);
                                     Class<? extends InvFinanceZcfz> clazz = zcfz.getClass();
                                     Field[] declaredFields = clazz.getDeclaredFields();
-                                    JSONObject next = (JSONObject)iterator.next();
+                                    JSONObject next = (JSONObject) iterator.next();
                                     for (Field field : declaredFields) {
                                         field.setAccessible(true);
                                         String genericType = field.getGenericType().toString();
-                                        String elementName = StringUtils.toUnderScoreCase(field.getName()).toUpperCase();
-                                        if(next.containsKey(elementName)){
-                                            String valueString = next.getString(elementName);
+                                        String fieldName = field.getName();
+                                        if (!"reportType".equals(fieldName)) {
+                                            String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
                                             if ("class java.lang.Double".equals(genericType)) {
                                                 Double value = NumFormatUtil.toDouble(valueString);
                                                 field.set(zcfz, value);

@@ -6,7 +6,6 @@ create table `inv_finance_zcfz` (
   `id` bigint not null auto_increment comment 'id',
   `security_code` varchar(10) character set utf8 collate utf8_bin not null comment '股票代码',
   `report_type` varchar(10) character set utf8mb4 collate utf8mb4_general_ci default null comment '报告类型',
-  `report_date_name`  varchar(10) character set utf8 collate utf8_bin default null comment '报告名称',
   `report_date` datetime default null comment '报告日期',
   `opinion_type` varchar(40) character set utf8 collate utf8_bin comment '审计意见(境内)',
   `osopinion_type` varchar(40) character set utf8 collate utf8_bin comment '审计意见(境外)',
@@ -407,5 +406,5 @@ create table `inv_finance_zcfz` (
   `accrued_expense` double default null comment '预提费用',
   `accrued_expense_yoy` double default null comment '预提费用(环比%)',
   primary key (`id`) using btree,
-  key `inv_finance_zcfz_security_code` (`security_code`)
+  key `inv_finance_zcfz_security_code` (`security_code`,`finance_type`,`report_type`)
 ) engine=innodb default charset=utf8mb4 collate=utf8mb4_general_ci comment='财务分析-资产负债表';
