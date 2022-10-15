@@ -2,13 +2,18 @@ package com.ruoyi.quartz.async;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.NumFormatUtil;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
-import com.ruoyi.investment.domain.*;
-import com.ruoyi.investment.mapper.*;
+import com.ruoyi.investment.domain.InvFinanceReportDate;
+import com.ruoyi.investment.domain.InvFinanceZcfz;
+import com.ruoyi.investment.domain.InvFinanceZyzb;
+import com.ruoyi.investment.domain.InvStock;
+import com.ruoyi.investment.mapper.InvFinanceReportDateMapper;
+import com.ruoyi.investment.mapper.InvFinanceZcfzMapper;
+import com.ruoyi.investment.mapper.InvFinanceZyzbMapper;
+import com.ruoyi.investment.mapper.InvStockMapper;
 import com.ruoyi.quartz.task.RyTask;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
@@ -71,7 +76,7 @@ public class MyQuartzAsyncTask {
                 url += stock.getCode();
             }
             String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
-            if (null != jsonStr && !"".equals(jsonStr)) {
+            if (!StringUtils.isEmpty(jsonStr)) {
                 JSONArray dataArray = JSONObject.parseObject(jsonStr).getJSONArray("data");
                 if (null != dataArray && !dataArray.isEmpty()) {
                     Iterator<Object> iterator = dataArray.iterator();
@@ -190,7 +195,7 @@ public class MyQuartzAsyncTask {
             if (null != companyType) {
                 String URL = ev.getProperty(url).replace("'companyType'", companyType) + stock.getMarket() + stock.getCode();
                 String jsonStr = HttpUtils.sendGet(URL, new AtomicInteger(10));
-                if (null != jsonStr && !"".equals(jsonStr)) {
+                if (!StringUtils.isEmpty(jsonStr)) {
                     JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                     if (jsonObject.containsKey("data")) {
                         //1.查询当前股票已经落数的报告日期集合
@@ -213,7 +218,7 @@ public class MyQuartzAsyncTask {
                 for (int i = 1; i < 20; i++) {//目前财富通为1-4类
                     String dateUrl = ev.getProperty("investment.finance-zcfz-date").replace("'companyType'", String.valueOf(i)) + stock.getMarket() + stock.getCode();
                     String jsonStr = HttpUtils.sendGet(dateUrl, new AtomicInteger(10));
-                    if (null != jsonStr && !"".equals(jsonStr)) {
+                    if (!StringUtils.isEmpty(jsonStr)) {
                         JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                         if (jsonObject.containsKey("data")) {
                             //1.查询当前股票已经落数的报告日期集合
@@ -291,7 +296,7 @@ public class MyQuartzAsyncTask {
                     }
                     String URL = ev.getProperty(url).replace("'companyType'", stock.getCompanyType()).replace("'dates'", datesSb.toString()) + stock.getMarket() + stock.getCode();
                     String jsonStr = HttpUtils.sendGet(URL, new AtomicInteger(10));
-                    if (null != jsonStr && !"".equals(jsonStr)) {
+                    if (!StringUtils.isEmpty(jsonStr)) {
                         JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                         if (jsonObject.containsKey("data")) {
                             JSONArray dataArray = jsonObject.getJSONArray("data");
