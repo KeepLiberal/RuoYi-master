@@ -311,7 +311,7 @@ public class MyQuartzAsyncTask {
                                     stock.setSecurityTypeCode(jsonObj.getString("SECURITY_TYPE_CODE"));
                                     updateStockFlag = true;
                                 }
-                                if (updateStockFlag = true) {
+                                if (updateStockFlag) {
                                     invStockMapper.updateInvStock(stock);
                                 }
 
