@@ -27,7 +27,7 @@ public class ThreadPoolConfig {
     private int maxPoolSize = 48;
 
     // 队列最大长度
-    private int queueCapacity = 10000;
+    private int queueCapacity = 50000;
 
     // 线程池维护线程所允许的空闲时间
     private int keepAliveSeconds = 300;

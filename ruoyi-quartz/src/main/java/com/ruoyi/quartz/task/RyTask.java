@@ -4,11 +4,13 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
+import com.ruoyi.common.utils.spring.SpringUtils;
 import com.ruoyi.investment.domain.InvStock;
 import com.ruoyi.investment.mapper.InvStockMapper;
 import com.ruoyi.quartz.async.MyQuartzAsyncTask;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -17,6 +19,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -33,6 +36,18 @@ public class RyTask {
     private MyQuartzAsyncTask myQuartzAsyncTask;
     @Resource
     private InvStockMapper invStockMapper;
+
+    //从容器中取线程池
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor = SpringUtils.getBean("threadPoolTaskExecutor");
+
+    /**
+     * 判断线程池状态
+     */
+    private static void isCompletedByTaskCount(ThreadPoolExecutor threadPool, Integer value) {
+        while (threadPool.getQueue().size()>value) {
+            //log.info("计划线程数："+ threadPool.getTaskCount()+" 完成线程数："+ threadPool.getCompletedTaskCount()+" 排队线程数："+ threadPool.getQueue().size()+" 活动线程数："+ threadPool.getActiveCount());
+        }
+    }
 
     /**
      * 多参数任务示例
@@ -70,6 +85,7 @@ public class RyTask {
                 myQuartzAsyncTask.getInterfaceAllKey(stock, url, type);
             }
         }
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
         log.info("========getInterfaceAllKey任务线程分发完成=========");
     }
 
@@ -103,6 +119,7 @@ public class RyTask {
             String url = "https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/Index?type=web&code=" + stock.getMarket() + stock.getCode();
             myQuartzAsyncTask.downHtml(url, stock.getCode());
         }
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
         log.info("========getInterfaceAllKey任务线程分发完成=========");
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -156,52 +173,39 @@ public class RyTask {
     /**
      * 财务分析-重要指标
      */
-    public void invFinanceZyzbTask() {
-        log.info("========invFinanceZyzbTask任务线程分发开始=========");
+    public void invFinanceTask() {
+        //保证线程池比较闲时候再开始任务
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
+
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
+        log.info("========财务分析-重要指标 任务开始=========");
         for (InvStock stock : stockList) {
             myQuartzAsyncTask.invFinanceZyzbTask(stock, "investment.finance-zyzb-period", "报告期");
             myQuartzAsyncTask.invFinanceZyzbTask(stock, "investment.finance-zyzb-year", "年度");
             myQuartzAsyncTask.invFinanceZyzbTask(stock, "investment.finance-zyzb-quarter", "季度");
         }
-        log.info("========invFinanceZyzbTask任务线程分发完成=========");
-    }
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
+        log.info("========财务分析-重要指标 任务完成=========");
 
-    /**
-     * 财务分析-资产负债-报告日期抓取
-     */
-    public void invFinanceReportDateTask() {
-        log.info("========invFinanceReportDateTask任务线程分发开始=========");
-        List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
+        log.info("========财务分析-资产负债-报告日期 任务开始 =========");
         for (InvStock stock : stockList) {
             myQuartzAsyncTask.invFinanceReportDateTask(stock, "investment.finance-zcfz-date-period", "资产负债", "报告期");
             myQuartzAsyncTask.invFinanceReportDateTask(stock, "investment.finance-zcfz-date-year", "资产负债", "年度");
         }
-        log.info("========invFinanceReportDateTask任务线程分发完成=========");
-    }
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
+        log.info("========财务分析-资产负债-报告日期 任务完成=========");
 
-
-    /**
-     * 财务分析-资产负债-详细报告数据抓取
-     */
-    public void invFinanceZcfzTask() {
-        log.info("========invFinanceZcfzTask任务线程分发开始=========");
-        List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
+        log.info("========财务分析-资产负债 任务开始=========");
         for (InvStock stock : stockList) {
             myQuartzAsyncTask.invFinanceZcfzTask(stock, "investment.finance-zcfz-ajax-period", "资产负债", "报告期");
             myQuartzAsyncTask.invFinanceZcfzTask(stock, "investment.finance-zcfz-ajax-year", "资产负债", "年度");
         }
-        log.info("========invFinanceZcfzTask任务线程分发完成=========");
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
+        log.info("========财务分析-资产负债 任务完成=========");
     }
 
 
-    public static void main(String[] args) {
-        String url = "https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/zcfzbAjaxNew?companyType=3&reportDateType=0&reportType=1&dates=2021-12-31&code=sz000001";
 
-        String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
-        JSONObject json = JSONObject.parseObject(jsonStr);// 解析jsonStr
-        System.out.println(json);
-    }
 
 
 }

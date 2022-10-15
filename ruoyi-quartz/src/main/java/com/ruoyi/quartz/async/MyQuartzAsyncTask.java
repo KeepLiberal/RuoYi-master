@@ -77,12 +77,35 @@ public class MyQuartzAsyncTask {
             }
             String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
             if (!StringUtils.isEmpty(jsonStr)) {
-                JSONArray dataArray = JSONObject.parseObject(jsonStr).getJSONArray("data");
-                if (null != dataArray && !dataArray.isEmpty()) {
-                    Iterator<Object> iterator = dataArray.iterator();
-                    if (iterator.hasNext()) {
-                        JSONObject jsonObject = (JSONObject) iterator.next();
-                        RyTask.keySet.addAll(jsonObject.keySet());
+                JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+                if (jsonObject.containsKey("data")) {
+                    JSONArray dataArray = jsonObject.getJSONArray("data");
+                    if (!dataArray.isEmpty()) {
+                        Iterator<Object> iterator = dataArray.iterator();
+                        if (iterator.hasNext()) {
+                            JSONObject next = (JSONObject) iterator.next();
+                            RyTask.keySet.addAll(next.keySet());
+                        }
+                    }
+                }
+                if (jsonObject.containsKey("bgq")) {
+                    JSONArray dataArray = jsonObject.getJSONArray("bgq");
+                    if (!dataArray.isEmpty()) {
+                        Iterator<Object> iterator = dataArray.iterator();
+                        if (iterator.hasNext()) {
+                            JSONObject next = (JSONObject) iterator.next();
+                            RyTask.keySet.addAll(next.keySet());
+                        }
+                    }
+                }
+                if (jsonObject.containsKey("nd")) {
+                    JSONArray dataArray = jsonObject.getJSONArray("nd");
+                    if (!dataArray.isEmpty()) {
+                        Iterator<Object> iterator = dataArray.iterator();
+                        if (iterator.hasNext()) {
+                            JSONObject next = (JSONObject) iterator.next();
+                            RyTask.keySet.addAll(next.keySet());
+                        }
                     }
                 }
             }
@@ -130,7 +153,7 @@ public class MyQuartzAsyncTask {
                 JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                 if (jsonObject.containsKey("data")) {
                     JSONArray dataArray = jsonObject.getJSONArray("data");
-                    if (null != dataArray && !dataArray.isEmpty()) {
+                    if (!dataArray.isEmpty()) {
                         List<InvFinanceZyzb> invFinanceZyzbList = invFinanceZyzbMapper.selectInvFinanceZyzbList(new InvFinanceZyzb(stock.getCode(), reportType));
                         Map<String, InvFinanceZyzb> zyzbMap = new HashMap<>();
                         for (InvFinanceZyzb zyzb : invFinanceZyzbList) {
