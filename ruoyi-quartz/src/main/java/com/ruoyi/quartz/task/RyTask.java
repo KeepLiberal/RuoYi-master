@@ -190,6 +190,14 @@ public class RyTask {
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
         log.info("========财务分析-重要指标 任务完成=========");
 
+        log.info("========财务分析-杜邦分析 任务开始 =========");
+        String finance_zcfz_dbfx = ev.getProperty("investment.finance-dbfx");
+        for (InvStock stock : stockList) {
+            myQuartzAsyncTask.invFinanceDbfxTask(stock, finance_zcfz_dbfx + stock.getMarket() + stock.getCode(), new AtomicInteger(10));
+        }
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
+        log.info("========财务分析-杜邦分析 任务完成=========");
+
         log.info("========财务分析-资产负债-报告日期 任务开始 =========");
         String finance_zcfz_date_period = ev.getProperty("investment.finance-zcfz-date-period");
         String finance_zcfz_date_year = ev.getProperty("investment.finance-zcfz-date-year");

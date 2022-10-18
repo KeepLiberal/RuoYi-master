@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('财务分析-杜邦分析列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>股票代码：</label>
+                                <input type="text" name="securityCode"/>
+                            </li>
+                            <li>
+                                <label>报告类型：</label>
+                                <select name="reportType" th:with="type=${@dict.getType('report_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>报告日期：</label>
+                                <input type="text" class="time-input" placeholder="请选择报告日期" name="reportDate"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="investment:invFinanceDbfx:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="investment:invFinanceDbfx:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="investment:invFinanceDbfx:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="investment:invFinanceDbfx:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('investment:invFinanceDbfx:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('investment:invFinanceDbfx:remove')}]];
+        var reportTypeDatas = [[${@dict.getType('report_type')}]];
+        var prefix = ctx + "investment/invFinanceDbfx";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "财务分析-杜邦分析",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'id',
+                    title: 'id',
+                    visible: false
+                },
+                {
+                    field: 'securityCode',
+                    title: '股票代码'
+                },
+                {
+                    field: 'reportType',
+                    title: '报告类型',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(reportTypeDatas, value);
+                    }
+                },
+                {
+                    field: 'reportDate',
+                    title: '报告日期'
+                },
+                {
+                    field: 'roe',
+                    title: '净资产收益率(%)'
+                },
+                {
+                    field: 'jroa',
+                    title: '总资产净利率(%)'
+                },
+                {
+                    field: 'parentNetprofitRatio',
+                    title: '归属母公司股东的净利润占比(%)'
+                },
+                {
+                    field: 'equityMultiplier',
+                    title: '权益乘数'
+                },
+                {
+                    field: 'saleNpr',
+                    title: '营业净利润率(%)'
+                },
+                {
+                    field: 'totalAssetsTr',
+                    title: '总资产周转率(%)'
+                },
+                {
+                    field: 'debtAssetRatio',
+                    title: '资产负债率(%)'
+                },
+                {
+                    field: 'netprofit',
+                    title: '净利润'
+                },
+                {
+                    field: 'totalOperateIncome',
+                    title: '营业总收入'
+                },
+                {
+                    field: 'totalAssets',
+                    title: '资产总额'
+                },
+                {
+                    field: 'totalLiabilities',
+                    title: '负债总额'
+                },
+                {
+                    field: 'totalIncome',
+                    title: '收入总额'
+                },
+                {
+                    field: 'totalCost',
+                    title: '成本总额'
+                },
+                {
+                    field: 'totalCurrentAssets',
+                    title: '流动资产'
+                },
+                {
+                    field: 'totalNoncurrentAssets',
+                    title: '非流动资产'
+                },
+                {
+                    field: 'investIncome',
+                    title: '投资收益'
+                },
+                {
+                    field: 'assetDisposalIncome',
+                    title: '资产处置收益'
+                },
+                {
+                    field: 'operateCost',
+                    title: '营业成本'
+                },
+                {
+                    field: 'operateTaxAdd',
+                    title: '税金及附加'
+                },
+                {
+                    field: 'incomeTax',
+                    title: '所得税费用'
+                },
+                {
+                    field: 'assetImpairmentIncome',
+                    title: '资产减值损失'
+                },
+                {
+                    field: 'creditImpairmentIncome',
+                    title: '信用减值损失'
+                },
+                {
+                    field: 'nonbusinessExpense',
+                    title: '营业外支出'
+                },
+                {
+                    field: 'totalExpense',
+                    title: '期间费用'
+                },
+                {
+                    field: 'financeExpense',
+                    title: '财务费用'
+                },
+                {
+                    field: 'saleExpense',
+                    title: '销售费用'
+                },
+                {
+                    field: 'manageExpense',
+                    title: '管理费用'
+                },
+                {
+                    field: 'researchExpense',
+                    title: '研发费用'
+                },
+                {
+                    field: 'monetaryfunds',
+                    title: '货币资金'
+                },
+                {
+                    field: 'noteRece',
+                    title: '应收票据'
+                },
+                {
+                    field: 'accountsRece',
+                    title: '应收账款'
+                },
+                {
+                    field: 'financeRece',
+                    title: '应收款项融资'
+                },
+                {
+                    field: 'otherRece',
+                    title: '其他应收款'
+                },
+                {
+                    field: 'inventory',
+                    title: '存货'
+                },
+                {
+                    field: 'otherEquityInvest',
+                    title: '其他权益工具投资'
+                },
+                {
+                    field: 'longRece',
+                    title: '长期应收款'
+                },
+                {
+                    field: 'longEquityInvest',
+                    title: '长期股权投资'
+                },
+                {
+                    field: 'fixedAsset',
+                    title: '固定资产'
+                },
+                {
+                    field: 'cip',
+                    title: '在建工程'
+                },
+                {
+                    field: 'userightAsset',
+                    title: '使用权资产'
+                },
+                {
+                    field: 'intangibleAsset',
+                    title: '无形资产'
+                },
+                {
+                    field: 'developExpense',
+                    title: '开发支出'
+                },
+                {
+                    field: 'goodwill',
+                    title: '商誉'
+                },
+                {
+                    field: 'longPrepaidExpense',
+                    title: '长期待摊费用'
+                },
+                {
+                    field: 'deferTaxAsset',
+                    title: '递延所得税资产'
+                },
+                {
+                    field: 'availableSaleFinasset',
+                    title: '可供出售金融资产'
+                },
+                {
+                    field: 'interestNi',
+                    title: '利息净收入'
+                },
+                {
+                    field: 'feeCommissionNi',
+                    title: '手续费及佣金净收入'
+                },
+                {
+                    field: 'fairvalueChangeIncome',
+                    title: '公允价值变动收益'
+                },
+                {
+                    field: 'exchangeIncome',
+                    title: '汇兑收益'
+                },
+                {
+                    field: 'businessManageExpense',
+                    title: '业务及管理费'
+                },
+                {
+                    field: 'earnedPremium',
+                    title: '已赚保费'
+                },
+                {
+                    field: 'surrenderValue',
+                    title: '退保金'
+                },
+                {
+                    field: 'netCompensateExpense',
+                    title: '赔付支出'
+                },
+                {
+                    field: 'netContractReserve',
+                    title: '提取保险责任准备金'
+                },
+                {
+                    field: 'policyBonusExpense',
+                    title: '保单红利支出'
+                },
+                {
+                    field: 'creditorInvest',
+                    title: '债权投资'
+                },
+                {
+                    field: 'investRealestate',
+                    title: '投资性房地产'
+                },
+                {
+                    field: 'feeCommissionExpense',
+                    title: '手续费及佣金支出'
+                },
+                {
+                    field: 'holdMaturityInvest',
+                    title: '持有至到期投资'
+                },
+                {
+                    field: 'tradeFinasset',
+                    title: '交易性金融资产'
+                },
+                {
+                    field: 'otherCreditorInvest',
+                    title: '其他债权投资'
+                },
+                {
+                    field: 'parentNetprofit',
+                    title: '归属于母公司股东的净利润'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

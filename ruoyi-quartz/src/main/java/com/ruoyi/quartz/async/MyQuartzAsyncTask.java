@@ -6,14 +6,8 @@ import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.NumFormatUtil;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
-import com.ruoyi.investment.domain.InvFinanceReportDate;
-import com.ruoyi.investment.domain.InvFinanceZcfz;
-import com.ruoyi.investment.domain.InvFinanceZyzb;
-import com.ruoyi.investment.domain.InvStock;
-import com.ruoyi.investment.mapper.InvFinanceReportDateMapper;
-import com.ruoyi.investment.mapper.InvFinanceZcfzMapper;
-import com.ruoyi.investment.mapper.InvFinanceZyzbMapper;
-import com.ruoyi.investment.mapper.InvStockMapper;
+import com.ruoyi.investment.domain.*;
+import com.ruoyi.investment.mapper.*;
 import com.ruoyi.quartz.task.RyTask;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
@@ -46,6 +40,8 @@ public class MyQuartzAsyncTask {
 
     @Resource
     private InvFinanceZyzbMapper invFinanceZyzbMapper;
+    @Resource
+    private InvFinanceDbfxMapper invFinanceDbfxMapper;
     @Resource
     private InvFinanceReportDateMapper invFinanceReportDateMapper;
     @Resource
@@ -200,6 +196,79 @@ public class MyQuartzAsyncTask {
                 invFinanceZyzbTask(stock, url, reportType, count);
             } else {
                 log.error(">>>MyQuartzAsyncTask.invFinanceZyzbTask(" + url + ")异常:", e);
+            }
+        }
+    }
+
+    /**
+     * @Title: 异步执行invFinanceDbfxTask任务
+     * @Description:
+     * @author weny.yang
+     * @date Sep 9, 2020
+     */
+    @Async("threadPoolTaskExecutor")
+    public void invFinanceDbfxTask(InvStock stock, String url, AtomicInteger count) {
+        try {
+            String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
+            if (!StringUtils.isEmpty(jsonStr)) {
+                JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+                List<String> reportTypeList = new ArrayList<String>();
+                if (jsonObject.containsKey("bgq")) {
+                    reportTypeList.add("bgq");
+                }
+                if (jsonObject.containsKey("nd")) {
+                    reportTypeList.add("nd");
+                }
+                for (String reportType : reportTypeList){
+                    JSONArray jsonArray = jsonObject.getJSONArray(reportType);
+                    if (!jsonArray.isEmpty()) {
+                        List<InvFinanceDbfx> invFinanceDbfxList = invFinanceDbfxMapper.selectInvFinanceDbfxList(new InvFinanceDbfx(stock.getCode(), reportType));
+                        Map<String, InvFinanceDbfx> dbfxMap = new HashMap<>();
+                        for (InvFinanceDbfx dbfx : invFinanceDbfxList) {
+                            dbfxMap.put(dbfx.getReportDate().toString(), dbfx);
+                        }
+                        Iterator<Object> iterator = jsonArray.iterator();
+                        while (iterator.hasNext()) {
+                            JSONObject next = (JSONObject) iterator.next();
+                            //反射赋值
+                            InvFinanceDbfx dbfx = new InvFinanceDbfx(stock.getCode(), reportType);
+                            Class<? extends InvFinanceDbfx> clazz = dbfx.getClass();
+                            Field[] declaredFields = clazz.getDeclaredFields();
+                            for (Field field : declaredFields) {
+                                field.setAccessible(true);
+                                String genericType = field.getGenericType().toString();
+                                String fieldName = field.getName();
+                                if (!"reportType".equals(fieldName)) {
+                                    String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
+                                    if ("class java.lang.Double".equals(genericType)) {
+                                        Double value = NumFormatUtil.toDouble(valueString);
+                                        field.set(dbfx, value);
+                                    } else if ("class java.util.Date".equals(genericType)) {
+                                        Date value = DateUtils.parseDate(valueString);
+                                        field.set(dbfx, value);
+                                    } else if ("class java.lang.String".equals(genericType)) {
+                                        field.set(dbfx, valueString);
+                                    }
+                                }
+                            }
+                            if (dbfxMap.containsKey(dbfx.getReportDate().toString())) {//数据库已有code指定日期报告
+                                InvFinanceDbfx companies = dbfxMap.get(dbfx.getReportDate().toString());
+                                if (!companies.equals(dbfx)) {//报告数据不相同，以最新获取为准更新数据库
+                                    invFinanceDbfxMapper.updateInvFinanceDbfx(dbfx);
+                                }
+                            } else {//数据库没有code指定日期报告，插入
+                                invFinanceDbfxMapper.insertInvFinanceDbfx(dbfx);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                invFinanceDbfxTask(stock, url, count);
+            } else {
+                log.error(">>>MyQuartzAsyncTask.invFinanceDbfxTask(" + url + ")异常:", e);
             }
         }
     }

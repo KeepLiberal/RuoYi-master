@@ -12,7 +12,7 @@ investment:
   finance-zyzb-quarter: https://emweb.securities.eastmoney.com/PC_HSF10/NewFinanceAnalysis/ZYZBAjaxNew?type=2&code=
 
   #杜邦分析
-  finance-dbfx-: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/DBFXAjaxNew?code=
+  finance-dbfx: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/DBFXAjaxNew?code=
 
   #资产负债>>>报告期-年度
   finance-zcfz-date-period: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/zcfzbDateAjaxNew?companyType='companyType'&reportDateType=0&code=
