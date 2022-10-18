@@ -232,11 +232,14 @@ public class MyQuartzAsyncTask {
                             dateList.add(DateUtils.dateTime(reportDate.getReportDate()));
                         }
                         //2.保存报告日期
-                        Iterator<Object> iterator = jsonObject.getJSONArray("data").iterator();
-                        while (iterator.hasNext()) {
-                            String report_date = ((JSONObject) iterator.next()).getString("REPORT_DATE").substring(0, 10);
-                            if (!dateList.contains(report_date)) {
-                                invFinanceReportDateMapper.insertInvFinanceReportDate(new InvFinanceReportDate(stock.getCode(), financeType, reportType, DateUtils.dateTime(DateUtils.YYYY_MM_DD, report_date)));
+                        JSONArray dataArray = jsonObject.getJSONArray("data");
+                        if(!dataArray.isEmpty()){
+                            Iterator<Object> iterator = dataArray.iterator();
+                            while (iterator.hasNext()) {
+                                String report_date = ((JSONObject) iterator.next()).getString("REPORT_DATE").substring(0, 10);
+                                if (!dateList.contains(report_date)) {
+                                    invFinanceReportDateMapper.insertInvFinanceReportDate(new InvFinanceReportDate(stock.getCode(), financeType, reportType, DateUtils.dateTime(DateUtils.YYYY_MM_DD, report_date)));
+                                }
                             }
                         }
                     }
@@ -258,14 +261,17 @@ public class MyQuartzAsyncTask {
                             stock.setCompanyType(String.valueOf(i));
                             invStockMapper.updateInvStock(stock);
                             //3.保存报告日期
-                            Iterator<Object> iterator = jsonObject.getJSONArray("data").iterator();
-                            while (iterator.hasNext()) {
-                                String report_date = ((JSONObject) iterator.next()).getString("REPORT_DATE").substring(0, 10);
-                                if (!dateList.contains(report_date)) {
-                                    invFinanceReportDateMapper.insertInvFinanceReportDate(new InvFinanceReportDate(stock.getCode(), financeType, reportType, DateUtils.dateTime(DateUtils.YYYY_MM_DD, report_date)));
+                            JSONArray dataArray = jsonObject.getJSONArray("data");
+                            if(!dataArray.isEmpty()){
+                                Iterator<Object> iterator = dataArray.iterator();
+                                while (iterator.hasNext()) {
+                                    String report_date = ((JSONObject) iterator.next()).getString("REPORT_DATE").substring(0, 10);
+                                    if (!dateList.contains(report_date)) {
+                                        invFinanceReportDateMapper.insertInvFinanceReportDate(new InvFinanceReportDate(stock.getCode(), financeType, reportType, DateUtils.dateTime(DateUtils.YYYY_MM_DD, report_date)));
+                                    }
                                 }
+                                break;
                             }
-                            break;
                         }
                     }
                 }
