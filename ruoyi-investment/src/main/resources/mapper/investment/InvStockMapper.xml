@@ -7,27 +7,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="InvStock" id="InvStockResult">
         <result property="code"    column="code"    />
         <result property="name"    column="name"    />
-        <result property="orgCode"    column="org_code"    />
-        <result property="orgType"    column="org_type"    />
-        <result property="securityTypeCode"    column="security_type_code"    />
-        <result property="companyType"    column="company_type"    />
+        <result property="stockType"    column="stock_type"    />
         <result property="market"    column="market"    />
+        <result property="orgCode"    column="org_code"    />
+        <result property="securityTypeCode"    column="security_type_code"    />
     </resultMap>
 
     <sql id="selectInvStockVo">
-        select code, name, org_code, org_type, security_type_code, company_type, market from inv_stock
+        select code, name, stock_type, market, org_code, security_type_code from inv_stock
     </sql>
 
     <select id="selectInvStockList" parameterType="InvStock" resultMap="InvStockResult">
         <include refid="selectInvStockVo"/>
         <where>  
-            <if test="code != null  and code != ''"> and code = #{code}</if>
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
-            <if test="orgCode != null  and orgCode != ''"> and org_code = #{orgCode}</if>
-            <if test="orgType != null  and orgType != ''"> and org_type = #{orgType}</if>
-            <if test="securityTypeCode != null  and securityTypeCode != ''"> and security_type_code = #{securityTypeCode}</if>
-            <if test="companyType != null  and companyType != ''"> and company_type = #{companyType}</if>
+            <if test="stockType != null  and stockType != ''"> and stock_type = #{stockType}</if>
             <if test="market != null  and market != ''"> and market = #{market}</if>
+            <if test="orgCode != null  and orgCode != ''"> and org_code = #{orgCode}</if>
+            <if test="securityTypeCode != null  and securityTypeCode != ''"> and security_type_code = #{securityTypeCode}</if>
         </where>
     </select>
 
@@ -44,22 +41,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertInvStock" parameterType="InvStock">
         insert into inv_stock
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="code != null and code != ''">code,</if>
+            <if test="code != null">code,</if>
             <if test="name != null and name != ''">name,</if>
+            <if test="stockType != null">stock_type,</if>
+            <if test="market != null">market,</if>
             <if test="orgCode != null">org_code,</if>
-            <if test="orgType != null">org_type,</if>
             <if test="securityTypeCode != null">security_type_code,</if>
-            <if test="companyType != null">company_type,</if>
-            <if test="market != null and market != ''">market,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="code != null and code != ''">#{code},</if>
+            <if test="code != null">#{code},</if>
             <if test="name != null and name != ''">#{name},</if>
+            <if test="stockType != null">#{stockType},</if>
+            <if test="market != null">#{market},</if>
             <if test="orgCode != null">#{orgCode},</if>
-            <if test="orgType != null">#{orgType},</if>
             <if test="securityTypeCode != null">#{securityTypeCode},</if>
-            <if test="companyType != null">#{companyType},</if>
-            <if test="market != null and market != ''">#{market},</if>
          </trim>
     </insert>
 
@@ -67,11 +62,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update inv_stock
         <trim prefix="SET" suffixOverrides=",">
             <if test="name != null and name != ''">name = #{name},</if>
+            <if test="stockType != null">stock_type = #{stockType},</if>
+            <if test="market != null">market = #{market},</if>
             <if test="orgCode != null">org_code = #{orgCode},</if>
-            <if test="orgType != null">org_type = #{orgType},</if>
             <if test="securityTypeCode != null">security_type_code = #{securityTypeCode},</if>
-            <if test="companyType != null">company_type = #{companyType},</if>
-            <if test="market != null and market != ''">market = #{market},</if>
         </trim>
         where code = #{code}
     </update>

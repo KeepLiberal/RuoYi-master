@@ -60,7 +60,7 @@ public class MyQuartzAsyncTask {
         try {
             String url = ev.getProperty(urlStr);
             if (url.contains("'companyType'")) {
-                url = url.replace("'companyType'", stock.getCompanyType());
+                url = url.replace("'companyType'", stock.getStockType());
             }
             if (url.contains("'dates'")) {
                 url = url.replace("'dates'", "2021-12-31");
@@ -287,7 +287,7 @@ public class MyQuartzAsyncTask {
             1.如果公司类型为空，先初始化公司类型
             2.初始化报告日期
              */
-            String companyType = stock.getCompanyType();
+            String companyType = stock.getStockType();
             if (null != companyType) {
                 url = url.replace("'companyType'", companyType);
                 String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
@@ -326,8 +326,8 @@ public class MyQuartzAsyncTask {
                             for (InvFinanceReportDate reportDate : invFinanceReportDateList) {
                                 dateList.add(DateUtils.dateTime(reportDate.getReportDate()));
                             }
-                            //2.更新公司类型
-                            stock.setCompanyType(String.valueOf(i));
+                            //2.更新股票类型
+                            stock.setStockType(String.valueOf(i));
                             invStockMapper.updateInvStock(stock);
                             //3.保存报告日期
                             JSONArray dataArray = jsonObject.getJSONArray("data");
@@ -369,7 +369,7 @@ public class MyQuartzAsyncTask {
             1.最近的5期进行数据同步，如果和数据库一致则跳过，不一致则更新
             2.超过5期的其他的如果数据库不存在则新增，如果存在则不再同步
              */
-            String companyType = stock.getCompanyType();
+            String companyType = stock.getStockType();
             List<String> dateList = new ArrayList<String>();
             List<InvFinanceReportDate> invFinanceReportDateList = invFinanceReportDateMapper.selectInvFinanceReportDateList(new InvFinanceReportDate(stock.getCode(), financeType, reportType));
             for (InvFinanceReportDate reportDate : invFinanceReportDateList) {
@@ -413,10 +413,6 @@ public class MyQuartzAsyncTask {
                                 JSONObject jsonObj = (JSONObject) dataArray.get(0);
                                 if (StringUtils.isEmpty(stock.getOrgCode())) {
                                     stock.setOrgCode(jsonObj.getString("ORG_CODE"));
-                                    updateStockFlag = true;
-                                }
-                                if (StringUtils.isEmpty(stock.getOrgType())) {
-                                    stock.setOrgType(jsonObj.getString("ORG_TYPE"));
                                     updateStockFlag = true;
                                 }
                                 if (StringUtils.isEmpty(stock.getSecurityTypeCode())) {

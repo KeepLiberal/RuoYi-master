@@ -20,10 +20,10 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
- * A股基本信息Controller
+ * 沪深A股基本信息Controller
  * 
  * @author yangwenyang
- * @date 2022-10-14
+ * @date 2022-10-18
  */
 @Controller
 @RequestMapping("/investment/invStock")
@@ -42,7 +42,7 @@ public class InvStockController extends BaseController
     }
 
     /**
-     * 查询A股基本信息列表
+     * 查询沪深A股基本信息列表
      */
     @RequiresPermissions("investment:invStock:list")
     @PostMapping("/list")
@@ -55,21 +55,21 @@ public class InvStockController extends BaseController
     }
 
     /**
-     * 导出A股基本信息列表
+     * 导出沪深A股基本信息列表
      */
     @RequiresPermissions("investment:invStock:export")
-    @Log(title = "A股基本信息", businessType = BusinessType.EXPORT)
+    @Log(title = "沪深A股基本信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(InvStock invStock)
     {
         List<InvStock> list = invStockService.selectInvStockList(invStock);
         ExcelUtil<InvStock> util = new ExcelUtil<InvStock>(InvStock.class);
-        return util.exportExcel(list, "A股基本信息数据");
+        return util.exportExcel(list, "沪深A股基本信息数据");
     }
 
     /**
-     * 新增A股基本信息
+     * 新增沪深A股基本信息
      */
     @GetMapping("/add")
     public String add()
@@ -78,10 +78,10 @@ public class InvStockController extends BaseController
     }
 
     /**
-     * 新增保存A股基本信息
+     * 新增保存沪深A股基本信息
      */
     @RequiresPermissions("investment:invStock:add")
-    @Log(title = "A股基本信息", businessType = BusinessType.INSERT)
+    @Log(title = "沪深A股基本信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(InvStock invStock)
@@ -90,7 +90,7 @@ public class InvStockController extends BaseController
     }
 
     /**
-     * 修改A股基本信息
+     * 修改沪深A股基本信息
      */
     @RequiresPermissions("investment:invStock:edit")
     @GetMapping("/edit/{code}")
@@ -102,10 +102,10 @@ public class InvStockController extends BaseController
     }
 
     /**
-     * 修改保存A股基本信息
+     * 修改保存沪深A股基本信息
      */
     @RequiresPermissions("investment:invStock:edit")
-    @Log(title = "A股基本信息", businessType = BusinessType.UPDATE)
+    @Log(title = "沪深A股基本信息", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(InvStock invStock)
@@ -114,10 +114,10 @@ public class InvStockController extends BaseController
     }
 
     /**
-     * 删除A股基本信息
+     * 删除沪深A股基本信息
      */
     @RequiresPermissions("investment:invStock:remove")
-    @Log(title = "A股基本信息", businessType = BusinessType.DELETE)
+    @Log(title = "沪深A股基本信息", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
     public AjaxResult remove(String ids)

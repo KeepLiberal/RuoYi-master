@@ -59,5 +59,9 @@ public interface InvStockMapper
      */
     public int deleteInvStockByCodes(String[] codes);
 
+    /**
+     * 查询所有未退市股票
+     * @return 结果
+     */
     List<InvStock> selectInvStockVoNoDelisting();
 }
