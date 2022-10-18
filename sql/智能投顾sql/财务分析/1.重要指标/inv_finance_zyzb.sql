@@ -81,5 +81,5 @@ create table `inv_finance_zyzb` (
     `roe_diluted` double default null comment '扣非净利润滚动环比增长(%)',
     `jroa` double default null comment '摊薄总资产收益率(%)',
     primary key (`id`) using btree,
-    key `inv_finance_zyzb_security_code` (`security_code`,`report_type`)
+    key `inv_finance_zyzb_index` (`security_code`,`report_type`)
 ) engine=innodb default charset=utf8mb4 collate=utf8mb4_general_ci comment='财务分析-重要指标';

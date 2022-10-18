@@ -406,5 +406,5 @@ create table `inv_finance_zcfz` (
   `accrued_expense` double default null comment '预提费用',
   `accrued_expense_yoy` double default null comment '预提费用(环比%)',
   primary key (`id`) using btree,
-  key `inv_finance_zcfz_security_code` (`security_code`,`report_type`)
+  key `inv_finance_zcfz_index` (`security_code`,`report_type`)
 ) engine=innodb default charset=utf8mb4 collate=utf8mb4_general_ci comment='财务分析-资产负债表';

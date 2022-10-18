@@ -1,8 +1,8 @@
 /*
  财务分析-杜邦分析
 */
-drop table if exists `inv_finance_db`;
-create table `inv_finance_db`(
+drop table if exists `inv_finance_dbfx`;
+create table `inv_finance_dbfx`(
     `id` bigint not null auto_increment comment 'id',
     `security_code` varchar(10) character set utf8mb4 collate utf8mb4_general_ci not null comment '股票代码',
     `report_type` varchar(10) character set utf8mb4 collate utf8mb4_general_ci not null comment '报告类型',
@@ -63,27 +63,14 @@ create table `inv_finance_db`(
     `NET_COMPENSATE_EXPENSE` double default null comment '赔付支出',
     `NET_CONTRACT_RESERVE` double default null comment '提取保险责任准备金',
     `POLICY_BONUS_EXPENSE` double default null comment '保单红利支出',
-
-
-
-    `CREDITOR_INVEST` double default null comment '-',
-    `INVEST_REALESTATE` double default null comment '-',
-    `UPDATE_DATE` double default null comment '-',
-    `ORG_TYPE` double default null comment '-',
-    `FEE_COMMISSION_EXPENSE` double default null comment '-',
-    `ORG_CODE` double default null comment '-',
-    `HOLD_MATURITY_INVEST` double default null comment '-',
-    `TRADE_FINASSET` double default null comment '-',
-    `OTHER_CREDITOR_INVEST` double default null comment '-',
-    `SECURITY_NAME_ABBR` double default null comment '-',
-    `SECURITY_TYPE_CODE` double default null comment '-',
-    `CURRENCY` double default null comment '-',
-    `NOTICE_DATE` double default null comment '-',
-    `PARENT_NETPROFIT` double default null comment '-',
-
-
-
+    `CREDITOR_INVEST` double default null comment '债权投资',
+    `INVEST_REALESTATE` double default null comment '投资性房地产',
+    `FEE_COMMISSION_EXPENSE` double default null comment '手续费及佣金支出',
+    `HOLD_MATURITY_INVEST` double default null comment '持有至到期投资',
+    `TRADE_FINASSET` double default null comment '交易性金融资产',
+    `OTHER_CREDITOR_INVEST` double default null comment '其他债权投资',
+    `PARENT_NETPROFIT` double default null comment '归属于母公司股东的净利润',
 
     primary key (`id`) using btree,
-    key `inv_finance_db_key` (`security_code`,`report_type`)
+    key `inv_finance_dbfx_index` (`security_code`,`report_type`)
 ) engine=innodb default charset=utf8mb4 collate=utf8mb4_general_ci comment='财务分析-杜邦分析';
