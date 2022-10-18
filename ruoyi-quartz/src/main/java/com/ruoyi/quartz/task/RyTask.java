@@ -179,26 +179,33 @@ public class RyTask {
 
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
         log.info("========财务分析-重要指标 任务开始=========");
+        String finance_zyzb_period = ev.getProperty("investment.finance-zyzb-period");
+        String finance_zyzb_year = ev.getProperty("investment.finance-zyzb-year");
+        String finance_zyzb_quarter = ev.getProperty("investment.finance-zyzb-quarter");
         for (InvStock stock : stockList) {
-            myQuartzAsyncTask.invFinanceZyzbTask(stock, "investment.finance-zyzb-period", "报告期");
-            myQuartzAsyncTask.invFinanceZyzbTask(stock, "investment.finance-zyzb-year", "年度");
-            myQuartzAsyncTask.invFinanceZyzbTask(stock, "investment.finance-zyzb-quarter", "季度");
+            myQuartzAsyncTask.invFinanceZyzbTask(stock, finance_zyzb_period + stock.getMarket() + stock.getCode(), "报告期", new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceZyzbTask(stock, finance_zyzb_year + stock.getMarket() + stock.getCode(), "年度", new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceZyzbTask(stock, finance_zyzb_quarter + stock.getMarket() + stock.getCode(), "季度", new AtomicInteger(10));
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
         log.info("========财务分析-重要指标 任务完成=========");
 
         log.info("========财务分析-资产负债-报告日期 任务开始 =========");
+        String finance_zcfz_date_period = ev.getProperty("investment.finance-zcfz-date-period");
+        String finance_zcfz_date_year = ev.getProperty("investment.finance-zcfz-date-year");
         for (InvStock stock : stockList) {
-            myQuartzAsyncTask.invFinanceReportDateTask(stock, "investment.finance-zcfz-date-period", "资产负债", "报告期");
-            myQuartzAsyncTask.invFinanceReportDateTask(stock, "investment.finance-zcfz-date-year", "资产负债", "年度");
+            myQuartzAsyncTask.invFinanceReportDateTask(stock, finance_zcfz_date_period + stock.getMarket() + stock.getCode(), "资产负债", "报告期", new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceReportDateTask(stock, finance_zcfz_date_year + stock.getMarket() + stock.getCode(), "资产负债", "年度", new AtomicInteger(10));
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
         log.info("========财务分析-资产负债-报告日期 任务完成=========");
 
         log.info("========财务分析-资产负债 任务开始=========");
+        String finance_zcfz_ajax_period = ev.getProperty("investment.finance-zcfz-ajax-period");
+        String finance_zcfz_ajax_year = ev.getProperty("investment.finance-zcfz-ajax-year");
         for (InvStock stock : stockList) {
-            myQuartzAsyncTask.invFinanceZcfzTask(stock, "investment.finance-zcfz-ajax-period", "资产负债", "报告期");
-            myQuartzAsyncTask.invFinanceZcfzTask(stock, "investment.finance-zcfz-ajax-year", "资产负债", "年度");
+            myQuartzAsyncTask.invFinanceZcfzTask(stock, finance_zcfz_ajax_period + stock.getMarket() + stock.getCode(), "资产负债", "报告期", new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceZcfzTask(stock, finance_zcfz_ajax_year + stock.getMarket() + stock.getCode(), "资产负债", "年度", new AtomicInteger(10));
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
         log.info("========财务分析-资产负债 任务完成=========");

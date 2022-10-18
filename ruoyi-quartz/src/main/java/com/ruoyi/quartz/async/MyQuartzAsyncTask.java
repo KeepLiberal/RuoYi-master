@@ -145,10 +145,9 @@ public class MyQuartzAsyncTask {
      * @date Sep 9, 2020
      */
     @Async("threadPoolTaskExecutor")
-    public void invFinanceZyzbTask(InvStock stock, String url, String reportType) {
+    public void invFinanceZyzbTask(InvStock stock, String url, String reportType, AtomicInteger count) {
         try {
-            String URL = ev.getProperty(url) + stock.getMarket() + stock.getCode();
-            String jsonStr = HttpUtils.sendGet(URL, new AtomicInteger(10));
+            String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
             if (!StringUtils.isEmpty(jsonStr)) {
                 JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                 if (jsonObject.containsKey("data")) {
@@ -196,7 +195,12 @@ public class MyQuartzAsyncTask {
                 }
             }
         } catch (Exception e) {
-            log.error(">>>MyQuartzAsyncTask.invFinanceZyzbTask(" + stock.getCode() + ")异常:", e);
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                invFinanceZyzbTask(stock, url, reportType, count);
+            } else {
+                log.error(">>>MyQuartzAsyncTask.invFinanceZyzbTask(" + url + ")异常:", e);
+            }
         }
     }
 
@@ -208,7 +212,7 @@ public class MyQuartzAsyncTask {
      * @date Sep 9, 2020
      */
     @Async("threadPoolTaskExecutor")
-    public void invFinanceReportDateTask(InvStock stock, String url, String financeType, String reportType) {
+    public void invFinanceReportDateTask(InvStock stock, String url, String financeType, String reportType, AtomicInteger count) {
         try {
             /*
             1.如果公司类型为空，先初始化公司类型
@@ -216,8 +220,8 @@ public class MyQuartzAsyncTask {
              */
             String companyType = stock.getCompanyType();
             if (null != companyType) {
-                String URL = ev.getProperty(url).replace("'companyType'", companyType) + stock.getMarket() + stock.getCode();
-                String jsonStr = HttpUtils.sendGet(URL, new AtomicInteger(10));
+                url = url.replace("'companyType'", companyType);
+                String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
                 if (!StringUtils.isEmpty(jsonStr)) {
                     JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                     if (jsonObject.containsKey("data")) {
@@ -239,8 +243,8 @@ public class MyQuartzAsyncTask {
                 }
             } else {
                 for (int i = 1; i < 20; i++) {//目前财富通为1-4类
-                    String dateUrl = ev.getProperty("investment.finance-zcfz-date").replace("'companyType'", String.valueOf(i)) + stock.getMarket() + stock.getCode();
-                    String jsonStr = HttpUtils.sendGet(dateUrl, new AtomicInteger(10));
+                    url = url.replace("'companyType'", String.valueOf(i));
+                    String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
                     if (!StringUtils.isEmpty(jsonStr)) {
                         JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                         if (jsonObject.containsKey("data")) {
@@ -267,7 +271,12 @@ public class MyQuartzAsyncTask {
                 }
             }
         } catch (Exception e) {
-            log.error(">>>MyQuartzAsyncTask.invFinanceReportDateTask(" + stock.getCode() + ")异常:", e);
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                invFinanceZyzbTask(stock, url, reportType, count);
+            } else {
+                log.error(">>>MyQuartzAsyncTask.invFinanceReportDateTask(" + url + ")异常:", e);
+            }
         }
     }
 
@@ -279,7 +288,7 @@ public class MyQuartzAsyncTask {
      * @date Sep 9, 2020
      */
     @Async("threadPoolTaskExecutor")
-    public void invFinanceZcfzTask(InvStock stock, String url, String financeType, String reportType) {
+    public void invFinanceZcfzTask(InvStock stock, String url, String financeType, String reportType, AtomicInteger count) {
         try {
             /*
             1.最近的5期进行数据同步，如果和数据库一致则跳过，不一致则更新
@@ -317,8 +326,8 @@ public class MyQuartzAsyncTask {
                             datesSb.append(date);
                         }
                     }
-                    String URL = ev.getProperty(url).replace("'companyType'", stock.getCompanyType()).replace("'dates'", datesSb.toString()) + stock.getMarket() + stock.getCode();
-                    String jsonStr = HttpUtils.sendGet(URL, new AtomicInteger(10));
+                    url = url.replace("'companyType'", companyType).replace("'dates'", datesSb.toString());
+                    String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
                     if (!StringUtils.isEmpty(jsonStr)) {
                         JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                         if (jsonObject.containsKey("data")) {
@@ -383,7 +392,12 @@ public class MyQuartzAsyncTask {
                 }
             }
         } catch (Exception e) {
-            log.error(">>>MyQuartzAsyncTask.invFinanceZcfzTask(" + stock.getCode() + ")异常:", e);
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                invFinanceZyzbTask(stock, url, reportType, count);
+            } else {
+                log.error(">>>MyQuartzAsyncTask.invFinanceZcfzTask(" + url + ")异常:", e);
+            }
         }
     }
 
