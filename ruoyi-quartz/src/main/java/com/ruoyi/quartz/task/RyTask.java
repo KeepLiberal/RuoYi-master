@@ -198,7 +198,7 @@ public class RyTask {
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
         log.info("========财务分析-杜邦分析 任务完成=========");
 
-        log.info("========财务分析-资产负债-报告日期 任务开始 =========");
+        log.info("========财务分析-报告日期 任务开始 =========");
         String finance_zcfz_date_bgq = ev.getProperty("investment.finance-zcfz-date-bgq");
         String finance_zcfz_date_nd = ev.getProperty("investment.finance-zcfz-date-nd");
         for (InvStock stock : stockList) {
@@ -206,7 +206,7 @@ public class RyTask {
             myQuartzAsyncTask.invFinanceReportDateTask(stock, finance_zcfz_date_nd + stock.getMarket() + stock.getCode(), "zcfz", "nd", new AtomicInteger(10));
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
-        log.info("========财务分析-资产负债-报告日期 任务完成=========");
+        log.info("========财务分析-报告日期 任务完成=========");
 
         log.info("========财务分析-资产负债 任务开始=========");
         String finance_zcfz_ajax_bgq = ev.getProperty("investment.finance-zcfz-ajax-bgq");

@@ -317,6 +317,8 @@ public class MyQuartzAsyncTask {
                 for (int i = 1; i < 20; i++) {//目前财富通为1-4类
                     url = url.replace("'companyType'", String.valueOf(i));
                     String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
+                    //调用完接口链接后回退到原始链接
+                    url = url.replace("companyType=" + String.valueOf(i), "companyType='companyType'");
                     if (!StringUtils.isEmpty(jsonStr)) {
                         JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                         if (jsonObject.containsKey("data")) {
