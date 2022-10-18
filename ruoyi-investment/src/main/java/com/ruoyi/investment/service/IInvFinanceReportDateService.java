@@ -7,7 +7,7 @@ import com.ruoyi.investment.domain.InvFinanceReportDate;
  * 财务分析-报告日期Service接口
  * 
  * @author yangwenyang
- * @date 2022-10-15
+ * @date 2022-10-18
  */
 public interface IInvFinanceReportDateService 
 {

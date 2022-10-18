@@ -7,7 +7,7 @@ import com.ruoyi.investment.domain.InvFinanceZcfz;
  * 财务分析-资产负债Service接口
  * 
  * @author yangwenyang
- * @date 2022-10-15
+ * @date 2022-10-18
  */
 public interface IInvFinanceZcfzService 
 {

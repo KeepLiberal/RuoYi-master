@@ -11,7 +11,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 财务分析-报告日期对象 inv_finance_report_date
  * 
  * @author yangwenyang
- * @date 2022-10-15
+ * @date 2022-10-18
  */
 public class InvFinanceReportDate extends BaseEntity
 {
