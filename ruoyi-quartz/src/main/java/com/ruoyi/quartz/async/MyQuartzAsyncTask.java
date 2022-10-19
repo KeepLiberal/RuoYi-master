@@ -405,6 +405,8 @@ public class MyQuartzAsyncTask {
                     }
                     url = url.replace("'companyType'", companyType).replace("'dates'", datesSb.toString());
                     String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
+                    //调用完接口链接后回退到原始链接
+                    url = url.replace("dates=" + datesSb.toString(), "dates='dates'");
                     if (!StringUtils.isEmpty(jsonStr)) {
                         JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                         if (jsonObject.containsKey("data")) {
