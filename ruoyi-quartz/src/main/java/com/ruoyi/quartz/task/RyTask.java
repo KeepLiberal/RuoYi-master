@@ -44,7 +44,7 @@ public class RyTask {
      * 判断线程池状态
      */
     private static void isCompletedByTaskCount(ThreadPoolExecutor threadPool, Integer value) {
-        while (threadPool.getQueue().size()>value) {
+        while (threadPool.getQueue().size() > value) {
             //log.info("计划线程数："+ threadPool.getTaskCount()+" 完成线程数："+ threadPool.getCompletedTaskCount()+" 排队线程数："+ threadPool.getQueue().size()+" 活动线程数："+ threadPool.getActiveCount());
         }
     }
@@ -131,37 +131,44 @@ public class RyTask {
         log.info("========invStockTask任务开始=========");
         String url = ev.getProperty("investment.stock-list");
         String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
-        if (null != jsonStr && !"".equals(jsonStr)) {
-            JSONObject json = JSONObject.parseObject(jsonStr);// 解析jsonStr
-            JSONArray diffArray = json.getJSONObject("data").getJSONArray("diff");
-            if (null != diffArray && !diffArray.isEmpty()) {
-                List<InvStock> invStocks = invStockMapper.selectInvStockList(null);
-                Map<String, InvStock> stockMap = new HashMap<>();
-                for (InvStock stock : invStocks) {
-                    stockMap.put(stock.getCode(), stock);
-                }
-                for (int i = 0; i < diffArray.size(); i++) {
-                    JSONObject jsonObject = diffArray.getJSONObject(i);
-                    String code = jsonObject.getString("f12");
-                    String name = jsonObject.getString("f14");
-                    String market = "";
-                    if (code.startsWith("000") || code.startsWith("001") || code.startsWith("002") || code.startsWith("003") ||
-                            code.startsWith("200") || code.startsWith("201") || code.startsWith("300") || code.startsWith("301")) {
-                        market = "sz";
-                    } else if (code.startsWith("600") || code.startsWith("601") ||
-                            code.startsWith("603") || code.startsWith("605") ||
-                            code.startsWith("688") || code.startsWith("689") || code.startsWith("900")) {
-                        market = "sh";
-                    }
-                    InvStock stock = new InvStock(code, name, market);
-                    if (stockMap.containsKey(code)) {
-                        //数据库存在，但数据不一致，进行更新
-                        if (!stockMap.get(code).equals(stock)) {
-                            invStockMapper.updateInvStock(stock);
+        if (!StringUtils.isEmpty(jsonStr)) {
+            JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+            if (jsonObject.containsKey("data")) {
+                JSONObject dataObject = jsonObject.getJSONObject("data");
+                if (dataObject.containsKey("diff")) {
+                    JSONArray diffArray = dataObject.getJSONArray("diff");
+                    if (!diffArray.isEmpty()) {
+                        List<InvStock> invStocks = invStockMapper.selectInvStockList(null);
+                        Map<String, InvStock> stockMap = new HashMap<>();
+                        for (InvStock stock : invStocks) {
+                            stockMap.put(stock.getCode(), stock);
                         }
-                    } else {
-                        //数据库不存在，直接插入
-                        invStockMapper.insertInvStock(stock);
+
+                        Iterator<Object> iterator = diffArray.iterator();
+                        while (iterator.hasNext()) {
+                            JSONObject next = (JSONObject) iterator.next();
+                            String code = next.getString("f12");
+                            String name = next.getString("f14");
+                            String market = "";
+                            if (code.startsWith("000") || code.startsWith("001") || code.startsWith("002") || code.startsWith("003") ||
+                                    code.startsWith("200") || code.startsWith("201") || code.startsWith("300") || code.startsWith("301")) {
+                                market = "sz";
+                            } else if (code.startsWith("600") || code.startsWith("601") ||
+                                    code.startsWith("603") || code.startsWith("605") ||
+                                    code.startsWith("688") || code.startsWith("689") || code.startsWith("900")) {
+                                market = "sh";
+                            }
+                            InvStock stock = new InvStock(code, name, market);
+                            if (stockMap.containsKey(code)) {
+                                //数据库存在，但数据不一致，进行更新
+                                if (!stockMap.get(code).equals(stock)) {
+                                    invStockMapper.updateInvStock(stock);
+                                }
+                            } else {
+                                //数据库不存在，直接插入
+                                invStockMapper.insertInvStock(stock);
+                            }
+                        }
                     }
                 }
             }
@@ -171,11 +178,14 @@ public class RyTask {
 
 
     /**
-     * 财务分析-重要指标
+     * 财务分析
      */
     public void invFinanceTask() {
         //保证线程池比较闲时候再开始任务
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
+
+        //沪深A股基础数据抓取任务
+        invStockTask();
 
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
         log.info("========财务分析-重要指标 任务开始=========");
@@ -218,9 +228,6 @@ public class RyTask {
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
         log.info("========财务分析-资产负债 任务完成=========");
     }
-
-
-
 
 
 }
