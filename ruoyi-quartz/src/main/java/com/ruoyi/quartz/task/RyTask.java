@@ -131,7 +131,7 @@ public class RyTask {
         log.info("========invStockTask任务开始=========");
         String url = ev.getProperty("investment.stock-list");
         String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
-        if (!StringUtils.isEmpty(jsonStr)) {
+        if (StringUtils.isNotEmpty(jsonStr)) {
             JSONObject jsonObject = JSONObject.parseObject(jsonStr);
             if (jsonObject.containsKey("data")) {
                 JSONObject dataObject = jsonObject.getJSONObject("data");
@@ -200,7 +200,7 @@ public class RyTask {
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
         log.info("========财务分析-重要指标 任务完成=========");
 
-        log.info("========财务分析-杜邦分析 任务开始 =========");
+        log.info("========财务分析-杜邦分析 任务开始=========");
         String finance_zcfz_dbfx = ev.getProperty("investment.finance-dbfx");
         for (InvStock stock : stockList) {
             myQuartzAsyncTask.invFinanceDbfxTask(stock, finance_zcfz_dbfx + stock.getMarket() + stock.getCode(), new AtomicInteger(10));
@@ -208,7 +208,7 @@ public class RyTask {
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
         log.info("========财务分析-杜邦分析 任务完成=========");
 
-        log.info("========财务分析-报告日期 任务开始 =========");
+        log.info("========财务分析-报告日期 任务开始=========");
         String finance_zcfz_date_bgq = ev.getProperty("investment.finance-zcfz-date-bgq");
         String finance_zcfz_date_nd = ev.getProperty("investment.finance-zcfz-date-nd");
         for (InvStock stock : stockList) {

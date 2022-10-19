@@ -22,6 +22,20 @@
                                 </select>
                             </li>
                             <li>
+                                <label>审计意见(境内)：</label>
+                                <select name="opinionType" th:with="type=${@dict.getType('opinion_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>审计意见(境外)：</label>
+                                <select name="osopinionType" th:with="type=${@dict.getType('opinion_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
                                 <label>报告日期：</label>
                                 <input type="text" class="time-input" placeholder="请选择报告日期" name="reportDate"/>
                             </li>
@@ -58,6 +72,8 @@
         var editFlag = [[${@permission.hasPermi('investment:invFinanceZcfz:edit')}]];
         var removeFlag = [[${@permission.hasPermi('investment:invFinanceZcfz:remove')}]];
         var reportTypeDatas = [[${@dict.getType('report_type')}]];
+        var opinionTypeDatas = [[${@dict.getType('opinion_type')}]];
+        var osopinionTypeDatas = [[${@dict.getType('opinion_type')}]];
         var prefix = ctx + "investment/invFinanceZcfz";
 
         $(function() {
@@ -93,11 +109,17 @@
                 },
                 {
                     field: 'opinionType',
-                    title: '审计意见(境内)'
+                    title: '审计意见(境内)',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(opinionTypeDatas, value);
+                    }
                 },
                 {
                     field: 'osopinionType',
-                    title: '审计意见(境外)'
+                    title: '审计意见(境外)',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(osopinionTypeDatas, value);
+                    }
                 },
                 {
                     field: 'monetaryfunds',
