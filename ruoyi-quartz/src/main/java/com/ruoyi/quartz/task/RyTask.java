@@ -211,9 +211,25 @@ public class RyTask {
         log.info("========财务分析-报告日期 任务开始=========");
         String finance_zcfz_date_bgq = ev.getProperty("investment.finance-zcfz-date-bgq");
         String finance_zcfz_date_nd = ev.getProperty("investment.finance-zcfz-date-nd");
+
+        String finance_lr_date_bgq = ev.getProperty("investment.finance-lr-date-bgq");
+        String finance_lr_date_nd = ev.getProperty("investment.finance-lr-date-nd");
+        String finance_lr_date_jd = ev.getProperty("investment.finance-lr-date-jd");
+
+        String finance_xjll_date_bgq = ev.getProperty("investment.finance-xjll-date-bgq");
+        String finance_xjll_date_nd = ev.getProperty("investment.finance-xjll-date-nd");
+        String finance_xjll_date_jd = ev.getProperty("investment.finance-xjll-date-jd");
         for (InvStock stock : stockList) {
             myQuartzAsyncTask.invFinanceReportDateTask(stock, finance_zcfz_date_bgq + stock.getMarket() + stock.getCode(), "zcfz", "bgq", new AtomicInteger(10));
             myQuartzAsyncTask.invFinanceReportDateTask(stock, finance_zcfz_date_nd + stock.getMarket() + stock.getCode(), "zcfz", "nd", new AtomicInteger(10));
+
+            myQuartzAsyncTask.invFinanceReportDateTask(stock, finance_lr_date_bgq + stock.getMarket() + stock.getCode(), "lr", "bgq", new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceReportDateTask(stock, finance_lr_date_nd + stock.getMarket() + stock.getCode(), "lr", "nd", new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceReportDateTask(stock, finance_lr_date_jd + stock.getMarket() + stock.getCode(), "lr", "jd", new AtomicInteger(10));
+
+            myQuartzAsyncTask.invFinanceReportDateTask(stock, finance_xjll_date_bgq + stock.getMarket() + stock.getCode(), "xjll", "bgq", new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceReportDateTask(stock, finance_xjll_date_nd + stock.getMarket() + stock.getCode(), "xjll", "nd", new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceReportDateTask(stock, finance_xjll_date_jd + stock.getMarket() + stock.getCode(), "xjll", "jd", new AtomicInteger(10));
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
         log.info("========财务分析-报告日期 任务完成=========");
