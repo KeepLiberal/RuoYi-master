@@ -20,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectInvStockList" parameterType="InvStock" resultMap="InvStockResult">
         <include refid="selectInvStockVo"/>
         <where>  
+            <if test="code != null  and code != ''"> and code = #{code}</if>
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="stockType != null  and stockType != ''"> and stock_type = #{stockType}</if>
             <if test="market != null  and market != ''"> and market = #{market}</if>
@@ -30,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectInvStockVoNoDelisting" parameterType="InvStock" resultMap="InvStockResult">
         <include refid="selectInvStockVo"/>
-        where name  not LIKE '%退%'
+        where name not like '%退%'
     </select>
 
     <select id="selectInvStockByCode" parameterType="String" resultMap="InvStockResult">
