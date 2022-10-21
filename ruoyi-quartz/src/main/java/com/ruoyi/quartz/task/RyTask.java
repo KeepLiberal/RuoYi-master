@@ -14,10 +14,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -246,4 +243,30 @@ public class RyTask {
     }
 
 
+    public static void main(String[] args) throws IOException {
+        File file = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/ruoyi-investment/src/main/resources/key/lr.txt");
+        List<String> keyList = readFile(file);
+        for (String key : keyList) {
+            if (!key.contains("_YOY")) {
+                if (keyList.contains(key + "_YOY")) {
+                    System.out.println("`"+key + "` double default null comment '-',");
+                    System.out.println("`"+key + "_YOY`" + " double default null comment '(环比%)',");
+                }else{
+                    System.out.println("`"+key + "` double default null comment '-',");
+                }
+            }
+        }
+
+    }
+
+    private static List<String> readFile(File fin) throws IOException {
+        List<String> keyList = new ArrayList<>();
+        BufferedReader br = new BufferedReader(new FileReader(fin));
+        String line = null;
+        while ((line = br.readLine()) != null) {
+            keyList.add(line);
+        }
+        br.close();
+        return keyList;
+    }
 }
