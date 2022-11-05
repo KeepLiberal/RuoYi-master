@@ -56,13 +56,13 @@ public class NumFormatUtil {
     public static Double toDouble(String strNum) {
         String reg = "[^\u4e00-\u9fa5]";// 中文正则
         Double result = null;
-        if(null==strNum || "".equals(strNum)){
+        if(null==strNum || "".equals(strNum) || "-".equals(strNum) || "--".equals(strNum)){
             return result;
         }
         try {
             String newNum = strNum.replace(",", "").replace("%", "")
                     .replace("次", "").replace("天", "")
-                    .replace("倍", "").replace("-", "").replace("--", "");
+                    .replace("倍", "").replace("--", "");
             if(!"".equals(newNum)){
                 String chine = newNum.replaceAll(reg, "");
                 result = Double.valueOf(newNum.replace(chine, ""));

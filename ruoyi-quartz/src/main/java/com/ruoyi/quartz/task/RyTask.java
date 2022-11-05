@@ -124,7 +124,7 @@ public class RyTask {
     /**
      * 沪深A股基础数据抓取任务
      */
-    public void invStockTask() {
+    private void invStockTask() {
         log.info("========invStockTask任务开始=========");
         String url = ev.getProperty("investment.stock-list");
         String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
