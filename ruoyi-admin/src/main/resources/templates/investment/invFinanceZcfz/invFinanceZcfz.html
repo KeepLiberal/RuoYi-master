@@ -26,14 +26,14 @@
                                 <input type="text" class="time-input" placeholder="请选择报告日期" name="reportDate"/>
                             </li>
                             <li>
-                                <label>审计(境内)：</label>
+                                <label>境内审计：</label>
                                 <select name="opinionType" th:with="type=${@dict.getType('opinion_type')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
                             </li>
                             <li>
-                                <label>审计(境外)：</label>
+                                <label>境外审计：</label>
                                 <select name="osopinionType" th:with="type=${@dict.getType('opinion_type')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>

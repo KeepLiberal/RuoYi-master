@@ -17,18 +17,18 @@ public enum OpinionTypeEnu {
     WJSJ("wjsj", "未经审计");
 
     private final String code;
-    private final String info;
+    private final String value;
 
-    OpinionTypeEnu(String code, String info) {
+    OpinionTypeEnu(String code, String value) {
         this.code = code;
-        this.info = info;
+        this.value = value;
     }
 
     public String getCode() {
         return code;
     }
 
-    public String getInfo() {
-        return info;
+    public String getValue() {
+        return value;
     }
 }

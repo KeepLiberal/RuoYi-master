@@ -47,6 +47,8 @@ public class MyQuartzAsyncTask {
     private InvFinanceReportDateMapper invFinanceReportDateMapper;
     @Resource
     private InvFinanceZcfzMapper invFinanceZcfzMapper;
+    @Resource
+    private InvFinanceLrMapper invFinanceLrMapper;
 
 
     /**
@@ -453,7 +455,7 @@ public class MyQuartzAsyncTask {
                                                 if ("opinionType".equals(fieldName) || "osopinionType".equals(fieldName)) {
                                                     if (StringUtils.isNotEmpty(valueString)){
                                                         for(OpinionTypeEnu value : OpinionTypeEnu.values()){
-                                                            if (value.getInfo().equals(valueString)){
+                                                            if (value.getValue().equals(valueString)){
                                                                 field.set(zcfz, value.getCode());
                                                             }
                                                         }
@@ -486,9 +488,145 @@ public class MyQuartzAsyncTask {
         } catch (Exception e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
-                invFinanceZyzbTask(stock, url, reportType, count);
+                invFinanceZcfzTask(stock, url, financeType, reportType, count);
             } else {
                 log.error(">>>MyQuartzAsyncTask.invFinanceZcfzTask(" + url + ")异常:", e);
+            }
+        }
+    }
+
+
+
+    /**
+     * @Title: 异步执行invFinanceLrTask任务
+     * @Description:
+     * @author weny.yang
+     * @date Sep 9, 2020
+     */
+    @Async("threadPoolTaskExecutor")
+    public void invFinanceLrTask(InvStock stock, String url, String financeType, String reportType, AtomicInteger count) {
+        try {
+            /*
+            1.最近的5期进行数据同步，如果和数据库一致则跳过，不一致则更新
+            2.超过5期的其他的如果数据库不存在则新增，如果存在则不再同步
+             */
+            String companyType = stock.getStockType();
+            List<String> dateList = new ArrayList<String>();
+            List<InvFinanceReportDate> invFinanceReportDateList = invFinanceReportDateMapper.selectInvFinanceReportDateList(new InvFinanceReportDate(stock.getCode(), financeType, reportType));
+            for (InvFinanceReportDate reportDate : invFinanceReportDateList) {
+                dateList.add(DateUtils.dateTime(reportDate.getReportDate()));
+            }
+            if (null != companyType && dateList.size() > 0) {
+                List<InvFinanceLr> lrList = new ArrayList<InvFinanceLr>();
+                lrList.addAll(invFinanceLrMapper.selectInvFinanceLrList(new InvFinanceLr(stock.getCode(),reportType)));
+                Map<String, InvFinanceLr> lrMap = new HashMap<String, InvFinanceLr>();
+                for (int i = 0; i < lrList.size(); i++) {
+                    InvFinanceLr lr = lrList.get(i);
+                    if (i < 5) {
+                        lrMap.put(lr.getReportDate().toString(), lr);
+                    } else {
+                        dateList.remove(DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD, lr.getReportDate()));
+                    }
+                }
+                //每次从dateList中取5条数据拼接
+                int toIndex = 5;
+                for (int i = 0; i < dateList.size(); i += 5) {
+                    if (i + 5 > dateList.size()) {
+                        toIndex = dateList.size() - i;
+                    }
+                    StringBuilder datesSb = new StringBuilder();
+                    for (String date : dateList.subList(i, i + toIndex)) {
+                        if (datesSb.length() > 0) {
+                            datesSb.append("%2C").append(date);
+                        } else {
+                            datesSb.append(date);
+                        }
+                    }
+                    url = url.replace("'companyType'", companyType).replace("'dates'", datesSb.toString());
+                    String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
+                    //调用完接口链接后回退到原始链接
+                    url = url.replace("dates=" + datesSb.toString(), "dates='dates'");
+                    if (StringUtils.isNotEmpty(jsonStr)) {
+                        JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+                        if (jsonObject.containsKey("data")) {
+                            JSONArray dataArray = jsonObject.getJSONArray("data");
+                            if (!dataArray.isEmpty()) {
+                                //1.更新Stock 的 组织代码orgCode 组织简称orgType 股票分类代码securityTypeCode
+                                boolean updateStockFlag = false;
+                                JSONObject jsonObj = (JSONObject) dataArray.get(0);
+                                if (StringUtils.isEmpty(stock.getOrgCode())) {
+                                    stock.setOrgCode(jsonObj.getString("ORG_CODE"));
+                                    updateStockFlag = true;
+                                }
+                                if (StringUtils.isEmpty(stock.getSecurityTypeCode())) {
+                                    stock.setSecurityTypeCode(jsonObj.getString("SECURITY_TYPE_CODE"));
+                                    updateStockFlag = true;
+                                }
+                                if (updateStockFlag) {
+                                    invStockMapper.updateInvStock(stock);
+                                }
+
+                                //2.保存利润数据
+                                Iterator<Object> iterator = dataArray.iterator();
+                                while (iterator.hasNext()) {
+                                    //反射赋值
+                                    InvFinanceLr lr = new InvFinanceLr(stock.getCode(),reportType);
+                                    Class<? extends InvFinanceLr> clazz = lr.getClass();
+                                    Field[] declaredFields = clazz.getDeclaredFields();
+                                    JSONObject next = (JSONObject) iterator.next();
+                                    for (Field field : declaredFields) {
+                                        field.setAccessible(true);
+                                        String genericType = field.getGenericType().toString();
+                                        String fieldName = field.getName();
+                                        if (!"reportType".equals(fieldName)) {
+                                            String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
+                                            if ("class java.lang.Double".equals(genericType)) {
+                                                Double value = NumFormatUtil.toDouble(valueString);
+                                                field.set(lr, value);
+                                            } else if ("class java.util.Date".equals(genericType)) {
+                                                Date value = DateUtils.parseDate(valueString);
+                                                field.set(lr, value);
+                                            } else if ("class java.lang.String".equals(genericType)) {
+                                                //审计意见枚举赋值
+                                                if ("opinionType".equals(fieldName) || "osopinionType".equals(fieldName)) {
+                                                    if (StringUtils.isNotEmpty(valueString)){
+                                                        for(OpinionTypeEnu enu : OpinionTypeEnu.values()){
+                                                            if (enu.getValue().equals(valueString)){
+                                                                field.set(lr, enu.getCode());
+                                                            }
+                                                        }
+                                                        //没有找到已定义枚举匹配项
+                                                        if (StringUtils.isEmpty((String)field.get(lr))){
+                                                            field.set(lr, valueString);
+                                                            log.error(">>>审计意见：" + valueString + " 不在预定枚举类");
+                                                        }
+                                                    }
+                                                }else{
+                                                    field.set(lr, valueString);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (lrMap.containsKey(lr.getReportDate().toString())) {//数据库已有code指定日期报告
+                                        InvFinanceLr companies = lrMap.get(lr.getReportDate().toString());
+                                        if (!companies.equals(lr)) {//报告数据不相同，以最新获取为准更新数据库
+                                            invFinanceLrMapper.updateInvFinanceLr(lr);
+                                        }
+                                    } else {//数据库没有code指定日期报告，插入
+                                        invFinanceLrMapper.insertInvFinanceLr(lr);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                invFinanceLrTask(stock, url, financeType, reportType, count);
+            } else {
+                log.error(">>>MyQuartzAsyncTask.invFinanceLrTask(" + url + ")异常:", e);
             }
         }
     }
