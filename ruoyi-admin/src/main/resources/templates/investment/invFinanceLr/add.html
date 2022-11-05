@@ -1,0 +1,1920 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增财务分析-利润')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-invFinanceLr-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">股票代码：</label>
+                <div class="col-sm-8">
+                    <input name="securityCode" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">报告类型：</label>
+                <div class="col-sm-8">
+                    <select name="reportType" class="form-control m-b" th:with="type=${@dict.getType('report_type')}" required>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">报告日期：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="reportDate" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">审计意见(境内)：</label>
+                <div class="col-sm-8">
+                    <select name="opinionType" class="form-control m-b" th:with="type=${@dict.getType('opinion_type')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">审计意见(境外)：</label>
+                <div class="col-sm-8">
+                    <select name="osopinionType" class="form-control m-b" th:with="type=${@dict.getType('opinion_type')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业收入总额：</label>
+                <div class="col-sm-8">
+                    <input name="operateIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业收入总额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="operateIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利息净收入：</label>
+                <div class="col-sm-8">
+                    <input name="interestNi" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利息净收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="interestNiYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利息收入：</label>
+                <div class="col-sm-8">
+                    <input name="interestIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利息收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="interestIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利息支出：</label>
+                <div class="col-sm-8">
+                    <input name="interestExpense" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利息支出(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="interestExpenseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">手续费及佣金净收入：</label>
+                <div class="col-sm-8">
+                    <input name="feeCommissionNi" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">手续费及佣金净收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="feeCommissionNiYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">手续费及佣金收入：</label>
+                <div class="col-sm-8">
+                    <input name="feeCommissionIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">手续费及佣金收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="feeCommissionIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">手续费及佣金支出：</label>
+                <div class="col-sm-8">
+                    <input name="feeCommissionExpense" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">手续费及佣金支出(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="feeCommissionExpenseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资收益：</label>
+                <div class="col-sm-8">
+                    <input name="investIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资收益(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="investIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">对联营企业和合营企业的投资收益：</label>
+                <div class="col-sm-8">
+                    <input name="investJointIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">对联营企业和合营企业的投资收益(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="investJointIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">公允价值变动收益：</label>
+                <div class="col-sm-8">
+                    <input name="fairvalueChangeIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">公允价值变动收益(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="fairvalueChangeIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">汇兑损失：</label>
+                <div class="col-sm-8">
+                    <input name="exchangeIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">汇兑损失(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="exchangeIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他业务收入：</label>
+                <div class="col-sm-8">
+                    <input name="otherBusinessIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他业务收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherBusinessIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产处置收益：</label>
+                <div class="col-sm-8">
+                    <input name="assetDisposalIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产处置收益(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="assetDisposalIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他收益：</label>
+                <div class="col-sm-8">
+                    <input name="otherIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他收益(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业收入其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateIncomeOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业收入其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="operateIncomeOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业收入平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateIncomeBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业收入平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="operateIncomeBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业支出总额：</label>
+                <div class="col-sm-8">
+                    <input name="operateExpense" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业支出总额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="operateExpenseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">税金及附加：</label>
+                <div class="col-sm-8">
+                    <input name="operateTaxAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">税金及附加(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="operateTaxAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">业务及管理费：</label>
+                <div class="col-sm-8">
+                    <input name="businessManageExpense" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">业务及管理费(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="businessManageExpenseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产减值损失：</label>
+                <div class="col-sm-8">
+                    <input name="assetImpairmentLoss" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产减值损失(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="assetImpairmentLossYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">信用减值损失：</label>
+                <div class="col-sm-8">
+                    <input name="creditImpairmentLoss" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">信用减值损失(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="creditImpairmentLossYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他业务成本：</label>
+                <div class="col-sm-8">
+                    <input name="otherBusinessCost" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他业务成本(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherBusinessCostYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业支出其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateExpenseOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业支出其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="operateExpenseOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业支出平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateExpenseBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业支出平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="operateExpenseBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业利润其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateProfitOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业利润其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="operateProfitOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业利润平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateProfitBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业利润平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="operateProfitBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业利润：</label>
+                <div class="col-sm-8">
+                    <input name="operateProfit" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业利润(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="operateProfitYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业外收入：</label>
+                <div class="col-sm-8">
+                    <input name="nonbusinessIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业外收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="nonbusinessIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非流动资产处置利得：</label>
+                <div class="col-sm-8">
+                    <input name="noncurrentDisposalIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非流动资产处置利得(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="noncurrentDisposalIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业外支出：</label>
+                <div class="col-sm-8">
+                    <input name="nonbusinessExpense" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业外支出(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="nonbusinessExpenseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非流动资产处置净损失：</label>
+                <div class="col-sm-8">
+                    <input name="noncurrentDisposalLoss" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非流动资产处置净损失(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="noncurrentDisposalLossYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">影响利润总额的其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="effectTpOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">影响利润总额的其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="effectTpOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利润总额平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="totalProfitBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利润总额平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalProfitBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利润总额：</label>
+                <div class="col-sm-8">
+                    <input name="totalProfit" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利润总额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalProfitYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">所得税：</label>
+                <div class="col-sm-8">
+                    <input name="incomeTax" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">所得税(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="incomeTaxYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">影响净利润的其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="effectNetprofitOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">影响净利润的其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="effectNetprofitOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">影响净利润的平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="effectNetprofitBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">影响净利润的平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="effectNetprofitBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净利润：</label>
+                <div class="col-sm-8">
+                    <input name="netprofit" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净利润(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="netprofitYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">持续经营净利润：</label>
+                <div class="col-sm-8">
+                    <input name="continuedNetprofit" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">持续经营净利润(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="continuedNetprofitYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">终止经营净利润：</label>
+                <div class="col-sm-8">
+                    <input name="discontinuedNetprofit" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">终止经营净利润(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="discontinuedNetprofitYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于母公司股东的净利润：</label>
+                <div class="col-sm-8">
+                    <input name="parentNetprofit" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于母公司股东的净利润(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="parentNetprofitYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">少数股东损益：</label>
+                <div class="col-sm-8">
+                    <input name="minorityInterest" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">少数股东损益(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="minorityInterestYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">扣除非经常性损益后的净利润：</label>
+                <div class="col-sm-8">
+                    <input name="deductParentNetprofit" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">扣除非经常性损益后的净利润(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="deductParentNetprofitYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净利润其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="netprofitOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净利润其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="netprofitOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净利润平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="netprofitBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净利润平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="netprofitBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">基本每股收益：</label>
+                <div class="col-sm-8">
+                    <input name="basicEps" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">基本每股收益(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="basicEpsYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">稀释每股收益：</label>
+                <div class="col-sm-8">
+                    <input name="dilutedEps" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">稀释每股收益(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="dilutedEpsYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他综合收益：</label>
+                <div class="col-sm-8">
+                    <input name="otherCompreIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他综合收益(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherCompreIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于母公司股东的其他综合收益：</label>
+                <div class="col-sm-8">
+                    <input name="parentOci" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于母公司股东的其他综合收益(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="parentOciYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于少数股东的其他综合收益：</label>
+                <div class="col-sm-8">
+                    <input name="minorityOci" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于少数股东的其他综合收益(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="minorityOciYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">赔付支出净额：</label>
+                <div class="col-sm-8">
+                    <input name="netCompensateExpense" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">赔付支出净额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="netCompensateExpenseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">退保金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="surrenderValueYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">影响净利润的其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="effectNetprofitOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业总收入其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="toiOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业总收入其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="toiOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">研发费用：</label>
+                <div class="col-sm-8">
+                    <input name="researchExpense" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">研发费用(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="researchExpenseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="uninsuranceCiYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于母公司股东的综合收益总额：</label>
+                <div class="col-sm-8">
+                    <input name="parentTciQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净敞口套期收益：</label>
+                <div class="col-sm-8">
+                    <input name="netExposureIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净敞口套期收益(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="netExposureIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于少数股东的其他综合收益：</label>
+                <div class="col-sm-8">
+                    <input name="minorityOciQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利息收入：</label>
+                <div class="col-sm-8">
+                    <input name="feInterestIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业总成本其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="tocOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业总成本其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="tocOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">提取保险合同准备金净额：</label>
+                <div class="col-sm-8">
+                    <input name="netContractReserve" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">提取保险合同准备金净额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="netContractReserveYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">管理费用：</label>
+                <div class="col-sm-8">
+                    <input name="manageExpense" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">管理费用(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="manageExpenseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业成本：</label>
+                <div class="col-sm-8">
+                    <input name="operateCost" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业成本(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="operateCostYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业总成本：</label>
+                <div class="col-sm-8">
+                    <input name="totalOperateCost" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业总成本(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalOperateCostYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利息费用：</label>
+                <div class="col-sm-8">
+                    <input name="feInterestExpense" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利息费用(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="feInterestExpenseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">未确认投资损失：</label>
+                <div class="col-sm-8">
+                    <input name="unconfirmInvestLoss" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">未确认投资损失(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="unconfirmInvestLossYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">被合并方在合并前实现利润：</label>
+                <div class="col-sm-8">
+                    <input name="precombineProfit" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">被合并方在合并前实现利润(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="precombineProfitYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产减值损失：</label>
+                <div class="col-sm-8">
+                    <input name="assetImpairmentIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产减值损失(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="assetImpairmentIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">财务费用：</label>
+                <div class="col-sm-8">
+                    <input name="financeExpense" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">财务费用(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="financeExpenseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">分保费用：</label>
+                <div class="col-sm-8">
+                    <input name="reinsureExpense" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">分保费用(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="reinsureExpenseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业总收入：</label>
+                <div class="col-sm-8">
+                    <input name="totalOperateIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业总收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalOperateIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">信用减值损失：</label>
+                <div class="col-sm-8">
+                    <input name="creditImpairmentIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">信用减值损失(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="creditImpairmentIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">保单红利支出：</label>
+                <div class="col-sm-8">
+                    <input name="policyBonusExpense" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">保单红利支出(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="policyBonusExpenseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利息收入：</label>
+                <div class="col-sm-8">
+                    <input name="feInterestIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利息收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="feInterestIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">已赚保费：</label>
+                <div class="col-sm-8">
+                    <input name="earnedPremium" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">已赚保费(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="earnedPremiumYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">销售费用：</label>
+                <div class="col-sm-8">
+                    <input name="saleExpense" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">销售费用(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="saleExpenseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">可供出售金融资产公允价值变动损益：</label>
+                <div class="col-sm-8">
+                    <input name="afaFairvalueChange" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">可供出售金融资产公允价值变动损益(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="afaFairvalueChangeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">外币报表折算差额：</label>
+                <div class="col-sm-8">
+                    <input name="convertDiff" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">外币报表折算差额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="convertDiffYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">综合收益总额：</label>
+                <div class="col-sm-8">
+                    <input name="totalCompreIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">综合收益总额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalCompreIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于母公司股东的综合收益总额：</label>
+                <div class="col-sm-8">
+                    <input name="parentTci" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于母公司股东的综合收益总额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="parentTciYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于少数股东的综合收益总额：</label>
+                <div class="col-sm-8">
+                    <input name="minorityTci" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于少数股东的综合收益总额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="minorityTciYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">分出保费：</label>
+                <div class="col-sm-8">
+                    <input name="reinsurePremium" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">分出保费(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="reinsurePremiumYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">银行业务利息净收入：</label>
+                <div class="col-sm-8">
+                    <input name="bankInterestNi" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">银行业务利息净收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="bankInterestNiYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">赔付支出：</label>
+                <div class="col-sm-8">
+                    <input name="compensateExpense" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">赔付支出(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="compensateExpenseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">分保费收入：</label>
+                <div class="col-sm-8">
+                    <input name="reinsureIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">分保费收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="reinsureIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">摊回保险责任准备金：</label>
+                <div class="col-sm-8">
+                    <input name="amortizeInsuranceReserve" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">摊回保险责任准备金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="amortizeInsuranceReserveYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">影响净利润的平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="effectNetprofitBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非保险业务手续费及佣金收入：</label>
+                <div class="col-sm-8">
+                    <input name="uninsuranceCiQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">提取保险责任准备金：</label>
+                <div class="col-sm-8">
+                    <input name="extractInsuranceReserveQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">提取未到期责任准备金：</label>
+                <div class="col-sm-8">
+                    <input name="extractUnexpireReserve" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">提取未到期责任准备金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="extractUnexpireReserveYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">已赚保费平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="earnedPremiumBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">已赚保费平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="earnedPremiumBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">银行业务利息支出：</label>
+                <div class="col-sm-8">
+                    <input name="bankInterestExpense" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">银行业务利息支出(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="bankInterestExpenseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">公允价值变动损益：</label>
+                <div class="col-sm-8">
+                    <input name="fairvalueChange" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">公允价值变动损益(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="fairvalueChangeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">摊回赔付支出：</label>
+                <div class="col-sm-8">
+                    <input name="amortizeCompensateExpense" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">摊回赔付支出(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="amortizeCompensateExpenseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">提取保险责任准备金：</label>
+                <div class="col-sm-8">
+                    <input name="extractInsuranceReserve" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">提取保险责任准备金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="extractInsuranceReserveYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">受托客户资产管理业务净收入：</label>
+                <div class="col-sm-8">
+                    <input name="assetManageNi" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">受托客户资产管理业务净收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="assetManageNiYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">证券经纪业务净收入-手续费及佣金净收入其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="commissionNiOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">证券经纪业务净收入-手续费及佣金净收入其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="commissionNiOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">代理买卖证券业务净收入：</label>
+                <div class="col-sm-8">
+                    <input name="agentSecurityNi" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">代理买卖证券业务净收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="agentSecurityNiYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">保荐业务净收入：</label>
+                <div class="col-sm-8">
+                    <input name="recommendNi" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">保荐业务净收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="recommendNiYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">证券经纪业务净收入：</label>
+                <div class="col-sm-8">
+                    <input name="brokerNi" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">证券经纪业务净收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="brokerNiYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">财务顾问净收入：</label>
+                <div class="col-sm-8">
+                    <input name="financeAdviserNi" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">财务顾问净收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="financeAdviserNiYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">基金销售业务净收入：</label>
+                <div class="col-sm-8">
+                    <input name="fundSaleNi" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">基金销售业务净收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="fundSaleNiYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">摊回分保费用：</label>
+                <div class="col-sm-8">
+                    <input name="amortizeReinsureExpense" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">摊回分保费用(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="amortizeReinsureExpenseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非保险业务手续费及佣金净收入：</label>
+                <div class="col-sm-8">
+                    <input name="uninsuranceCni" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非保险业务手续费及佣金净收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="uninsuranceCniYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">银行业务利息收入：</label>
+                <div class="col-sm-8">
+                    <input name="bankInterestIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">银行业务利息收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="bankInterestIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非保险业务手续费及佣金支出：</label>
+                <div class="col-sm-8">
+                    <input name="uninsuranceCe" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非保险业务手续费及佣金支出(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="uninsuranceCeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">证券承销业务净收入：</label>
+                <div class="col-sm-8">
+                    <input name="securityUnderwriteNi" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">证券承销业务净收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="securityUnderwriteNiYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">保险业务收入：</label>
+                <div class="col-sm-8">
+                    <input name="insuranceIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">保险业务收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="insuranceIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">基金管理业务净收入：</label>
+                <div class="col-sm-8">
+                    <input name="fundManageNi" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">基金管理业务净收入(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="fundManageNiYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净利润其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="netprofitOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他业务收入：</label>
+                <div class="col-sm-8">
+                    <input name="otherBusinessIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业利润：</label>
+                <div class="col-sm-8">
+                    <input name="operateProfitQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">所得税：</label>
+                <div class="col-sm-8">
+                    <input name="incomeTaxQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">被合并方在合并前实现利润：</label>
+                <div class="col-sm-8">
+                    <input name="precombineProfitQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业总成本：</label>
+                <div class="col-sm-8">
+                    <input name="totalOperateCostQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净利润差额/合计平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="netprofitBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业外收入：</label>
+                <div class="col-sm-8">
+                    <input name="nonbusinessIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">扣除非经常性损益后的净利润：</label>
+                <div class="col-sm-8">
+                    <input name="deductParentNetprofitQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">赔付支出净额：</label>
+                <div class="col-sm-8">
+                    <input name="netCompensateExpenseQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">信用减值损失：</label>
+                <div class="col-sm-8">
+                    <input name="creditImpairmentIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产减值损失：</label>
+                <div class="col-sm-8">
+                    <input name="assetImpairmentLossQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">研发费用：</label>
+                <div class="col-sm-8">
+                    <input name="researchExpenseQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">少数股东损益：</label>
+                <div class="col-sm-8">
+                    <input name="parentNetprofitQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利息收入：</label>
+                <div class="col-sm-8">
+                    <input name="interestIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">手续费及佣金收入：</label>
+                <div class="col-sm-8">
+                    <input name="feeCommissionIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他综合收益：</label>
+                <div class="col-sm-8">
+                    <input name="otherCompreIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">退保金：</label>
+                <div class="col-sm-8">
+                    <input name="surrenderValueQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他收益：</label>
+                <div class="col-sm-8">
+                    <input name="otherIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利润总额：</label>
+                <div class="col-sm-8">
+                    <input name="totalProfitQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">未确认投资损失：</label>
+                <div class="col-sm-8">
+                    <input name="unconfirmInvestLossQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">影响利润总额的其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="effectTpOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">终止经营净利润：</label>
+                <div class="col-sm-8">
+                    <input name="discontinuedNetprofitQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">分保费用：</label>
+                <div class="col-sm-8">
+                    <input name="reinsureExpenseQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于少数股东的综合收益总额：</label>
+                <div class="col-sm-8">
+                    <input name="minorityTciQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业总收入：</label>
+                <div class="col-sm-8">
+                    <input name="totalOperateIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">持续经营净利润：</label>
+                <div class="col-sm-8">
+                    <input name="continuedNetprofitQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">退保金：</label>
+                <div class="col-sm-8">
+                    <input name="surrenderValue" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">财务费用：</label>
+                <div class="col-sm-8">
+                    <input name="financeExpenseQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">税金及附加：</label>
+                <div class="col-sm-8">
+                    <input name="operateTaxAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">销售费用：</label>
+                <div class="col-sm-8">
+                    <input name="saleExpenseQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资收益：</label>
+                <div class="col-sm-8">
+                    <input name="investIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业利润其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateProfitOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">提取保险合同准备金净额：</label>
+                <div class="col-sm-8">
+                    <input name="netContractReserveQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利息支出：</label>
+                <div class="col-sm-8">
+                    <input name="interestExpenseQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">基本每股收益：</label>
+                <div class="col-sm-8">
+                    <input name="basicEpsQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">信用减值损失：</label>
+                <div class="col-sm-8">
+                    <input name="creditImpairmentLossQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">少数股东损益：</label>
+                <div class="col-sm-8">
+                    <input name="minorityInterestQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">公允价值变动收益：</label>
+                <div class="col-sm-8">
+                    <input name="fairvalueChangeIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业外支出：</label>
+                <div class="col-sm-8">
+                    <input name="nonbusinessExpenseQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">对联营企业和合营企业的投资收益：</label>
+                <div class="col-sm-8">
+                    <input name="investJointIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净利润：</label>
+                <div class="col-sm-8">
+                    <input name="netprofitQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">管理费用：</label>
+                <div class="col-sm-8">
+                    <input name="manageExpenseQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产减值损失：</label>
+                <div class="col-sm-8">
+                    <input name="assetImpairmentIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非流动资产处置利得：</label>
+                <div class="col-sm-8">
+                    <input name="noncurrentDisposalIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非流动资产处置净损失：</label>
+                <div class="col-sm-8">
+                    <input name="noncurrentDisposalLossQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业总收入其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="toiOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利息费用：</label>
+                <div class="col-sm-8">
+                    <input name="feInterestExpenseQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">稀释每股收益：</label>
+                <div class="col-sm-8">
+                    <input name="dilutedEpsQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他业务成本：</label>
+                <div class="col-sm-8">
+                    <input name="otherBusinessCostQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业利润平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateProfitBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">保单红利支出：</label>
+                <div class="col-sm-8">
+                    <input name="policyBonusExpenseQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属于母公司股东的其他综合收益：</label>
+                <div class="col-sm-8">
+                    <input name="parentOciQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业支出：</label>
+                <div class="col-sm-8">
+                    <input name="operateExpenseQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">银行业务利息净收入：</label>
+                <div class="col-sm-8">
+                    <input name="bankInterestNiQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">提取未到期责任准备金：</label>
+                <div class="col-sm-8">
+                    <input name="extractUnexpireReserveQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">基金管理业务净收入：</label>
+                <div class="col-sm-8">
+                    <input name="fundManageNiQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">受托客户资产管理业务净收入：</label>
+                <div class="col-sm-8">
+                    <input name="assetManageNiQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">代理买卖证券业务净收入：</label>
+                <div class="col-sm-8">
+                    <input name="agentSecurityNiQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业收入平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateIncomeBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业支出平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateExpenseBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非保险业务手续费及佣金净收入：</label>
+                <div class="col-sm-8">
+                    <input name="uninsuranceCniQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">摊回赔付支出：</label>
+                <div class="col-sm-8">
+                    <input name="amortizeCompensateExpenseQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">分保费收入：</label>
+                <div class="col-sm-8">
+                    <input name="reinsureIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">业务及管理费：</label>
+                <div class="col-sm-8">
+                    <input name="businessManageExpenseQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业收入其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateIncomeOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">基金销售业务净收入：</label>
+                <div class="col-sm-8">
+                    <input name="fundSaleNiQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">证券经纪业务净收入：</label>
+                <div class="col-sm-8">
+                    <input name="brokerNiQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">银行业务利息收入：</label>
+                <div class="col-sm-8">
+                    <input name="bankInterestIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">分出保费：</label>
+                <div class="col-sm-8">
+                    <input name="reinsurePremiumQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">赔付支出：</label>
+                <div class="col-sm-8">
+                    <input name="compensateExpenseQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">财务顾问净收入：</label>
+                <div class="col-sm-8">
+                    <input name="financeAdviserNiQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">手续费及佣金净收入：</label>
+                <div class="col-sm-8">
+                    <input name="feeCommissionNiQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">保荐业务净收入：</label>
+                <div class="col-sm-8">
+                    <input name="recommendNiQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业支出其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateExpenseOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">手续费及佣金净收入其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="commissionNiOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">可供出售金融资产公允价值变动损益：</label>
+                <div class="col-sm-8">
+                    <input name="afaFairvalueChangeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">摊回分保费用：</label>
+                <div class="col-sm-8">
+                    <input name="amortizeReinsureExpenseQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">已赚保费平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="earnedPremiumBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非保险业务手续费及佣金收入：</label>
+                <div class="col-sm-8">
+                    <input name="uninsuranceCi" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业总成本其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="tocOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净敞口套期收益：</label>
+                <div class="col-sm-8">
+                    <input name="netExposureIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">汇兑收益：</label>
+                <div class="col-sm-8">
+                    <input name="exchangeIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">非保险业务手续费及佣金支出：</label>
+                <div class="col-sm-8">
+                    <input name="uninsuranceCeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">已赚保费：</label>
+                <div class="col-sm-8">
+                    <input name="earnedPremiumQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业总成本：</label>
+                <div class="col-sm-8">
+                    <input name="operateCostQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">综合收益总额：</label>
+                <div class="col-sm-8">
+                    <input name="totalCompreIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">证券承销业务净收入：</label>
+                <div class="col-sm-8">
+                    <input name="securityUnderwriteNiQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">摊回保险责任准备金：</label>
+                <div class="col-sm-8">
+                    <input name="amortizeInsuranceReserveQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产处置收益：</label>
+                <div class="col-sm-8">
+                    <input name="assetDisposalIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利润总额平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="totalProfitBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">保险业务收入：</label>
+                <div class="col-sm-8">
+                    <input name="insuranceIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">公允价值变动损益：</label>
+                <div class="col-sm-8">
+                    <input name="fairvalueChangeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">利息净收入：</label>
+                <div class="col-sm-8">
+                    <input name="interestNiQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业收入：</label>
+                <div class="col-sm-8">
+                    <input name="operateIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">手续费及佣金支出：</label>
+                <div class="col-sm-8">
+                    <input name="feeCommissionExpenseQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">银行业务利息支出：</label>
+                <div class="col-sm-8">
+                    <input name="bankInterestExpenseQoq" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "investment/invFinanceLr"
+        $("#form-invFinanceLr-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-invFinanceLr-add').serialize());
+            }
+        }
+
+        $("input[name='reportDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

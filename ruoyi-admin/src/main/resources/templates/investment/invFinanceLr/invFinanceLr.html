@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('财务分析-利润列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>股票代码：</label>
+                                <input type="text" name="securityCode"/>
+                            </li>
+                            <li>
+                                <label>报告类型：</label>
+                                <select name="reportType" th:with="type=${@dict.getType('report_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>报告日期：</label>
+                                <input type="text" class="time-input" placeholder="请选择报告日期" name="reportDate"/>
+                            </li>
+                            <li>
+                                <label>审计(境内)：</label>
+                                <select name="opinionType" th:with="type=${@dict.getType('opinion_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>审计(境外)：</label>
+                                <select name="osopinionType" th:with="type=${@dict.getType('opinion_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="investment:invFinanceLr:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="investment:invFinanceLr:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="investment:invFinanceLr:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="investment:invFinanceLr:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('investment:invFinanceLr:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('investment:invFinanceLr:remove')}]];
+        var reportTypeDatas = [[${@dict.getType('report_type')}]];
+        var opinionTypeDatas = [[${@dict.getType('opinion_type')}]];
+        var osopinionTypeDatas = [[${@dict.getType('opinion_type')}]];
+        var prefix = ctx + "investment/invFinanceLr";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "财务分析-利润",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'id',
+                    title: 'id',
+                    visible: false
+                },
+                {
+                    field: 'securityCode',
+                    title: '股票代码'
+                },
+                {
+                    field: 'reportType',
+                    title: '报告类型',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(reportTypeDatas, value);
+                    }
+                },
+                {
+                    field: 'reportDate',
+                    title: '报告日期'
+                },
+                {
+                    field: 'opinionType',
+                    title: '审计意见(境内)',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(opinionTypeDatas, value);
+                    }
+                },
+                {
+                    field: 'osopinionType',
+                    title: '审计意见(境外)',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(osopinionTypeDatas, value);
+                    }
+                },
+                {
+                    field: 'operateIncome',
+                    title: '营业收入总额'
+                },
+                {
+                    field: 'operateIncomeYoy',
+                    title: '营业收入总额(环比%)'
+                },
+                {
+                    field: 'interestNi',
+                    title: '利息净收入'
+                },
+                {
+                    field: 'interestNiYoy',
+                    title: '利息净收入(环比%)'
+                },
+                {
+                    field: 'interestIncome',
+                    title: '利息收入'
+                },
+                {
+                    field: 'interestIncomeYoy',
+                    title: '利息收入(环比%)'
+                },
+                {
+                    field: 'interestExpense',
+                    title: '利息支出'
+                },
+                {
+                    field: 'interestExpenseYoy',
+                    title: '利息支出(环比%)'
+                },
+                {
+                    field: 'feeCommissionNi',
+                    title: '手续费及佣金净收入'
+                },
+                {
+                    field: 'feeCommissionNiYoy',
+                    title: '手续费及佣金净收入(环比%)'
+                },
+                {
+                    field: 'feeCommissionIncome',
+                    title: '手续费及佣金收入'
+                },
+                {
+                    field: 'feeCommissionIncomeYoy',
+                    title: '手续费及佣金收入(环比%)'
+                },
+                {
+                    field: 'feeCommissionExpense',
+                    title: '手续费及佣金支出'
+                },
+                {
+                    field: 'feeCommissionExpenseYoy',
+                    title: '手续费及佣金支出(环比%)'
+                },
+                {
+                    field: 'investIncome',
+                    title: '投资收益'
+                },
+                {
+                    field: 'investIncomeYoy',
+                    title: '投资收益(环比%)'
+                },
+                {
+                    field: 'investJointIncome',
+                    title: '对联营企业和合营企业的投资收益'
+                },
+                {
+                    field: 'investJointIncomeYoy',
+                    title: '对联营企业和合营企业的投资收益(环比%)'
+                },
+                {
+                    field: 'fairvalueChangeIncome',
+                    title: '公允价值变动收益'
+                },
+                {
+                    field: 'fairvalueChangeIncomeYoy',
+                    title: '公允价值变动收益(环比%)'
+                },
+                {
+                    field: 'exchangeIncome',
+                    title: '汇兑损失'
+                },
+                {
+                    field: 'exchangeIncomeYoy',
+                    title: '汇兑损失(环比%)'
+                },
+                {
+                    field: 'otherBusinessIncome',
+                    title: '其他业务收入'
+                },
+                {
+                    field: 'otherBusinessIncomeYoy',
+                    title: '其他业务收入(环比%)'
+                },
+                {
+                    field: 'assetDisposalIncome',
+                    title: '资产处置收益'
+                },
+                {
+                    field: 'assetDisposalIncomeYoy',
+                    title: '资产处置收益(环比%)'
+                },
+                {
+                    field: 'otherIncome',
+                    title: '其他收益'
+                },
+                {
+                    field: 'otherIncomeYoy',
+                    title: '其他收益(环比%)'
+                },
+                {
+                    field: 'operateIncomeOther',
+                    title: '营业收入其他项目'
+                },
+                {
+                    field: 'operateIncomeOtherYoy',
+                    title: '营业收入其他项目(环比%)'
+                },
+                {
+                    field: 'operateIncomeBalance',
+                    title: '营业收入平衡项目'
+                },
+                {
+                    field: 'operateIncomeBalanceYoy',
+                    title: '营业收入平衡项目(环比%)'
+                },
+                {
+                    field: 'operateExpense',
+                    title: '营业支出总额'
+                },
+                {
+                    field: 'operateExpenseYoy',
+                    title: '营业支出总额(环比%)'
+                },
+                {
+                    field: 'operateTaxAdd',
+                    title: '税金及附加'
+                },
+                {
+                    field: 'operateTaxAddYoy',
+                    title: '税金及附加(环比%)'
+                },
+                {
+                    field: 'businessManageExpense',
+                    title: '业务及管理费'
+                },
+                {
+                    field: 'businessManageExpenseYoy',
+                    title: '业务及管理费(环比%)'
+                },
+                {
+                    field: 'assetImpairmentLoss',
+                    title: '资产减值损失'
+                },
+                {
+                    field: 'assetImpairmentLossYoy',
+                    title: '资产减值损失(环比%)'
+                },
+                {
+                    field: 'creditImpairmentLoss',
+                    title: '信用减值损失'
+                },
+                {
+                    field: 'creditImpairmentLossYoy',
+                    title: '信用减值损失(环比%)'
+                },
+                {
+                    field: 'otherBusinessCost',
+                    title: '其他业务成本'
+                },
+                {
+                    field: 'otherBusinessCostYoy',
+                    title: '其他业务成本(环比%)'
+                },
+                {
+                    field: 'operateExpenseOther',
+                    title: '营业支出其他项目'
+                },
+                {
+                    field: 'operateExpenseOtherYoy',
+                    title: '营业支出其他项目(环比%)'
+                },
+                {
+                    field: 'operateExpenseBalance',
+                    title: '营业支出平衡项目'
+                },
+                {
+                    field: 'operateExpenseBalanceYoy',
+                    title: '营业支出平衡项目(环比%)'
+                },
+                {
+                    field: 'operateProfitOther',
+                    title: '营业利润其他项目'
+                },
+                {
+                    field: 'operateProfitOtherYoy',
+                    title: '营业利润其他项目(环比%)'
+                },
+                {
+                    field: 'operateProfitBalance',
+                    title: '营业利润平衡项目'
+                },
+                {
+                    field: 'operateProfitBalanceYoy',
+                    title: '营业利润平衡项目(环比%)'
+                },
+                {
+                    field: 'operateProfit',
+                    title: '营业利润'
+                },
+                {
+                    field: 'operateProfitYoy',
+                    title: '营业利润(环比%)'
+                },
+                {
+                    field: 'nonbusinessIncome',
+                    title: '营业外收入'
+                },
+                {
+                    field: 'nonbusinessIncomeYoy',
+                    title: '营业外收入(环比%)'
+                },
+                {
+                    field: 'noncurrentDisposalIncome',
+                    title: '非流动资产处置利得'
+                },
+                {
+                    field: 'noncurrentDisposalIncomeYoy',
+                    title: '非流动资产处置利得(环比%)'
+                },
+                {
+                    field: 'nonbusinessExpense',
+                    title: '营业外支出'
+                },
+                {
+                    field: 'nonbusinessExpenseYoy',
+                    title: '营业外支出(环比%)'
+                },
+                {
+                    field: 'noncurrentDisposalLoss',
+                    title: '非流动资产处置净损失'
+                },
+                {
+                    field: 'noncurrentDisposalLossYoy',
+                    title: '非流动资产处置净损失(环比%)'
+                },
+                {
+                    field: 'effectTpOther',
+                    title: '影响利润总额的其他项目'
+                },
+                {
+                    field: 'effectTpOtherYoy',
+                    title: '影响利润总额的其他项目(环比%)'
+                },
+                {
+                    field: 'totalProfitBalance',
+                    title: '利润总额平衡项目'
+                },
+                {
+                    field: 'totalProfitBalanceYoy',
+                    title: '利润总额平衡项目(环比%)'
+                },
+                {
+                    field: 'totalProfit',
+                    title: '利润总额'
+                },
+                {
+                    field: 'totalProfitYoy',
+                    title: '利润总额(环比%)'
+                },
+                {
+                    field: 'incomeTax',
+                    title: '所得税'
+                },
+                {
+                    field: 'incomeTaxYoy',
+                    title: '所得税(环比%)'
+                },
+                {
+                    field: 'effectNetprofitOther',
+                    title: '影响净利润的其他项目'
+                },
+                {
+                    field: 'effectNetprofitOtherYoy',
+                    title: '影响净利润的其他项目(环比%)'
+                },
+                {
+                    field: 'effectNetprofitBalance',
+                    title: '影响净利润的平衡项目'
+                },
+                {
+                    field: 'effectNetprofitBalanceYoy',
+                    title: '影响净利润的平衡项目(环比%)'
+                },
+                {
+                    field: 'netprofit',
+                    title: '净利润'
+                },
+                {
+                    field: 'netprofitYoy',
+                    title: '净利润(环比%)'
+                },
+                {
+                    field: 'continuedNetprofit',
+                    title: '持续经营净利润'
+                },
+                {
+                    field: 'continuedNetprofitYoy',
+                    title: '持续经营净利润(环比%)'
+                },
+                {
+                    field: 'discontinuedNetprofit',
+                    title: '终止经营净利润'
+                },
+                {
+                    field: 'discontinuedNetprofitYoy',
+                    title: '终止经营净利润(环比%)'
+                },
+                {
+                    field: 'parentNetprofit',
+                    title: '归属于母公司股东的净利润'
+                },
+                {
+                    field: 'parentNetprofitYoy',
+                    title: '归属于母公司股东的净利润(环比%)'
+                },
+                {
+                    field: 'minorityInterest',
+                    title: '少数股东损益'
+                },
+                {
+                    field: 'minorityInterestYoy',
+                    title: '少数股东损益(环比%)'
+                },
+                {
+                    field: 'deductParentNetprofit',
+                    title: '扣除非经常性损益后的净利润'
+                },
+                {
+                    field: 'deductParentNetprofitYoy',
+                    title: '扣除非经常性损益后的净利润(环比%)'
+                },
+                {
+                    field: 'netprofitOther',
+                    title: '净利润其他项目'
+                },
+                {
+                    field: 'netprofitOtherYoy',
+                    title: '净利润其他项目(环比%)'
+                },
+                {
+                    field: 'netprofitBalance',
+                    title: '净利润平衡项目'
+                },
+                {
+                    field: 'netprofitBalanceYoy',
+                    title: '净利润平衡项目(环比%)'
+                },
+                {
+                    field: 'basicEps',
+                    title: '基本每股收益'
+                },
+                {
+                    field: 'basicEpsYoy',
+                    title: '基本每股收益(环比%)'
+                },
+                {
+                    field: 'dilutedEps',
+                    title: '稀释每股收益'
+                },
+                {
+                    field: 'dilutedEpsYoy',
+                    title: '稀释每股收益(环比%)'
+                },
+                {
+                    field: 'otherCompreIncome',
+                    title: '其他综合收益'
+                },
+                {
+                    field: 'otherCompreIncomeYoy',
+                    title: '其他综合收益(环比%)'
+                },
+                {
+                    field: 'parentOci',
+                    title: '归属于母公司股东的其他综合收益'
+                },
+                {
+                    field: 'parentOciYoy',
+                    title: '归属于母公司股东的其他综合收益(环比%)'
+                },
+                {
+                    field: 'minorityOci',
+                    title: '归属于少数股东的其他综合收益'
+                },
+                {
+                    field: 'minorityOciYoy',
+                    title: '归属于少数股东的其他综合收益(环比%)'
+                },
+                {
+                    field: 'netCompensateExpense',
+                    title: '赔付支出净额'
+                },
+                {
+                    field: 'netCompensateExpenseYoy',
+                    title: '赔付支出净额(环比%)'
+                },
+                {
+                    field: 'surrenderValueYoy',
+                    title: '退保金(环比%)'
+                },
+                {
+                    field: 'effectNetprofitOtherQoq',
+                    title: '影响净利润的其他项目'
+                },
+                {
+                    field: 'toiOther',
+                    title: '营业总收入其他项目'
+                },
+                {
+                    field: 'toiOtherYoy',
+                    title: '营业总收入其他项目(环比%)'
+                },
+                {
+                    field: 'researchExpense',
+                    title: '研发费用'
+                },
+                {
+                    field: 'researchExpenseYoy',
+                    title: '研发费用(环比%)'
+                },
+                {
+                    field: 'uninsuranceCiYoy',
+                    title: '(环比%)'
+                },
+                {
+                    field: 'parentTciQoq',
+                    title: '归属于母公司股东的综合收益总额'
+                },
+                {
+                    field: 'netExposureIncome',
+                    title: '净敞口套期收益'
+                },
+                {
+                    field: 'netExposureIncomeYoy',
+                    title: '净敞口套期收益(环比%)'
+                },
+                {
+                    field: 'minorityOciQoq',
+                    title: '归属于少数股东的其他综合收益'
+                },
+                {
+                    field: 'feInterestIncomeQoq',
+                    title: '利息收入'
+                },
+                {
+                    field: 'tocOther',
+                    title: '营业总成本其他项目'
+                },
+                {
+                    field: 'tocOtherYoy',
+                    title: '营业总成本其他项目(环比%)'
+                },
+                {
+                    field: 'netContractReserve',
+                    title: '提取保险合同准备金净额'
+                },
+                {
+                    field: 'netContractReserveYoy',
+                    title: '提取保险合同准备金净额(环比%)'
+                },
+                {
+                    field: 'manageExpense',
+                    title: '管理费用'
+                },
+                {
+                    field: 'manageExpenseYoy',
+                    title: '管理费用(环比%)'
+                },
+                {
+                    field: 'operateCost',
+                    title: '营业成本'
+                },
+                {
+                    field: 'operateCostYoy',
+                    title: '营业成本(环比%)'
+                },
+                {
+                    field: 'totalOperateCost',
+                    title: '营业总成本'
+                },
+                {
+                    field: 'totalOperateCostYoy',
+                    title: '营业总成本(环比%)'
+                },
+                {
+                    field: 'feInterestExpense',
+                    title: '利息费用'
+                },
+                {
+                    field: 'feInterestExpenseYoy',
+                    title: '利息费用(环比%)'
+                },
+                {
+                    field: 'unconfirmInvestLoss',
+                    title: '未确认投资损失'
+                },
+                {
+                    field: 'unconfirmInvestLossYoy',
+                    title: '未确认投资损失(环比%)'
+                },
+                {
+                    field: 'precombineProfit',
+                    title: '被合并方在合并前实现利润'
+                },
+                {
+                    field: 'precombineProfitYoy',
+                    title: '被合并方在合并前实现利润(环比%)'
+                },
+                {
+                    field: 'assetImpairmentIncome',
+                    title: '资产减值损失'
+                },
+                {
+                    field: 'assetImpairmentIncomeYoy',
+                    title: '资产减值损失(环比%)'
+                },
+                {
+                    field: 'financeExpense',
+                    title: '财务费用'
+                },
+                {
+                    field: 'financeExpenseYoy',
+                    title: '财务费用(环比%)'
+                },
+                {
+                    field: 'reinsureExpense',
+                    title: '分保费用'
+                },
+                {
+                    field: 'reinsureExpenseYoy',
+                    title: '分保费用(环比%)'
+                },
+                {
+                    field: 'totalOperateIncome',
+                    title: '营业总收入'
+                },
+                {
+                    field: 'totalOperateIncomeYoy',
+                    title: '营业总收入(环比%)'
+                },
+                {
+                    field: 'creditImpairmentIncome',
+                    title: '信用减值损失'
+                },
+                {
+                    field: 'creditImpairmentIncomeYoy',
+                    title: '信用减值损失(环比%)'
+                },
+                {
+                    field: 'policyBonusExpense',
+                    title: '保单红利支出'
+                },
+                {
+                    field: 'policyBonusExpenseYoy',
+                    title: '保单红利支出(环比%)'
+                },
+                {
+                    field: 'feInterestIncome',
+                    title: '利息收入'
+                },
+                {
+                    field: 'feInterestIncomeYoy',
+                    title: '利息收入(环比%)'
+                },
+                {
+                    field: 'earnedPremium',
+                    title: '已赚保费'
+                },
+                {
+                    field: 'earnedPremiumYoy',
+                    title: '已赚保费(环比%)'
+                },
+                {
+                    field: 'saleExpense',
+                    title: '销售费用'
+                },
+                {
+                    field: 'saleExpenseYoy',
+                    title: '销售费用(环比%)'
+                },
+                {
+                    field: 'afaFairvalueChange',
+                    title: '可供出售金融资产公允价值变动损益'
+                },
+                {
+                    field: 'afaFairvalueChangeYoy',
+                    title: '可供出售金融资产公允价值变动损益(环比%)'
+                },
+                {
+                    field: 'convertDiff',
+                    title: '外币报表折算差额'
+                },
+                {
+                    field: 'convertDiffYoy',
+                    title: '外币报表折算差额(环比%)'
+                },
+                {
+                    field: 'totalCompreIncome',
+                    title: '综合收益总额'
+                },
+                {
+                    field: 'totalCompreIncomeYoy',
+                    title: '综合收益总额(环比%)'
+                },
+                {
+                    field: 'parentTci',
+                    title: '归属于母公司股东的综合收益总额'
+                },
+                {
+                    field: 'parentTciYoy',
+                    title: '归属于母公司股东的综合收益总额(环比%)'
+                },
+                {
+                    field: 'minorityTci',
+                    title: '归属于少数股东的综合收益总额'
+                },
+                {
+                    field: 'minorityTciYoy',
+                    title: '归属于少数股东的综合收益总额(环比%)'
+                },
+                {
+                    field: 'reinsurePremium',
+                    title: '分出保费'
+                },
+                {
+                    field: 'reinsurePremiumYoy',
+                    title: '分出保费(环比%)'
+                },
+                {
+                    field: 'bankInterestNi',
+                    title: '银行业务利息净收入'
+                },
+                {
+                    field: 'bankInterestNiYoy',
+                    title: '银行业务利息净收入(环比%)'
+                },
+                {
+                    field: 'compensateExpense',
+                    title: '赔付支出'
+                },
+                {
+                    field: 'compensateExpenseYoy',
+                    title: '赔付支出(环比%)'
+                },
+                {
+                    field: 'reinsureIncome',
+                    title: '分保费收入'
+                },
+                {
+                    field: 'reinsureIncomeYoy',
+                    title: '分保费收入(环比%)'
+                },
+                {
+                    field: 'amortizeInsuranceReserve',
+                    title: '摊回保险责任准备金'
+                },
+                {
+                    field: 'amortizeInsuranceReserveYoy',
+                    title: '摊回保险责任准备金(环比%)'
+                },
+                {
+                    field: 'effectNetprofitBalanceQoq',
+                    title: '影响净利润的平衡项目'
+                },
+                {
+                    field: 'uninsuranceCiQoq',
+                    title: '非保险业务手续费及佣金收入'
+                },
+                {
+                    field: 'extractInsuranceReserveQoq',
+                    title: '提取保险责任准备金'
+                },
+                {
+                    field: 'extractUnexpireReserve',
+                    title: '提取未到期责任准备金'
+                },
+                {
+                    field: 'extractUnexpireReserveYoy',
+                    title: '提取未到期责任准备金(环比%)'
+                },
+                {
+                    field: 'earnedPremiumBalance',
+                    title: '已赚保费平衡项目'
+                },
+                {
+                    field: 'earnedPremiumBalanceYoy',
+                    title: '已赚保费平衡项目(环比%)'
+                },
+                {
+                    field: 'bankInterestExpense',
+                    title: '银行业务利息支出'
+                },
+                {
+                    field: 'bankInterestExpenseYoy',
+                    title: '银行业务利息支出(环比%)'
+                },
+                {
+                    field: 'fairvalueChange',
+                    title: '公允价值变动损益'
+                },
+                {
+                    field: 'fairvalueChangeYoy',
+                    title: '公允价值变动损益(环比%)'
+                },
+                {
+                    field: 'amortizeCompensateExpense',
+                    title: '摊回赔付支出'
+                },
+                {
+                    field: 'amortizeCompensateExpenseYoy',
+                    title: '摊回赔付支出(环比%)'
+                },
+                {
+                    field: 'extractInsuranceReserve',
+                    title: '提取保险责任准备金'
+                },
+                {
+                    field: 'extractInsuranceReserveYoy',
+                    title: '提取保险责任准备金(环比%)'
+                },
+                {
+                    field: 'assetManageNi',
+                    title: '受托客户资产管理业务净收入'
+                },
+                {
+                    field: 'assetManageNiYoy',
+                    title: '受托客户资产管理业务净收入(环比%)'
+                },
+                {
+                    field: 'commissionNiOther',
+                    title: '证券经纪业务净收入-手续费及佣金净收入其他项目'
+                },
+                {
+                    field: 'commissionNiOtherYoy',
+                    title: '证券经纪业务净收入-手续费及佣金净收入其他项目(环比%)'
+                },
+                {
+                    field: 'agentSecurityNi',
+                    title: '代理买卖证券业务净收入'
+                },
+                {
+                    field: 'agentSecurityNiYoy',
+                    title: '代理买卖证券业务净收入(环比%)'
+                },
+                {
+                    field: 'recommendNi',
+                    title: '保荐业务净收入'
+                },
+                {
+                    field: 'recommendNiYoy',
+                    title: '保荐业务净收入(环比%)'
+                },
+                {
+                    field: 'brokerNi',
+                    title: '证券经纪业务净收入'
+                },
+                {
+                    field: 'brokerNiYoy',
+                    title: '证券经纪业务净收入(环比%)'
+                },
+                {
+                    field: 'financeAdviserNi',
+                    title: '财务顾问净收入'
+                },
+                {
+                    field: 'financeAdviserNiYoy',
+                    title: '财务顾问净收入(环比%)'
+                },
+                {
+                    field: 'fundSaleNi',
+                    title: '基金销售业务净收入'
+                },
+                {
+                    field: 'fundSaleNiYoy',
+                    title: '基金销售业务净收入(环比%)'
+                },
+                {
+                    field: 'amortizeReinsureExpense',
+                    title: '摊回分保费用'
+                },
+                {
+                    field: 'amortizeReinsureExpenseYoy',
+                    title: '摊回分保费用(环比%)'
+                },
+                {
+                    field: 'uninsuranceCni',
+                    title: '非保险业务手续费及佣金净收入'
+                },
+                {
+                    field: 'uninsuranceCniYoy',
+                    title: '非保险业务手续费及佣金净收入(环比%)'
+                },
+                {
+                    field: 'bankInterestIncome',
+                    title: '银行业务利息收入'
+                },
+                {
+                    field: 'bankInterestIncomeYoy',
+                    title: '银行业务利息收入(环比%)'
+                },
+                {
+                    field: 'uninsuranceCe',
+                    title: '非保险业务手续费及佣金支出'
+                },
+                {
+                    field: 'uninsuranceCeYoy',
+                    title: '非保险业务手续费及佣金支出(环比%)'
+                },
+                {
+                    field: 'securityUnderwriteNi',
+                    title: '证券承销业务净收入'
+                },
+                {
+                    field: 'securityUnderwriteNiYoy',
+                    title: '证券承销业务净收入(环比%)'
+                },
+                {
+                    field: 'insuranceIncome',
+                    title: '保险业务收入'
+                },
+                {
+                    field: 'insuranceIncomeYoy',
+                    title: '保险业务收入(环比%)'
+                },
+                {
+                    field: 'fundManageNi',
+                    title: '基金管理业务净收入'
+                },
+                {
+                    field: 'fundManageNiYoy',
+                    title: '基金管理业务净收入(环比%)'
+                },
+                {
+                    field: 'netprofitOtherQoq',
+                    title: '净利润其他项目'
+                },
+                {
+                    field: 'otherBusinessIncomeQoq',
+                    title: '其他业务收入'
+                },
+                {
+                    field: 'operateProfitQoq',
+                    title: '营业利润'
+                },
+                {
+                    field: 'incomeTaxQoq',
+                    title: '所得税'
+                },
+                {
+                    field: 'precombineProfitQoq',
+                    title: '被合并方在合并前实现利润'
+                },
+                {
+                    field: 'totalOperateCostQoq',
+                    title: '营业总成本'
+                },
+                {
+                    field: 'netprofitBalanceQoq',
+                    title: '净利润差额/合计平衡项目'
+                },
+                {
+                    field: 'nonbusinessIncomeQoq',
+                    title: '营业外收入'
+                },
+                {
+                    field: 'deductParentNetprofitQoq',
+                    title: '扣除非经常性损益后的净利润'
+                },
+                {
+                    field: 'netCompensateExpenseQoq',
+                    title: '赔付支出净额'
+                },
+                {
+                    field: 'creditImpairmentIncomeQoq',
+                    title: '信用减值损失'
+                },
+                {
+                    field: 'assetImpairmentLossQoq',
+                    title: '资产减值损失'
+                },
+                {
+                    field: 'researchExpenseQoq',
+                    title: '研发费用'
+                },
+                {
+                    field: 'parentNetprofitQoq',
+                    title: '少数股东损益'
+                },
+                {
+                    field: 'interestIncomeQoq',
+                    title: '利息收入'
+                },
+                {
+                    field: 'feeCommissionIncomeQoq',
+                    title: '手续费及佣金收入'
+                },
+                {
+                    field: 'otherCompreIncomeQoq',
+                    title: '其他综合收益'
+                },
+                {
+                    field: 'surrenderValueQoq',
+                    title: '退保金'
+                },
+                {
+                    field: 'otherIncomeQoq',
+                    title: '其他收益'
+                },
+                {
+                    field: 'totalProfitQoq',
+                    title: '利润总额'
+                },
+                {
+                    field: 'unconfirmInvestLossQoq',
+                    title: '未确认投资损失'
+                },
+                {
+                    field: 'effectTpOtherQoq',
+                    title: '影响利润总额的其他项目'
+                },
+                {
+                    field: 'discontinuedNetprofitQoq',
+                    title: '终止经营净利润'
+                },
+                {
+                    field: 'reinsureExpenseQoq',
+                    title: '分保费用'
+                },
+                {
+                    field: 'minorityTciQoq',
+                    title: '归属于少数股东的综合收益总额'
+                },
+                {
+                    field: 'totalOperateIncomeQoq',
+                    title: '营业总收入'
+                },
+                {
+                    field: 'continuedNetprofitQoq',
+                    title: '持续经营净利润'
+                },
+                {
+                    field: 'surrenderValue',
+                    title: '退保金'
+                },
+                {
+                    field: 'financeExpenseQoq',
+                    title: '财务费用'
+                },
+                {
+                    field: 'operateTaxAddQoq',
+                    title: '税金及附加'
+                },
+                {
+                    field: 'saleExpenseQoq',
+                    title: '销售费用'
+                },
+                {
+                    field: 'investIncomeQoq',
+                    title: '投资收益'
+                },
+                {
+                    field: 'operateProfitOtherQoq',
+                    title: '营业利润其他项目'
+                },
+                {
+                    field: 'netContractReserveQoq',
+                    title: '提取保险合同准备金净额'
+                },
+                {
+                    field: 'interestExpenseQoq',
+                    title: '利息支出'
+                },
+                {
+                    field: 'basicEpsQoq',
+                    title: '基本每股收益'
+                },
+                {
+                    field: 'creditImpairmentLossQoq',
+                    title: '信用减值损失'
+                },
+                {
+                    field: 'minorityInterestQoq',
+                    title: '少数股东损益'
+                },
+                {
+                    field: 'fairvalueChangeIncomeQoq',
+                    title: '公允价值变动收益'
+                },
+                {
+                    field: 'nonbusinessExpenseQoq',
+                    title: '营业外支出'
+                },
+                {
+                    field: 'investJointIncomeQoq',
+                    title: '对联营企业和合营企业的投资收益'
+                },
+                {
+                    field: 'netprofitQoq',
+                    title: '净利润'
+                },
+                {
+                    field: 'manageExpenseQoq',
+                    title: '管理费用'
+                },
+                {
+                    field: 'assetImpairmentIncomeQoq',
+                    title: '资产减值损失'
+                },
+                {
+                    field: 'noncurrentDisposalIncomeQoq',
+                    title: '非流动资产处置利得'
+                },
+                {
+                    field: 'noncurrentDisposalLossQoq',
+                    title: '非流动资产处置净损失'
+                },
+                {
+                    field: 'toiOtherQoq',
+                    title: '营业总收入其他项目'
+                },
+                {
+                    field: 'feInterestExpenseQoq',
+                    title: '利息费用'
+                },
+                {
+                    field: 'dilutedEpsQoq',
+                    title: '稀释每股收益'
+                },
+                {
+                    field: 'otherBusinessCostQoq',
+                    title: '其他业务成本'
+                },
+                {
+                    field: 'operateProfitBalanceQoq',
+                    title: '营业利润平衡项目'
+                },
+                {
+                    field: 'policyBonusExpenseQoq',
+                    title: '保单红利支出'
+                },
+                {
+                    field: 'parentOciQoq',
+                    title: '归属于母公司股东的其他综合收益'
+                },
+                {
+                    field: 'operateExpenseQoq',
+                    title: '营业支出'
+                },
+                {
+                    field: 'bankInterestNiQoq',
+                    title: '银行业务利息净收入'
+                },
+                {
+                    field: 'extractUnexpireReserveQoq',
+                    title: '提取未到期责任准备金'
+                },
+                {
+                    field: 'fundManageNiQoq',
+                    title: '基金管理业务净收入'
+                },
+                {
+                    field: 'assetManageNiQoq',
+                    title: '受托客户资产管理业务净收入'
+                },
+                {
+                    field: 'agentSecurityNiQoq',
+                    title: '代理买卖证券业务净收入'
+                },
+                {
+                    field: 'operateIncomeBalanceQoq',
+                    title: '营业收入平衡项目'
+                },
+                {
+                    field: 'operateExpenseBalanceQoq',
+                    title: '营业支出平衡项目'
+                },
+                {
+                    field: 'uninsuranceCniQoq',
+                    title: '非保险业务手续费及佣金净收入'
+                },
+                {
+                    field: 'amortizeCompensateExpenseQoq',
+                    title: '摊回赔付支出'
+                },
+                {
+                    field: 'reinsureIncomeQoq',
+                    title: '分保费收入'
+                },
+                {
+                    field: 'businessManageExpenseQoq',
+                    title: '业务及管理费'
+                },
+                {
+                    field: 'operateIncomeOtherQoq',
+                    title: '营业收入其他项目'
+                },
+                {
+                    field: 'fundSaleNiQoq',
+                    title: '基金销售业务净收入'
+                },
+                {
+                    field: 'brokerNiQoq',
+                    title: '证券经纪业务净收入'
+                },
+                {
+                    field: 'bankInterestIncomeQoq',
+                    title: '银行业务利息收入'
+                },
+                {
+                    field: 'reinsurePremiumQoq',
+                    title: '分出保费'
+                },
+                {
+                    field: 'compensateExpenseQoq',
+                    title: '赔付支出'
+                },
+                {
+                    field: 'financeAdviserNiQoq',
+                    title: '财务顾问净收入'
+                },
+                {
+                    field: 'feeCommissionNiQoq',
+                    title: '手续费及佣金净收入'
+                },
+                {
+                    field: 'recommendNiQoq',
+                    title: '保荐业务净收入'
+                },
+                {
+                    field: 'operateExpenseOtherQoq',
+                    title: '营业支出其他项目'
+                },
+                {
+                    field: 'commissionNiOtherQoq',
+                    title: '手续费及佣金净收入其他项目'
+                },
+                {
+                    field: 'afaFairvalueChangeQoq',
+                    title: '可供出售金融资产公允价值变动损益'
+                },
+                {
+                    field: 'amortizeReinsureExpenseQoq',
+                    title: '摊回分保费用'
+                },
+                {
+                    field: 'earnedPremiumBalanceQoq',
+                    title: '已赚保费平衡项目'
+                },
+                {
+                    field: 'uninsuranceCi',
+                    title: '非保险业务手续费及佣金收入'
+                },
+                {
+                    field: 'tocOtherQoq',
+                    title: '营业总成本其他项目'
+                },
+                {
+                    field: 'netExposureIncomeQoq',
+                    title: '净敞口套期收益'
+                },
+                {
+                    field: 'exchangeIncomeQoq',
+                    title: '汇兑收益'
+                },
+                {
+                    field: 'uninsuranceCeQoq',
+                    title: '非保险业务手续费及佣金支出'
+                },
+                {
+                    field: 'earnedPremiumQoq',
+                    title: '已赚保费'
+                },
+                {
+                    field: 'operateCostQoq',
+                    title: '营业总成本'
+                },
+                {
+                    field: 'totalCompreIncomeQoq',
+                    title: '综合收益总额'
+                },
+                {
+                    field: 'securityUnderwriteNiQoq',
+                    title: '证券承销业务净收入'
+                },
+                {
+                    field: 'amortizeInsuranceReserveQoq',
+                    title: '摊回保险责任准备金'
+                },
+                {
+                    field: 'assetDisposalIncomeQoq',
+                    title: '资产处置收益'
+                },
+                {
+                    field: 'totalProfitBalanceQoq',
+                    title: '利润总额平衡项目'
+                },
+                {
+                    field: 'insuranceIncomeQoq',
+                    title: '保险业务收入'
+                },
+                {
+                    field: 'fairvalueChangeQoq',
+                    title: '公允价值变动损益'
+                },
+                {
+                    field: 'interestNiQoq',
+                    title: '利息净收入'
+                },
+                {
+                    field: 'operateIncomeQoq',
+                    title: '营业收入'
+                },
+                {
+                    field: 'feeCommissionExpenseQoq',
+                    title: '手续费及佣金支出'
+                },
+                {
+                    field: 'bankInterestExpenseQoq',
+                    title: '银行业务利息支出'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

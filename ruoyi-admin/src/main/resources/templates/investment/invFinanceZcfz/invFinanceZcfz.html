@@ -22,22 +22,22 @@
                                 </select>
                             </li>
                             <li>
-                                <label>审计意见(境内)：</label>
+                                <label>报告日期：</label>
+                                <input type="text" class="time-input" placeholder="请选择报告日期" name="reportDate"/>
+                            </li>
+                            <li>
+                                <label>审计(境内)：</label>
                                 <select name="opinionType" th:with="type=${@dict.getType('opinion_type')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
                             </li>
                             <li>
-                                <label>审计意见(境外)：</label>
+                                <label>审计(境外)：</label>
                                 <select name="osopinionType" th:with="type=${@dict.getType('opinion_type')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
-                            </li>
-                            <li>
-                                <label>报告日期：</label>
-                                <input type="text" class="time-input" placeholder="请选择报告日期" name="reportDate"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
