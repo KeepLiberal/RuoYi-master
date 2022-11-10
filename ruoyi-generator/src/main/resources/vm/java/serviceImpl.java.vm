@@ -11,7 +11,7 @@ import com.ruoyi.common.utils.DateUtils;
 #break
 #end
 #end
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 #if($table.sub)
 import java.util.ArrayList;
@@ -31,9 +31,8 @@ import com.ruoyi.common.core.text.Convert;
  * @date ${datetime}
  */
 @Service
-public class ${ClassName}ServiceImpl implements I${ClassName}Service 
-{
-    @Autowired
+public class ${ClassName}ServiceImpl implements I${ClassName}Service {
+    @Resource
     private ${ClassName}Mapper ${className}Mapper;
 
     /**
@@ -43,8 +42,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
      * @return ${functionName}
      */
     @Override
-    public ${ClassName} select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField})
-    {
+    public ${ClassName} select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField}) {
         return ${className}Mapper.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField});
     }
 
@@ -55,8 +53,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
      * @return ${functionName}
      */
     @Override
-    public List<${ClassName}> select${ClassName}List(${ClassName} ${className})
-    {
+    public List<${ClassName}> select${ClassName}List(${ClassName} ${className}) {
         return ${className}Mapper.select${ClassName}List(${className});
     }
 
@@ -70,8 +67,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     @Transactional
 #end
     @Override
-    public int insert${ClassName}(${ClassName} ${className})
-    {
+    public int insert${ClassName}(${ClassName} ${className}) {
 #foreach ($column in $columns)
 #if($column.javaField == 'createTime')
         ${className}.setCreateTime(DateUtils.getNowDate());
@@ -96,8 +92,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     @Transactional
 #end
     @Override
-    public int update${ClassName}(${ClassName} ${className})
-    {
+    public int update${ClassName}(${ClassName} ${className}) {
 #foreach ($column in $columns)
 #if($column.javaField == 'updateTime')
         ${className}.setUpdateTime(DateUtils.getNowDate());
@@ -120,8 +115,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     @Transactional
 #end
     @Override
-    public int delete${ClassName}By${pkColumn.capJavaField}s(String ${pkColumn.javaField}s)
-    {
+    public int delete${ClassName}By${pkColumn.capJavaField}s(String ${pkColumn.javaField}s) {
 #if($table.sub)
         ${className}Mapper.delete${subClassName}By${subTableFkClassName}s(Convert.toStrArray(${pkColumn.javaField}s));
 #end
@@ -138,8 +132,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     @Transactional
 #end
     @Override
-    public int delete${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField})
-    {
+    public int delete${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField}) {
 #if($table.sub)
         ${className}Mapper.delete${subClassName}By${subTableFkClassName}(${pkColumn.javaField});
 #end
@@ -153,12 +146,10 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
      * @return 所有${functionName}信息
      */
     @Override
-    public List<Ztree> select${ClassName}Tree()
-    {
+    public List<Ztree> select${ClassName}Tree() {
         List<${ClassName}> ${className}List = ${className}Mapper.select${ClassName}List(new ${ClassName}());
         List<Ztree> ztrees = new ArrayList<Ztree>();
-        for (${ClassName} ${className} : ${className}List)
-        {
+        for (${ClassName} ${className} : ${className}List){
             Ztree ztree = new Ztree();
 #if($treeCode.length() > 2 && $treeCode.substring(1,2).matches("[A-Z]"))
 #set($TreeCode=$treeCode)
@@ -191,20 +182,16 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
      * 
      * @param ${className} ${functionName}对象
      */
-    public void insert${subClassName}(${ClassName} ${className})
-    {
+    public void insert${subClassName}(${ClassName} ${className}) {
         List<${subClassName}> ${subclassName}List = ${className}.get${subClassName}List();
         ${pkColumn.javaType} ${pkColumn.javaField} = ${className}.get${pkColumn.capJavaField}();
-        if (StringUtils.isNotNull(${subclassName}List))
-        {
+        if (StringUtils.isNotNull(${subclassName}List)) {
             List<${subClassName}> list = new ArrayList<${subClassName}>();
-            for (${subClassName} ${subclassName} : ${subclassName}List)
-            {
+            for (${subClassName} ${subclassName} : ${subclassName}List){
                 ${subclassName}.set${subTableFkClassName}(${pkColumn.javaField});
                 list.add(${subclassName});
             }
-            if (list.size() > 0)
-            {
+            if (list.size() > 0) {
                 ${className}Mapper.batch${subClassName}(list);
             }
         }

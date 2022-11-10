@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改财务分析-重要指标-报告期')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-invFinanceZyzbBgq-edit" th:object="${invFinanceZyzbBgq}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">股票代码：</label>
+                <div class="col-sm-8">
+                    <input name="securityCode" th:field="*{securityCode}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">报告类型：</label>
+                <div class="col-sm-8">
+                    <select name="reportType" class="form-control m-b" th:with="type=${@dict.getType('report_type')}" required>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{reportType}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">报告日期：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="reportDate" th:value="${#dates.format(invFinanceZyzbBgq.reportDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">预收账款/营业总收入：</label>
+                <div class="col-sm-8">
+                    <input name="yszkyysr" th:field="*{yszkyysr}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">融资融券业务风险准备(元)：</label>
+                <div class="col-sm-8">
+                    <input name="rzrqywfxzb" th:field="*{rzrqywfxzb}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">自营固定收益类证券规模/净资产：</label>
+                <div class="col-sm-8">
+                    <input name="zygdsylzqjzb" th:field="*{zygdsylzqjzb}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存款总额(元)：</label>
+                <div class="col-sm-8">
+                    <input name="totaldeposits" th:field="*{totaldeposits}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净利率(%)：</label>
+                <div class="col-sm-8">
+                    <input name="xsjll" th:field="*{xsjll}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">毛利润(元)：</label>
+                <div class="col-sm-8">
+                    <input name="mlr" th:field="*{mlr}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">扣非净利润(元)：</label>
+                <div class="col-sm-8">
+                    <input name="kcfjcxsyjlr" th:field="*{kcfjcxsyjlr}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">已赚保费(元)：</label>
+                <div class="col-sm-8">
+                    <input name="earnedPremium" th:field="*{earnedPremium}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净资本/净资产：</label>
+                <div class="col-sm-8">
+                    <input name="jzbjzc" th:field="*{jzbjzc}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">总资产周转天数(天)：</label>
+                <div class="col-sm-8">
+                    <input name="zzczzts" th:field="*{zzczzts}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">每股未分配利润(元)：</label>
+                <div class="col-sm-8">
+                    <input name="mgwfplr" th:field="*{mgwfplr}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">实际税率(%)：</label>
+                <div class="col-sm-8">
+                    <input name="taxrate" th:field="*{taxrate}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收账款周转率(次)：</label>
+                <div class="col-sm-8">
+                    <input name="yszkzzl" th:field="*{yszkzzl}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">产权比率：</label>
+                <div class="col-sm-8">
+                    <input name="cqbl" th:field="*{cqbl}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">自营股票规模/净资产：</label>
+                <div class="col-sm-8">
+                    <input name="zygpgmjzc" th:field="*{zygpgmjzc}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">扣非净利润滚动环比增长(%)：</label>
+                <div class="col-sm-8">
+                    <input name="kfjlrgdhbzc" th:field="*{kfjlrgdhbzc}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存贷款比例：</label>
+                <div class="col-sm-8">
+                    <input name="ltdrr" th:field="*{ltdrr}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">偿付能力充足率(%)：</label>
+                <div class="col-sm-8">
+                    <input name="solvencyAr" th:field="*{solvencyAr}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">基本每股收益(元)：</label>
+                <div class="col-sm-8">
+                    <input name="epsjb" th:field="*{epsjb}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经纪业务风险准备(元)：</label>
+                <div class="col-sm-8">
+                    <input name="jjywfxzb" th:field="*{jjywfxzb}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">证券自营业务风险准备(元)：</label>
+                <div class="col-sm-8">
+                    <input name="zqzyywfxzb" th:field="*{zqzyywfxzb}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净资产收益率(扣非/加权)(%)：</label>
+                <div class="col-sm-8">
+                    <input name="roekcjq" th:field="*{roekcjq}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">退保率(%)：</label>
+                <div class="col-sm-8">
+                    <input name="surrenderRateLife" th:field="*{surrenderRateLife}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业总收入滚动环比增长(%)：</label>
+                <div class="col-sm-8">
+                    <input name="yyzsrgdhbzc" th:field="*{yyzsrgdhbzc}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产负债率(%)：</label>
+                <div class="col-sm-8">
+                    <input name="zcfzl" th:field="*{zcfzl}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营净现金流/营业总收入：</label>
+                <div class="col-sm-8">
+                    <input name="jyxjlyysr" th:field="*{jyxjlyysr}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">权益乘数：</label>
+                <div class="col-sm-8">
+                    <input name="qycs" th:field="*{qycs}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">总资产收益率(加权)(%)：</label>
+                <div class="col-sm-8">
+                    <input name="zzcjll" th:field="*{zzcjll}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">每股净资产(元)：</label>
+                <div class="col-sm-8">
+                    <input name="bps" th:field="*{bps}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资本净额(元)：</label>
+                <div class="col-sm-8">
+                    <input name="nzbje" th:field="*{nzbje}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净资产收益率(加权)(%)：</label>
+                <div class="col-sm-8">
+                    <input name="roejq" th:field="*{roejq}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收账款周转天数(天)：</label>
+                <div class="col-sm-8">
+                    <input name="yszkzzts" th:field="*{yszkzzts}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">毛利率(%)：</label>
+                <div class="col-sm-8">
+                    <input name="xsmll" th:field="*{xsmll}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">扣非净利润同比增长(%)：</label>
+                <div class="col-sm-8">
+                    <input name="kcfjcxsyjlrtz" th:field="*{kcfjcxsyjlrtz}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业总收入(元)：</label>
+                <div class="col-sm-8">
+                    <input name="totaloperatereve" th:field="*{totaloperatereve}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">速动比率：</label>
+                <div class="col-sm-8">
+                    <input name="sd" th:field="*{sd}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存货周转天数(天)：</label>
+                <div class="col-sm-8">
+                    <input name="chzzts" th:field="*{chzzts}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">每股公积金(元)：</label>
+                <div class="col-sm-8">
+                    <input name="mgzbgj" th:field="*{mgzbgj}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属净利润(元)：</label>
+                <div class="col-sm-8">
+                    <input name="parentnetprofit" th:field="*{parentnetprofit}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">不良贷款率(%)：</label>
+                <div class="col-sm-8">
+                    <input name="nonperloan" th:field="*{nonperloan}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">总投资收益率(%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalRoi" th:field="*{totalRoi}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">证券承销业务风险准备(元)：</label>
+                <div class="col-sm-8">
+                    <input name="zqcxywfxzb" th:field="*{zqcxywfxzb}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存货周转率(次)：</label>
+                <div class="col-sm-8">
+                    <input name="chzzl" th:field="*{chzzl}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净投资收益率(%)：</label>
+                <div class="col-sm-8">
+                    <input name="netRoi" th:field="*{netRoi}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">贷款总额(元)：</label>
+                <div class="col-sm-8">
+                    <input name="grossloans" th:field="*{grossloans}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">扣非每股收益(元)：</label>
+                <div class="col-sm-8">
+                    <input name="epskcjb" th:field="*{epskcjb}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属净利润滚动环比增长(%)：</label>
+                <div class="col-sm-8">
+                    <input name="netprofitrphbzc" th:field="*{netprofitrphbzc}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">核心资本充足率(%)：</label>
+                <div class="col-sm-8">
+                    <input name="hxyjbczl" th:field="*{hxyjbczl}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属净利润同比增长(%)：</label>
+                <div class="col-sm-8">
+                    <input name="parentnetprofittz" th:field="*{parentnetprofittz}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">总资产周转率(次)：</label>
+                <div class="col-sm-8">
+                    <input name="toazzl" th:field="*{toazzl}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业总收入同比增长(%)：</label>
+                <div class="col-sm-8">
+                    <input name="totaloperaterevetz" th:field="*{totaloperaterevetz}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">稀释每股收益(元)：</label>
+                <div class="col-sm-8">
+                    <input name="epsxs" th:field="*{epsxs}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">赔付支出(元)：</label>
+                <div class="col-sm-8">
+                    <input name="compensateExpense" th:field="*{compensateExpense}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净资产(元)：</label>
+                <div class="col-sm-8">
+                    <input name="jzc" th:field="*{jzc}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净资本(元)：</label>
+                <div class="col-sm-8">
+                    <input name="jzb" th:field="*{jzb}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">不良贷款拨备覆盖率(%)：</label>
+                <div class="col-sm-8">
+                    <input name="bldkbbl" th:field="*{bldkbbl}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">流动比率：</label>
+                <div class="col-sm-8">
+                    <input name="ld" th:field="*{ld}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资本充足率(%)：</label>
+                <div class="col-sm-8">
+                    <input name="newcapitalader" th:field="*{newcapitalader}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">销售净现金流/营业总收入：</label>
+                <div class="col-sm-8">
+                    <input name="xsjxlyysr" th:field="*{xsjxlyysr}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">每股经营现金流(元)：</label>
+                <div class="col-sm-8">
+                    <input name="mgjyxjje" th:field="*{mgjyxjje}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营运风险准备(元)：</label>
+                <div class="col-sm-8">
+                    <input name="yyfxzb" th:field="*{yyfxzb}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金流量比率：</label>
+                <div class="col-sm-8">
+                    <input name="xjllb" th:field="*{xjllb}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">归属净利润同比增长(%)：</label>
+                <div class="col-sm-8">
+                    <input name="epsjbtz" th:field="*{epsjbtz}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "investment/invFinanceZyzbBgq";
+        $("#form-invFinanceZyzbBgq-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-invFinanceZyzbBgq-edit').serialize());
+            }
+        }
+
+        $("input[name='reportDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>
