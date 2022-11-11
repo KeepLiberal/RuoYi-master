@@ -74,7 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectInvFinanceZyzbBgqVo">
-        select id, security_code, report_type, report_date, yszkyysr, rzrqywfxzb, zygdsylzqjzb, totaldeposits, xsjll, mlr, kcfjcxsyjlr, earned_premium, jzbjzc, zzczzts, mgwfplr, taxrate, yszkzzl, cqbl, zygpgmjzc, kfjlrgdhbzc, ltdrr, solvency_ar, epsjb, jjywfxzb, zqzyywfxzb, roekcjq, surrender_rate_life, yyzsrgdhbzc, zcfzl, jyxjlyysr, qycs, zzcjll, bps, nzbje, roejq, yszkzzts, xsmll, kcfjcxsyjlrtz, totaloperatereve, sd, chzzts, mgzbgj, parentnetprofit, nonperloan, total_roi, zqcxywfxzb, chzzl, net_roi, grossloans, epskcjb, netprofitrphbzc, hxyjbczl, parentnetprofittz, toazzl, totaloperaterevetz, epsxs, compensate_expense, jzc, jzb, bldkbbl, ld, newcapitalader, xsjxlyysr, mgjyxjje, yyfxzb, xjllb, epsjbtz from inv_finance_zyzb_bgq
+        select id, security_code, report_date, yszkyysr, rzrqywfxzb, zygdsylzqjzb, totaldeposits, xsjll, mlr, kcfjcxsyjlr, earned_premium, jzbjzc, zzczzts, mgwfplr, taxrate, yszkzzl, cqbl, zygpgmjzc, kfjlrgdhbzc, ltdrr, solvency_ar, epsjb, jjywfxzb, zqzyywfxzb, roekcjq, surrender_rate_life, yyzsrgdhbzc, zcfzl, jyxjlyysr, qycs, zzcjll, bps, nzbje, roejq, yszkzzts, xsmll, kcfjcxsyjlrtz, totaloperatereve, sd, chzzts, mgzbgj, parentnetprofit, nonperloan, total_roi, zqcxywfxzb, chzzl, net_roi, grossloans, epskcjb, netprofitrphbzc, hxyjbczl, parentnetprofittz, toazzl, totaloperaterevetz, epsxs, compensate_expense, jzc, jzb, bldkbbl, ld, newcapitalader, xsjxlyysr, mgjyxjje, yyfxzb, xjllb, epsjbtz from inv_finance_zyzb_bgq
     </sql>
 
     <select id="selectInvFinanceZyzbBgqList" parameterType="InvFinanceZyzbBgq" resultMap="InvFinanceZyzbBgqResult">
