@@ -9,7 +9,9 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.investment.domain.*;
 import com.ruoyi.investment.finance.domain.InvFinanceZyzbBgq;
+import com.ruoyi.investment.finance.domain.InvFinanceZyzbNd;
 import com.ruoyi.investment.finance.mapper.InvFinanceZyzbBgqMapper;
+import com.ruoyi.investment.finance.mapper.InvFinanceZyzbNdMapper;
 import com.ruoyi.investment.mapper.*;
 import com.ruoyi.quartz.task.RyTask;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +44,8 @@ public class MyQuartzAsyncTask {
 
     @Resource
     private InvFinanceZyzbBgqMapper invFinanceZyzbBgqMapper;
+    @Resource
+    private InvFinanceZyzbNdMapper invFinanceZyzbNdMapper;
     @Resource
     private InvFinanceDbfxMapper invFinanceDbfxMapper;
     @Resource
@@ -141,13 +145,13 @@ public class MyQuartzAsyncTask {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * @Title: 异步执行InvFinanceZyzbBgqTask任务
+     * @Title: 异步执行 财务分析-重要指标-报告期 任务
      * @Description:
      * @author weny.yang
      * @date Sep 9, 2020
      */
     @Async("threadPoolTaskExecutor")
-    public void invFinanceZyzbBgqTask(InvStock stock, String url, String reportType, AtomicInteger count) {
+    public void invFinanceZyzbBgqTask(InvStock stock, String url, AtomicInteger count) {
         try {
             String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
             if (StringUtils.isNotEmpty(jsonStr)) {
@@ -198,12 +202,79 @@ public class MyQuartzAsyncTask {
         } catch (Exception e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
-                invFinanceZyzbBgqTask(stock, url, reportType, count);
+                invFinanceZyzbBgqTask(stock, url, count);
             } else {
-                log.error(">>>MyQuartzAsyncTask.InvFinanceZyzbBgqTask(" + url + ")异常:", e);
+                log.error(">>>MyQuartzAsyncTask.invFinanceZyzbBgqTask(" + url + ")异常:", e);
             }
         }
     }
+
+
+    /**
+     * @Title: 异步执行 财务分析-重要指标-年度 任务
+     * @Description:
+     * @author weny.yang
+     * @date Sep 9, 2020
+     */
+    @Async("threadPoolTaskExecutor")
+    public void invFinanceZyzbNdTask(InvStock stock, String url, AtomicInteger count) {
+        try {
+            String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
+            if (StringUtils.isNotEmpty(jsonStr)) {
+                JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+                if (jsonObject.containsKey("data")) {
+                    JSONArray dataArray = jsonObject.getJSONArray("data");
+                    if (!dataArray.isEmpty()) {
+                        List<InvFinanceZyzbNd> invFinanceZyzbNdList = invFinanceZyzbNdMapper.selectInvFinanceZyzbNdList(new InvFinanceZyzbNd(stock.getCode()));
+                        Map<String, InvFinanceZyzbNd> zyzbNdMap = new HashMap<>();
+                        for (InvFinanceZyzbNd zyzb : invFinanceZyzbNdList) {
+                            zyzbNdMap.put(zyzb.getReportDate().toString(), zyzb);
+                        }
+                        Iterator<Object> iterator = dataArray.iterator();
+                        while (iterator.hasNext()) {
+                            JSONObject next = (JSONObject) iterator.next();
+                            //反射赋值
+                            InvFinanceZyzbNd zyzb = new InvFinanceZyzbNd(stock.getCode());
+                            Class<? extends InvFinanceZyzbNd> clazz = zyzb.getClass();
+                            Field[] declaredFields = clazz.getDeclaredFields();
+                            for (Field field : declaredFields) {
+                                field.setAccessible(true);
+                                String genericType = field.getGenericType().toString();
+                                String fieldName = field.getName();
+                                String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
+                                if ("class java.lang.Double".equals(genericType)) {
+                                    Double value = NumFormatUtil.toDouble(valueString);
+                                    field.set(zyzb, value);
+                                } else if ("class java.util.Date".equals(genericType)) {
+                                    Date value = DateUtils.parseDate(valueString);
+                                    field.set(zyzb, value);
+                                } else if ("class java.lang.String".equals(genericType)) {
+                                    field.set(zyzb, valueString);
+                                }
+
+                            }
+                            if (zyzbNdMap.containsKey(zyzb.getReportDate().toString())) {//数据库已有code指定日期报告
+                                InvFinanceZyzbNd companies = zyzbNdMap.get(zyzb.getReportDate().toString());
+                                if (!companies.equals(zyzb)) {//报告数据不相同，以最新获取为准更新数据库
+                                    invFinanceZyzbNdMapper.updateInvFinanceZyzbNd(zyzb);
+                                }
+                            } else {//数据库没有code指定日期报告，插入
+                                invFinanceZyzbNdMapper.insertInvFinanceZyzbNd(zyzb);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                invFinanceZyzbNdTask(stock, url, count);
+            } else {
+                log.error(">>>MyQuartzAsyncTask.invFinanceZyzbNdTask(" + url + ")异常:", e);
+            }
+        }
+    }
+
 
     /**
      * @Title: 异步执行invFinanceDbfxTask任务

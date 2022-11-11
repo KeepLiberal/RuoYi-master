@@ -187,8 +187,10 @@ public class RyTask {
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
         log.info("========财务分析-重要指标 任务开始=========");
         for (InvStock stock : stockList) {
-            myQuartzAsyncTask.invFinanceZyzbBgqTask(stock, ev.getProperty("investment.finance-zyzb-bgq") + stock.getMarket() + stock.getCode(), "bgq", new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceZyzbBgqTask(stock, ev.getProperty("investment.finance-zyzb-bgq") + stock.getMarket() + stock.getCode(), new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceZyzbNdTask(stock, ev.getProperty("investment.finance-zyzb-nd") + stock.getMarket() + stock.getCode(), new AtomicInteger(10));
         }
+
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
         log.info("========财务分析-重要指标 任务完成=========");
 
