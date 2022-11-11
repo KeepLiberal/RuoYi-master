@@ -30,12 +30,6 @@ public class InvFinanceZyzbBgq extends BaseEntity {
     private String securityCode;
 
     /**
-     * 报告类型
-     */
-    @Excel(name = "报告类型")
-    private String reportType;
-
-    /**
      * 报告日期
      */
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -434,14 +428,6 @@ public class InvFinanceZyzbBgq extends BaseEntity {
 
     public String getSecurityCode() {
         return securityCode;
-    }
-
-    public void setReportType(String reportType) {
-        this.reportType = reportType;
-    }
-
-    public String getReportType() {
-        return reportType;
     }
 
     public void setReportDate(Date reportDate) {
@@ -960,9 +946,8 @@ public class InvFinanceZyzbBgq extends BaseEntity {
         super();
     }
 
-    public InvFinanceZyzbBgq(String securityCode, String reportType) {
+    public InvFinanceZyzbBgq(String securityCode) {
         this.securityCode = securityCode;
-        this.reportType = reportType;
     }
 
     @Override
@@ -970,12 +955,12 @@ public class InvFinanceZyzbBgq extends BaseEntity {
         if (this == o) return true;
         if (!(o instanceof InvFinanceZyzbBgq)) return false;
         InvFinanceZyzbBgq that = (InvFinanceZyzbBgq) o;
-        return Objects.equals(securityCode, that.securityCode) && Objects.equals(reportType, that.reportType) && Objects.equals(reportDate, that.reportDate) && Objects.equals(yszkyysr, that.yszkyysr) && Objects.equals(rzrqywfxzb, that.rzrqywfxzb) && Objects.equals(zygdsylzqjzb, that.zygdsylzqjzb) && Objects.equals(totaldeposits, that.totaldeposits) && Objects.equals(xsjll, that.xsjll) && Objects.equals(mlr, that.mlr) && Objects.equals(kcfjcxsyjlr, that.kcfjcxsyjlr) && Objects.equals(earnedPremium, that.earnedPremium) && Objects.equals(jzbjzc, that.jzbjzc) && Objects.equals(zzczzts, that.zzczzts) && Objects.equals(mgwfplr, that.mgwfplr) && Objects.equals(taxrate, that.taxrate) && Objects.equals(yszkzzl, that.yszkzzl) && Objects.equals(cqbl, that.cqbl) && Objects.equals(zygpgmjzc, that.zygpgmjzc) && Objects.equals(kfjlrgdhbzc, that.kfjlrgdhbzc) && Objects.equals(ltdrr, that.ltdrr) && Objects.equals(solvencyAr, that.solvencyAr) && Objects.equals(epsjb, that.epsjb) && Objects.equals(jjywfxzb, that.jjywfxzb) && Objects.equals(zqzyywfxzb, that.zqzyywfxzb) && Objects.equals(roekcjq, that.roekcjq) && Objects.equals(surrenderRateLife, that.surrenderRateLife) && Objects.equals(yyzsrgdhbzc, that.yyzsrgdhbzc) && Objects.equals(zcfzl, that.zcfzl) && Objects.equals(jyxjlyysr, that.jyxjlyysr) && Objects.equals(qycs, that.qycs) && Objects.equals(zzcjll, that.zzcjll) && Objects.equals(bps, that.bps) && Objects.equals(nzbje, that.nzbje) && Objects.equals(roejq, that.roejq) && Objects.equals(yszkzzts, that.yszkzzts) && Objects.equals(xsmll, that.xsmll) && Objects.equals(kcfjcxsyjlrtz, that.kcfjcxsyjlrtz) && Objects.equals(totaloperatereve, that.totaloperatereve) && Objects.equals(sd, that.sd) && Objects.equals(chzzts, that.chzzts) && Objects.equals(mgzbgj, that.mgzbgj) && Objects.equals(parentnetprofit, that.parentnetprofit) && Objects.equals(nonperloan, that.nonperloan) && Objects.equals(totalRoi, that.totalRoi) && Objects.equals(zqcxywfxzb, that.zqcxywfxzb) && Objects.equals(chzzl, that.chzzl) && Objects.equals(netRoi, that.netRoi) && Objects.equals(grossloans, that.grossloans) && Objects.equals(epskcjb, that.epskcjb) && Objects.equals(netprofitrphbzc, that.netprofitrphbzc) && Objects.equals(hxyjbczl, that.hxyjbczl) && Objects.equals(parentnetprofittz, that.parentnetprofittz) && Objects.equals(toazzl, that.toazzl) && Objects.equals(totaloperaterevetz, that.totaloperaterevetz) && Objects.equals(epsxs, that.epsxs) && Objects.equals(compensateExpense, that.compensateExpense) && Objects.equals(jzc, that.jzc) && Objects.equals(jzb, that.jzb) && Objects.equals(bldkbbl, that.bldkbbl) && Objects.equals(ld, that.ld) && Objects.equals(newcapitalader, that.newcapitalader) && Objects.equals(xsjxlyysr, that.xsjxlyysr) && Objects.equals(mgjyxjje, that.mgjyxjje) && Objects.equals(yyfxzb, that.yyfxzb) && Objects.equals(xjllb, that.xjllb) && Objects.equals(epsjbtz, that.epsjbtz);
+        return Objects.equals(securityCode, that.securityCode) && Objects.equals(reportDate, that.reportDate) && Objects.equals(yszkyysr, that.yszkyysr) && Objects.equals(rzrqywfxzb, that.rzrqywfxzb) && Objects.equals(zygdsylzqjzb, that.zygdsylzqjzb) && Objects.equals(totaldeposits, that.totaldeposits) && Objects.equals(xsjll, that.xsjll) && Objects.equals(mlr, that.mlr) && Objects.equals(kcfjcxsyjlr, that.kcfjcxsyjlr) && Objects.equals(earnedPremium, that.earnedPremium) && Objects.equals(jzbjzc, that.jzbjzc) && Objects.equals(zzczzts, that.zzczzts) && Objects.equals(mgwfplr, that.mgwfplr) && Objects.equals(taxrate, that.taxrate) && Objects.equals(yszkzzl, that.yszkzzl) && Objects.equals(cqbl, that.cqbl) && Objects.equals(zygpgmjzc, that.zygpgmjzc) && Objects.equals(kfjlrgdhbzc, that.kfjlrgdhbzc) && Objects.equals(ltdrr, that.ltdrr) && Objects.equals(solvencyAr, that.solvencyAr) && Objects.equals(epsjb, that.epsjb) && Objects.equals(jjywfxzb, that.jjywfxzb) && Objects.equals(zqzyywfxzb, that.zqzyywfxzb) && Objects.equals(roekcjq, that.roekcjq) && Objects.equals(surrenderRateLife, that.surrenderRateLife) && Objects.equals(yyzsrgdhbzc, that.yyzsrgdhbzc) && Objects.equals(zcfzl, that.zcfzl) && Objects.equals(jyxjlyysr, that.jyxjlyysr) && Objects.equals(qycs, that.qycs) && Objects.equals(zzcjll, that.zzcjll) && Objects.equals(bps, that.bps) && Objects.equals(nzbje, that.nzbje) && Objects.equals(roejq, that.roejq) && Objects.equals(yszkzzts, that.yszkzzts) && Objects.equals(xsmll, that.xsmll) && Objects.equals(kcfjcxsyjlrtz, that.kcfjcxsyjlrtz) && Objects.equals(totaloperatereve, that.totaloperatereve) && Objects.equals(sd, that.sd) && Objects.equals(chzzts, that.chzzts) && Objects.equals(mgzbgj, that.mgzbgj) && Objects.equals(parentnetprofit, that.parentnetprofit) && Objects.equals(nonperloan, that.nonperloan) && Objects.equals(totalRoi, that.totalRoi) && Objects.equals(zqcxywfxzb, that.zqcxywfxzb) && Objects.equals(chzzl, that.chzzl) && Objects.equals(netRoi, that.netRoi) && Objects.equals(grossloans, that.grossloans) && Objects.equals(epskcjb, that.epskcjb) && Objects.equals(netprofitrphbzc, that.netprofitrphbzc) && Objects.equals(hxyjbczl, that.hxyjbczl) && Objects.equals(parentnetprofittz, that.parentnetprofittz) && Objects.equals(toazzl, that.toazzl) && Objects.equals(totaloperaterevetz, that.totaloperaterevetz) && Objects.equals(epsxs, that.epsxs) && Objects.equals(compensateExpense, that.compensateExpense) && Objects.equals(jzc, that.jzc) && Objects.equals(jzb, that.jzb) && Objects.equals(bldkbbl, that.bldkbbl) && Objects.equals(ld, that.ld) && Objects.equals(newcapitalader, that.newcapitalader) && Objects.equals(xsjxlyysr, that.xsjxlyysr) && Objects.equals(mgjyxjje, that.mgjyxjje) && Objects.equals(yyfxzb, that.yyfxzb) && Objects.equals(xjllb, that.xjllb) && Objects.equals(epsjbtz, that.epsjbtz);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(securityCode, reportType, reportDate, yszkyysr, rzrqywfxzb, zygdsylzqjzb, totaldeposits, xsjll, mlr, kcfjcxsyjlr, earnedPremium, jzbjzc, zzczzts, mgwfplr, taxrate, yszkzzl, cqbl, zygpgmjzc, kfjlrgdhbzc, ltdrr, solvencyAr, epsjb, jjywfxzb, zqzyywfxzb, roekcjq, surrenderRateLife, yyzsrgdhbzc, zcfzl, jyxjlyysr, qycs, zzcjll, bps, nzbje, roejq, yszkzzts, xsmll, kcfjcxsyjlrtz, totaloperatereve, sd, chzzts, mgzbgj, parentnetprofit, nonperloan, totalRoi, zqcxywfxzb, chzzl, netRoi, grossloans, epskcjb, netprofitrphbzc, hxyjbczl, parentnetprofittz, toazzl, totaloperaterevetz, epsxs, compensateExpense, jzc, jzb, bldkbbl, ld, newcapitalader, xsjxlyysr, mgjyxjje, yyfxzb, xjllb, epsjbtz);
+        return Objects.hash(securityCode, reportDate, yszkyysr, rzrqywfxzb, zygdsylzqjzb, totaldeposits, xsjll, mlr, kcfjcxsyjlr, earnedPremium, jzbjzc, zzczzts, mgwfplr, taxrate, yszkzzl, cqbl, zygpgmjzc, kfjlrgdhbzc, ltdrr, solvencyAr, epsjb, jjywfxzb, zqzyywfxzb, roekcjq, surrenderRateLife, yyzsrgdhbzc, zcfzl, jyxjlyysr, qycs, zzcjll, bps, nzbje, roejq, yszkzzts, xsmll, kcfjcxsyjlrtz, totaloperatereve, sd, chzzts, mgzbgj, parentnetprofit, nonperloan, totalRoi, zqcxywfxzb, chzzl, netRoi, grossloans, epskcjb, netprofitrphbzc, hxyjbczl, parentnetprofittz, toazzl, totaloperaterevetz, epsxs, compensateExpense, jzc, jzb, bldkbbl, ld, newcapitalader, xsjxlyysr, mgjyxjje, yyfxzb, xjllb, epsjbtz);
     }
 
     @Override
@@ -983,7 +968,6 @@ public class InvFinanceZyzbBgq extends BaseEntity {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
                 .append("id" , getId())
                 .append("securityCode" , getSecurityCode())
-                .append("reportType" , getReportType())
                 .append("reportDate" , getReportDate())
                 .append("yszkyysr" , getYszkyysr())
                 .append("rzrqywfxzb" , getRzrqywfxzb())

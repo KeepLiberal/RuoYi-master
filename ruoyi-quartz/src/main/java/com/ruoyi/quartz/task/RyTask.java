@@ -186,21 +186,15 @@ public class RyTask {
 
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
         log.info("========财务分析-重要指标 任务开始=========");
-        String finance_zyzb_bgq = ev.getProperty("investment.finance-zyzb-bgq");
-        String finance_zyzb_nd = ev.getProperty("investment.finance-zyzb-nd");
-        String finance_zyzb_jd = ev.getProperty("investment.finance-zyzb-jd");
         for (InvStock stock : stockList) {
-            myQuartzAsyncTask.invFinanceZyzbTask(stock, finance_zyzb_bgq + stock.getMarket() + stock.getCode(), "bgq", new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceZyzbTask(stock, finance_zyzb_nd + stock.getMarket() + stock.getCode(), "nd", new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceZyzbTask(stock, finance_zyzb_jd + stock.getMarket() + stock.getCode(), "jd", new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceZyzbBgqTask(stock, ev.getProperty("investment.finance-zyzb-bgq") + stock.getMarket() + stock.getCode(), "bgq", new AtomicInteger(10));
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
         log.info("========财务分析-重要指标 任务完成=========");
 
         log.info("========财务分析-杜邦分析 任务开始=========");
-        String finance_zcfz_dbfx = ev.getProperty("investment.finance-dbfx");
         for (InvStock stock : stockList) {
-            myQuartzAsyncTask.invFinanceDbfxTask(stock, finance_zcfz_dbfx + stock.getMarket() + stock.getCode(), new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceDbfxTask(stock, ev.getProperty("investment.finance-dbfx") + stock.getMarket() + stock.getCode(), new AtomicInteger(10));
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
         log.info("========财务分析-杜邦分析 任务完成=========");

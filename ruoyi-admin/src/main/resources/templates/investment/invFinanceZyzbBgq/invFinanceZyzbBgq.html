@@ -15,13 +15,6 @@
                                 <input type="text" name="securityCode"/>
                             </li>
                             <li>
-                                <label>报告类型：</label>
-                                <select name="reportType" th:with="type=${@dict.getType('report_type')}">
-                                    <option value="">所有</option>
-                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
-                                </select>
-                            </li>
-                            <li>
                                 <label>报告日期：</label>
                                 <input type="text" class="time-input" placeholder="请选择报告日期" name="reportDate"/>
                             </li>
@@ -57,7 +50,6 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('investment:invFinanceZyzbBgq:edit')}]];
         var removeFlag = [[${@permission.hasPermi('investment:invFinanceZyzbBgq:remove')}]];
-        var reportTypeDatas = [[${@dict.getType('report_type')}]];
         var prefix = ctx + "investment/invFinanceZyzbBgq";
 
         $(function() {
@@ -79,13 +71,6 @@
                 {
                     field: 'securityCode',
                     title: '股票代码'
-                },
-                {
-                    field: 'reportType',
-                    title: '报告类型',
-                    formatter: function(value, row, index) {
-                       return $.table.selectDictLabel(reportTypeDatas, value);
-                    }
                 },
                 {
                     field: 'reportDate',

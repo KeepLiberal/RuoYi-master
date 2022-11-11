@@ -7,7 +7,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="InvFinanceZyzbBgq" id="InvFinanceZyzbBgqResult">
         <result property="id"    column="id"    />
         <result property="securityCode"    column="security_code"    />
-        <result property="reportType"    column="report_type"    />
         <result property="reportDate"    column="report_date"    />
         <result property="yszkyysr"    column="yszkyysr"    />
         <result property="rzrqywfxzb"    column="rzrqywfxzb"    />
@@ -82,7 +81,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectInvFinanceZyzbBgqVo"/>
         <where>  
             <if test="securityCode != null  and securityCode != ''"> and security_code = #{securityCode}</if>
-            <if test="reportType != null  and reportType != ''"> and report_type = #{reportType}</if>
             <if test="reportDate != null "> and report_date = #{reportDate}</if>
             <if test="yszkyysr != null "> and yszkyysr = #{yszkyysr}</if>
             <if test="rzrqywfxzb != null "> and rzrqywfxzb = #{rzrqywfxzb}</if>
@@ -159,7 +157,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into inv_finance_zyzb_bgq
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="securityCode != null and securityCode != ''">security_code,</if>
-            <if test="reportType != null and reportType != ''">report_type,</if>
             <if test="reportDate != null">report_date,</if>
             <if test="yszkyysr != null">yszkyysr,</if>
             <if test="rzrqywfxzb != null">rzrqywfxzb,</if>
@@ -227,7 +224,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="securityCode != null and securityCode != ''">#{securityCode},</if>
-            <if test="reportType != null and reportType != ''">#{reportType},</if>
             <if test="reportDate != null">#{reportDate},</if>
             <if test="yszkyysr != null">#{yszkyysr},</if>
             <if test="rzrqywfxzb != null">#{rzrqywfxzb},</if>
@@ -299,7 +295,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update inv_finance_zyzb_bgq
         <trim prefix="SET" suffixOverrides=",">
             <if test="securityCode != null and securityCode != ''">security_code = #{securityCode},</if>
-            <if test="reportType != null and reportType != ''">report_type = #{reportType},</if>
             <if test="reportDate != null">report_date = #{reportDate},</if>
             <if test="yszkyysr != null">yszkyysr = #{yszkyysr},</if>
             <if test="rzrqywfxzb != null">rzrqywfxzb = #{rzrqywfxzb},</if>

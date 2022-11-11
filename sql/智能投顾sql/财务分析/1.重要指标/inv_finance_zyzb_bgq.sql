@@ -6,7 +6,6 @@ drop table if exists `inv_finance_zyzb_bgq`;
 create table `inv_finance_zyzb_bgq` (
     `id` bigint not null auto_increment comment 'id',
     `security_code` varchar(10) character set utf8mb3 collate utf8mb3_bin not null comment '股票代码',
-    `report_type` varchar(10) character set utf8mb4 collate utf8mb4_general_ci not null comment '报告类型',
     `report_date` datetime default null comment '报告日期',
     `yszkyysr` double default null comment '预收账款/营业总收入',
     `rzrqywfxzb` double default null comment '融资融券业务风险准备(元)',
