@@ -9,8 +9,10 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.investment.domain.*;
 import com.ruoyi.investment.finance.domain.InvFinanceZyzbBgq;
+import com.ruoyi.investment.finance.domain.InvFinanceZyzbJd;
 import com.ruoyi.investment.finance.domain.InvFinanceZyzbNd;
 import com.ruoyi.investment.finance.mapper.InvFinanceZyzbBgqMapper;
+import com.ruoyi.investment.finance.mapper.InvFinanceZyzbJdMapper;
 import com.ruoyi.investment.finance.mapper.InvFinanceZyzbNdMapper;
 import com.ruoyi.investment.mapper.*;
 import com.ruoyi.quartz.task.RyTask;
@@ -46,6 +48,8 @@ public class MyQuartzAsyncTask {
     private InvFinanceZyzbBgqMapper invFinanceZyzbBgqMapper;
     @Resource
     private InvFinanceZyzbNdMapper invFinanceZyzbNdMapper;
+    @Resource
+    private InvFinanceZyzbJdMapper invFinanceZyzbJdMapper;
     @Resource
     private InvFinanceDbfxMapper invFinanceDbfxMapper;
     @Resource
@@ -275,6 +279,71 @@ public class MyQuartzAsyncTask {
         }
     }
 
+
+    /**
+     * @Title: 异步执行 财务分析-重要指标-季度 任务
+     * @Description:
+     * @author weny.yang
+     * @date Sep 9, 2020
+     */
+    @Async("threadPoolTaskExecutor")
+    public void invFinanceZyzbJdTask(InvStock stock, String url, AtomicInteger count) {
+        try {
+            String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
+            if (StringUtils.isNotEmpty(jsonStr)) {
+                JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+                if (jsonObject.containsKey("data")) {
+                    JSONArray dataArray = jsonObject.getJSONArray("data");
+                    if (!dataArray.isEmpty()) {
+                        List<InvFinanceZyzbJd> invFinanceZyzbJdList = invFinanceZyzbJdMapper.selectInvFinanceZyzbJdList(new InvFinanceZyzbJd(stock.getCode()));
+                        Map<String, InvFinanceZyzbJd> zyzbJdMap = new HashMap<>();
+                        for (InvFinanceZyzbJd zyzb : invFinanceZyzbJdList) {
+                            zyzbJdMap.put(zyzb.getReportDate().toString(), zyzb);
+                        }
+                        Iterator<Object> iterator = dataArray.iterator();
+                        while (iterator.hasNext()) {
+                            JSONObject next = (JSONObject) iterator.next();
+                            //反射赋值
+                            InvFinanceZyzbJd zyzb = new InvFinanceZyzbJd(stock.getCode());
+                            Class<? extends InvFinanceZyzbJd> clazz = zyzb.getClass();
+                            Field[] declaredFields = clazz.getDeclaredFields();
+                            for (Field field : declaredFields) {
+                                field.setAccessible(true);
+                                String genericType = field.getGenericType().toString();
+                                String fieldName = field.getName();
+                                String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
+                                if ("class java.lang.Double".equals(genericType)) {
+                                    Double value = NumFormatUtil.toDouble(valueString);
+                                    field.set(zyzb, value);
+                                } else if ("class java.util.Date".equals(genericType)) {
+                                    Date value = DateUtils.parseDate(valueString);
+                                    field.set(zyzb, value);
+                                } else if ("class java.lang.String".equals(genericType)) {
+                                    field.set(zyzb, valueString);
+                                }
+
+                            }
+                            if (zyzbJdMap.containsKey(zyzb.getReportDate().toString())) {//数据库已有code指定日期报告
+                                InvFinanceZyzbJd companies = zyzbJdMap.get(zyzb.getReportDate().toString());
+                                if (!companies.equals(zyzb)) {//报告数据不相同，以最新获取为准更新数据库
+                                    invFinanceZyzbJdMapper.updateInvFinanceZyzbJd(zyzb);
+                                }
+                            } else {//数据库没有code指定日期报告，插入
+                                invFinanceZyzbJdMapper.insertInvFinanceZyzbJd(zyzb);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                invFinanceZyzbJdTask(stock, url, count);
+            } else {
+                log.error(">>>MyQuartzAsyncTask.invFinanceZyzbNdTask(" + url + ")异常:", e);
+            }
+        }
+    }
 
     /**
      * @Title: 异步执行invFinanceDbfxTask任务

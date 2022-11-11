@@ -189,6 +189,7 @@ public class RyTask {
         for (InvStock stock : stockList) {
             myQuartzAsyncTask.invFinanceZyzbBgqTask(stock, ev.getProperty("investment.finance-zyzb-bgq") + stock.getMarket() + stock.getCode(), new AtomicInteger(10));
             myQuartzAsyncTask.invFinanceZyzbNdTask(stock, ev.getProperty("investment.finance-zyzb-nd") + stock.getMarket() + stock.getCode(), new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceZyzbJdTask(stock, ev.getProperty("investment.finance-zyzb-jd") + stock.getMarket() + stock.getCode(), new AtomicInteger(10));
         }
 
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
