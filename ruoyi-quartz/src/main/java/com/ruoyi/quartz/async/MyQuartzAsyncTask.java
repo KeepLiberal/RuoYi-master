@@ -460,8 +460,8 @@ public class MyQuartzAsyncTask {
                                                 if ("opinionType".equals(fieldName) || "osopinionType".equals(fieldName)) {
                                                     if (StringUtils.isNotEmpty(valueString)){
                                                         for(OpinionTypeEnu value : OpinionTypeEnu.values()){
-                                                            if (value.getValue().equals(valueString)){
-                                                                field.set(zcfz, value.getCode());
+                                                            if (value.getChineseStr().equals(valueString)){
+                                                                field.set(zcfz, value.getDict());
                                                             }
                                                         }
                                                         //没有找到已定义枚举匹配项
@@ -596,8 +596,8 @@ public class MyQuartzAsyncTask {
                                                 if ("opinionType".equals(fieldName) || "osopinionType".equals(fieldName)) {
                                                     if (StringUtils.isNotEmpty(valueString)){
                                                         for(OpinionTypeEnu enu : OpinionTypeEnu.values()){
-                                                            if (enu.getValue().equals(valueString)){
-                                                                field.set(lr, enu.getCode());
+                                                            if (enu.getChineseStr().equals(valueString)){
+                                                                field.set(lr, enu.getDict());
                                                             }
                                                         }
                                                         //没有找到已定义枚举匹配项
