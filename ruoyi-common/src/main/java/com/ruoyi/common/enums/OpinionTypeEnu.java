@@ -7,16 +7,16 @@ package com.ruoyi.common.enums;
  * @date 2022-10-18
  */
 public enum OpinionTypeEnu {
-    BZWBL("bzwbl", "标准无保留意见"),
-    DJSXSMDWBL("djsxsmdwbl", "带解释性说明的无保留意见"),
-    DQDSXDDWBL("dqdsxddwbl", "带强调事项段的无保留意见"),
-    BL("bzwbl", "保留意见"),
-    WFJJBS("wfjjbs", "无法(拒绝)表示意见"),
-    WFBS("wfjjbs", "无法表示意见"),
-    JJBS("wfjjbs", "拒绝表示意见"),
-    FD("fd", "否定意见"),
-    JSJ("jsj", "经审计"),
-    WJSJ("wjsj", "未经审计");
+    BZWBL("标准无保留意见", "bzwbl"),
+    DJSXSMDWBL("带解释性说明的无保留意见", "djsxsmdwbl"),
+    DQDSXDDWBL("带强调事项段的无保留意见", "dqdsxddwbl"),
+    BL("保留意见", "bzwbl"),
+    WFJJBS("无法(拒绝)表示意见", "wfjjbs"),
+    WFBS("无法表示意见", "wfjjbs"),
+    JJBS("拒绝表示意见", "wfjjbs"),
+    FD("否定意见", "fd"),
+    JSJ("经审计", "jsj"),
+    WJSJ("未经审计", "wjsj");
 
     private final String chineseStr;
     private final String dict;
