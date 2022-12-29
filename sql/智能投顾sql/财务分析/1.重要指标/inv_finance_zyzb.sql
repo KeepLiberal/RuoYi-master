@@ -1,12 +1,16 @@
 /*
-财务分析-重要指标-年度
+财务分析-重要指标-报告期
 */
-
-drop table if exists `inv_finance_zyzb_nd`;
-create table `inv_finance_zyzb_nd` (
+drop table if exists `inv_finance_zyzb`;
+create table `inv_finance_zyzb` (
     `id` bigint not null auto_increment comment 'id',
-    `security_code` varchar(10) character set utf8mb3 collate utf8mb3_bin not null comment '股票代码',
+    `security_code` varchar(10) character set utf8mb4 collate utf8mb4_general_ci not null comment '股票代码',
+    `report_type` varchar(10) character set utf8mb4 collate utf8mb4_general_ci not null comment '报告类型',
     `report_date` datetime default null comment '报告日期',
+    `per_capital_reserve` double default null comment '每股公积金(元)',
+    `per_netcash` double default null comment '每股经营现金流(元)',
+    `per_unassign_profit` double default null comment '每股未分配利润(元)',
+    `net_profit_ratio` double default null comment '净利率(%)',
     `yszkyysr` double default null comment '预收账款/营业总收入',
     `rzrqywfxzb` double default null comment '融资融券业务风险准备(元)',
     `zygdsylzqjzb` double default null comment '自营固定收益类证券规模/净资产',
@@ -42,6 +46,7 @@ create table `inv_finance_zyzb_nd` (
     `xsmll` double default null comment '毛利率(%)',
     `kcfjcxsyjlrtz` double default null comment '扣非净利润同比增长(%)',
     `totaloperatereve` double default null comment '营业总收入(元)',
+    `gross_profit` double default null comment '毛利润(元)',
     `sd` double default null comment '速动比率',
     `chzzts` double default null comment '存货周转天数(天)',
     `mgzbgj` double default null comment '每股公积金(元)',
@@ -56,8 +61,12 @@ create table `inv_finance_zyzb_nd` (
     `netprofitrphbzc` double default null comment '归属净利润滚动环比增长(%)',
     `hxyjbczl` double default null comment '核心资本充足率(%)',
     `parentnetprofittz` double default null comment '归属净利润同比增长(%)',
+    `dedu_parent_profit` double default null comment '扣非净利润(元)',
     `toazzl` double default null comment '总资产周转率(次)',
     `totaloperaterevetz` double default null comment '营业总收入同比增长(%)',
+    `dpnp_yoy_ratio` double default null comment '扣非净利润同比增长(%)',
+    `roe_diluted` double default null comment '扣非净利润滚动环比增长(%)',
+    `jroa` double default null comment '摊薄总资产收益率(%)',
     `epsxs` double default null comment '稀释每股收益(元)',
     `compensate_expense` double default null comment '赔付支出(元)',
     `jzc` double default null comment '净资产(元)',
@@ -71,5 +80,5 @@ create table `inv_finance_zyzb_nd` (
     `xjllb` double default null comment '现金流量比率',
     `epsjbtz` double default null comment '归属净利润同比增长(%)',
     primary key (`id`) using btree,
-    key `inv_finance_zyzb_nd_index` (`security_code`)
-) engine=innodb default charset=utf8mb4 collate=utf8mb4_general_ci comment='财务分析-重要指标-年度';
+    key `inv_finance_zyzb_index` (`security_code`)
+) engine=innodb default charset=utf8mb4 collate=utf8mb4_general_ci comment='财务分析-重要指标';

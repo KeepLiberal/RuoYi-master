@@ -8,12 +8,6 @@ import com.ruoyi.common.utils.NumFormatUtil;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.investment.domain.*;
-import com.ruoyi.investment.finance.domain.InvFinanceZyzbBgq;
-import com.ruoyi.investment.finance.domain.InvFinanceZyzbJd;
-import com.ruoyi.investment.finance.domain.InvFinanceZyzbNd;
-import com.ruoyi.investment.finance.mapper.InvFinanceZyzbBgqMapper;
-import com.ruoyi.investment.finance.mapper.InvFinanceZyzbJdMapper;
-import com.ruoyi.investment.finance.mapper.InvFinanceZyzbNdMapper;
 import com.ruoyi.investment.mapper.*;
 import com.ruoyi.quartz.task.RyTask;
 import lombok.extern.slf4j.Slf4j;
@@ -45,11 +39,7 @@ public class MyQuartzAsyncTask {
     private InvStockMapper invStockMapper;
 
     @Resource
-    private InvFinanceZyzbBgqMapper invFinanceZyzbBgqMapper;
-    @Resource
-    private InvFinanceZyzbNdMapper invFinanceZyzbNdMapper;
-    @Resource
-    private InvFinanceZyzbJdMapper invFinanceZyzbJdMapper;
+    private InvFinanceZyzbMapper invFinanceZyzbMapper;
     @Resource
     private InvFinanceDbfxMapper invFinanceDbfxMapper;
     @Resource
@@ -97,8 +87,8 @@ public class MyQuartzAsyncTask {
                         }
                     }
                 }
-                if (jsonObject.containsKey("bgq")) {
-                    JSONArray dataArray = jsonObject.getJSONArray("bgq");
+                if (jsonObject.containsKey("")) {
+                    JSONArray dataArray = jsonObject.getJSONArray("");
                     if (!dataArray.isEmpty()) {
                         Iterator<Object> iterator = dataArray.iterator();
                         if (iterator.hasNext()) {
@@ -107,16 +97,16 @@ public class MyQuartzAsyncTask {
                         }
                     }
                 }
-                if (jsonObject.containsKey("nd")) {
-                    JSONArray dataArray = jsonObject.getJSONArray("nd");
-                    if (!dataArray.isEmpty()) {
-                        Iterator<Object> iterator = dataArray.iterator();
-                        if (iterator.hasNext()) {
-                            JSONObject next = (JSONObject) iterator.next();
-                            RyTask.keySet.addAll(next.keySet());
-                        }
-                    }
-                }
+//                if (jsonObject.containsKey("nd")) {
+//                    JSONArray dataArray = jsonObject.getJSONArray("nd");
+//                    if (!dataArray.isEmpty()) {
+//                        Iterator<Object> iterator = dataArray.iterator();
+//                        if (iterator.hasNext()) {
+//                            JSONObject next = (JSONObject) iterator.next();
+//                            RyTask.keySet.addAll(next.keySet());
+//                        }
+//                    }
+//                }
             }
         } catch (Exception e) {
             log.error(">>>getInterfaceAllKey(" + stock.getCode() + ")异常:", e);
@@ -155,7 +145,7 @@ public class MyQuartzAsyncTask {
      * @date Sep 9, 2020
      */
     @Async("threadPoolTaskExecutor")
-    public void invFinanceZyzbBgqTask(InvStock stock, String url, AtomicInteger count) {
+    public void invFinanceZyzbTask(InvStock stock, String url, String reportType, AtomicInteger count) {
         try {
             String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
             if (StringUtils.isNotEmpty(jsonStr)) {
@@ -163,41 +153,42 @@ public class MyQuartzAsyncTask {
                 if (jsonObject.containsKey("data")) {
                     JSONArray dataArray = jsonObject.getJSONArray("data");
                     if (!dataArray.isEmpty()) {
-                        List<InvFinanceZyzbBgq> invFinanceZyzbBgqList = invFinanceZyzbBgqMapper.selectInvFinanceZyzbBgqList(new InvFinanceZyzbBgq(stock.getCode()));
-                        Map<String, InvFinanceZyzbBgq> zyzbBgqMap = new HashMap<>();
-                        for (InvFinanceZyzbBgq zyzb : invFinanceZyzbBgqList) {
-                            zyzbBgqMap.put(zyzb.getReportDate().toString(), zyzb);
+                        List<InvFinanceZyzb> invFinanceZyzbList = invFinanceZyzbMapper.selectInvFinanceZyzbList(new InvFinanceZyzb(stock.getCode(), reportType));
+                        Map<String, InvFinanceZyzb> zyzbMap = new HashMap<>();
+                        for (InvFinanceZyzb zyzb : invFinanceZyzbList) {
+                            zyzbMap.put(zyzb.getReportDate().toString(), zyzb);
                         }
                         Iterator<Object> iterator = dataArray.iterator();
                         while (iterator.hasNext()) {
                             JSONObject next = (JSONObject) iterator.next();
                             //反射赋值
-                            InvFinanceZyzbBgq zyzb = new InvFinanceZyzbBgq(stock.getCode());
-                            Class<? extends InvFinanceZyzbBgq> clazz = zyzb.getClass();
+                            InvFinanceZyzb zyzb = new InvFinanceZyzb(stock.getCode(), reportType);
+                            Class<? extends InvFinanceZyzb> clazz = zyzb.getClass();
                             Field[] declaredFields = clazz.getDeclaredFields();
                             for (Field field : declaredFields) {
                                 field.setAccessible(true);
                                 String genericType = field.getGenericType().toString();
                                 String fieldName = field.getName();
-                                String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
-                                if ("class java.lang.Double".equals(genericType)) {
-                                    Double value = NumFormatUtil.toDouble(valueString);
-                                    field.set(zyzb, value);
-                                } else if ("class java.util.Date".equals(genericType)) {
-                                    Date value = DateUtils.parseDate(valueString);
-                                    field.set(zyzb, value);
-                                } else if ("class java.lang.String".equals(genericType)) {
-                                    field.set(zyzb, valueString);
+                                if (!"reportType".equals(fieldName)) {
+                                    String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
+                                    if ("class java.lang.Double".equals(genericType)) {
+                                        Double value = NumFormatUtil.toDouble(valueString);
+                                        field.set(zyzb, value);
+                                    } else if ("class java.util.Date".equals(genericType)) {
+                                        Date value = DateUtils.parseDate(valueString);
+                                        field.set(zyzb, value);
+                                    } else if ("class java.lang.String".equals(genericType)) {
+                                        field.set(zyzb, valueString);
+                                    }
                                 }
-
                             }
-                            if (zyzbBgqMap.containsKey(zyzb.getReportDate().toString())) {//数据库已有code指定日期报告
-                                InvFinanceZyzbBgq companies = zyzbBgqMap.get(zyzb.getReportDate().toString());
+                            if (zyzbMap.containsKey(zyzb.getReportDate().toString())) {//数据库已有code指定日期报告
+                                InvFinanceZyzb companies = zyzbMap.get(zyzb.getReportDate().toString());
                                 if (!companies.equals(zyzb)) {//报告数据不相同，以最新获取为准更新数据库
-                                    invFinanceZyzbBgqMapper.updateInvFinanceZyzbBgq(zyzb);
+                                    invFinanceZyzbMapper.updateInvFinanceZyzb(zyzb);
                                 }
                             } else {//数据库没有code指定日期报告，插入
-                                invFinanceZyzbBgqMapper.insertInvFinanceZyzbBgq(zyzb);
+                                invFinanceZyzbMapper.insertInvFinanceZyzb(zyzb);
                             }
                         }
                     }
@@ -206,144 +197,16 @@ public class MyQuartzAsyncTask {
         } catch (Exception e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
-                invFinanceZyzbBgqTask(stock, url, count);
+                invFinanceZyzbTask(stock, url, reportType, count);
             } else {
-                log.error(">>>MyQuartzAsyncTask.invFinanceZyzbBgqTask(" + url + ")异常:", e);
+                log.error(">>>MyQuartzAsyncTask.invFinanceZyzbTask(" + url + ")异常:", e);
             }
         }
     }
+    
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @Title: 异步执行 财务分析-重要指标-年度 任务
-     * @Description:
-     * @author weny.yang
-     * @date Sep 9, 2020
-     */
-    @Async("threadPoolTaskExecutor")
-    public void invFinanceZyzbNdTask(InvStock stock, String url, AtomicInteger count) {
-        try {
-            String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
-            if (StringUtils.isNotEmpty(jsonStr)) {
-                JSONObject jsonObject = JSONObject.parseObject(jsonStr);
-                if (jsonObject.containsKey("data")) {
-                    JSONArray dataArray = jsonObject.getJSONArray("data");
-                    if (!dataArray.isEmpty()) {
-                        List<InvFinanceZyzbNd> invFinanceZyzbNdList = invFinanceZyzbNdMapper.selectInvFinanceZyzbNdList(new InvFinanceZyzbNd(stock.getCode()));
-                        Map<String, InvFinanceZyzbNd> zyzbNdMap = new HashMap<>();
-                        for (InvFinanceZyzbNd zyzb : invFinanceZyzbNdList) {
-                            zyzbNdMap.put(zyzb.getReportDate().toString(), zyzb);
-                        }
-                        Iterator<Object> iterator = dataArray.iterator();
-                        while (iterator.hasNext()) {
-                            JSONObject next = (JSONObject) iterator.next();
-                            //反射赋值
-                            InvFinanceZyzbNd zyzb = new InvFinanceZyzbNd(stock.getCode());
-                            Class<? extends InvFinanceZyzbNd> clazz = zyzb.getClass();
-                            Field[] declaredFields = clazz.getDeclaredFields();
-                            for (Field field : declaredFields) {
-                                field.setAccessible(true);
-                                String genericType = field.getGenericType().toString();
-                                String fieldName = field.getName();
-                                String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
-                                if ("class java.lang.Double".equals(genericType)) {
-                                    Double value = NumFormatUtil.toDouble(valueString);
-                                    field.set(zyzb, value);
-                                } else if ("class java.util.Date".equals(genericType)) {
-                                    Date value = DateUtils.parseDate(valueString);
-                                    field.set(zyzb, value);
-                                } else if ("class java.lang.String".equals(genericType)) {
-                                    field.set(zyzb, valueString);
-                                }
-
-                            }
-                            if (zyzbNdMap.containsKey(zyzb.getReportDate().toString())) {//数据库已有code指定日期报告
-                                InvFinanceZyzbNd companies = zyzbNdMap.get(zyzb.getReportDate().toString());
-                                if (!companies.equals(zyzb)) {//报告数据不相同，以最新获取为准更新数据库
-                                    invFinanceZyzbNdMapper.updateInvFinanceZyzbNd(zyzb);
-                                }
-                            } else {//数据库没有code指定日期报告，插入
-                                invFinanceZyzbNdMapper.insertInvFinanceZyzbNd(zyzb);
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            if (count.get() > 0) {
-                count.decrementAndGet();
-                invFinanceZyzbNdTask(stock, url, count);
-            } else {
-                log.error(">>>MyQuartzAsyncTask.invFinanceZyzbNdTask(" + url + ")异常:", e);
-            }
-        }
-    }
-
-
-    /**
-     * @Title: 异步执行 财务分析-重要指标-季度 任务
-     * @Description:
-     * @author weny.yang
-     * @date Sep 9, 2020
-     */
-    @Async("threadPoolTaskExecutor")
-    public void invFinanceZyzbJdTask(InvStock stock, String url, AtomicInteger count) {
-        try {
-            String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
-            if (StringUtils.isNotEmpty(jsonStr)) {
-                JSONObject jsonObject = JSONObject.parseObject(jsonStr);
-                if (jsonObject.containsKey("data")) {
-                    JSONArray dataArray = jsonObject.getJSONArray("data");
-                    if (!dataArray.isEmpty()) {
-                        List<InvFinanceZyzbJd> invFinanceZyzbJdList = invFinanceZyzbJdMapper.selectInvFinanceZyzbJdList(new InvFinanceZyzbJd(stock.getCode()));
-                        Map<String, InvFinanceZyzbJd> zyzbJdMap = new HashMap<>();
-                        for (InvFinanceZyzbJd zyzb : invFinanceZyzbJdList) {
-                            zyzbJdMap.put(zyzb.getReportDate().toString(), zyzb);
-                        }
-                        Iterator<Object> iterator = dataArray.iterator();
-                        while (iterator.hasNext()) {
-                            JSONObject next = (JSONObject) iterator.next();
-                            //反射赋值
-                            InvFinanceZyzbJd zyzb = new InvFinanceZyzbJd(stock.getCode());
-                            Class<? extends InvFinanceZyzbJd> clazz = zyzb.getClass();
-                            Field[] declaredFields = clazz.getDeclaredFields();
-                            for (Field field : declaredFields) {
-                                field.setAccessible(true);
-                                String genericType = field.getGenericType().toString();
-                                String fieldName = field.getName();
-                                String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
-                                if ("class java.lang.Double".equals(genericType)) {
-                                    Double value = NumFormatUtil.toDouble(valueString);
-                                    field.set(zyzb, value);
-                                } else if ("class java.util.Date".equals(genericType)) {
-                                    Date value = DateUtils.parseDate(valueString);
-                                    field.set(zyzb, value);
-                                } else if ("class java.lang.String".equals(genericType)) {
-                                    field.set(zyzb, valueString);
-                                }
-
-                            }
-                            if (zyzbJdMap.containsKey(zyzb.getReportDate().toString())) {//数据库已有code指定日期报告
-                                InvFinanceZyzbJd companies = zyzbJdMap.get(zyzb.getReportDate().toString());
-                                if (!companies.equals(zyzb)) {//报告数据不相同，以最新获取为准更新数据库
-                                    invFinanceZyzbJdMapper.updateInvFinanceZyzbJd(zyzb);
-                                }
-                            } else {//数据库没有code指定日期报告，插入
-                                invFinanceZyzbJdMapper.insertInvFinanceZyzbJd(zyzb);
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            if (count.get() > 0) {
-                count.decrementAndGet();
-                invFinanceZyzbJdTask(stock, url, count);
-            } else {
-                log.error(">>>MyQuartzAsyncTask.invFinanceZyzbNdTask(" + url + ")异常:", e);
-            }
-        }
-    }
 
     /**
      * @Title: 异步执行invFinanceDbfxTask任务
@@ -358,8 +221,8 @@ public class MyQuartzAsyncTask {
             if (StringUtils.isNotEmpty(jsonStr)) {
                 JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                 List<String> reportTypeList = new ArrayList<String>();
-                if (jsonObject.containsKey("bgq")) {
-                    reportTypeList.add("bgq");
+                if (jsonObject.containsKey("")) {
+                    reportTypeList.add("");
                 }
                 if (jsonObject.containsKey("nd")) {
                     reportTypeList.add("nd");

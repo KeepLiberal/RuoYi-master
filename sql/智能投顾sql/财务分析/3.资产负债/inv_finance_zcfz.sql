@@ -4,8 +4,8 @@
 drop table if exists `inv_finance_zcfz`;
 create table `inv_finance_zcfz` (
   `id` bigint not null auto_increment comment 'id',
-  `security_code` varchar(10) character set utf8 collate utf8_bin not null comment '股票代码',
-  `report_type` varchar(10) character set utf8mb4 collate utf8mb4_general_ci default null comment '报告类型',
+  `security_code` varchar(10) character set utf8mb4 collate utf8mb4_general_ci not null comment '股票代码',
+  `report_type` varchar(10) character set utf8mb4 collate utf8mb4_general_ci not null comment '报告类型',
   `report_date` datetime default null comment '报告日期',
   `opinion_type` varchar(40) character set utf8 collate utf8_bin comment '审计意见(境内)',
   `osopinion_type` varchar(40) character set utf8 collate utf8_bin comment '审计意见(境外)',
