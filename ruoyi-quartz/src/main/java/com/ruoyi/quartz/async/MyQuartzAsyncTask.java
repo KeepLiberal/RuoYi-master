@@ -59,7 +59,7 @@ public class MyQuartzAsyncTask {
      * @date Sep 9, 2020
      */
     @Async("threadPoolTaskExecutor")
-    public void getInterfaceAllKey(InvStock stock, String urlStr, boolean containMarket) {
+    public void getInterfaceAllKey(InvStock stock, String urlStr, Boolean containMarket) {
 
         try {
             String url = ev.getProperty(urlStr);
