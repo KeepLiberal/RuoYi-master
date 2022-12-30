@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -58,7 +59,7 @@ public class MyQuartzAsyncTask {
      * @date Sep 9, 2020
      */
     @Async("threadPoolTaskExecutor")
-    public void getInterfaceAllKey(InvStock stock, String urlStr, String type) {
+    public void getInterfaceAllKey(InvStock stock, String urlStr, boolean containMarket) {
 
         try {
             String url = ev.getProperty(urlStr);
@@ -66,18 +67,32 @@ public class MyQuartzAsyncTask {
                 url = url.replace("'companyType'", stock.getStockType());
             }
             if (url.contains("'dates'")) {
-                url = url.replace("'dates'", "2021-12-31");
+                ZonedDateTime dateTime = ZonedDateTime.now();
+                int year = dateTime.getYear();
+                int month = dateTime.getMonthValue();
+                if (month<3){
+                    url = url.replace("'dates'", (year-1)+"-12-31");
+                }
+                if (month>3 && month<=6){
+                    url = url.replace("'dates'", year+"-3-31");
+                }
+                if (month>6 && month<=9){
+                    url = url.replace("'dates'", year+"-6-30");
+                }
+                if (month>9 && month<=12){
+                    url = url.replace("'dates'", year+"-9-30");
+                }
             }
 
-            if ("ym".equals(type)) {
+            if (containMarket) {
                 url += stock.getMarket() + stock.getCode();
-            } else if ("nm".equals(type)) {
+            } else {
                 url += stock.getCode();
             }
             String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
             if (StringUtils.isNotEmpty(jsonStr)) {
                 JSONObject jsonObject = JSONObject.parseObject(jsonStr);
-                if (jsonObject.containsKey("data")) {
+                if (jsonObject.containsKey("data") || jsonObject.containsKey("bgq") || jsonObject.containsKey("nd") || jsonObject.containsKey("jd")) {
                     JSONArray dataArray = jsonObject.getJSONArray("data");
                     if (!dataArray.isEmpty()) {
                         Iterator<Object> iterator = dataArray.iterator();
@@ -87,26 +102,6 @@ public class MyQuartzAsyncTask {
                         }
                     }
                 }
-                if (jsonObject.containsKey("")) {
-                    JSONArray dataArray = jsonObject.getJSONArray("");
-                    if (!dataArray.isEmpty()) {
-                        Iterator<Object> iterator = dataArray.iterator();
-                        if (iterator.hasNext()) {
-                            JSONObject next = (JSONObject) iterator.next();
-                            RyTask.keySet.addAll(next.keySet());
-                        }
-                    }
-                }
-//                if (jsonObject.containsKey("nd")) {
-//                    JSONArray dataArray = jsonObject.getJSONArray("nd");
-//                    if (!dataArray.isEmpty()) {
-//                        Iterator<Object> iterator = dataArray.iterator();
-//                        if (iterator.hasNext()) {
-//                            JSONObject next = (JSONObject) iterator.next();
-//                            RyTask.keySet.addAll(next.keySet());
-//                        }
-//                    }
-//                }
             }
         } catch (Exception e) {
             log.error(">>>getInterfaceAllKey(" + stock.getCode() + ")异常:", e);

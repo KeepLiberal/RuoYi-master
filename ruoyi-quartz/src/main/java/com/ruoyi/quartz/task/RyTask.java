@@ -72,14 +72,14 @@ public class RyTask {
      */
     public static Set<String> keySet = new HashSet<>();
 
-    public void getInterfaceAllKey(String urls, String type) {//"investment.finance-zyzb-quarter"
+    public void getInterfaceAllKey(String urls, String containMarket) {//"investment.finance-zyzb-quarter"
         keySet.clear();
         log.info("========getInterfaceAllKey任务线程分发开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
         String[] urlArr = urls.split(";");
         for (InvStock stock : stockList) {
             for (String url : urlArr) {
-                myQuartzAsyncTask.getInterfaceAllKey(stock, url, type);
+                myQuartzAsyncTask.getInterfaceAllKey(stock, url, "Y".equals(containMarket));
             }
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
