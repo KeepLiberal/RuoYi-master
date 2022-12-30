@@ -98,7 +98,7 @@ public class RyTask {
         // 遍历写入
         BufferedWriter bw = new BufferedWriter(new FileWriter(file));
         for (String key : keySet) {
-            bw.write("`" + key + "` double default null comment '-'," + "\r\n");
+            bw.write("`" + key + "` double default null comment ''," + "\r\n");
         }
         bw.flush();
         bw.close();
