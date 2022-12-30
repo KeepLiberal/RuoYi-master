@@ -240,27 +240,59 @@ public class RyTask {
 
 
     public static void main(String[] args) throws IOException {
-        File file = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/ruoyi-investment/src/main/resources/key/lr.txt");
-        List<String> keyList = readFile(file);
-        for (String key : keyList) {
-            if (!key.contains("_YOY")) {
-                if (keyList.contains(key + "_YOY")) {
-                    System.out.println("`"+key + "` double default null comment '-',");
-                    System.out.println("`"+key + "_YOY`" + " double default null comment '(环比%)',");
-                }else{
-                    System.out.println("`"+key + "` double default null comment '-',");
+        File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/sql/xjll.html");
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/sql/xjll.sql");
+        List<String> htmlList = readHtmlFile(htmlFile);
+        List<String> sqlList = readSqlFile(sqlFile);
+
+        for (String sql : sqlList) {
+            String sqlKey = sql.replace("double","")
+                    .replace("default","")
+                    .replace("null","")
+                    .replace("comment","")
+                    .replace("`","")
+                    .replace("'","")
+                    .replace(",","").trim();
+            sqlKey = "(value."+sqlKey.toUpperCase()+")";
+            for (int i=0; i<htmlList.size(); i++) {
+                String htmlKey = htmlList.get(i);
+                if (htmlKey.contains(sqlKey)) {
+                    String chinese = StringUtils.getChinese(htmlList.get(i-1));
+                    if(sqlKey.contains("_YOY")){
+                        sql = sql.replace("comment ''","comment '"+chinese+"(环比%)'");
+                    }else{
+                        sql = sql.replace("comment ''","comment '"+chinese+"'");
+                    }
+
+                    System.out.println(sql);
+                    break;
                 }
             }
         }
 
     }
 
-    private static List<String> readFile(File fin) throws IOException {
+    private static List<String> readSqlFile(File fin) throws IOException {
         List<String> keyList = new ArrayList<>();
         BufferedReader br = new BufferedReader(new FileReader(fin));
         String line = null;
         while ((line = br.readLine()) != null) {
-            keyList.add(line);
+            if (line.contains("comment")){
+                keyList.add(line);
+            }
+        }
+        br.close();
+        return keyList;
+    }
+
+    private static List<String> readHtmlFile(File fin) throws IOException {
+        List<String> keyList = new ArrayList<>();
+        BufferedReader br = new BufferedReader(new FileReader(fin));
+        String line = null;
+        while ((line = br.readLine()) != null) {
+            if (line.contains("(value.") || StringUtils.isContainChinese(line)){
+                keyList.add(line);
+            }
         }
         br.close();
         return keyList;
