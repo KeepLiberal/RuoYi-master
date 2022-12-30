@@ -205,7 +205,6 @@ public class MyQuartzAsyncTask {
     }
     
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     /**
@@ -221,11 +220,14 @@ public class MyQuartzAsyncTask {
             if (StringUtils.isNotEmpty(jsonStr)) {
                 JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                 List<String> reportTypeList = new ArrayList<String>();
-                if (jsonObject.containsKey("")) {
-                    reportTypeList.add("");
+                if (jsonObject.containsKey("bgq")) {
+                    reportTypeList.add("bgq");
                 }
                 if (jsonObject.containsKey("nd")) {
                     reportTypeList.add("nd");
+                }
+                if (jsonObject.containsKey("jd")) {
+                    reportTypeList.add("jd");
                 }
                 for (String reportType : reportTypeList){
                     JSONArray jsonArray = jsonObject.getJSONArray(reportType);
@@ -467,7 +469,7 @@ public class MyQuartzAsyncTask {
                                                         //没有找到已定义枚举匹配项
                                                         if (StringUtils.isEmpty((String)field.get(zcfz))){
                                                             field.set(zcfz, valueString);
-                                                            log.error(">>>审计意见：" + valueString + " 不在预定枚举类");
+                                                            log.error(">>>invFinanceZcfzTask任务:"+zcfz.getSecurityCode()+" "+zcfz.getReportType()+" "+zcfz.getReportDate()+" 审计意见("+fieldName+")：" + valueString + " 不在预定枚举类");
                                                         }
                                                     }
                                                 }else{
@@ -603,7 +605,7 @@ public class MyQuartzAsyncTask {
                                                         //没有找到已定义枚举匹配项
                                                         if (StringUtils.isEmpty((String)field.get(lr))){
                                                             field.set(lr, valueString);
-                                                            log.error(">>>审计意见：" + valueString + " 不在预定枚举类");
+                                                            log.error(">>>invFinanceLrTask任务:"+lr.getSecurityCode()+" "+lr.getReportType()+" "+lr.getReportDate()+" 审计意见("+fieldName+")：" + valueString + " 不在预定枚举类");
                                                         }
                                                     }
                                                 }else{
