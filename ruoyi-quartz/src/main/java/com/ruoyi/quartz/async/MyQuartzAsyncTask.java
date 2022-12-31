@@ -2,7 +2,7 @@ package com.ruoyi.quartz.async;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.ruoyi.common.enums.OpinionTypeEnu;
+import com.ruoyi.common.core.domain.entity.SysDictData;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.NumFormatUtil;
 import com.ruoyi.common.utils.StringUtils;
@@ -11,7 +11,6 @@ import com.ruoyi.investment.domain.*;
 import com.ruoyi.investment.mapper.*;
 import com.ruoyi.quartz.task.RyTask;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -34,8 +33,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 @Component
 public class MyQuartzAsyncTask {
-    @Resource
-    private Environment ev;
+
     @Resource
     private InvStockMapper invStockMapper;
     @Resource
@@ -51,88 +49,6 @@ public class MyQuartzAsyncTask {
     @Resource
     private InvFinanceXjllMapper invFinanceXjllMapper;
 
-
-
-    /**
-     * @Title: 获取接口所有字段
-     * @Description:
-     * @author weny.yang
-     * @date Sep 9, 2020
-     */
-    @Async("threadPoolTaskExecutor")
-    public void getInterfaceAllKey(InvStock stock, String urlStr, Boolean containMarket) {
-
-        try {
-            String url = ev.getProperty(urlStr);
-            if (url.contains("'companyType'")) {
-                url = url.replace("'companyType'", stock.getStockType());
-            }
-            if (url.contains("'dates'")) {
-                ZonedDateTime dateTime = ZonedDateTime.now();
-                int year = dateTime.getYear();
-                int month = dateTime.getMonthValue();
-                if (month<3){
-                    url = url.replace("'dates'", (year-1)+"-12-31");
-                }
-                if (month>3 && month<=6){
-                    url = url.replace("'dates'", year+"-3-31");
-                }
-                if (month>6 && month<=9){
-                    url = url.replace("'dates'", year+"-6-30");
-                }
-                if (month>9 && month<=12){
-                    url = url.replace("'dates'", year+"-9-30");
-                }
-            }
-
-            if (containMarket) {
-                url += stock.getMarket() + stock.getCode();
-            } else {
-                url += stock.getCode();
-            }
-            String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
-            if (StringUtils.isNotEmpty(jsonStr)) {
-                JSONObject jsonObject = JSONObject.parseObject(jsonStr);
-                if (jsonObject.containsKey("data") || jsonObject.containsKey("bgq") || jsonObject.containsKey("nd") || jsonObject.containsKey("jd")) {
-                    JSONArray dataArray = jsonObject.getJSONArray("data");
-                    if (!dataArray.isEmpty()) {
-                        Iterator<Object> iterator = dataArray.iterator();
-                        if (iterator.hasNext()) {
-                            JSONObject next = (JSONObject) iterator.next();
-                            RyTask.keySet.addAll(next.keySet());
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            log.error(">>>getInterfaceAllKey(" + stock.getCode() + ")异常:", e);
-        }
-    }
-
-    /**
-     * @Title: 下载所有html
-     * @Description:
-     * @author weny.yang
-     * @date Sep 9, 2020
-     */
-    @Async("threadPoolTaskExecutor")
-    public void downAllHtml(String url, String code) throws IOException {
-        String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
-        if (StringUtils.isNotEmpty(jsonStr)) {
-            File file = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/html/dev-" + code + ".html");
-            // 判断文件是否存在
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-            bw.write(jsonStr);
-            bw.flush();
-            bw.close();
-        }
-    }
-
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     /**
@@ -367,7 +283,7 @@ public class MyQuartzAsyncTask {
      * @date Sep 9, 2020
      */
     @Async("threadPoolTaskExecutor")
-    public void invFinanceZcfzTask(InvStock stock, String url, String financeType, String reportType, AtomicInteger count) {
+    public void invFinanceZcfzTask(InvStock stock, String url, String financeType, String reportType, List<SysDictData> dictDatas, AtomicInteger count) {
         try {
             /*
             1.最近的5期进行数据同步，如果和数据库一致则跳过，不一致则更新
@@ -450,19 +366,15 @@ public class MyQuartzAsyncTask {
                                                 Date value = DateUtils.parseDate(valueString);
                                                 field.set(zcfz, value);
                                             } else if ("class java.lang.String".equals(genericType)) {
-                                                //审计意见枚举赋值
+                                                //审计意见字典数据匹配
                                                 if ("opinionType".equals(fieldName) || "osopinionType".equals(fieldName)) {
-                                                    if (StringUtils.isNotEmpty(valueString)){
-                                                        for(OpinionTypeEnu value : OpinionTypeEnu.values()){
-                                                            if (value.getChineseStr().equals(valueString)){
-                                                                field.set(zcfz, value.getDict());
-                                                            }
+                                                    for (SysDictData dict : dictDatas){
+                                                        if (dict.getDictLabel().equals(valueString)){
+                                                            field.set(zcfz, dict.getDictValue());
                                                         }
-                                                        //没有找到已定义枚举匹配项
-                                                        if (StringUtils.isEmpty((String)field.get(zcfz))){
-                                                            field.set(zcfz, valueString);
-                                                            log.error(">>>invFinanceZcfzTask任务:"+zcfz.getSecurityCode()+" "+zcfz.getReportType()+" "+zcfz.getReportDate()+" 审计意见("+fieldName+")：" + valueString + " 不在预定枚举类");
-                                                        }
+                                                    }
+                                                    if (StringUtils.isEmpty((String)field.get(zcfz))){
+                                                        log.error(">>>invFinanceZcfzTask任务:"+zcfz.getSecurityCode()+" "+zcfz.getReportType()+" "+zcfz.getReportDate()+" 对应的股票市场(market)不在字典表opinion_type内，请添加");
                                                     }
                                                 }else{
                                                     field.set(zcfz, valueString);
@@ -487,7 +399,7 @@ public class MyQuartzAsyncTask {
         } catch (Exception e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
-                invFinanceZcfzTask(stock, url, financeType, reportType, count);
+                invFinanceZcfzTask(stock, url, financeType, reportType, dictDatas, count);
             } else {
                 log.error(">>>MyQuartzAsyncTask.invFinanceZcfzTask(" + url + ")异常:", e);
             }
@@ -501,7 +413,7 @@ public class MyQuartzAsyncTask {
      * @date Sep 9, 2020
      */
     @Async("threadPoolTaskExecutor")
-    public void invFinanceLrTask(InvStock stock, String url, String financeType, String reportType, AtomicInteger count) {
+    public void invFinanceLrTask(InvStock stock, String url, String financeType, String reportType, List<SysDictData> dictDatas, AtomicInteger count) {
         try {
             /*
             1.最近的5期进行数据同步，如果和数据库一致则跳过，不一致则更新
@@ -586,17 +498,13 @@ public class MyQuartzAsyncTask {
                                             } else if ("class java.lang.String".equals(genericType)) {
                                                 //审计意见枚举赋值
                                                 if ("opinionType".equals(fieldName) || "osopinionType".equals(fieldName)) {
-                                                    if (StringUtils.isNotEmpty(valueString)){
-                                                        for(OpinionTypeEnu enu : OpinionTypeEnu.values()){
-                                                            if (enu.getChineseStr().equals(valueString)){
-                                                                field.set(lr, enu.getDict());
-                                                            }
+                                                    for (SysDictData dict : dictDatas){
+                                                        if (dict.getDictLabel().equals(valueString)){
+                                                            field.set(lr, dict.getDictValue());
                                                         }
-                                                        //没有找到已定义枚举匹配项
-                                                        if (StringUtils.isEmpty((String)field.get(lr))){
-                                                            field.set(lr, valueString);
-                                                            log.error(">>>invFinanceLrTask任务:"+lr.getSecurityCode()+" "+lr.getReportType()+" "+lr.getReportDate()+" 审计意见("+fieldName+")：" + valueString + " 不在预定枚举类");
-                                                        }
+                                                    }
+                                                    if (StringUtils.isEmpty((String)field.get(lr))){
+                                                        log.error(">>>invFinanceLrTask任务:"+lr.getSecurityCode()+" "+lr.getReportType()+" "+lr.getReportDate()+" 对应的股票市场(market)不在字典表opinion_type内，请添加");
                                                     }
                                                 }else{
                                                     field.set(lr, valueString);
@@ -621,7 +529,7 @@ public class MyQuartzAsyncTask {
         } catch (Exception e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
-                invFinanceLrTask(stock, url, financeType, reportType, count);
+                invFinanceLrTask(stock, url, financeType, reportType, dictDatas, count);
             } else {
                 log.error(">>>MyQuartzAsyncTask.invFinanceLrTask(" + url + ")异常:", e);
             }
@@ -635,7 +543,7 @@ public class MyQuartzAsyncTask {
      * @date Sep 9, 2020
      */
     @Async("threadPoolTaskExecutor")
-    public void invFinanceXjllTask(InvStock stock, String url, String financeType, String reportType, AtomicInteger count) {
+    public void invFinanceXjllTask(InvStock stock, String url, String financeType, String reportType, List<SysDictData> dictDatas, AtomicInteger count) {
         try {
             /*
             1.最近的5期进行数据同步，如果和数据库一致则跳过，不一致则更新
@@ -720,17 +628,13 @@ public class MyQuartzAsyncTask {
                                             } else if ("class java.lang.String".equals(genericType)) {
                                                 //审计意见枚举赋值
                                                 if ("opinionType".equals(fieldName) || "osopinionType".equals(fieldName)) {
-                                                    if (StringUtils.isNotEmpty(valueString)){
-                                                        for(OpinionTypeEnu enu : OpinionTypeEnu.values()){
-                                                            if (enu.getChineseStr().equals(valueString)){
-                                                                field.set(xjll, enu.getDict());
-                                                            }
+                                                    for (SysDictData dict : dictDatas){
+                                                        if (dict.getDictLabel().equals(valueString)){
+                                                            field.set(xjll, dict.getDictValue());
                                                         }
-                                                        //没有找到已定义枚举匹配项
-                                                        if (StringUtils.isEmpty((String)field.get(xjll))){
-                                                            field.set(xjll, valueString);
-                                                            log.error(">>>invFinanceXjllTask任务:"+xjll.getSecurityCode()+" "+xjll.getReportType()+" "+xjll.getReportDate()+" 审计意见("+fieldName+")：" + valueString + " 不在预定枚举类");
-                                                        }
+                                                    }
+                                                    if (StringUtils.isEmpty((String)field.get(xjll))){
+                                                        log.error(">>>invFinanceZcfzTask任务:"+xjll.getSecurityCode()+" "+xjll.getReportType()+" "+xjll.getReportDate()+" 对应的股票市场(market)不在字典表opinion_type内，请添加");
                                                     }
                                                 }else{
                                                     field.set(xjll, valueString);
@@ -755,7 +659,7 @@ public class MyQuartzAsyncTask {
         } catch (Exception e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
-                invFinanceXjllTask(stock, url, financeType, reportType, count);
+                invFinanceXjllTask(stock, url, financeType, reportType, dictDatas, count);
             } else {
                 log.error(">>>MyQuartzAsyncTask.invFinanceXjllTask(" + url + ")异常:", e);
             }
@@ -763,5 +667,84 @@ public class MyQuartzAsyncTask {
     }
 
 
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @Title: 获取接口所有字段
+     * @Description:
+     * @author weny.yang
+     * @date Sep 9, 2020
+     */
+    @Async("threadPoolTaskExecutor")
+    public void getInterfaceAllKey(InvStock stock, String url, Boolean containMarket) {
+
+        try {
+            if (url.contains("'companyType'")) {
+                url = url.replace("'companyType'", stock.getStockType());
+            }
+            if (url.contains("'dates'")) {
+                ZonedDateTime dateTime = ZonedDateTime.now();
+                int year = dateTime.getYear();
+                int month = dateTime.getMonthValue();
+                if (month<3){
+                    url = url.replace("'dates'", (year-1)+"-12-31");
+                }
+                if (month>3 && month<=6){
+                    url = url.replace("'dates'", year+"-3-31");
+                }
+                if (month>6 && month<=9){
+                    url = url.replace("'dates'", year+"-6-30");
+                }
+                if (month>9 && month<=12){
+                    url = url.replace("'dates'", year+"-9-30");
+                }
+            }
+
+            if (containMarket) {
+                url += stock.getMarket() + stock.getCode();
+            } else {
+                url += stock.getCode();
+            }
+            String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
+            if (StringUtils.isNotEmpty(jsonStr)) {
+                JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+                if (jsonObject.containsKey("data") || jsonObject.containsKey("bgq") || jsonObject.containsKey("nd") || jsonObject.containsKey("jd")) {
+                    JSONArray dataArray = jsonObject.getJSONArray("data");
+                    if (!dataArray.isEmpty()) {
+                        Iterator<Object> iterator = dataArray.iterator();
+                        if (iterator.hasNext()) {
+                            JSONObject next = (JSONObject) iterator.next();
+                            RyTask.keySet.addAll(next.keySet());
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error(">>>getInterfaceAllKey(" + stock.getCode() + ")异常:", e);
+        }
+    }
+
+    /**
+     * @Title: 下载所有html
+     * @Description:
+     * @author weny.yang
+     * @date Sep 9, 2020
+     */
+    @Async("threadPoolTaskExecutor")
+    public void downAllHtml(String url, String code) throws IOException {
+        String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
+        if (StringUtils.isNotEmpty(jsonStr)) {
+            File file = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/html/dev-" + code + ".html");
+            // 判断文件是否存在
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            bw.write(jsonStr);
+            bw.flush();
+            bw.close();
+        }
+    }
 
 }
