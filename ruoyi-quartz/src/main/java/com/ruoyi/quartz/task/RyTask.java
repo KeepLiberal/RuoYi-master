@@ -93,14 +93,13 @@ public class RyTask {
                             String code = next.getString("f12");
                             String name = next.getString("f14");
                             String market = null;
-                            String codeStart = code.substring(0, 2);
                             for (SysDictData dict : dictDatas){
-                                if (codeStart.equals(dict.getDictValue())){
+                                if (code.startsWith(dict.getDictValue())){
                                     market = dict.getDictLabel();
                                 }
                             }
                             if(StringUtils.isEmpty(market)){
-                                log.error(">>>invStockTask任务:"+code+" "+name+" 代码开头"+codeStart+"对应的股票市场(market)不在字典表market_type内，请添加");
+                                log.error(">>>invStockTask任务:"+code+" "+name+" 对应的股票市场(market)不在字典表market_type内，请添加");
                             }
                             InvStock stock = new InvStock(code, name, market);
                             if (stockMap.containsKey(code)) {
