@@ -355,7 +355,7 @@ public class MyQuartzAsyncTask {
                                                 field.set(zcfz, value);
                                             } else if ("class java.lang.String".equals(genericType)) {
                                                 //审计意见字典数据匹配
-                                                if ("opinionType".equals(fieldName) || "osopinionType".equals(fieldName)) {
+                                                if (StringUtils.isNotEmpty(valueString) && ("opinionType".equals(fieldName) || "osopinionType".equals(fieldName))) {
                                                     for (SysDictData dict : dictDatas){
                                                         if (dict.getDictLabel().equals(valueString)){
                                                             field.set(zcfz, dict.getDictValue());
@@ -482,7 +482,7 @@ public class MyQuartzAsyncTask {
                                                 field.set(lr, value);
                                             } else if ("class java.lang.String".equals(genericType)) {
                                                 //审计意见枚举赋值
-                                                if ("opinionType".equals(fieldName) || "osopinionType".equals(fieldName)) {
+                                                if (StringUtils.isNotEmpty(valueString) && ("opinionType".equals(fieldName) || "osopinionType".equals(fieldName))) {
                                                     for (SysDictData dict : dictDatas){
                                                         if (dict.getDictLabel().equals(valueString)){
                                                             field.set(lr, dict.getDictValue());
@@ -609,7 +609,7 @@ public class MyQuartzAsyncTask {
                                                 field.set(xjll, value);
                                             } else if ("class java.lang.String".equals(genericType)) {
                                                 //审计意见枚举赋值
-                                                if ("opinionType".equals(fieldName) || "osopinionType".equals(fieldName)) {
+                                                if (StringUtils.isNotEmpty(valueString) && ("opinionType".equals(fieldName) || "osopinionType".equals(fieldName))) {
                                                     for (SysDictData dict : dictDatas){
                                                         if (dict.getDictLabel().equals(valueString)){
                                                             field.set(xjll, dict.getDictValue());
