@@ -50,24 +50,18 @@ public class RyTask {
 
 
     ///////////////////////////////////////////////////////个股信息//////////////////////////////////////////////////////
+
     /**
-     * @Title: isCompletedByTaskCount
-     * @Description:判断线程池状态
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 判断线程池状态
      */
     private static void isCompletedByTaskCount(ThreadPoolExecutor threadPool, Integer value) {
         while (threadPool.getQueue().size() > value);
     }
 
     /**
-     * @Title: invStockTask
-     * @Description: 沪深A股基础数据抓取
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 沪深A股基础数据抓取
      */
     private void invStockTask() {
-        log.info("========invStockTask任务开始=========");
         SysDictData dictData = new SysDictData();
         dictData.setDictType("market_type");
         List<SysDictData> dictDatas = dictDataMapper.selectDictDataList(dictData);
@@ -100,7 +94,7 @@ public class RyTask {
                                 }
                             }
                             if(StringUtils.isEmpty(market)){
-                                log.error(">>>invStockTask任务:"+code+" "+name+" 对应的股票市场(market)不在字典表market_type内，请添加");
+                                log.error(">>>invStockTask任务:"+code+" "+name+" 对应的股票市场不在字典表market_type内，请添加");
                             }
                             InvStock stock = new InvStock(code, name, market);
                             if (stockMap.containsKey(code)) {
@@ -117,22 +111,21 @@ public class RyTask {
                 }
             }
         }
-        log.info("========invStockTask任务完成=========");
     }
 
     /**
-     * @Title: invFinanceTask
-     * @Description: 财务分析数据抓取
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 财务分析数据抓取
      */
     public void invFinanceTask() {
         log.info("================财务分析任务  开始=================");
         //保证线程池比较闲时候再开始任务
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
 
+        log.info("========invStockTask任务开始=========");
         //沪深A股基础数据抓取任务
         invStockTask();
+        log.info("========invStockTask任务完成=========");
+
         //获取所有未退市股
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
 
@@ -203,10 +196,7 @@ public class RyTask {
     ///////////////////////////////////////////////////////快速工具///////////////////////////////////////////////////////
 
     /**
-     * @Title: getInterfaceAllKey
-     * @Description: 多线程获取接口所有字段
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 多线程获取接口所有字段
      */
     public void getInterfaceAllKey(String urls, Boolean containMarket) {//"investment.finance-zyzb-quarter"
         keySet.clear();
@@ -223,10 +213,7 @@ public class RyTask {
     }
 
     /**
-     * @Title: writeAllKey
-     * @Description: 写出接口所有字段
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 写出接口所有字段
      */
     public void writeAllKey() throws IOException {
         File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-without-comment.sql");
@@ -246,10 +233,7 @@ public class RyTask {
     }
 
     /**
-     * @Title: downAllHtml
-     * @Description: 下载所有html
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 下载所有html
      */
     public void downAllHtml(String url) throws IOException {//"investment.finance-zyzb-quarter"
         log.info("========downAllHtml任务线程分发开始=========");
@@ -262,23 +246,7 @@ public class RyTask {
     }
 
     /**
-     * @Title: main测试入口
-     * @Description:
-     * @author weny.yang
-     * @date Sep 9, 2020
-     */
-    public static void main(String[] args) throws IOException {
-
-        List<String> sqlListWithComment = getSqlListWithComment();
-        creatSqlFileWithComment(sqlListWithComment);
-
-    }
-
-    /**
-     * @Title: creatSqlFileWithComment
-     * @Description: 生成字段带有描述的sql文件
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 生成字段带有描述的sql文件
      */
     private static void creatSqlFileWithComment(List<String> sqlList) throws IOException {
         File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-with-comment.sql");
@@ -296,10 +264,7 @@ public class RyTask {
     }
 
     /**
-     * @Title: getSqlListWithComment
-     * @Description: 获取字段带描述的sql列表
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 获取字段带描述的sql列表
      */
     private static List<String> getSqlListWithComment() throws IOException {
         File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/html/dev.html");
@@ -335,10 +300,7 @@ public class RyTask {
     }
 
     /**
-     * @Title: readSqlFileWithoutComment
-     * @Description: 读取程序生成的字段不带描述的sql文件
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 读取程序生成的字段不带描述的sql文件
      */
     private static List<String> readSqlFileWithoutComment(File fin) throws IOException {
         List<String> keyList = new ArrayList<>();
@@ -354,10 +316,7 @@ public class RyTask {
     }
 
     /**
-     * @Title: readHtmlFile
-     * @Description: 读取html文件获得字段名和描述
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 读取html文件获得字段名和描述
      */
     private static List<String> readHtmlFile(File fin) throws IOException {
         List<String> keyList = new ArrayList<>();
@@ -372,33 +331,34 @@ public class RyTask {
         return keyList;
     }
 
+    /**
+     * main测试入口
+     */
+    public static void main(String[] args) throws IOException {
+
+        List<String> sqlListWithComment = getSqlListWithComment();
+        creatSqlFileWithComment(sqlListWithComment);
+
+    }
+
     ///////////////////////////////////////////////////////示例代码//////////////////////////////////////////////////////
 
     /**
-     * @Title: ryMultipleParams
-     * @Description: 多参数任务示例
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 多参数任务示例
      */
     public void ryMultipleParams(String s, Boolean b, Long l, Double d, Integer i) {
         System.out.println(StringUtils.format("执行多参方法： 字符串类型{}，布尔类型{}，长整型{}，浮点型{}，整形{}", s, b, l, d, i));
     }
 
     /**
-     * @Title: ryParams
-     * @Description: 单参数任务示例
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 单参数任务示例
      */
     public void ryParams(String params) {
         System.out.println("执行有参方法：" + params);
     }
 
     /**
-     * @Title: ryNoParams
-     * @Description: 无参数任务示例
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 无参数任务示例
      */
     public void ryNoParams() {
         System.out.println("执行无参方法");

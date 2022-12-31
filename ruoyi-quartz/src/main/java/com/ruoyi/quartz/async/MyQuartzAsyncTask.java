@@ -52,10 +52,7 @@ public class MyQuartzAsyncTask {
 
 
     /**
-     * @Title: invFinanceReportDateTask
-     * @Description: 异步执行 财务分析-报告日期 任务
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 异步执行 财务分析-报告日期 任务
      */
     @Async("threadPoolTaskExecutor")
     public void invFinanceReportDateTask(InvStock stock, String url, String financeType, String reportType, AtomicInteger count) {
@@ -135,10 +132,7 @@ public class MyQuartzAsyncTask {
     }
 
     /**
-     * @Title: 异步执行 财务分析-重要指标 任务
-     * @Description:
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 异步执行 财务分析-重要指标 任务
      */
     @Async("threadPoolTaskExecutor")
     public void invFinanceZyzbTask(InvStock stock, String url, String reportType, AtomicInteger count) {
@@ -201,10 +195,7 @@ public class MyQuartzAsyncTask {
     }
 
     /**
-     * @Title: 异步执行 财务分析-杜邦分析 任务
-     * @Description:
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 异步执行 财务分析-杜邦分析 任务
      */
     @Async("threadPoolTaskExecutor")
     public void invFinanceDbfxTask(InvStock stock, String url, AtomicInteger count) {
@@ -277,10 +268,7 @@ public class MyQuartzAsyncTask {
     }
 
     /**
-     * @Title: 异步执行 财务分析-资产负债 任务
-     * @Description:
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 异步执行 财务分析-资产负债 任务
      */
     @Async("threadPoolTaskExecutor")
     public void invFinanceZcfzTask(InvStock stock, String url, String financeType, String reportType, List<SysDictData> dictDatas, AtomicInteger count) {
@@ -374,7 +362,7 @@ public class MyQuartzAsyncTask {
                                                         }
                                                     }
                                                     if (StringUtils.isEmpty((String)field.get(zcfz))){
-                                                        log.error(">>>invFinanceZcfzTask任务:"+zcfz.getSecurityCode()+" "+zcfz.getReportType()+" "+zcfz.getReportDate()+" 对应的股票市场(market)不在字典表opinion_type内，请添加");
+                                                        log.error(">>>invFinanceZcfzTask任务:"+zcfz.getSecurityCode()+" "+zcfz.getReportType()+" "+zcfz.getReportDate()+" 对应的审计意见不在字典表opinion_type内，请添加");
                                                     }
                                                 }else{
                                                     field.set(zcfz, valueString);
@@ -407,10 +395,7 @@ public class MyQuartzAsyncTask {
     }
 
     /**
-     * @Title: 异步执行 财务分析-利润 任务
-     * @Description:
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 异步执行 财务分析-利润 任务
      */
     @Async("threadPoolTaskExecutor")
     public void invFinanceLrTask(InvStock stock, String url, String financeType, String reportType, List<SysDictData> dictDatas, AtomicInteger count) {
@@ -504,7 +489,7 @@ public class MyQuartzAsyncTask {
                                                         }
                                                     }
                                                     if (StringUtils.isEmpty((String)field.get(lr))){
-                                                        log.error(">>>invFinanceLrTask任务:"+lr.getSecurityCode()+" "+lr.getReportType()+" "+lr.getReportDate()+" 对应的股票市场(market)不在字典表opinion_type内，请添加");
+                                                        log.error(">>>invFinanceLrTask任务:"+lr.getSecurityCode()+" "+lr.getReportType()+" "+lr.getReportDate()+" 对应的审计意见不在字典表opinion_type内，请添加");
                                                     }
                                                 }else{
                                                     field.set(lr, valueString);
@@ -537,10 +522,7 @@ public class MyQuartzAsyncTask {
     }
 
     /**
-     * @Title: 异步执行 财务分析-现金流量 任务
-     * @Description:
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 异步执行 财务分析-现金流量 任务
      */
     @Async("threadPoolTaskExecutor")
     public void invFinanceXjllTask(InvStock stock, String url, String financeType, String reportType, List<SysDictData> dictDatas, AtomicInteger count) {
@@ -634,7 +616,7 @@ public class MyQuartzAsyncTask {
                                                         }
                                                     }
                                                     if (StringUtils.isEmpty((String)field.get(xjll))){
-                                                        log.error(">>>invFinanceZcfzTask任务:"+xjll.getSecurityCode()+" "+xjll.getReportType()+" "+xjll.getReportDate()+" 对应的股票市场(market)不在字典表opinion_type内，请添加");
+                                                        log.error(">>>invFinanceXjllTask任务:"+xjll.getSecurityCode()+" "+xjll.getReportType()+" "+xjll.getReportDate()+" 对应的审计意见不在字典表opinion_type内，请添加");
                                                     }
                                                 }else{
                                                     field.set(xjll, valueString);
@@ -671,10 +653,7 @@ public class MyQuartzAsyncTask {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * @Title: 获取接口所有字段
-     * @Description:
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 获取接口所有字段
      */
     @Async("threadPoolTaskExecutor")
     public void getInterfaceAllKey(InvStock stock, String url, Boolean containMarket) {
@@ -726,10 +705,7 @@ public class MyQuartzAsyncTask {
     }
 
     /**
-     * @Title: 下载所有html
-     * @Description:
-     * @author weny.yang
-     * @date Sep 9, 2020
+     * 下载所有html
      */
     @Async("threadPoolTaskExecutor")
     public void downAllHtml(String url, String code) throws IOException {
