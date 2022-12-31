@@ -362,7 +362,7 @@ public class MyQuartzAsyncTask {
                                                         }
                                                     }
                                                     if (StringUtils.isEmpty((String)field.get(zcfz))){
-                                                        log.error(">>>invFinanceZcfzTask任务:"+zcfz.getSecurityCode()+" "+zcfz.getReportType()+" "+zcfz.getReportDate()+" 对应的审计意见不在字典表opinion_type内，请添加");
+                                                        log.error(">>>invFinanceZcfzTask任务:"+zcfz.getSecurityCode()+" "+zcfz.getReportType()+" "+zcfz.getReportDate()+" 对应的审计意见:"+valueString+" 不在字典表opinion_type内，请添加");
                                                     }
                                                 }else{
                                                     field.set(zcfz, valueString);
@@ -489,7 +489,7 @@ public class MyQuartzAsyncTask {
                                                         }
                                                     }
                                                     if (StringUtils.isEmpty((String)field.get(lr))){
-                                                        log.error(">>>invFinanceLrTask任务:"+lr.getSecurityCode()+" "+lr.getReportType()+" "+lr.getReportDate()+" 对应的审计意见不在字典表opinion_type内，请添加");
+                                                        log.error(">>>invFinanceLrTask任务:"+lr.getSecurityCode()+" "+lr.getReportType()+" "+lr.getReportDate()+" 对应的审计意见:"+valueString+" 不在字典表opinion_type内，请添加");
                                                     }
                                                 }else{
                                                     field.set(lr, valueString);
@@ -616,7 +616,7 @@ public class MyQuartzAsyncTask {
                                                         }
                                                     }
                                                     if (StringUtils.isEmpty((String)field.get(xjll))){
-                                                        log.error(">>>invFinanceXjllTask任务:"+xjll.getSecurityCode()+" "+xjll.getReportType()+" "+xjll.getReportDate()+" 对应的审计意见不在字典表opinion_type内，请添加");
+                                                        log.error(">>>invFinanceXjllTask任务:"+xjll.getSecurityCode()+" "+xjll.getReportType()+" "+xjll.getReportDate()+" 对应的审计意见:"+valueString+" 不在字典表opinion_type内，请添加");
                                                     }
                                                 }else{
                                                     field.set(xjll, valueString);

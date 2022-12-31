@@ -94,7 +94,7 @@ public class RyTask {
                                 }
                             }
                             if(StringUtils.isEmpty(market)){
-                                log.error(">>>invStockTask任务:"+code+" "+name+" 对应的股票市场不在字典表market_type内，请添加");
+                                log.error(">>>invStockTask任务:"+code+" "+name+" ["+code.substring(0,3)+"]对应的股票市场不在字典表market_type内，请添加");
                             }
                             InvStock stock = new InvStock(code, name, market);
                             if (stockMap.containsKey(code)) {
