@@ -110,16 +110,16 @@ public class MyQuartzAsyncTask {
     }
 
     /**
-     * @Title: 下载html
+     * @Title: 下载所有html
      * @Description:
      * @author weny.yang
      * @date Sep 9, 2020
      */
     @Async("threadPoolTaskExecutor")
-    public void downHtml(String url, String code) throws IOException {
+    public void downAllHtml(String url, String code) throws IOException {
         String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
         if (StringUtils.isNotEmpty(jsonStr)) {
-            File file = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/ruoyi-investment/src/main/resources/html/" + code + ".html");
+            File file = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/html/dev-" + code + ".html");
             // 判断文件是否存在
             if (!file.exists()) {
                 file.createNewFile();
@@ -136,8 +136,8 @@ public class MyQuartzAsyncTask {
 
 
     /**
-     * @Title: 异步执行 财务分析-报告日期 任务
-     * @Description:
+     * @Title: invFinanceReportDateTask
+     * @Description: 异步执行 财务分析-报告日期 任务
      * @author weny.yang
      * @date Sep 9, 2020
      */

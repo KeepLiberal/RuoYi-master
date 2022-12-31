@@ -2,12 +2,14 @@ package com.ruoyi.quartz.task;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.common.core.domain.entity.SysDictData;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.common.utils.spring.SpringUtils;
 import com.ruoyi.investment.domain.InvStock;
 import com.ruoyi.investment.mapper.InvStockMapper;
 import com.ruoyi.quartz.async.MyQuartzAsyncTask;
+import com.ruoyi.system.mapper.SysDictDataMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -33,97 +35,43 @@ public class RyTask {
     private MyQuartzAsyncTask myQuartzAsyncTask;
     @Resource
     private InvStockMapper invStockMapper;
+    @Resource
+    private SysDictDataMapper dictDataMapper;
 
-    //从容器中取线程池
+    /**
+     * 容器中的线程池
+     */
     private ThreadPoolTaskExecutor threadPoolTaskExecutor = SpringUtils.getBean("threadPoolTaskExecutor");
 
     /**
-     * 判断线程池状态
+     * 存放接口所有字段
+     */
+    public static Set<String> keySet = new HashSet<>();
+
+
+    ///////////////////////////////////////////////////////个股信息//////////////////////////////////////////////////////
+    /**
+     * @Title: isCompletedByTaskCount
+     * @Description:判断线程池状态
+     * @author weny.yang
+     * @date Sep 9, 2020
      */
     private static void isCompletedByTaskCount(ThreadPoolExecutor threadPool, Integer value) {
         while (threadPool.getQueue().size() > value);
     }
 
     /**
-     * 多参数任务示例
-     */
-    public void ryMultipleParams(String s, Boolean b, Long l, Double d, Integer i) {
-        System.out.println(StringUtils.format("执行多参方法： 字符串类型{}，布尔类型{}，长整型{}，浮点型{}，整形{}", s, b, l, d, i));
-    }
-
-    /**
-     * 单参数任务示例
-     */
-    public void ryParams(String params) {
-        System.out.println("执行有参方法：" + params);
-    }
-
-    /**
-     * 无参数任务示例
-     */
-    public void ryNoParams() {
-        System.out.println("执行无参方法");
-    }
-
-    /**
-     * 获取接口所有字段
-     */
-    public static Set<String> keySet = new HashSet<>();
-
-    public void getInterfaceAllKey(String urls, Boolean containMarket) {//"investment.finance-zyzb-quarter"
-        keySet.clear();
-        log.info("========getInterfaceAllKey任务线程分发开始=========");
-        List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
-        String[] urlArr = urls.split("&");
-        for (InvStock stock : stockList) {
-            for (String url : urlArr) {
-                myQuartzAsyncTask.getInterfaceAllKey(stock, url, containMarket);
-            }
-        }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
-        log.info("========getInterfaceAllKey任务线程分发完成=========");
-    }
-
-    /**
-     * 写出接口所有字段
-     */
-    public void writeAllKey() throws IOException {
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/sql/prepare.sql");
-        // 判断文件是否存在
-        if (!sqlFile.exists()) {
-            sqlFile.createNewFile();
-        }
-        // 遍历写入
-        BufferedWriter bw = new BufferedWriter(new FileWriter(sqlFile));
-        for (String key : keySet) {
-            bw.write("`" + key + "` double default null comment ''," + "\r\n");
-        }
-        bw.flush();
-        bw.close();
-
-        keySet.clear();
-    }
-
-    /**
-     * 下载html
-     */
-    public void downHtml() throws IOException {//"investment.finance-zyzb-quarter"
-        log.info("========getInterfaceAllKey任务线程分发开始=========");
-        List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
-        for (InvStock stock : stockList) {
-            String url = "https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/Index?type=web&code=" + stock.getMarket() + stock.getCode();
-            myQuartzAsyncTask.downHtml(url, stock.getCode());
-        }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
-        log.info("========getInterfaceAllKey任务线程分发完成=========");
-    }
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * 沪深A股基础数据抓取任务
+     * @Title: invStockTask
+     * @Description: 沪深A股基础数据抓取
+     * @author weny.yang
+     * @date Sep 9, 2020
      */
     private void invStockTask() {
         log.info("========invStockTask任务开始=========");
+        SysDictData dictData = new SysDictData();
+        dictData.setDictType("market_type");
+        List<SysDictData> dictDatas = dictDataMapper.selectDictDataList(dictData);
+
         String url = ev.getProperty("investment.stock-list");
         String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
         if (StringUtils.isNotEmpty(jsonStr)) {
@@ -144,14 +92,15 @@ public class RyTask {
                             JSONObject next = (JSONObject) iterator.next();
                             String code = next.getString("f12");
                             String name = next.getString("f14");
-                            String market = "";
-                            if (code.startsWith("000") || code.startsWith("001") || code.startsWith("002") || code.startsWith("003") ||
-                                    code.startsWith("200") || code.startsWith("201") || code.startsWith("300") || code.startsWith("301")) {
-                                market = "sz";
-                            } else if (code.startsWith("600") || code.startsWith("601") ||
-                                    code.startsWith("603") || code.startsWith("605") ||
-                                    code.startsWith("688") || code.startsWith("689") || code.startsWith("900")) {
-                                market = "sh";
+                            String market = null;
+                            String codeStart = code.substring(0, 2);
+                            for (SysDictData dict : dictDatas){
+                                if (codeStart.equals(dict.getDictValue())){
+                                    market = dict.getDictLabel();
+                                }
+                            }
+                            if(StringUtils.isEmpty(market)){
+                                log.error(">>>invStockTask任务:"+code+" "+name+" 代码开头"+codeStart+"对应的股票市场(market)不在字典表market_type内，请添加");
                             }
                             InvStock stock = new InvStock(code, name, market);
                             if (stockMap.containsKey(code)) {
@@ -171,15 +120,16 @@ public class RyTask {
         log.info("========invStockTask任务完成=========");
     }
 
-
     /**
-     * 财务分析
+     * @Title: invFinanceTask
+     * @Description: 财务分析数据抓取
+     * @author weny.yang
+     * @date Sep 9, 2020
      */
     public void invFinanceTask() {
-        log.info("========财务分析任务 可执行校验开始=========");
+        log.info("================财务分析任务  开始=================");
         //保证线程池比较闲时候再开始任务
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
-        log.info("========财务分析任务 可执行校验完成=========");
 
         //沪深A股基础数据抓取任务
         invStockTask();
@@ -244,17 +194,118 @@ public class RyTask {
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
         log.info("========财务分析-现金流量 任务完成=========");
 
+        log.info("================财务分析任务  完成=================");
+    }
+
+    ///////////////////////////////////////////////////////快速工具///////////////////////////////////////////////////////
+
+    /**
+     * @Title: getInterfaceAllKey
+     * @Description: 多线程获取接口所有字段
+     * @author weny.yang
+     * @date Sep 9, 2020
+     */
+    public void getInterfaceAllKey(String urls, Boolean containMarket) {//"investment.finance-zyzb-quarter"
+        keySet.clear();
+        log.info("========getInterfaceAllKey任务线程分发开始=========");
+        List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
+        String[] urlArr = urls.split("&");
+        for (InvStock stock : stockList) {
+            for (String url : urlArr) {
+                myQuartzAsyncTask.getInterfaceAllKey(stock, url, containMarket);
+            }
+        }
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
+        log.info("========getInterfaceAllKey任务线程分发完成=========");
+    }
+
+    /**
+     * @Title: writeAllKey
+     * @Description: 写出接口所有字段
+     * @author weny.yang
+     * @date Sep 9, 2020
+     */
+    public void writeAllKey() throws IOException {
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-without-comment.sql");
+        // 判断文件是否存在
+        if (!sqlFile.exists()) {
+            sqlFile.createNewFile();
+        }
+        // 遍历写入
+        BufferedWriter bw = new BufferedWriter(new FileWriter(sqlFile));
+        for (String key : keySet) {
+            bw.write("`" + key + "` double default null comment ''," + "\r\n");
+        }
+        bw.flush();
+        bw.close();
+
+        keySet.clear();
+    }
+
+    /**
+     * @Title: downAllHtml
+     * @Description: 下载所有html
+     * @author weny.yang
+     * @date Sep 9, 2020
+     */
+    public void downAllHtml(String url) throws IOException {//"investment.finance-zyzb-quarter"
+        log.info("========downAllHtml任务线程分发开始=========");
+        List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
+        for (InvStock stock : stockList) {
+            myQuartzAsyncTask.downAllHtml(url+stock.getMarket() + stock.getCode(), stock.getCode());
+        }
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
+        log.info("========downAllHtml任务线程分发完成=========");
+    }
+
+    /**
+     * @Title: main测试入口
+     * @Description:
+     * @author weny.yang
+     * @date Sep 9, 2020
+     */
+    public static void main(String[] args) throws IOException {
+
+        List<String> sqlListWithComment = getSqlListWithComment();
+        creatSqlFileWithComment(sqlListWithComment);
 
     }
 
-
-    public static void main(String[] args) throws IOException {
-        File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/sql/dfcft.html");
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/sql/prepare.sql");
-        List<String> htmlList = readHtmlFile(htmlFile);
-        List<String> sqlList = readSqlFile(sqlFile);
-
+    /**
+     * @Title: creatSqlFileWithComment
+     * @Description: 生成字段带有描述的sql文件
+     * @author weny.yang
+     * @date Sep 9, 2020
+     */
+    private static void creatSqlFileWithComment(List<String> sqlList) throws IOException {
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-with-comment.sql");
+        // 判断文件是否存在
+        if (!sqlFile.exists()) {
+            sqlFile.createNewFile();
+        }
+        // 遍历写入
+        BufferedWriter bw = new BufferedWriter(new FileWriter(sqlFile));
         for (String sql : sqlList) {
+            bw.write(sql);
+        }
+        bw.flush();
+        bw.close();
+    }
+
+    /**
+     * @Title: getSqlListWithComment
+     * @Description: 获取字段带描述的sql列表
+     * @author weny.yang
+     * @date Sep 9, 2020
+     */
+    private static List<String> getSqlListWithComment() throws IOException {
+        File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/html/dev.html");
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-without-comment.sql");
+        List<String> htmlList = readHtmlFile(htmlFile);
+        List<String> sqlWithoutCommentList = readSqlFileWithoutComment(sqlFile);
+        List<String> sqlWithCommentList = new ArrayList<>();
+
+        for (String sql : sqlWithoutCommentList) {
             String sqlKey = sql.replace("double","")
                     .replace("default","")
                     .replace("null","")
@@ -272,16 +323,21 @@ public class RyTask {
                     }else{
                         sql = sql.replace("comment ''","comment '"+chinese+"'");
                     }
-
-                    System.out.println(sql);
+                    sqlWithCommentList.add(sql);
                     break;
                 }
             }
         }
-
+        return sqlWithCommentList;
     }
 
-    private static List<String> readSqlFile(File fin) throws IOException {
+    /**
+     * @Title: readSqlFileWithoutComment
+     * @Description: 读取程序生成的字段不带描述的sql文件
+     * @author weny.yang
+     * @date Sep 9, 2020
+     */
+    private static List<String> readSqlFileWithoutComment(File fin) throws IOException {
         List<String> keyList = new ArrayList<>();
         BufferedReader br = new BufferedReader(new FileReader(fin));
         String line = null;
@@ -294,6 +350,12 @@ public class RyTask {
         return keyList;
     }
 
+    /**
+     * @Title: readHtmlFile
+     * @Description: 读取html文件获得字段名和描述
+     * @author weny.yang
+     * @date Sep 9, 2020
+     */
     private static List<String> readHtmlFile(File fin) throws IOException {
         List<String> keyList = new ArrayList<>();
         BufferedReader br = new BufferedReader(new FileReader(fin));
@@ -305,5 +367,37 @@ public class RyTask {
         }
         br.close();
         return keyList;
+    }
+
+    ///////////////////////////////////////////////////////示例代码//////////////////////////////////////////////////////
+
+    /**
+     * @Title: ryMultipleParams
+     * @Description: 多参数任务示例
+     * @author weny.yang
+     * @date Sep 9, 2020
+     */
+    public void ryMultipleParams(String s, Boolean b, Long l, Double d, Integer i) {
+        System.out.println(StringUtils.format("执行多参方法： 字符串类型{}，布尔类型{}，长整型{}，浮点型{}，整形{}", s, b, l, d, i));
+    }
+
+    /**
+     * @Title: ryParams
+     * @Description: 单参数任务示例
+     * @author weny.yang
+     * @date Sep 9, 2020
+     */
+    public void ryParams(String params) {
+        System.out.println("执行有参方法：" + params);
+    }
+
+    /**
+     * @Title: ryNoParams
+     * @Description: 无参数任务示例
+     * @author weny.yang
+     * @date Sep 9, 2020
+     */
+    public void ryNoParams() {
+        System.out.println("执行无参方法");
     }
 }
