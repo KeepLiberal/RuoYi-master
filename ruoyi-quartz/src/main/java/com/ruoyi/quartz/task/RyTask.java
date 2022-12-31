@@ -41,9 +41,7 @@ public class RyTask {
      * 判断线程池状态
      */
     private static void isCompletedByTaskCount(ThreadPoolExecutor threadPool, Integer value) {
-        while (threadPool.getQueue().size() > value) {
-            //log.info("计划线程数："+ threadPool.getTaskCount()+" 完成线程数："+ threadPool.getCompletedTaskCount()+" 排队线程数："+ threadPool.getQueue().size()+" 活动线程数："+ threadPool.getActiveCount());
-        }
+        while (threadPool.getQueue().size() > value);
     }
 
     /**
@@ -178,8 +176,10 @@ public class RyTask {
      * 财务分析
      */
     public void invFinanceTask() {
+        log.info("========财务分析任务 可执行校验开始=========");
         //保证线程池比较闲时候再开始任务
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
+        log.info("========财务分析任务 可执行校验完成=========");
 
         //沪深A股基础数据抓取任务
         invStockTask();
