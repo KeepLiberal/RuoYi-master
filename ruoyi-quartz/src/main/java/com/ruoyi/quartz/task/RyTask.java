@@ -232,8 +232,17 @@ public class RyTask {
             myQuartzAsyncTask.invFinanceLrTask(stock, ev.getProperty("investment.finance-lr-ajax-nd") + stock.getMarket() + stock.getCode(), "lr", "nd", new AtomicInteger(10));
             myQuartzAsyncTask.invFinanceLrTask(stock, ev.getProperty("investment.finance-lr-ajax-jd") + stock.getMarket() + stock.getCode(), "lr", "jd", new AtomicInteger(10));
         }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
         log.info("========财务分析-利润 任务完成=========");
+
+        log.info("========财务分析-现金流量 任务开始=========");
+        for (InvStock stock : stockList) {
+            myQuartzAsyncTask.invFinanceXjllTask(stock, ev.getProperty("investment.finance-xjll-ajax-bgq") + stock.getMarket() + stock.getCode(), "xjll", "bgq", new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceXjllTask(stock, ev.getProperty("investment.finance-xjll-ajax-nd") + stock.getMarket() + stock.getCode(), "xjll", "nd", new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceXjllTask(stock, ev.getProperty("investment.finance-xjll-ajax-jd") + stock.getMarket() + stock.getCode(), "xjll", "jd", new AtomicInteger(10));
+        }
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
+        log.info("========财务分析-现金流量 任务完成=========");
 
 
     }

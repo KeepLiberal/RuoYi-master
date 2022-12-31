@@ -1,0 +1,2772 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增财务分析-现金流量')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-invFinanceXjll-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">股票代码：</label>
+                <div class="col-sm-8">
+                    <input name="securityCode" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">报告类型：</label>
+                <div class="col-sm-8">
+                    <select name="reportType" class="form-control m-b" th:with="type=${@dict.getType('report_type')}" required>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">报告日期：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="reportDate" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">审计意见(境内)：</label>
+                <div class="col-sm-8">
+                    <select name="opinionType" class="form-control m-b" th:with="type=${@dict.getType('opinion_type')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">审计意见(境外)：</label>
+                <div class="col-sm-8">
+                    <select name="osopinionType" class="form-control m-b" th:with="type=${@dict.getType('opinion_type')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金的期初余额：</label>
+                <div class="col-sm-8">
+                    <input name="beginCash" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金的期初余额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="beginCashYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆入资金净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="borrowFundReduce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆入资金净减少额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="borrowFundReduceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动现金流入的平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateInflowBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动现金流入的平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="operateInflowBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">固定资产报废损失：</label>
+                <div class="col-sm-8">
+                    <input name="faScrapLoss" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">固定资产报废损失(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="faScrapLossYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动现金流出的其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateOutflowOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动现金流出的其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="operateOutflowOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">公允价值变动损失：</label>
+                <div class="col-sm-8">
+                    <input name="fairvalueChangeLoss" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">公允价值变动损失(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="fairvalueChangeLossYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动现金流入的其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateInflowOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动现金流入的其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="operateInflowOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动产生的现金流量净额：</label>
+                <div class="col-sm-8">
+                    <input name="netcashFinance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动产生的现金流量净额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="netcashFinanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放中央银行款项净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="depositPbcAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放中央银行款项净增加额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="depositPbcAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动产生的现金流量净额其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="investNetcashOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动产生的现金流量净额其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="investNetcashOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收到其他与经营活动有关的现金：</label>
+                <div class="col-sm-8">
+                    <input name="receiveOtherOperate" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收到其他与经营活动有关的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="receiveOtherOperateYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付利息的现金：</label>
+                <div class="col-sm-8">
+                    <input name="payInterest" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付利息的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="payInterestYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行次级债券所收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="issueSubbond" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行次级债券所收到的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="issueSubbondYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资支付的现金：</label>
+                <div class="col-sm-8">
+                    <input name="investPayCash" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资支付的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="investPayCashYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">增加股本所收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="receiveAddEquity" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">增加股本所收到的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="receiveAddEquityYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆出资金净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="lendFundAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆出资金净增加额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="lendFundAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆入资金及卖出回购金融资产款净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="borrowRepoAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆入资金及卖出回购金融资产款净增加额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="borrowRepoAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动产生的现金流量净额其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="financeNetcashOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动产生的现金流量净额其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="financeNetcashOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">贷款的减少：</label>
+                <div class="col-sm-8">
+                    <input name="loanReduce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">贷款的减少(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="loanReduceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">向中央银行借款净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="loanPbcAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">向中央银行借款净增加额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="loanPbcAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">计提其他资产减值准备：</label>
+                <div class="col-sm-8">
+                    <input name="otherAssetImpairment" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">计提其他资产减值准备(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherAssetImpairmentYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收到已核销款项：</label>
+                <div class="col-sm-8">
+                    <input name="receiveWriteoff" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收到已核销款项(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="receiveWriteoffYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">汇率变动对现金及现金等价物的影响：</label>
+                <div class="col-sm-8">
+                    <input name="rateChangeEffect" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">汇率变动对现金及现金等价物的影响(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="rateChangeEffectYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及现金等价物净增加额其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="fbcceAddOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及现金等价物净增加额其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="fbcceAddOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">递延所得税资产减少：</label>
+                <div class="col-sm-8">
+                    <input name="dtAssetReduce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">递延所得税资产减少(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="dtAssetReduceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">吸收投资收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="acceptInvestCash" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">吸收投资收到的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="acceptInvestCashYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">期末现金及现金等价物余额其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="endCceOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">期末现金及现金等价物余额其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="endCceOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动现金流入的平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="financeInflowBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动现金流入的平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="financeInflowBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">期末现金及现金等价物余额：</label>
+                <div class="col-sm-8">
+                    <input name="endCce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">期末现金及现金等价物余额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="endCceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动现金流入小计：</label>
+                <div class="col-sm-8">
+                    <input name="totalFinanceInflow" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动现金流入小计(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalFinanceInflowYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及现金等价物净增加额其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="cceAddOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及现金等价物净增加额其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="cceAddOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及现金等价物净增加额平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="cceAddBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及现金等价物净增加额平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="cceAddBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">汇兑损失：</label>
+                <div class="col-sm-8">
+                    <input name="exchangeLoss" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">汇兑损失(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="exchangeLossYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">客户贷款及垫款净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="loanAdvanceAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">客户贷款及垫款净增加额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="loanAdvanceAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资损失：</label>
+                <div class="col-sm-8">
+                    <input name="investLoss" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资损失(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="investLossYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及现金等价物净增加额平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="fbcceAddBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及现金等价物净增加额平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="fbcceAddBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及现金等价物净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="cceAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及现金等价物净增加额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="cceAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收取手续费及佣金的现金：</label>
+                <div class="col-sm-8">
+                    <input name="receiveCommission" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收取手续费及佣金的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="receiveCommissionYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">递延所得税负债增加：</label>
+                <div class="col-sm-8">
+                    <input name="dtLiabAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">递延所得税负债增加(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="dtLiabAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">递延所得税：</label>
+                <div class="col-sm-8">
+                    <input name="deferTax" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">递延所得税(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="deferTaxYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动现金流出的平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="investOutflowBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动现金流出的平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="investOutflowBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放同业及其他金融机构款项净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="depositIofiReduce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放同业及其他金融机构款项净减少额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="depositIofiReduceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">固定资产折旧：</label>
+                <div class="col-sm-8">
+                    <input name="fixedAssetDepr" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">固定资产折旧(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="fixedAssetDeprYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">融资租入固定资产：</label>
+                <div class="col-sm-8">
+                    <input name="finleaseObtainFa" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">融资租入固定资产(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="finleaseObtainFaYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融资产净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinassetAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融资产净增加额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinassetAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放中央银行和同业及其他金融机构款项净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="pbcIofiAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放中央银行和同业及其他金融机构款项净增加额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="pbcIofiAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期资产摊销：</label>
+                <div class="col-sm-8">
+                    <input name="longassetAmortize" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期资产摊销(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="longassetAmortizeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动现金流入小计：</label>
+                <div class="col-sm-8">
+                    <input name="totalInvestInflow" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动现金流入小计(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalInvestInflowYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动产生的现金流量净额平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="financeNetcashBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动产生的现金流量净额平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="financeNetcashBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">向中央银行借款净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="loanPbcReduce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">向中央银行借款净减少额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="loanPbcReduceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付手续费及佣金的现金：</label>
+                <div class="col-sm-8">
+                    <input name="payCommission" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付手续费及佣金的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="payCommissionYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收到的其他与投资活动有关的现金：</label>
+                <div class="col-sm-8">
+                    <input name="receiveOtherInvest" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收到的其他与投资活动有关的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="receiveOtherInvestYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆借款项的净增加：</label>
+                <div class="col-sm-8">
+                    <input name="lendAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆借款项的净增加(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="lendAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">固定资产和投资性房地产折旧：</label>
+                <div class="col-sm-8">
+                    <input name="faIrDepr" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">固定资产和投资性房地产折旧(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="faIrDeprYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">计提贷款减值准备：</label>
+                <div class="col-sm-8">
+                    <input name="provisionLoanImpairment" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">计提贷款减值准备(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="provisionLoanImpairmentYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动现金流出的平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateOutflowBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动现金流出的平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="operateOutflowBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆出资金及买入返售金融资产净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="lendResaleAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆出资金及买入返售金融资产净增加额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="lendResaleAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">买入返售金融资产净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="buyResaleReduce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">买入返售金融资产净减少额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="buyResaleReduceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">客户存款净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="customerDepositAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">客户存款净增加额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="customerDepositAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行存款证：</label>
+                <div class="col-sm-8">
+                    <input name="issueCd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行存款证(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="issueCdYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">金融性资产的减少：</label>
+                <div class="col-sm-8">
+                    <input name="finassetReduce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">金融性资产的减少(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="finassetReduceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付利息、手续费及佣金的现金：</label>
+                <div class="col-sm-8">
+                    <input name="payInterestCommission" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付利息、手续费及佣金的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="payInterestCommissionYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付其他与筹资活动有关的现金：</label>
+                <div class="col-sm-8">
+                    <input name="payOtherFinance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付其他与筹资活动有关的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="payOtherFinanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">分得股利或利润所收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="receiveDividendProfit" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">分得股利或利润所收到的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="receiveDividendProfitYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动现金流出的其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="financeOutflowOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动现金流出的其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="financeOutflowOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">取得子公司及其他营业单位支付的现金：</label>
+                <div class="col-sm-8">
+                    <input name="obtainSubsidiaryOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">取得子公司及其他营业单位支付的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="obtainSubsidiaryOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收回投资收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="withdrawInvest" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收回投资收到的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="withdrawInvestYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付给职工以及为职工支付的现金：</label>
+                <div class="col-sm-8">
+                    <input name="payStaffCash" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付给职工以及为职工支付的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="payStaffCashYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">无形资产摊销：</label>
+                <div class="col-sm-8">
+                    <input name="iaAmortize" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">无形资产摊销(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="iaAmortizeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">期初现金及现金等价物余额：</label>
+                <div class="col-sm-8">
+                    <input name="beginCce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">期初现金及现金等价物余额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="beginCceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放中央银行款项净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="depositPbcReduce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放中央银行款项净减少额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="depositPbcReduceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">卖出回购金融资产净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="sellRepoReduce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">卖出回购金融资产净减少额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="sellRepoReduceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">不涉及现金收支的投资和筹资活动金额其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="uninvolveInvestfinOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">不涉及现金收支的投资和筹资活动金额其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="uninvolveInvestfinOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动产生的现金流量净额：</label>
+                <div class="col-sm-8">
+                    <input name="netcashInvest" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动产生的现金流量净额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="netcashInvestYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">计提投资减值准备：</label>
+                <div class="col-sm-8">
+                    <input name="provisionInvestImpairment" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">计提投资减值准备(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="provisionInvestImpairmentYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净利润：</label>
+                <div class="col-sm-8">
+                    <input name="netprofit" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净利润(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="netprofitYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放中央银行和同业款项及其他金融机构净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="pbcIofiReduce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放中央银行和同业款项及其他金融机构净减少额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="pbcIofiReduceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动产生的现金流量净额：</label>
+                <div class="col-sm-8">
+                    <input name="fbnetcashOperate" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动产生的现金流量净额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="fbnetcashOperateYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">买入返售金融资产净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="buyResaleAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">买入返售金融资产净增加额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="buyResaleAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行其他债券所收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="issueOtherBond" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行其他债券所收到的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="issueOtherBondYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">同业及其他机构存放款减少净额：</label>
+                <div class="col-sm-8">
+                    <input name="interbankOtherReduce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">同业及其他机构存放款减少净额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="interbankOtherReduceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">购买融资租赁资产支付的现金：</label>
+                <div class="col-sm-8">
+                    <input name="buyFinLease" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">购买融资租赁资产支付的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="buyFinLeaseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">加现金等价物的期末余额：</label>
+                <div class="col-sm-8">
+                    <input name="endCashEquivalents" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">加现金等价物的期末余额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="endCashEquivalentsYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期待摊费用摊销：</label>
+                <div class="col-sm-8">
+                    <input name="lpeAmortize" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期待摊费用摊销(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="lpeAmortizeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">取得投资收益收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="receiveInvestIncome" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">取得投资收益收到的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="receiveInvestIncomeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">已发行存款证净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="issuedCdReduce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">已发行存款证净减少额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="issuedCdReduceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆入资金及卖出回购金融资产款净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="borrowRepoReduce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆入资金及卖出回购金融资产款净减少额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="borrowRepoReduceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">偿付债券利息支付的现金：</label>
+                <div class="col-sm-8">
+                    <input name="payBondInterest" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">偿付债券利息支付的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="payBondInterestYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融负债净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinliabAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融负债净增加额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinliabAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动现金流出小计：</label>
+                <div class="col-sm-8">
+                    <input name="totalOperateOutflow" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动现金流出小计(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalOperateOutflowYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放同业及其他金融机构款项净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="depositIofiAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放同业及其他金融机构款项净增加额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="depositIofiAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收回的已于以前年度核销的贷款：</label>
+                <div class="col-sm-8">
+                    <input name="withdrawWriteoffLoan" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收回的已于以前年度核销的贷款(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="withdrawWriteoffLoanYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行债券利息支出：</label>
+                <div class="col-sm-8">
+                    <input name="bondInterestExpense" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行债券利息支出(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="bondInterestExpenseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动产生的现金流量净额平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="fboperateNetcashBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动产生的现金流量净额平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="fboperateNetcashBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">股份发行支付的费用：</label>
+                <div class="col-sm-8">
+                    <input name="issueSharesExpense" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">股份发行支付的费用(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="issueSharesExpenseYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及现金等价物的净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="fbcceAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及现金等价物的净增加额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="fbcceAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">偿还债务所支付的现金：</label>
+                <div class="col-sm-8">
+                    <input name="payDebtCash" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">偿还债务所支付的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="payDebtCashYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">处置抵债资产收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="disposalMortgageAsset" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">处置抵债资产收到的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="disposalMortgageAssetYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行债券收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="issueBond" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行债券收到的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="issueBondYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营性应付项目的增加：</label>
+                <div class="col-sm-8">
+                    <input name="operatePayableAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营性应付项目的增加(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="operatePayableAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营性应收项目的减少：</label>
+                <div class="col-sm-8">
+                    <input name="operateReceReduce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营性应收项目的减少(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="operateReceReduceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">转回投资减值准备：</label>
+                <div class="col-sm-8">
+                    <input name="transferInvestImpairment" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">转回投资减值准备(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="transferInvestImpairmentYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付的各项税费：</label>
+                <div class="col-sm-8">
+                    <input name="payAllTax" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付的各项税费(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="payAllTaxYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动产生的现金流量净额平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="investNetcashBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动产生的现金流量净额平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="investNetcashBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收取利息、手续费及佣金的现金：</label>
+                <div class="col-sm-8">
+                    <input name="receiveInterestCommission" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收取利息、手续费及佣金的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="receiveInterestCommissionYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动产生的现金流量净额其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="fboperateNetcashOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动产生的现金流量净额其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="fboperateNetcashOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆入资金净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="borrowFundAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆入资金净增加额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="borrowFundAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产减值准备：</label>
+                <div class="col-sm-8">
+                    <input name="assetImpairment" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产减值准备(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="assetImpairmentYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">分配股利、利润或偿付利息支付的现金：</label>
+                <div class="col-sm-8">
+                    <input name="assignDividendPorfit" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">分配股利、利润或偿付利息支付的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="assignDividendPorfitYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动现金流出小计：</label>
+                <div class="col-sm-8">
+                    <input name="totalFinanceOutflow" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动现金流出小计(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalFinanceOutflowYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">处置子公司、联营企业及合营企业投资及其他企业收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="disposalSubsidiaryJoint" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">处置子公司、联营企业及合营企业投资及其他企业收到的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="disposalSubsidiaryJointYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收到其他与筹资活动有关的现金：</label>
+                <div class="col-sm-8">
+                    <input name="receiveOtherFinance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收到其他与筹资活动有关的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="receiveOtherFinanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付其他与经营活动有关的现金：</label>
+                <div class="col-sm-8">
+                    <input name="payOtherOperate" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付其他与经营活动有关的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="payOtherOperateYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融资产净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinassetReduce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融资产净减少额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinassetReduceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆出资金及买入返售金融资产净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="lendResaleReduce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆出资金及买入返售金融资产净减少额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="lendResaleReduceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存款证净额：</label>
+                <div class="col-sm-8">
+                    <input name="netCd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存款证净额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="netCdYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">同业及其他金融机构存放款项净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="iofiAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">同业及其他金融机构存放款项净增加额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="iofiAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存货的减少：</label>
+                <div class="col-sm-8">
+                    <input name="inventoryReduce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存货的减少(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="inventoryReduceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">处置固定资产、无形资产和其他长期资产的损失：</label>
+                <div class="col-sm-8">
+                    <input name="disposalLongassetLoss" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">处置固定资产、无形资产和其他长期资产的损失(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="disposalLongassetLossYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金的期末余额：</label>
+                <div class="col-sm-8">
+                    <input name="endCash" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金的期末余额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="endCashYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他：</label>
+                <div class="col-sm-8">
+                    <input name="other" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="otherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动产生的现金流量净额：</label>
+                <div class="col-sm-8">
+                    <input name="netcashOperate" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动产生的现金流量净额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="netcashOperateYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">处置固定资产、无形资产和其他长期资产收回的现金：</label>
+                <div class="col-sm-8">
+                    <input name="disposalLongAsset" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">处置固定资产、无形资产和其他长期资产收回的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="disposalLongAssetYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">子公司吸收少数股东投资收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="subsidiaryAcceptInvest" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">子公司吸收少数股东投资收到的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="subsidiaryAcceptInvestYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收取利息的现金：</label>
+                <div class="col-sm-8">
+                    <input name="receiveInterest" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收取利息的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="receiveInterestYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动现金流入小计：</label>
+                <div class="col-sm-8">
+                    <input name="totalOperateInflow" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动现金流入小计(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalOperateInflowYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">金融性负债的增加：</label>
+                <div class="col-sm-8">
+                    <input name="finliabAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">金融性负债的增加(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="finliabAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">期末现金及现金等价物余额平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="endCceBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">期末现金及现金等价物余额平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="endCceBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收账款净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="accountsReceAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收账款净增加额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="accountsReceAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆出资金净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="lendFundReduce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆出资金净减少额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="lendFundReduceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存款的增加：</label>
+                <div class="col-sm-8">
+                    <input name="depositAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存款的增加(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="depositAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动现金流出的其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="investOutflowOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动现金流出的其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="investOutflowOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">一年内到期的可转换公司债券：</label>
+                <div class="col-sm-8">
+                    <input name="convertBond1year" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">一年内到期的可转换公司债券(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="convertBond1yearYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">购建固定资产、无形资产和其他长期资产支付的现金：</label>
+                <div class="col-sm-8">
+                    <input name="constructLongAsset" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">购建固定资产、无形资产和其他长期资产支付的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="constructLongAssetYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动现金流出的平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="financeOutflowBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动现金流出的平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="financeOutflowBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动现金流出小计：</label>
+                <div class="col-sm-8">
+                    <input name="totalInvestOutflow" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动现金流出小计(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="totalInvestOutflowYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">卖出回购金融资产款净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="sellRepoAdd" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">卖出回购金融资产款净增加额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="sellRepoAddYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动产生的现金流量净额其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateNetcashOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动产生的现金流量净额其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="operateNetcashOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动现金流入的其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="financeInflowOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动现金流入的其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="financeInflowOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">无形资产及长期待摊费用等摊销：</label>
+                <div class="col-sm-8">
+                    <input name="iaLpeAmortize" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">无形资产及长期待摊费用等摊销(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="iaLpeAmortizeYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动产生的现金流量净额平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateNetcashBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动产生的现金流量净额平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="operateNetcashBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动现金流入的平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="investInflowBalance" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动现金流入的平衡项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="investInflowBalanceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">少数股东损益：</label>
+                <div class="col-sm-8">
+                    <input name="minorityInterest" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">少数股东损益(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="minorityInterestYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">计提预计负债：</label>
+                <div class="col-sm-8">
+                    <input name="provisionPredictLiab" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">计提预计负债(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="provisionPredictLiabYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">客户存款和同业及其他金融机构存放款项净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="depositIofiOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">客户存款和同业及其他金融机构存放款项净增加额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="depositIofiOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">债务转为资本：</label>
+                <div class="col-sm-8">
+                    <input name="debtTransferCapital" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">债务转为资本(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="debtTransferCapitalYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动现金流入的其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="investInflowOther" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动现金流入的其他项目(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="investInflowOtherYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金等价物的期初余额：</label>
+                <div class="col-sm-8">
+                    <input name="beginCashEquivalents" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金等价物的期初余额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="beginCashEquivalentsYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融负债净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinliabReduce" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融负债净减少额(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinliabReduceYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付其他与投资活动有关的现金：</label>
+                <div class="col-sm-8">
+                    <input name="payOtherInvest" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付其他与投资活动有关的现金(环比%)：</label>
+                <div class="col-sm-8">
+                    <input name="payOtherInvestYoy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付其他与筹资活动有关的现金：</label>
+                <div class="col-sm-8">
+                    <input name="payOtherFinanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">向中央银行借款净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="loanPbcAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放中央银行和同业款项及其他金融机构净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="pbcIofiReduceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">公允价值变动损失：</label>
+                <div class="col-sm-8">
+                    <input name="fairvalueChangeLossQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">增加股本所收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="receiveAddEquityQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">偿付债券利息支付的现金：</label>
+                <div class="col-sm-8">
+                    <input name="payBondInterestQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融负债净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinliabAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动现金流入的平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="financeInflowBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">股份发行支付的费用：</label>
+                <div class="col-sm-8">
+                    <input name="issueSharesExpenseQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收回的已于以前年度核销的贷款：</label>
+                <div class="col-sm-8">
+                    <input name="withdrawWriteoffLoanQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行债券收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="issueBondQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动现金流出小计：</label>
+                <div class="col-sm-8">
+                    <input name="totalFinanceOutflowQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">转回投资减值准备：</label>
+                <div class="col-sm-8">
+                    <input name="transferInvestImpairmentQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动产生的现金流量净额其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="financeNetcashOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">加现金等价物的期末余额：</label>
+                <div class="col-sm-8">
+                    <input name="endCashEquivalentsQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">递延所得税资产减少：</label>
+                <div class="col-sm-8">
+                    <input name="dtAssetReduceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆借款项的净增加：</label>
+                <div class="col-sm-8">
+                    <input name="lendAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">处置固定资产、无形资产和其他长期资产的损失：</label>
+                <div class="col-sm-8">
+                    <input name="disposalLongassetLossQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资损失：</label>
+                <div class="col-sm-8">
+                    <input name="investLossQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆入资金净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="borrowFundAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付其他与经营活动有关的现金：</label>
+                <div class="col-sm-8">
+                    <input name="payOtherOperateQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融资产净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinassetReduceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆出资金净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="lendFundAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动现金流出的平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="investOutflowBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存款的增加：</label>
+                <div class="col-sm-8">
+                    <input name="depositAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收到其他与筹资活动有关的现金：</label>
+                <div class="col-sm-8">
+                    <input name="receiveOtherFinanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期待摊费用摊销：</label>
+                <div class="col-sm-8">
+                    <input name="lpeAmortizeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动产生的现金流量净额：</label>
+                <div class="col-sm-8">
+                    <input name="fbnetcashOperateQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及现金等价物净增加额其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="fbcceAddOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金的期末余额：</label>
+                <div class="col-sm-8">
+                    <input name="endCashQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆出资金及买入返售金融资产净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="lendResaleReduceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">金融性资产的减少：</label>
+                <div class="col-sm-8">
+                    <input name="finassetReduceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动现金流出的平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateOutflowBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">汇率变动对现金及现金等价物的影响：</label>
+                <div class="col-sm-8">
+                    <input name="rateChangeEffectQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动产生的现金流量净额：</label>
+                <div class="col-sm-8">
+                    <input name="netcashOperateQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存款证净额：</label>
+                <div class="col-sm-8">
+                    <input name="netCdQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">已发行存款证净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="issuedCdReduceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放同业及其他金融机构款项净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="depositIofiAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及现金等价物的净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="fbcceAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">处置固定资产、无形资产和其他长期资产收回的现金：</label>
+                <div class="col-sm-8">
+                    <input name="disposalLongAssetQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产减值准备：</label>
+                <div class="col-sm-8">
+                    <input name="assetImpairmentQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动现金流出的其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="investOutflowOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">固定资产和投资性房地产折旧：</label>
+                <div class="col-sm-8">
+                    <input name="faIrDeprQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及现金等价物净增加额其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="cceAddOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">融资租入固定资产：</label>
+                <div class="col-sm-8">
+                    <input name="finleaseObtainFaQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆出资金净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="lendFundReduceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收到已核销款项：</label>
+                <div class="col-sm-8">
+                    <input name="receiveWriteoffQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动产生的现金流量净额平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="fboperateNetcashBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">子公司吸收少数股东投资收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="subsidiaryAcceptInvestQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应收账款净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="accountsReceAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">金融性负债的增加：</label>
+                <div class="col-sm-8">
+                    <input name="finliabAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">期末现金及现金等价物余额平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="endCceBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动产生的现金流量净额其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="fboperateNetcashOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付利息、手续费及佣金的现金：</label>
+                <div class="col-sm-8">
+                    <input name="payInterestCommissionQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放中央银行款项净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="depositPbcReduceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收取利息、手续费及佣金的现金：</label>
+                <div class="col-sm-8">
+                    <input name="receiveInterestCommissionQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付给职工以及为职工支付的现金：</label>
+                <div class="col-sm-8">
+                    <input name="payStaffCashQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">购建固定资产、无形资产和其他长期资产支付的现金：</label>
+                <div class="col-sm-8">
+                    <input name="constructLongAssetQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收取手续费及佣金的现金：</label>
+                <div class="col-sm-8">
+                    <input name="receiveCommissionQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动现金流出小计：</label>
+                <div class="col-sm-8">
+                    <input name="totalOperateOutflowQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动现金流入小计：</label>
+                <div class="col-sm-8">
+                    <input name="totalOperateInflowQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">取得子公司及其他营业单位支付的现金：</label>
+                <div class="col-sm-8">
+                    <input name="obtainSubsidiaryOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">递延所得税负债增加：</label>
+                <div class="col-sm-8">
+                    <input name="dtLiabAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">少数股东损益：</label>
+                <div class="col-sm-8">
+                    <input name="minorityInterestQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动产生的现金流量净额平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateNetcashBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动产生的现金流量净额平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="investNetcashBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动现金流出的平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="financeOutflowBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资支付的现金：</label>
+                <div class="col-sm-8">
+                    <input name="investPayCashQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">债务转为资本：</label>
+                <div class="col-sm-8">
+                    <input name="debtTransferCapitalQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">分配股利、利润或偿付利息支付的现金：</label>
+                <div class="col-sm-8">
+                    <input name="assignDividendPorfitQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">一年内到期的可转换公司债券：</label>
+                <div class="col-sm-8">
+                    <input name="convertBond1yearQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">期末现金及现金等价物余额其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="endCceOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动现金流入的其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateInflowOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收到的其他与投资活动有关的现金：</label>
+                <div class="col-sm-8">
+                    <input name="receiveOtherInvestQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">客户存款和同业及其他金融机构存放款项净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="depositIofiOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">分得股利或利润所收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="receiveDividendProfitQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动现金流出小计：</label>
+                <div class="col-sm-8">
+                    <input name="totalInvestOutflowQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">买入返售金融资产净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="buyResaleReduceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">计提预计负债：</label>
+                <div class="col-sm-8">
+                    <input name="provisionPredictLiabQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">买入返售金融资产净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="buyResaleAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">处置子公司、联营企业及合营企业投资及其他企业收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="disposalSubsidiaryJointQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">同业及其他金融机构存放款项净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="iofiAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">处置抵债资产收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="disposalMortgageAssetQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">偿还债务所支付的现金：</label>
+                <div class="col-sm-8">
+                    <input name="payDebtCashQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动现金流出的其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="financeOutflowOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存货的减少：</label>
+                <div class="col-sm-8">
+                    <input name="inventoryReduceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">卖出回购金融资产款净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="sellRepoAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行债券利息支出：</label>
+                <div class="col-sm-8">
+                    <input name="bondInterestExpenseQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">无形资产及长期待摊费用等摊销：</label>
+                <div class="col-sm-8">
+                    <input name="iaLpeAmortizeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收取利息的现金：</label>
+                <div class="col-sm-8">
+                    <input name="receiveInterestQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营性应收项目的减少：</label>
+                <div class="col-sm-8">
+                    <input name="operateReceReduceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动现金流入的平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="investInflowBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动现金流入的其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="investInflowOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行其他债券所收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="issueOtherBondQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付其他与投资活动有关的现金：</label>
+                <div class="col-sm-8">
+                    <input name="payOtherInvestQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融负债净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinliabReduceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付的各项税费：</label>
+                <div class="col-sm-8">
+                    <input name="payAllTaxQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放同业及其他金融机构款项净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="depositIofiReduceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">减现金等价物的期初余额：</label>
+                <div class="col-sm-8">
+                    <input name="beginCashEquivalentsQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动产生的现金流量净额其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateNetcashOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">卖出回购金融资产净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="sellRepoReduceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">加期初现金及现金等价物余额：</label>
+                <div class="col-sm-8">
+                    <input name="beginCceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动现金流入的其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="financeInflowOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放中央银行款项净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="depositPbcAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他：</label>
+                <div class="col-sm-8">
+                    <input name="otherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营性应付项目的增加：</label>
+                <div class="col-sm-8">
+                    <input name="operatePayableAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">期末现金及现金等价物余额：</label>
+                <div class="col-sm-8">
+                    <input name="endCceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收到其他与经营活动有关的现金：</label>
+                <div class="col-sm-8">
+                    <input name="receiveOtherOperateQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">减现金的期初余额：</label>
+                <div class="col-sm-8">
+                    <input name="beginCashQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付利息的现金：</label>
+                <div class="col-sm-8">
+                    <input name="payInterestQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">吸收投资收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="acceptInvestCashQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆入资金及卖出回购金融资产款净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="borrowRepoAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动产生的现金流量净额：</label>
+                <div class="col-sm-8">
+                    <input name="netcashFinanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆入资金净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="borrowFundReduceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行次级债券所收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="issueSubbondQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">固定资产报废损失：</label>
+                <div class="col-sm-8">
+                    <input name="faScrapLossQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动现金流出的其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateOutflowOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及现金等价物净增加额平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="cceAddBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">汇兑损失：</label>
+                <div class="col-sm-8">
+                    <input name="exchangeLossQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营活动现金流入的平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="operateInflowBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">交易性金融资产净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="tradeFinassetAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">客户贷款及垫款净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="loanAdvanceAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">计提贷款减值准备：</label>
+                <div class="col-sm-8">
+                    <input name="provisionLoanImpairmentQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">向中央银行借款净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="loanPbcReduceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及现金等价物净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="cceAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">递延所得税：</label>
+                <div class="col-sm-8">
+                    <input name="deferTaxQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付手续费及佣金的现金：</label>
+                <div class="col-sm-8">
+                    <input name="payCommissionQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">现金及现金等价物净增加额平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="fbcceAddBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动现金流入小计：</label>
+                <div class="col-sm-8">
+                    <input name="totalInvestInflowQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">客户存款净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="customerDepositAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">存放中央银行和同业及其他金融机构款项净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="pbcIofiAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">长期资产摊销：</label>
+                <div class="col-sm-8">
+                    <input name="longassetAmortizeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动产生的现金流量净额平衡项目：</label>
+                <div class="col-sm-8">
+                    <input name="financeNetcashBalanceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行存款证：</label>
+                <div class="col-sm-8">
+                    <input name="issueCdQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收回投资收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="withdrawInvestQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动产生的现金流量净额其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="investNetcashOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">计提其他资产减值准备：</label>
+                <div class="col-sm-8">
+                    <input name="otherAssetImpairmentQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">投资活动产生的现金流量净额：</label>
+                <div class="col-sm-8">
+                    <input name="netcashInvestQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆入资金及卖出回购金融资产款净减少额：</label>
+                <div class="col-sm-8">
+                    <input name="borrowRepoReduceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">计提投资减值准备：</label>
+                <div class="col-sm-8">
+                    <input name="provisionInvestImpairmentQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">贷款的减少：</label>
+                <div class="col-sm-8">
+                    <input name="loanReduceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">同业及其他机构存放款减少净额：</label>
+                <div class="col-sm-8">
+                    <input name="interbankOtherReduceQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净利润：</label>
+                <div class="col-sm-8">
+                    <input name="netprofitQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">不涉及现金收支的投资和筹资活动金额其他项目：</label>
+                <div class="col-sm-8">
+                    <input name="uninvolveInvestfinOtherQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">筹资活动现金流入小计：</label>
+                <div class="col-sm-8">
+                    <input name="totalFinanceInflowQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">购买融资租赁资产支付的现金：</label>
+                <div class="col-sm-8">
+                    <input name="buyFinLeaseQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拆出资金及买入返售金融资产净增加额：</label>
+                <div class="col-sm-8">
+                    <input name="lendResaleAddQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">固定资产折旧：</label>
+                <div class="col-sm-8">
+                    <input name="fixedAssetDeprQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">取得投资收益收到的现金：</label>
+                <div class="col-sm-8">
+                    <input name="receiveInvestIncomeQoq" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">无形资产摊销：</label>
+                <div class="col-sm-8">
+                    <input name="iaAmortizeQoq" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "investment/invFinanceXjll"
+        $("#form-invFinanceXjll-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-invFinanceXjll-add').serialize());
+            }
+        }
+
+        $("input[name='reportDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

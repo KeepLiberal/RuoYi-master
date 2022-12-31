@@ -1,0 +1,1939 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('财务分析-现金流量列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>股票代码：</label>
+                                <input type="text" name="securityCode"/>
+                            </li>
+                            <li>
+                                <label>报告类型：</label>
+                                <select name="reportType" th:with="type=${@dict.getType('report_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>报告日期：</label>
+                                <input type="text" class="time-input" placeholder="请选择报告日期" name="reportDate"/>
+                            </li>
+                            <li>
+                                <label>审计意见(境内)：</label>
+                                <select name="opinionType" th:with="type=${@dict.getType('opinion_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>审计意见(境外)：</label>
+                                <select name="osopinionType" th:with="type=${@dict.getType('opinion_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="investment:invFinanceXjll:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="investment:invFinanceXjll:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="investment:invFinanceXjll:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="investment:invFinanceXjll:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('investment:invFinanceXjll:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('investment:invFinanceXjll:remove')}]];
+        var reportTypeDatas = [[${@dict.getType('report_type')}]];
+        var opinionTypeDatas = [[${@dict.getType('opinion_type')}]];
+        var osopinionTypeDatas = [[${@dict.getType('opinion_type')}]];
+        var prefix = ctx + "investment/invFinanceXjll";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "财务分析-现金流量",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'id',
+                    title: 'id',
+                    visible: false
+                },
+                {
+                    field: 'securityCode',
+                    title: '股票代码'
+                },
+                {
+                    field: 'reportType',
+                    title: '报告类型',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(reportTypeDatas, value);
+                    }
+                },
+                {
+                    field: 'reportDate',
+                    title: '报告日期'
+                },
+                {
+                    field: 'opinionType',
+                    title: '审计意见(境内)',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(opinionTypeDatas, value);
+                    }
+                },
+                {
+                    field: 'osopinionType',
+                    title: '审计意见(境外)',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(osopinionTypeDatas, value);
+                    }
+                },
+                {
+                    field: 'beginCash',
+                    title: '现金的期初余额'
+                },
+                {
+                    field: 'beginCashYoy',
+                    title: '现金的期初余额(环比%)'
+                },
+                {
+                    field: 'borrowFundReduce',
+                    title: '拆入资金净减少额'
+                },
+                {
+                    field: 'borrowFundReduceYoy',
+                    title: '拆入资金净减少额(环比%)'
+                },
+                {
+                    field: 'operateInflowBalance',
+                    title: '经营活动现金流入的平衡项目'
+                },
+                {
+                    field: 'operateInflowBalanceYoy',
+                    title: '经营活动现金流入的平衡项目(环比%)'
+                },
+                {
+                    field: 'faScrapLoss',
+                    title: '固定资产报废损失'
+                },
+                {
+                    field: 'faScrapLossYoy',
+                    title: '固定资产报废损失(环比%)'
+                },
+                {
+                    field: 'operateOutflowOther',
+                    title: '经营活动现金流出的其他项目'
+                },
+                {
+                    field: 'operateOutflowOtherYoy',
+                    title: '经营活动现金流出的其他项目(环比%)'
+                },
+                {
+                    field: 'fairvalueChangeLoss',
+                    title: '公允价值变动损失'
+                },
+                {
+                    field: 'fairvalueChangeLossYoy',
+                    title: '公允价值变动损失(环比%)'
+                },
+                {
+                    field: 'operateInflowOther',
+                    title: '经营活动现金流入的其他项目'
+                },
+                {
+                    field: 'operateInflowOtherYoy',
+                    title: '经营活动现金流入的其他项目(环比%)'
+                },
+                {
+                    field: 'netcashFinance',
+                    title: '筹资活动产生的现金流量净额'
+                },
+                {
+                    field: 'netcashFinanceYoy',
+                    title: '筹资活动产生的现金流量净额(环比%)'
+                },
+                {
+                    field: 'depositPbcAdd',
+                    title: '存放中央银行款项净增加额'
+                },
+                {
+                    field: 'depositPbcAddYoy',
+                    title: '存放中央银行款项净增加额(环比%)'
+                },
+                {
+                    field: 'investNetcashOther',
+                    title: '投资活动产生的现金流量净额其他项目'
+                },
+                {
+                    field: 'investNetcashOtherYoy',
+                    title: '投资活动产生的现金流量净额其他项目(环比%)'
+                },
+                {
+                    field: 'receiveOtherOperate',
+                    title: '收到其他与经营活动有关的现金'
+                },
+                {
+                    field: 'receiveOtherOperateYoy',
+                    title: '收到其他与经营活动有关的现金(环比%)'
+                },
+                {
+                    field: 'payInterest',
+                    title: '支付利息的现金'
+                },
+                {
+                    field: 'payInterestYoy',
+                    title: '支付利息的现金(环比%)'
+                },
+                {
+                    field: 'issueSubbond',
+                    title: '发行次级债券所收到的现金'
+                },
+                {
+                    field: 'issueSubbondYoy',
+                    title: '发行次级债券所收到的现金(环比%)'
+                },
+                {
+                    field: 'investPayCash',
+                    title: '投资支付的现金'
+                },
+                {
+                    field: 'investPayCashYoy',
+                    title: '投资支付的现金(环比%)'
+                },
+                {
+                    field: 'receiveAddEquity',
+                    title: '增加股本所收到的现金'
+                },
+                {
+                    field: 'receiveAddEquityYoy',
+                    title: '增加股本所收到的现金(环比%)'
+                },
+                {
+                    field: 'lendFundAdd',
+                    title: '拆出资金净增加额'
+                },
+                {
+                    field: 'lendFundAddYoy',
+                    title: '拆出资金净增加额(环比%)'
+                },
+                {
+                    field: 'borrowRepoAdd',
+                    title: '拆入资金及卖出回购金融资产款净增加额'
+                },
+                {
+                    field: 'borrowRepoAddYoy',
+                    title: '拆入资金及卖出回购金融资产款净增加额(环比%)'
+                },
+                {
+                    field: 'financeNetcashOther',
+                    title: '筹资活动产生的现金流量净额其他项目'
+                },
+                {
+                    field: 'financeNetcashOtherYoy',
+                    title: '筹资活动产生的现金流量净额其他项目(环比%)'
+                },
+                {
+                    field: 'loanReduce',
+                    title: '贷款的减少'
+                },
+                {
+                    field: 'loanReduceYoy',
+                    title: '贷款的减少(环比%)'
+                },
+                {
+                    field: 'loanPbcAdd',
+                    title: '向中央银行借款净增加额'
+                },
+                {
+                    field: 'loanPbcAddYoy',
+                    title: '向中央银行借款净增加额(环比%)'
+                },
+                {
+                    field: 'otherAssetImpairment',
+                    title: '计提其他资产减值准备'
+                },
+                {
+                    field: 'otherAssetImpairmentYoy',
+                    title: '计提其他资产减值准备(环比%)'
+                },
+                {
+                    field: 'receiveWriteoff',
+                    title: '收到已核销款项'
+                },
+                {
+                    field: 'receiveWriteoffYoy',
+                    title: '收到已核销款项(环比%)'
+                },
+                {
+                    field: 'rateChangeEffect',
+                    title: '汇率变动对现金及现金等价物的影响'
+                },
+                {
+                    field: 'rateChangeEffectYoy',
+                    title: '汇率变动对现金及现金等价物的影响(环比%)'
+                },
+                {
+                    field: 'fbcceAddOther',
+                    title: '现金及现金等价物净增加额其他项目'
+                },
+                {
+                    field: 'fbcceAddOtherYoy',
+                    title: '现金及现金等价物净增加额其他项目(环比%)'
+                },
+                {
+                    field: 'dtAssetReduce',
+                    title: '递延所得税资产减少'
+                },
+                {
+                    field: 'dtAssetReduceYoy',
+                    title: '递延所得税资产减少(环比%)'
+                },
+                {
+                    field: 'acceptInvestCash',
+                    title: '吸收投资收到的现金'
+                },
+                {
+                    field: 'acceptInvestCashYoy',
+                    title: '吸收投资收到的现金(环比%)'
+                },
+                {
+                    field: 'endCceOther',
+                    title: '期末现金及现金等价物余额其他项目'
+                },
+                {
+                    field: 'endCceOtherYoy',
+                    title: '期末现金及现金等价物余额其他项目(环比%)'
+                },
+                {
+                    field: 'financeInflowBalance',
+                    title: '筹资活动现金流入的平衡项目'
+                },
+                {
+                    field: 'financeInflowBalanceYoy',
+                    title: '筹资活动现金流入的平衡项目(环比%)'
+                },
+                {
+                    field: 'endCce',
+                    title: '期末现金及现金等价物余额'
+                },
+                {
+                    field: 'endCceYoy',
+                    title: '期末现金及现金等价物余额(环比%)'
+                },
+                {
+                    field: 'totalFinanceInflow',
+                    title: '筹资活动现金流入小计'
+                },
+                {
+                    field: 'totalFinanceInflowYoy',
+                    title: '筹资活动现金流入小计(环比%)'
+                },
+                {
+                    field: 'cceAddOther',
+                    title: '现金及现金等价物净增加额其他项目'
+                },
+                {
+                    field: 'cceAddOtherYoy',
+                    title: '现金及现金等价物净增加额其他项目(环比%)'
+                },
+                {
+                    field: 'cceAddBalance',
+                    title: '现金及现金等价物净增加额平衡项目'
+                },
+                {
+                    field: 'cceAddBalanceYoy',
+                    title: '现金及现金等价物净增加额平衡项目(环比%)'
+                },
+                {
+                    field: 'exchangeLoss',
+                    title: '汇兑损失'
+                },
+                {
+                    field: 'exchangeLossYoy',
+                    title: '汇兑损失(环比%)'
+                },
+                {
+                    field: 'loanAdvanceAdd',
+                    title: '客户贷款及垫款净增加额'
+                },
+                {
+                    field: 'loanAdvanceAddYoy',
+                    title: '客户贷款及垫款净增加额(环比%)'
+                },
+                {
+                    field: 'investLoss',
+                    title: '投资损失'
+                },
+                {
+                    field: 'investLossYoy',
+                    title: '投资损失(环比%)'
+                },
+                {
+                    field: 'fbcceAddBalance',
+                    title: '现金及现金等价物净增加额平衡项目'
+                },
+                {
+                    field: 'fbcceAddBalanceYoy',
+                    title: '现金及现金等价物净增加额平衡项目(环比%)'
+                },
+                {
+                    field: 'cceAdd',
+                    title: '现金及现金等价物净增加额'
+                },
+                {
+                    field: 'cceAddYoy',
+                    title: '现金及现金等价物净增加额(环比%)'
+                },
+                {
+                    field: 'receiveCommission',
+                    title: '收取手续费及佣金的现金'
+                },
+                {
+                    field: 'receiveCommissionYoy',
+                    title: '收取手续费及佣金的现金(环比%)'
+                },
+                {
+                    field: 'dtLiabAdd',
+                    title: '递延所得税负债增加'
+                },
+                {
+                    field: 'dtLiabAddYoy',
+                    title: '递延所得税负债增加(环比%)'
+                },
+                {
+                    field: 'deferTax',
+                    title: '递延所得税'
+                },
+                {
+                    field: 'deferTaxYoy',
+                    title: '递延所得税(环比%)'
+                },
+                {
+                    field: 'investOutflowBalance',
+                    title: '投资活动现金流出的平衡项目'
+                },
+                {
+                    field: 'investOutflowBalanceYoy',
+                    title: '投资活动现金流出的平衡项目(环比%)'
+                },
+                {
+                    field: 'depositIofiReduce',
+                    title: '存放同业及其他金融机构款项净减少额'
+                },
+                {
+                    field: 'depositIofiReduceYoy',
+                    title: '存放同业及其他金融机构款项净减少额(环比%)'
+                },
+                {
+                    field: 'fixedAssetDepr',
+                    title: '固定资产折旧'
+                },
+                {
+                    field: 'fixedAssetDeprYoy',
+                    title: '固定资产折旧(环比%)'
+                },
+                {
+                    field: 'finleaseObtainFa',
+                    title: '融资租入固定资产'
+                },
+                {
+                    field: 'finleaseObtainFaYoy',
+                    title: '融资租入固定资产(环比%)'
+                },
+                {
+                    field: 'tradeFinassetAdd',
+                    title: '交易性金融资产净增加额'
+                },
+                {
+                    field: 'tradeFinassetAddYoy',
+                    title: '交易性金融资产净增加额(环比%)'
+                },
+                {
+                    field: 'pbcIofiAdd',
+                    title: '存放中央银行和同业及其他金融机构款项净增加额'
+                },
+                {
+                    field: 'pbcIofiAddYoy',
+                    title: '存放中央银行和同业及其他金融机构款项净增加额(环比%)'
+                },
+                {
+                    field: 'longassetAmortize',
+                    title: '长期资产摊销'
+                },
+                {
+                    field: 'longassetAmortizeYoy',
+                    title: '长期资产摊销(环比%)'
+                },
+                {
+                    field: 'totalInvestInflow',
+                    title: '投资活动现金流入小计'
+                },
+                {
+                    field: 'totalInvestInflowYoy',
+                    title: '投资活动现金流入小计(环比%)'
+                },
+                {
+                    field: 'financeNetcashBalance',
+                    title: '筹资活动产生的现金流量净额平衡项目'
+                },
+                {
+                    field: 'financeNetcashBalanceYoy',
+                    title: '筹资活动产生的现金流量净额平衡项目(环比%)'
+                },
+                {
+                    field: 'loanPbcReduce',
+                    title: '向中央银行借款净减少额'
+                },
+                {
+                    field: 'loanPbcReduceYoy',
+                    title: '向中央银行借款净减少额(环比%)'
+                },
+                {
+                    field: 'payCommission',
+                    title: '支付手续费及佣金的现金'
+                },
+                {
+                    field: 'payCommissionYoy',
+                    title: '支付手续费及佣金的现金(环比%)'
+                },
+                {
+                    field: 'receiveOtherInvest',
+                    title: '收到的其他与投资活动有关的现金'
+                },
+                {
+                    field: 'receiveOtherInvestYoy',
+                    title: '收到的其他与投资活动有关的现金(环比%)'
+                },
+                {
+                    field: 'lendAdd',
+                    title: '拆借款项的净增加'
+                },
+                {
+                    field: 'lendAddYoy',
+                    title: '拆借款项的净增加(环比%)'
+                },
+                {
+                    field: 'faIrDepr',
+                    title: '固定资产和投资性房地产折旧'
+                },
+                {
+                    field: 'faIrDeprYoy',
+                    title: '固定资产和投资性房地产折旧(环比%)'
+                },
+                {
+                    field: 'provisionLoanImpairment',
+                    title: '计提贷款减值准备'
+                },
+                {
+                    field: 'provisionLoanImpairmentYoy',
+                    title: '计提贷款减值准备(环比%)'
+                },
+                {
+                    field: 'operateOutflowBalance',
+                    title: '经营活动现金流出的平衡项目'
+                },
+                {
+                    field: 'operateOutflowBalanceYoy',
+                    title: '经营活动现金流出的平衡项目(环比%)'
+                },
+                {
+                    field: 'lendResaleAdd',
+                    title: '拆出资金及买入返售金融资产净增加额'
+                },
+                {
+                    field: 'lendResaleAddYoy',
+                    title: '拆出资金及买入返售金融资产净增加额(环比%)'
+                },
+                {
+                    field: 'buyResaleReduce',
+                    title: '买入返售金融资产净减少额'
+                },
+                {
+                    field: 'buyResaleReduceYoy',
+                    title: '买入返售金融资产净减少额(环比%)'
+                },
+                {
+                    field: 'customerDepositAdd',
+                    title: '客户存款净增加额'
+                },
+                {
+                    field: 'customerDepositAddYoy',
+                    title: '客户存款净增加额(环比%)'
+                },
+                {
+                    field: 'issueCd',
+                    title: '发行存款证'
+                },
+                {
+                    field: 'issueCdYoy',
+                    title: '发行存款证(环比%)'
+                },
+                {
+                    field: 'finassetReduce',
+                    title: '金融性资产的减少'
+                },
+                {
+                    field: 'finassetReduceYoy',
+                    title: '金融性资产的减少(环比%)'
+                },
+                {
+                    field: 'payInterestCommission',
+                    title: '支付利息、手续费及佣金的现金'
+                },
+                {
+                    field: 'payInterestCommissionYoy',
+                    title: '支付利息、手续费及佣金的现金(环比%)'
+                },
+                {
+                    field: 'payOtherFinance',
+                    title: '支付其他与筹资活动有关的现金'
+                },
+                {
+                    field: 'payOtherFinanceYoy',
+                    title: '支付其他与筹资活动有关的现金(环比%)'
+                },
+                {
+                    field: 'receiveDividendProfit',
+                    title: '分得股利或利润所收到的现金'
+                },
+                {
+                    field: 'receiveDividendProfitYoy',
+                    title: '分得股利或利润所收到的现金(环比%)'
+                },
+                {
+                    field: 'financeOutflowOther',
+                    title: '筹资活动现金流出的其他项目'
+                },
+                {
+                    field: 'financeOutflowOtherYoy',
+                    title: '筹资活动现金流出的其他项目(环比%)'
+                },
+                {
+                    field: 'obtainSubsidiaryOther',
+                    title: '取得子公司及其他营业单位支付的现金'
+                },
+                {
+                    field: 'obtainSubsidiaryOtherYoy',
+                    title: '取得子公司及其他营业单位支付的现金(环比%)'
+                },
+                {
+                    field: 'withdrawInvest',
+                    title: '收回投资收到的现金'
+                },
+                {
+                    field: 'withdrawInvestYoy',
+                    title: '收回投资收到的现金(环比%)'
+                },
+                {
+                    field: 'payStaffCash',
+                    title: '支付给职工以及为职工支付的现金'
+                },
+                {
+                    field: 'payStaffCashYoy',
+                    title: '支付给职工以及为职工支付的现金(环比%)'
+                },
+                {
+                    field: 'iaAmortize',
+                    title: '无形资产摊销'
+                },
+                {
+                    field: 'iaAmortizeYoy',
+                    title: '无形资产摊销(环比%)'
+                },
+                {
+                    field: 'beginCce',
+                    title: '期初现金及现金等价物余额'
+                },
+                {
+                    field: 'beginCceYoy',
+                    title: '期初现金及现金等价物余额(环比%)'
+                },
+                {
+                    field: 'depositPbcReduce',
+                    title: '存放中央银行款项净减少额'
+                },
+                {
+                    field: 'depositPbcReduceYoy',
+                    title: '存放中央银行款项净减少额(环比%)'
+                },
+                {
+                    field: 'sellRepoReduce',
+                    title: '卖出回购金融资产净减少额'
+                },
+                {
+                    field: 'sellRepoReduceYoy',
+                    title: '卖出回购金融资产净减少额(环比%)'
+                },
+                {
+                    field: 'uninvolveInvestfinOther',
+                    title: '不涉及现金收支的投资和筹资活动金额其他项目'
+                },
+                {
+                    field: 'uninvolveInvestfinOtherYoy',
+                    title: '不涉及现金收支的投资和筹资活动金额其他项目(环比%)'
+                },
+                {
+                    field: 'netcashInvest',
+                    title: '投资活动产生的现金流量净额'
+                },
+                {
+                    field: 'netcashInvestYoy',
+                    title: '投资活动产生的现金流量净额(环比%)'
+                },
+                {
+                    field: 'provisionInvestImpairment',
+                    title: '计提投资减值准备'
+                },
+                {
+                    field: 'provisionInvestImpairmentYoy',
+                    title: '计提投资减值准备(环比%)'
+                },
+                {
+                    field: 'netprofit',
+                    title: '净利润'
+                },
+                {
+                    field: 'netprofitYoy',
+                    title: '净利润(环比%)'
+                },
+                {
+                    field: 'pbcIofiReduce',
+                    title: '存放中央银行和同业款项及其他金融机构净减少额'
+                },
+                {
+                    field: 'pbcIofiReduceYoy',
+                    title: '存放中央银行和同业款项及其他金融机构净减少额(环比%)'
+                },
+                {
+                    field: 'fbnetcashOperate',
+                    title: '经营活动产生的现金流量净额'
+                },
+                {
+                    field: 'fbnetcashOperateYoy',
+                    title: '经营活动产生的现金流量净额(环比%)'
+                },
+                {
+                    field: 'buyResaleAdd',
+                    title: '买入返售金融资产净增加额'
+                },
+                {
+                    field: 'buyResaleAddYoy',
+                    title: '买入返售金融资产净增加额(环比%)'
+                },
+                {
+                    field: 'issueOtherBond',
+                    title: '发行其他债券所收到的现金'
+                },
+                {
+                    field: 'issueOtherBondYoy',
+                    title: '发行其他债券所收到的现金(环比%)'
+                },
+                {
+                    field: 'interbankOtherReduce',
+                    title: '同业及其他机构存放款减少净额'
+                },
+                {
+                    field: 'interbankOtherReduceYoy',
+                    title: '同业及其他机构存放款减少净额(环比%)'
+                },
+                {
+                    field: 'buyFinLease',
+                    title: '购买融资租赁资产支付的现金'
+                },
+                {
+                    field: 'buyFinLeaseYoy',
+                    title: '购买融资租赁资产支付的现金(环比%)'
+                },
+                {
+                    field: 'endCashEquivalents',
+                    title: '加现金等价物的期末余额'
+                },
+                {
+                    field: 'endCashEquivalentsYoy',
+                    title: '加现金等价物的期末余额(环比%)'
+                },
+                {
+                    field: 'lpeAmortize',
+                    title: '长期待摊费用摊销'
+                },
+                {
+                    field: 'lpeAmortizeYoy',
+                    title: '长期待摊费用摊销(环比%)'
+                },
+                {
+                    field: 'receiveInvestIncome',
+                    title: '取得投资收益收到的现金'
+                },
+                {
+                    field: 'receiveInvestIncomeYoy',
+                    title: '取得投资收益收到的现金(环比%)'
+                },
+                {
+                    field: 'issuedCdReduce',
+                    title: '已发行存款证净减少额'
+                },
+                {
+                    field: 'issuedCdReduceYoy',
+                    title: '已发行存款证净减少额(环比%)'
+                },
+                {
+                    field: 'borrowRepoReduce',
+                    title: '拆入资金及卖出回购金融资产款净减少额'
+                },
+                {
+                    field: 'borrowRepoReduceYoy',
+                    title: '拆入资金及卖出回购金融资产款净减少额(环比%)'
+                },
+                {
+                    field: 'payBondInterest',
+                    title: '偿付债券利息支付的现金'
+                },
+                {
+                    field: 'payBondInterestYoy',
+                    title: '偿付债券利息支付的现金(环比%)'
+                },
+                {
+                    field: 'tradeFinliabAdd',
+                    title: '交易性金融负债净增加额'
+                },
+                {
+                    field: 'tradeFinliabAddYoy',
+                    title: '交易性金融负债净增加额(环比%)'
+                },
+                {
+                    field: 'totalOperateOutflow',
+                    title: '经营活动现金流出小计'
+                },
+                {
+                    field: 'totalOperateOutflowYoy',
+                    title: '经营活动现金流出小计(环比%)'
+                },
+                {
+                    field: 'depositIofiAdd',
+                    title: '存放同业及其他金融机构款项净增加额'
+                },
+                {
+                    field: 'depositIofiAddYoy',
+                    title: '存放同业及其他金融机构款项净增加额(环比%)'
+                },
+                {
+                    field: 'withdrawWriteoffLoan',
+                    title: '收回的已于以前年度核销的贷款'
+                },
+                {
+                    field: 'withdrawWriteoffLoanYoy',
+                    title: '收回的已于以前年度核销的贷款(环比%)'
+                },
+                {
+                    field: 'bondInterestExpense',
+                    title: '发行债券利息支出'
+                },
+                {
+                    field: 'bondInterestExpenseYoy',
+                    title: '发行债券利息支出(环比%)'
+                },
+                {
+                    field: 'fboperateNetcashBalance',
+                    title: '经营活动产生的现金流量净额平衡项目'
+                },
+                {
+                    field: 'fboperateNetcashBalanceYoy',
+                    title: '经营活动产生的现金流量净额平衡项目(环比%)'
+                },
+                {
+                    field: 'issueSharesExpense',
+                    title: '股份发行支付的费用'
+                },
+                {
+                    field: 'issueSharesExpenseYoy',
+                    title: '股份发行支付的费用(环比%)'
+                },
+                {
+                    field: 'fbcceAdd',
+                    title: '现金及现金等价物的净增加额'
+                },
+                {
+                    field: 'fbcceAddYoy',
+                    title: '现金及现金等价物的净增加额(环比%)'
+                },
+                {
+                    field: 'payDebtCash',
+                    title: '偿还债务所支付的现金'
+                },
+                {
+                    field: 'payDebtCashYoy',
+                    title: '偿还债务所支付的现金(环比%)'
+                },
+                {
+                    field: 'disposalMortgageAsset',
+                    title: '处置抵债资产收到的现金'
+                },
+                {
+                    field: 'disposalMortgageAssetYoy',
+                    title: '处置抵债资产收到的现金(环比%)'
+                },
+                {
+                    field: 'issueBond',
+                    title: '发行债券收到的现金'
+                },
+                {
+                    field: 'issueBondYoy',
+                    title: '发行债券收到的现金(环比%)'
+                },
+                {
+                    field: 'operatePayableAdd',
+                    title: '经营性应付项目的增加'
+                },
+                {
+                    field: 'operatePayableAddYoy',
+                    title: '经营性应付项目的增加(环比%)'
+                },
+                {
+                    field: 'operateReceReduce',
+                    title: '经营性应收项目的减少'
+                },
+                {
+                    field: 'operateReceReduceYoy',
+                    title: '经营性应收项目的减少(环比%)'
+                },
+                {
+                    field: 'transferInvestImpairment',
+                    title: '转回投资减值准备'
+                },
+                {
+                    field: 'transferInvestImpairmentYoy',
+                    title: '转回投资减值准备(环比%)'
+                },
+                {
+                    field: 'payAllTax',
+                    title: '支付的各项税费'
+                },
+                {
+                    field: 'payAllTaxYoy',
+                    title: '支付的各项税费(环比%)'
+                },
+                {
+                    field: 'investNetcashBalance',
+                    title: '投资活动产生的现金流量净额平衡项目'
+                },
+                {
+                    field: 'investNetcashBalanceYoy',
+                    title: '投资活动产生的现金流量净额平衡项目(环比%)'
+                },
+                {
+                    field: 'receiveInterestCommission',
+                    title: '收取利息、手续费及佣金的现金'
+                },
+                {
+                    field: 'receiveInterestCommissionYoy',
+                    title: '收取利息、手续费及佣金的现金(环比%)'
+                },
+                {
+                    field: 'fboperateNetcashOther',
+                    title: '经营活动产生的现金流量净额其他项目'
+                },
+                {
+                    field: 'fboperateNetcashOtherYoy',
+                    title: '经营活动产生的现金流量净额其他项目(环比%)'
+                },
+                {
+                    field: 'borrowFundAdd',
+                    title: '拆入资金净增加额'
+                },
+                {
+                    field: 'borrowFundAddYoy',
+                    title: '拆入资金净增加额(环比%)'
+                },
+                {
+                    field: 'assetImpairment',
+                    title: '资产减值准备'
+                },
+                {
+                    field: 'assetImpairmentYoy',
+                    title: '资产减值准备(环比%)'
+                },
+                {
+                    field: 'assignDividendPorfit',
+                    title: '分配股利、利润或偿付利息支付的现金'
+                },
+                {
+                    field: 'assignDividendPorfitYoy',
+                    title: '分配股利、利润或偿付利息支付的现金(环比%)'
+                },
+                {
+                    field: 'totalFinanceOutflow',
+                    title: '筹资活动现金流出小计'
+                },
+                {
+                    field: 'totalFinanceOutflowYoy',
+                    title: '筹资活动现金流出小计(环比%)'
+                },
+                {
+                    field: 'disposalSubsidiaryJoint',
+                    title: '处置子公司、联营企业及合营企业投资及其他企业收到的现金'
+                },
+                {
+                    field: 'disposalSubsidiaryJointYoy',
+                    title: '处置子公司、联营企业及合营企业投资及其他企业收到的现金(环比%)'
+                },
+                {
+                    field: 'receiveOtherFinance',
+                    title: '收到其他与筹资活动有关的现金'
+                },
+                {
+                    field: 'receiveOtherFinanceYoy',
+                    title: '收到其他与筹资活动有关的现金(环比%)'
+                },
+                {
+                    field: 'payOtherOperate',
+                    title: '支付其他与经营活动有关的现金'
+                },
+                {
+                    field: 'payOtherOperateYoy',
+                    title: '支付其他与经营活动有关的现金(环比%)'
+                },
+                {
+                    field: 'tradeFinassetReduce',
+                    title: '交易性金融资产净减少额'
+                },
+                {
+                    field: 'tradeFinassetReduceYoy',
+                    title: '交易性金融资产净减少额(环比%)'
+                },
+                {
+                    field: 'lendResaleReduce',
+                    title: '拆出资金及买入返售金融资产净减少额'
+                },
+                {
+                    field: 'lendResaleReduceYoy',
+                    title: '拆出资金及买入返售金融资产净减少额(环比%)'
+                },
+                {
+                    field: 'netCd',
+                    title: '存款证净额'
+                },
+                {
+                    field: 'netCdYoy',
+                    title: '存款证净额(环比%)'
+                },
+                {
+                    field: 'iofiAdd',
+                    title: '同业及其他金融机构存放款项净增加额'
+                },
+                {
+                    field: 'iofiAddYoy',
+                    title: '同业及其他金融机构存放款项净增加额(环比%)'
+                },
+                {
+                    field: 'inventoryReduce',
+                    title: '存货的减少'
+                },
+                {
+                    field: 'inventoryReduceYoy',
+                    title: '存货的减少(环比%)'
+                },
+                {
+                    field: 'disposalLongassetLoss',
+                    title: '处置固定资产、无形资产和其他长期资产的损失'
+                },
+                {
+                    field: 'disposalLongassetLossYoy',
+                    title: '处置固定资产、无形资产和其他长期资产的损失(环比%)'
+                },
+                {
+                    field: 'endCash',
+                    title: '现金的期末余额'
+                },
+                {
+                    field: 'endCashYoy',
+                    title: '现金的期末余额(环比%)'
+                },
+                {
+                    field: 'other',
+                    title: '其他'
+                },
+                {
+                    field: 'otherYoy',
+                    title: '其他(环比%)'
+                },
+                {
+                    field: 'netcashOperate',
+                    title: '经营活动产生的现金流量净额'
+                },
+                {
+                    field: 'netcashOperateYoy',
+                    title: '经营活动产生的现金流量净额(环比%)'
+                },
+                {
+                    field: 'disposalLongAsset',
+                    title: '处置固定资产、无形资产和其他长期资产收回的现金'
+                },
+                {
+                    field: 'disposalLongAssetYoy',
+                    title: '处置固定资产、无形资产和其他长期资产收回的现金(环比%)'
+                },
+                {
+                    field: 'subsidiaryAcceptInvest',
+                    title: '子公司吸收少数股东投资收到的现金'
+                },
+                {
+                    field: 'subsidiaryAcceptInvestYoy',
+                    title: '子公司吸收少数股东投资收到的现金(环比%)'
+                },
+                {
+                    field: 'receiveInterest',
+                    title: '收取利息的现金'
+                },
+                {
+                    field: 'receiveInterestYoy',
+                    title: '收取利息的现金(环比%)'
+                },
+                {
+                    field: 'totalOperateInflow',
+                    title: '经营活动现金流入小计'
+                },
+                {
+                    field: 'totalOperateInflowYoy',
+                    title: '经营活动现金流入小计(环比%)'
+                },
+                {
+                    field: 'finliabAdd',
+                    title: '金融性负债的增加'
+                },
+                {
+                    field: 'finliabAddYoy',
+                    title: '金融性负债的增加(环比%)'
+                },
+                {
+                    field: 'endCceBalance',
+                    title: '期末现金及现金等价物余额平衡项目'
+                },
+                {
+                    field: 'endCceBalanceYoy',
+                    title: '期末现金及现金等价物余额平衡项目(环比%)'
+                },
+                {
+                    field: 'accountsReceAdd',
+                    title: '应收账款净增加额'
+                },
+                {
+                    field: 'accountsReceAddYoy',
+                    title: '应收账款净增加额(环比%)'
+                },
+                {
+                    field: 'lendFundReduce',
+                    title: '拆出资金净减少额'
+                },
+                {
+                    field: 'lendFundReduceYoy',
+                    title: '拆出资金净减少额(环比%)'
+                },
+                {
+                    field: 'depositAdd',
+                    title: '存款的增加'
+                },
+                {
+                    field: 'depositAddYoy',
+                    title: '存款的增加(环比%)'
+                },
+                {
+                    field: 'investOutflowOther',
+                    title: '投资活动现金流出的其他项目'
+                },
+                {
+                    field: 'investOutflowOtherYoy',
+                    title: '投资活动现金流出的其他项目(环比%)'
+                },
+                {
+                    field: 'convertBond1year',
+                    title: '一年内到期的可转换公司债券'
+                },
+                {
+                    field: 'convertBond1yearYoy',
+                    title: '一年内到期的可转换公司债券(环比%)'
+                },
+                {
+                    field: 'constructLongAsset',
+                    title: '购建固定资产、无形资产和其他长期资产支付的现金'
+                },
+                {
+                    field: 'constructLongAssetYoy',
+                    title: '购建固定资产、无形资产和其他长期资产支付的现金(环比%)'
+                },
+                {
+                    field: 'financeOutflowBalance',
+                    title: '筹资活动现金流出的平衡项目'
+                },
+                {
+                    field: 'financeOutflowBalanceYoy',
+                    title: '筹资活动现金流出的平衡项目(环比%)'
+                },
+                {
+                    field: 'totalInvestOutflow',
+                    title: '投资活动现金流出小计'
+                },
+                {
+                    field: 'totalInvestOutflowYoy',
+                    title: '投资活动现金流出小计(环比%)'
+                },
+                {
+                    field: 'sellRepoAdd',
+                    title: '卖出回购金融资产款净增加额'
+                },
+                {
+                    field: 'sellRepoAddYoy',
+                    title: '卖出回购金融资产款净增加额(环比%)'
+                },
+                {
+                    field: 'operateNetcashOther',
+                    title: '经营活动产生的现金流量净额其他项目'
+                },
+                {
+                    field: 'operateNetcashOtherYoy',
+                    title: '经营活动产生的现金流量净额其他项目(环比%)'
+                },
+                {
+                    field: 'financeInflowOther',
+                    title: '筹资活动现金流入的其他项目'
+                },
+                {
+                    field: 'financeInflowOtherYoy',
+                    title: '筹资活动现金流入的其他项目(环比%)'
+                },
+                {
+                    field: 'iaLpeAmortize',
+                    title: '无形资产及长期待摊费用等摊销'
+                },
+                {
+                    field: 'iaLpeAmortizeYoy',
+                    title: '无形资产及长期待摊费用等摊销(环比%)'
+                },
+                {
+                    field: 'operateNetcashBalance',
+                    title: '经营活动产生的现金流量净额平衡项目'
+                },
+                {
+                    field: 'operateNetcashBalanceYoy',
+                    title: '经营活动产生的现金流量净额平衡项目(环比%)'
+                },
+                {
+                    field: 'investInflowBalance',
+                    title: '投资活动现金流入的平衡项目'
+                },
+                {
+                    field: 'investInflowBalanceYoy',
+                    title: '投资活动现金流入的平衡项目(环比%)'
+                },
+                {
+                    field: 'minorityInterest',
+                    title: '少数股东损益'
+                },
+                {
+                    field: 'minorityInterestYoy',
+                    title: '少数股东损益(环比%)'
+                },
+                {
+                    field: 'provisionPredictLiab',
+                    title: '计提预计负债'
+                },
+                {
+                    field: 'provisionPredictLiabYoy',
+                    title: '计提预计负债(环比%)'
+                },
+                {
+                    field: 'depositIofiOther',
+                    title: '客户存款和同业及其他金融机构存放款项净增加额'
+                },
+                {
+                    field: 'depositIofiOtherYoy',
+                    title: '客户存款和同业及其他金融机构存放款项净增加额(环比%)'
+                },
+                {
+                    field: 'debtTransferCapital',
+                    title: '债务转为资本'
+                },
+                {
+                    field: 'debtTransferCapitalYoy',
+                    title: '债务转为资本(环比%)'
+                },
+                {
+                    field: 'investInflowOther',
+                    title: '投资活动现金流入的其他项目'
+                },
+                {
+                    field: 'investInflowOtherYoy',
+                    title: '投资活动现金流入的其他项目(环比%)'
+                },
+                {
+                    field: 'beginCashEquivalents',
+                    title: '现金等价物的期初余额'
+                },
+                {
+                    field: 'beginCashEquivalentsYoy',
+                    title: '现金等价物的期初余额(环比%)'
+                },
+                {
+                    field: 'tradeFinliabReduce',
+                    title: '交易性金融负债净减少额'
+                },
+                {
+                    field: 'tradeFinliabReduceYoy',
+                    title: '交易性金融负债净减少额(环比%)'
+                },
+                {
+                    field: 'payOtherInvest',
+                    title: '支付其他与投资活动有关的现金'
+                },
+                {
+                    field: 'payOtherInvestYoy',
+                    title: '支付其他与投资活动有关的现金(环比%)'
+                },
+                {
+                    field: 'payOtherFinanceQoq',
+                    title: '支付其他与筹资活动有关的现金'
+                },
+                {
+                    field: 'loanPbcAddQoq',
+                    title: '向中央银行借款净增加额'
+                },
+                {
+                    field: 'pbcIofiReduceQoq',
+                    title: '存放中央银行和同业款项及其他金融机构净减少额'
+                },
+                {
+                    field: 'fairvalueChangeLossQoq',
+                    title: '公允价值变动损失'
+                },
+                {
+                    field: 'receiveAddEquityQoq',
+                    title: '增加股本所收到的现金'
+                },
+                {
+                    field: 'payBondInterestQoq',
+                    title: '偿付债券利息支付的现金'
+                },
+                {
+                    field: 'tradeFinliabAddQoq',
+                    title: '交易性金融负债净增加额'
+                },
+                {
+                    field: 'financeInflowBalanceQoq',
+                    title: '筹资活动现金流入的平衡项目'
+                },
+                {
+                    field: 'issueSharesExpenseQoq',
+                    title: '股份发行支付的费用'
+                },
+                {
+                    field: 'withdrawWriteoffLoanQoq',
+                    title: '收回的已于以前年度核销的贷款'
+                },
+                {
+                    field: 'issueBondQoq',
+                    title: '发行债券收到的现金'
+                },
+                {
+                    field: 'totalFinanceOutflowQoq',
+                    title: '筹资活动现金流出小计'
+                },
+                {
+                    field: 'transferInvestImpairmentQoq',
+                    title: '转回投资减值准备'
+                },
+                {
+                    field: 'financeNetcashOtherQoq',
+                    title: '筹资活动产生的现金流量净额其他项目'
+                },
+                {
+                    field: 'endCashEquivalentsQoq',
+                    title: '加现金等价物的期末余额'
+                },
+                {
+                    field: 'dtAssetReduceQoq',
+                    title: '递延所得税资产减少'
+                },
+                {
+                    field: 'lendAddQoq',
+                    title: '拆借款项的净增加'
+                },
+                {
+                    field: 'disposalLongassetLossQoq',
+                    title: '处置固定资产、无形资产和其他长期资产的损失'
+                },
+                {
+                    field: 'investLossQoq',
+                    title: '投资损失'
+                },
+                {
+                    field: 'borrowFundAddQoq',
+                    title: '拆入资金净增加额'
+                },
+                {
+                    field: 'payOtherOperateQoq',
+                    title: '支付其他与经营活动有关的现金'
+                },
+                {
+                    field: 'tradeFinassetReduceQoq',
+                    title: '交易性金融资产净减少额'
+                },
+                {
+                    field: 'lendFundAddQoq',
+                    title: '拆出资金净增加额'
+                },
+                {
+                    field: 'investOutflowBalanceQoq',
+                    title: '投资活动现金流出的平衡项目'
+                },
+                {
+                    field: 'depositAddQoq',
+                    title: '存款的增加'
+                },
+                {
+                    field: 'receiveOtherFinanceQoq',
+                    title: '收到其他与筹资活动有关的现金'
+                },
+                {
+                    field: 'lpeAmortizeQoq',
+                    title: '长期待摊费用摊销'
+                },
+                {
+                    field: 'fbnetcashOperateQoq',
+                    title: '经营活动产生的现金流量净额'
+                },
+                {
+                    field: 'fbcceAddOtherQoq',
+                    title: '现金及现金等价物净增加额其他项目'
+                },
+                {
+                    field: 'endCashQoq',
+                    title: '现金的期末余额'
+                },
+                {
+                    field: 'lendResaleReduceQoq',
+                    title: '拆出资金及买入返售金融资产净减少额'
+                },
+                {
+                    field: 'finassetReduceQoq',
+                    title: '金融性资产的减少'
+                },
+                {
+                    field: 'operateOutflowBalanceQoq',
+                    title: '经营活动现金流出的平衡项目'
+                },
+                {
+                    field: 'rateChangeEffectQoq',
+                    title: '汇率变动对现金及现金等价物的影响'
+                },
+                {
+                    field: 'netcashOperateQoq',
+                    title: '经营活动产生的现金流量净额'
+                },
+                {
+                    field: 'netCdQoq',
+                    title: '存款证净额'
+                },
+                {
+                    field: 'issuedCdReduceQoq',
+                    title: '已发行存款证净减少额'
+                },
+                {
+                    field: 'depositIofiAddQoq',
+                    title: '存放同业及其他金融机构款项净增加额'
+                },
+                {
+                    field: 'fbcceAddQoq',
+                    title: '现金及现金等价物的净增加额'
+                },
+                {
+                    field: 'disposalLongAssetQoq',
+                    title: '处置固定资产、无形资产和其他长期资产收回的现金'
+                },
+                {
+                    field: 'assetImpairmentQoq',
+                    title: '资产减值准备'
+                },
+                {
+                    field: 'investOutflowOtherQoq',
+                    title: '投资活动现金流出的其他项目'
+                },
+                {
+                    field: 'faIrDeprQoq',
+                    title: '固定资产和投资性房地产折旧'
+                },
+                {
+                    field: 'cceAddOtherQoq',
+                    title: '现金及现金等价物净增加额其他项目'
+                },
+                {
+                    field: 'finleaseObtainFaQoq',
+                    title: '融资租入固定资产'
+                },
+                {
+                    field: 'lendFundReduceQoq',
+                    title: '拆出资金净减少额'
+                },
+                {
+                    field: 'receiveWriteoffQoq',
+                    title: '收到已核销款项'
+                },
+                {
+                    field: 'fboperateNetcashBalanceQoq',
+                    title: '经营活动产生的现金流量净额平衡项目'
+                },
+                {
+                    field: 'subsidiaryAcceptInvestQoq',
+                    title: '子公司吸收少数股东投资收到的现金'
+                },
+                {
+                    field: 'accountsReceAddQoq',
+                    title: '应收账款净增加额'
+                },
+                {
+                    field: 'finliabAddQoq',
+                    title: '金融性负债的增加'
+                },
+                {
+                    field: 'endCceBalanceQoq',
+                    title: '期末现金及现金等价物余额平衡项目'
+                },
+                {
+                    field: 'fboperateNetcashOtherQoq',
+                    title: '经营活动产生的现金流量净额其他项目'
+                },
+                {
+                    field: 'payInterestCommissionQoq',
+                    title: '支付利息、手续费及佣金的现金'
+                },
+                {
+                    field: 'depositPbcReduceQoq',
+                    title: '存放中央银行款项净减少额'
+                },
+                {
+                    field: 'receiveInterestCommissionQoq',
+                    title: '收取利息、手续费及佣金的现金'
+                },
+                {
+                    field: 'payStaffCashQoq',
+                    title: '支付给职工以及为职工支付的现金'
+                },
+                {
+                    field: 'constructLongAssetQoq',
+                    title: '购建固定资产、无形资产和其他长期资产支付的现金'
+                },
+                {
+                    field: 'receiveCommissionQoq',
+                    title: '收取手续费及佣金的现金'
+                },
+                {
+                    field: 'totalOperateOutflowQoq',
+                    title: '经营活动现金流出小计'
+                },
+                {
+                    field: 'totalOperateInflowQoq',
+                    title: '经营活动现金流入小计'
+                },
+                {
+                    field: 'obtainSubsidiaryOtherQoq',
+                    title: '取得子公司及其他营业单位支付的现金'
+                },
+                {
+                    field: 'dtLiabAddQoq',
+                    title: '递延所得税负债增加'
+                },
+                {
+                    field: 'minorityInterestQoq',
+                    title: '少数股东损益'
+                },
+                {
+                    field: 'operateNetcashBalanceQoq',
+                    title: '经营活动产生的现金流量净额平衡项目'
+                },
+                {
+                    field: 'investNetcashBalanceQoq',
+                    title: '投资活动产生的现金流量净额平衡项目'
+                },
+                {
+                    field: 'financeOutflowBalanceQoq',
+                    title: '筹资活动现金流出的平衡项目'
+                },
+                {
+                    field: 'investPayCashQoq',
+                    title: '投资支付的现金'
+                },
+                {
+                    field: 'debtTransferCapitalQoq',
+                    title: '债务转为资本'
+                },
+                {
+                    field: 'assignDividendPorfitQoq',
+                    title: '分配股利、利润或偿付利息支付的现金'
+                },
+                {
+                    field: 'convertBond1yearQoq',
+                    title: '一年内到期的可转换公司债券'
+                },
+                {
+                    field: 'endCceOtherQoq',
+                    title: '期末现金及现金等价物余额其他项目'
+                },
+                {
+                    field: 'operateInflowOtherQoq',
+                    title: '经营活动现金流入的其他项目'
+                },
+                {
+                    field: 'receiveOtherInvestQoq',
+                    title: '收到的其他与投资活动有关的现金'
+                },
+                {
+                    field: 'depositIofiOtherQoq',
+                    title: '客户存款和同业及其他金融机构存放款项净增加额'
+                },
+                {
+                    field: 'receiveDividendProfitQoq',
+                    title: '分得股利或利润所收到的现金'
+                },
+                {
+                    field: 'totalInvestOutflowQoq',
+                    title: '投资活动现金流出小计'
+                },
+                {
+                    field: 'buyResaleReduceQoq',
+                    title: '买入返售金融资产净减少额'
+                },
+                {
+                    field: 'provisionPredictLiabQoq',
+                    title: '计提预计负债'
+                },
+                {
+                    field: 'buyResaleAddQoq',
+                    title: '买入返售金融资产净增加额'
+                },
+                {
+                    field: 'disposalSubsidiaryJointQoq',
+                    title: '处置子公司、联营企业及合营企业投资及其他企业收到的现金'
+                },
+                {
+                    field: 'iofiAddQoq',
+                    title: '同业及其他金融机构存放款项净增加额'
+                },
+                {
+                    field: 'disposalMortgageAssetQoq',
+                    title: '处置抵债资产收到的现金'
+                },
+                {
+                    field: 'payDebtCashQoq',
+                    title: '偿还债务所支付的现金'
+                },
+                {
+                    field: 'financeOutflowOtherQoq',
+                    title: '筹资活动现金流出的其他项目'
+                },
+                {
+                    field: 'inventoryReduceQoq',
+                    title: '存货的减少'
+                },
+                {
+                    field: 'sellRepoAddQoq',
+                    title: '卖出回购金融资产款净增加额'
+                },
+                {
+                    field: 'bondInterestExpenseQoq',
+                    title: '发行债券利息支出'
+                },
+                {
+                    field: 'iaLpeAmortizeQoq',
+                    title: '无形资产及长期待摊费用等摊销'
+                },
+                {
+                    field: 'receiveInterestQoq',
+                    title: '收取利息的现金'
+                },
+                {
+                    field: 'operateReceReduceQoq',
+                    title: '经营性应收项目的减少'
+                },
+                {
+                    field: 'investInflowBalanceQoq',
+                    title: '投资活动现金流入的平衡项目'
+                },
+                {
+                    field: 'investInflowOtherQoq',
+                    title: '投资活动现金流入的其他项目'
+                },
+                {
+                    field: 'issueOtherBondQoq',
+                    title: '发行其他债券所收到的现金'
+                },
+                {
+                    field: 'payOtherInvestQoq',
+                    title: '支付其他与投资活动有关的现金'
+                },
+                {
+                    field: 'tradeFinliabReduceQoq',
+                    title: '交易性金融负债净减少额'
+                },
+                {
+                    field: 'payAllTaxQoq',
+                    title: '支付的各项税费'
+                },
+                {
+                    field: 'depositIofiReduceQoq',
+                    title: '存放同业及其他金融机构款项净减少额'
+                },
+                {
+                    field: 'beginCashEquivalentsQoq',
+                    title: '减现金等价物的期初余额'
+                },
+                {
+                    field: 'operateNetcashOtherQoq',
+                    title: '经营活动产生的现金流量净额其他项目'
+                },
+                {
+                    field: 'sellRepoReduceQoq',
+                    title: '卖出回购金融资产净减少额'
+                },
+                {
+                    field: 'beginCceQoq',
+                    title: '加期初现金及现金等价物余额'
+                },
+                {
+                    field: 'financeInflowOtherQoq',
+                    title: '筹资活动现金流入的其他项目'
+                },
+                {
+                    field: 'depositPbcAddQoq',
+                    title: '存放中央银行款项净增加额'
+                },
+                {
+                    field: 'otherQoq',
+                    title: '其他'
+                },
+                {
+                    field: 'operatePayableAddQoq',
+                    title: '经营性应付项目的增加'
+                },
+                {
+                    field: 'endCceQoq',
+                    title: '期末现金及现金等价物余额'
+                },
+                {
+                    field: 'receiveOtherOperateQoq',
+                    title: '收到其他与经营活动有关的现金'
+                },
+                {
+                    field: 'beginCashQoq',
+                    title: '减现金的期初余额'
+                },
+                {
+                    field: 'payInterestQoq',
+                    title: '支付利息的现金'
+                },
+                {
+                    field: 'acceptInvestCashQoq',
+                    title: '吸收投资收到的现金'
+                },
+                {
+                    field: 'borrowRepoAddQoq',
+                    title: '拆入资金及卖出回购金融资产款净增加额'
+                },
+                {
+                    field: 'netcashFinanceQoq',
+                    title: '筹资活动产生的现金流量净额'
+                },
+                {
+                    field: 'borrowFundReduceQoq',
+                    title: '拆入资金净减少额'
+                },
+                {
+                    field: 'issueSubbondQoq',
+                    title: '发行次级债券所收到的现金'
+                },
+                {
+                    field: 'faScrapLossQoq',
+                    title: '固定资产报废损失'
+                },
+                {
+                    field: 'operateOutflowOtherQoq',
+                    title: '经营活动现金流出的其他项目'
+                },
+                {
+                    field: 'cceAddBalanceQoq',
+                    title: '现金及现金等价物净增加额平衡项目'
+                },
+                {
+                    field: 'exchangeLossQoq',
+                    title: '汇兑损失'
+                },
+                {
+                    field: 'operateInflowBalanceQoq',
+                    title: '经营活动现金流入的平衡项目'
+                },
+                {
+                    field: 'tradeFinassetAddQoq',
+                    title: '交易性金融资产净增加额'
+                },
+                {
+                    field: 'loanAdvanceAddQoq',
+                    title: '客户贷款及垫款净增加额'
+                },
+                {
+                    field: 'provisionLoanImpairmentQoq',
+                    title: '计提贷款减值准备'
+                },
+                {
+                    field: 'loanPbcReduceQoq',
+                    title: '向中央银行借款净减少额'
+                },
+                {
+                    field: 'cceAddQoq',
+                    title: '现金及现金等价物净增加额'
+                },
+                {
+                    field: 'deferTaxQoq',
+                    title: '递延所得税'
+                },
+                {
+                    field: 'payCommissionQoq',
+                    title: '支付手续费及佣金的现金'
+                },
+                {
+                    field: 'fbcceAddBalanceQoq',
+                    title: '现金及现金等价物净增加额平衡项目'
+                },
+                {
+                    field: 'totalInvestInflowQoq',
+                    title: '投资活动现金流入小计'
+                },
+                {
+                    field: 'customerDepositAddQoq',
+                    title: '客户存款净增加额'
+                },
+                {
+                    field: 'pbcIofiAddQoq',
+                    title: '存放中央银行和同业及其他金融机构款项净增加额'
+                },
+                {
+                    field: 'longassetAmortizeQoq',
+                    title: '长期资产摊销'
+                },
+                {
+                    field: 'financeNetcashBalanceQoq',
+                    title: '筹资活动产生的现金流量净额平衡项目'
+                },
+                {
+                    field: 'issueCdQoq',
+                    title: '发行存款证'
+                },
+                {
+                    field: 'withdrawInvestQoq',
+                    title: '收回投资收到的现金'
+                },
+                {
+                    field: 'investNetcashOtherQoq',
+                    title: '投资活动产生的现金流量净额其他项目'
+                },
+                {
+                    field: 'otherAssetImpairmentQoq',
+                    title: '计提其他资产减值准备'
+                },
+                {
+                    field: 'netcashInvestQoq',
+                    title: '投资活动产生的现金流量净额'
+                },
+                {
+                    field: 'borrowRepoReduceQoq',
+                    title: '拆入资金及卖出回购金融资产款净减少额'
+                },
+                {
+                    field: 'provisionInvestImpairmentQoq',
+                    title: '计提投资减值准备'
+                },
+                {
+                    field: 'loanReduceQoq',
+                    title: '贷款的减少'
+                },
+                {
+                    field: 'interbankOtherReduceQoq',
+                    title: '同业及其他机构存放款减少净额'
+                },
+                {
+                    field: 'netprofitQoq',
+                    title: '净利润'
+                },
+                {
+                    field: 'uninvolveInvestfinOtherQoq',
+                    title: '不涉及现金收支的投资和筹资活动金额其他项目'
+                },
+                {
+                    field: 'totalFinanceInflowQoq',
+                    title: '筹资活动现金流入小计'
+                },
+                {
+                    field: 'buyFinLeaseQoq',
+                    title: '购买融资租赁资产支付的现金'
+                },
+                {
+                    field: 'lendResaleAddQoq',
+                    title: '拆出资金及买入返售金融资产净增加额'
+                },
+                {
+                    field: 'fixedAssetDeprQoq',
+                    title: '固定资产折旧'
+                },
+                {
+                    field: 'receiveInvestIncomeQoq',
+                    title: '取得投资收益收到的现金'
+                },
+                {
+                    field: 'iaAmortizeQoq',
+                    title: '无形资产摊销'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>
