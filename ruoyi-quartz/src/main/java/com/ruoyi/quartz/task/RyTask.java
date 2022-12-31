@@ -90,13 +90,13 @@ public class RyTask {
      * 写出接口所有字段
      */
     public void writeAllKey() throws IOException {
-        File file = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/ruoyi-investment/src/main/resources/key/keys.txt");
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/sql/prepare.sql");
         // 判断文件是否存在
-        if (!file.exists()) {
-            file.createNewFile();
+        if (!sqlFile.exists()) {
+            sqlFile.createNewFile();
         }
         // 遍历写入
-        BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(sqlFile));
         for (String key : keySet) {
             bw.write("`" + key + "` double default null comment ''," + "\r\n");
         }
@@ -240,8 +240,8 @@ public class RyTask {
 
 
     public static void main(String[] args) throws IOException {
-        File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/sql/xjll.html");
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/sql/xjll.sql");
+        File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/sql/dfcft.html");
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/sql/prepare.sql");
         List<String> htmlList = readHtmlFile(htmlFile);
         List<String> sqlList = readSqlFile(sqlFile);
 
