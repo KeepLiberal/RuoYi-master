@@ -711,12 +711,17 @@ public class MyQuartzAsyncTask {
     public void downAllHtml(String url, String code) throws IOException {
         String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
         if (StringUtils.isNotEmpty(jsonStr)) {
-            File file = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/html/dev-" + code + ".html");
-            // 判断文件是否存在
-            if (!file.exists()) {
-                file.createNewFile();
+            File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/downloadHtml/dev-" + code + ".html");
+            File pafile = htmlFile.getParentFile();
+            // 判断文件夹是否存在
+            if (!pafile.exists()) {
+                pafile.mkdirs();
             }
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            // 判断文件是否存在
+            if (!htmlFile.exists()) {
+                htmlFile.createNewFile();
+            }
+            BufferedWriter bw = new BufferedWriter(new FileWriter(htmlFile));
             bw.write(jsonStr);
             bw.flush();
             bw.close();

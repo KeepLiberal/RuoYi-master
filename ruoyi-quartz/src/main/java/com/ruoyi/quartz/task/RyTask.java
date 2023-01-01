@@ -217,6 +217,12 @@ public class RyTask {
      */
     public void writeAllKey() throws IOException {
         File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-without-comment.sql");
+
+        File pafile = sqlFile.getParentFile();
+        // 判断文件夹是否存在
+        if (!pafile.exists()) {
+            pafile.mkdirs();
+        }
         // 判断文件是否存在
         if (!sqlFile.exists()) {
             sqlFile.createNewFile();
@@ -248,15 +254,20 @@ public class RyTask {
     /**
      * 生成字段带有描述的sql文件
      */
-    private static void creatSqlFileWithComment(List<String> sqlList) throws IOException {
+    private static void writeSqlFileWithComment() throws IOException {
         File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-with-comment.sql");
+        File pafile = sqlFile.getParentFile();
+        // 判断文件夹是否存在
+        if (!pafile.exists()) {
+            pafile.mkdirs();
+        }
         // 判断文件是否存在
         if (!sqlFile.exists()) {
             sqlFile.createNewFile();
         }
         // 遍历写入
         BufferedWriter bw = new BufferedWriter(new FileWriter(sqlFile));
-        for (String sql : sqlList) {
+        for (String sql : getSqlListWithComment()) {
             bw.write(sql);
         }
         bw.flush();
@@ -269,7 +280,7 @@ public class RyTask {
     private static List<String> getSqlListWithComment() throws IOException {
         File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/html/dev.html");
         File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-without-comment.sql");
-        List<String> htmlList = readHtmlFile(htmlFile);
+        List<String> downloadHtmlList = readDownloadHtmlFile(htmlFile);
         List<String> sqlWithoutCommentList = readSqlFileWithoutComment(sqlFile);
         List<String> sqlWithCommentList = new ArrayList<>();
 
@@ -282,10 +293,10 @@ public class RyTask {
                     .replace("'","")
                     .replace(",","").trim();
             sqlKey = "(value."+sqlKey.toUpperCase()+")";
-            for (int i=0; i<htmlList.size(); i++) {
-                String htmlKey = htmlList.get(i);
+            for (int i=0; i<downloadHtmlList.size(); i++) {
+                String htmlKey = downloadHtmlList.get(i);
                 if (htmlKey.contains(sqlKey)) {
-                    String chinese = StringUtils.getChinese(htmlList.get(i-1));
+                    String chinese = StringUtils.getChinese(downloadHtmlList.get(i-1));
                     if(sqlKey.contains("_YOY")){
                         sql = sql.replace("comment ''","comment '"+chinese+"(环比%)'");
                     }else{
@@ -318,7 +329,7 @@ public class RyTask {
     /**
      * 读取html文件获得字段名和描述
      */
-    private static List<String> readHtmlFile(File fin) throws IOException {
+    private static List<String> readDownloadHtmlFile(File fin) throws IOException {
         List<String> keyList = new ArrayList<>();
         BufferedReader br = new BufferedReader(new FileReader(fin));
         String line = null;
@@ -335,10 +346,7 @@ public class RyTask {
      * main测试入口
      */
     public static void main(String[] args) throws IOException {
-
-        List<String> sqlListWithComment = getSqlListWithComment();
-        creatSqlFileWithComment(sqlListWithComment);
-
+        writeSqlFileWithComment();
     }
 
     ///////////////////////////////////////////////////////示例代码//////////////////////////////////////////////////////
