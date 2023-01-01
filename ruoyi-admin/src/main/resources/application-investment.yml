@@ -31,7 +31,7 @@ inv:
   finance-xjll-ajax-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbAjaxNew?companyType='companyType'&reportDateType=1&reportType=1&dates='dates'&code=
   finance-xjll-ajax-jd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbAjaxNew?companyType='companyType'&reportDateType=0&reportType=2&dates='dates'&code=
   #百分比
-  finance-bfb-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/bfbbbAjaxNew?ctype=3&type=0&code=
-  finance-bfb-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/bfbbbAjaxNew?ctype=3&type=1&code=
-  finance-bfb-jd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/bfbbbAjaxNew?ctype=3&type=2&code=
+  finance-bfb-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/bfbbbAjaxNew?ctype='ctype'&type=0&code=
+  finance-bfb-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/bfbbbAjaxNew?ctype='ctype'&type=1&code=
+  finance-bfb-jd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/bfbbbAjaxNew?ctype='ctype'&type=2&code=
   #########################################################财务分析 结束#########################################################

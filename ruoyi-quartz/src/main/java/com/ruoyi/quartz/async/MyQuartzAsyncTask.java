@@ -694,7 +694,7 @@ public class MyQuartzAsyncTask {
     @Async("threadPoolTaskExecutor")
     public void invFinanceBfbTask(InvStock stock, String url, String reportType, AtomicInteger count) {
         try {
-            String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
+            String jsonStr = HttpUtils.sendGet(url.replace("'ctype'",stock.getStockType()), new AtomicInteger(10));
             if (StringUtils.isNotEmpty(jsonStr)) {
                 JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                 Set<String> keySet = jsonObject.keySet();
