@@ -1,37 +1,37 @@
 # 投顾管家相关配置
-investment:
+inv:
   #沪深A股基本信息
   stock-list: http://20.push2.eastmoney.com/api/qt/clist/get?pn=1&pz=1000000&po=1&np=1&fltt=2&invt=2&fid=f3&fs=m:0+t:6,m:0+t:13,m:0+t:80,m:1+t:2,m:1+t:23&fields=f12,f14
   #沪深A股公司概况
   company-detail: http://f10.eastmoney.com/CompanySurvey/CompanySurveyAjax?code=
 
-  #财务分析
-  #重要指标>>>报告期-年度-季度
+  #########################################################财务分析 开始#########################################################
   finance-zyzb-bgq: https://emweb.securities.eastmoney.com/PC_HSF10/NewFinanceAnalysis/ZYZBAjaxNew?type=0&code=
   finance-zyzb-nd: https://emweb.securities.eastmoney.com/PC_HSF10/NewFinanceAnalysis/ZYZBAjaxNew?type=1&code=
   finance-zyzb-jd: https://emweb.securities.eastmoney.com/PC_HSF10/NewFinanceAnalysis/ZYZBAjaxNew?type=2&code=
-
   #杜邦分析
   finance-dbfx: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/DBFXAjaxNew?code=
-
-  #资产负债>>>报告期-年度
+  #资产负债
   finance-zcfz-date-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/zcfzbDateAjaxNew?companyType='companyType'&reportDateType=0&code=
   finance-zcfz-date-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/zcfzbDateAjaxNew?companyType='companyType'&reportDateType=1&code=
   finance-zcfz-ajax-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/zcfzbAjaxNew?companyType='companyType'&reportDateType=0&reportType=1&dates='dates'&code=
   finance-zcfz-ajax-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/zcfzbAjaxNew?companyType='companyType'&reportDateType=1&reportType=1&dates='dates'&code=
-
-  #利润>>>报告期-年度-季度
+  #利润
   finance-lr-date-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/lrbDateAjaxNew?companyType='companyType'&reportDateType=0&code=
   finance-lr-date-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/lrbDateAjaxNew?companyType='companyType'&reportDateType=1&code=
   finance-lr-date-jd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/lrbDateAjaxNew?companyType='companyType'&reportDateType=2&code=
   finance-lr-ajax-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/lrbAjaxNew?companyType='companyType'&reportDateType=0&reportType=1&dates='dates'&code=
   finance-lr-ajax-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/lrbAjaxNew?companyType='companyType'&reportDateType=1&reportType=1&dates='dates'&code=
   finance-lr-ajax-jd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/lrbAjaxNew?companyType='companyType'&reportDateType=0&reportType=2&dates='dates'&code=
-
-  #现金流量>>>报告期-年度-季度
+  #现金流量
   finance-xjll-date-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbDateAjaxNew?companyType='companyType'&reportDateType=0&code=
   finance-xjll-date-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbDateAjaxNew?companyType='companyType'&reportDateType=1&code=
   finance-xjll-date-jd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbDateAjaxNew?companyType='companyType'&reportDateType=2&code=
   finance-xjll-ajax-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbAjaxNew?companyType='companyType'&reportDateType=0&reportType=1&dates='dates'&code=
   finance-xjll-ajax-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbAjaxNew?companyType='companyType'&reportDateType=1&reportType=1&dates='dates'&code=
   finance-xjll-ajax-jd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbAjaxNew?companyType='companyType'&reportDateType=0&reportType=2&dates='dates'&code=
+  #百分比
+  finance-bfb-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/bfbbbAjaxNew?ctype=3&type=0&code=
+  finance-bfb-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/bfbbbAjaxNew?ctype=3&type=1&code=
+  finance-bfb-jd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/bfbbbAjaxNew?ctype=3&type=2&code=
+  #########################################################财务分析 结束#########################################################
