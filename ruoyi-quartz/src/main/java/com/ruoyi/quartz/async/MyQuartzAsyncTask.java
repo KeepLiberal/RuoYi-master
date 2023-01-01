@@ -219,17 +219,8 @@ public class MyQuartzAsyncTask {
             String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
             if (StringUtils.isNotEmpty(jsonStr)) {
                 JSONObject jsonObject = JSONObject.parseObject(jsonStr);
-                List<String> reportTypeList = new ArrayList<String>();
-                if (jsonObject.containsKey("bgq")) {
-                    reportTypeList.add("bgq");
-                }
-                if (jsonObject.containsKey("nd")) {
-                    reportTypeList.add("nd");
-                }
-                if (jsonObject.containsKey("jd")) {
-                    reportTypeList.add("jd");
-                }
-                for (String reportType : reportTypeList){
+                Set<String> reportTypes = jsonObject.keySet();
+                for (String reportType : reportTypes){
                     JSONArray jsonArray = jsonObject.getJSONArray(reportType);
                     if (!jsonArray.isEmpty()) {
                         List<InvFinanceDbfx> entityList = invFinanceDbfxMapper.selectInvFinanceDbfxList(new InvFinanceDbfx(stock.getCode(), reportType));
@@ -295,7 +286,7 @@ public class MyQuartzAsyncTask {
             /*
             1.最近的5期进行数据同步，如果和数据库一致则跳过，不一致则更新
             2.超过5期的其他的如果数据库不存在则新增，如果存在则不再同步
-             */
+            */
             String companyType = stock.getStockType();
             List<String> dateList = new ArrayList<String>();
             List<InvFinanceReportDate> reportDateList = invFinanceReportDateMapper.selectInvFinanceReportDateList(new InvFinanceReportDate(stock.getCode(), financeType, reportType));
@@ -429,7 +420,7 @@ public class MyQuartzAsyncTask {
             /*
             1.最近的5期进行数据同步，如果和数据库一致则跳过，不一致则更新
             2.超过5期的其他的如果数据库不存在则新增，如果存在则不再同步
-             */
+            */
             String companyType = stock.getStockType();
             List<String> dateList = new ArrayList<String>();
             List<InvFinanceReportDate> reportDateList = invFinanceReportDateMapper.selectInvFinanceReportDateList(new InvFinanceReportDate(stock.getCode(), financeType, reportType));
@@ -563,7 +554,7 @@ public class MyQuartzAsyncTask {
             /*
             1.最近的5期进行数据同步，如果和数据库一致则跳过，不一致则更新
             2.超过5期的其他的如果数据库不存在则新增，如果存在则不再同步
-             */
+            */
             String companyType = stock.getStockType();
             List<String> dateList = new ArrayList<String>();
             List<InvFinanceReportDate> reportDateList = invFinanceReportDateMapper.selectInvFinanceReportDateList(new InvFinanceReportDate(stock.getCode(), financeType, reportType));

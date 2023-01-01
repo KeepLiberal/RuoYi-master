@@ -9,6 +9,7 @@ import com.ruoyi.common.utils.spring.SpringUtils;
 import com.ruoyi.investment.domain.InvStock;
 import com.ruoyi.investment.mapper.InvStockMapper;
 import com.ruoyi.quartz.async.MyQuartzAsyncTask;
+import com.ruoyi.quartz.util.TaskUtils;
 import com.ruoyi.system.mapper.SysDictDataMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
@@ -22,7 +23,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * 定时任务调度测试
+ * 定时任务调度
  *
  * @author ruoyi
  */
@@ -121,10 +122,10 @@ public class RyTask {
         //保证线程池比较闲时候再开始任务
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
 
-        log.info("========invStockTask任务开始=========");
+        log.info("========沪深A股基础数据初始化 任务开始=========");
         //沪深A股基础数据抓取任务
         invStockTask();
-        log.info("========invStockTask任务完成=========");
+        log.info("========沪深A股基础数据初始化 任务完成=========");
 
         //获取所有未退市股
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
@@ -207,9 +208,9 @@ public class RyTask {
     /**
      * 多线程获取接口所有字段
      */
-    public void getInterfaceAllKey(String urls, Boolean containMarket) {
+    public void getInterfaceAllKey(String urls, Boolean containMarket, String htmlFileNme) throws IOException {
         keySet.clear();
-        log.info("========getInterfaceAllKey任务线程分发开始=========");
+        log.info("========多线程获取接口所有字段 任务开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
         String[] urlArr = urls.split("&");
         for (InvStock stock : stockList) {
@@ -218,145 +219,21 @@ public class RyTask {
             }
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
-        log.info("========getInterfaceAllKey任务线程分发完成=========");
+        TaskUtils.writeSqlFileWithComment(htmlFileNme);
+        log.info("========多线程获取接口所有字段 任务完成=========");
     }
 
     /**
-     * 写出接口所有字段
-     */
-    public void writeSqlFileWithoutComment() throws IOException {
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-without-comment.sql");
-
-        File pafile = sqlFile.getParentFile();
-        // 判断文件夹是否存在
-        if (!pafile.exists()) {
-            pafile.mkdirs();
-        }
-        // 判断文件是否存在
-        if (!sqlFile.exists()) {
-            sqlFile.createNewFile();
-        }
-        // 遍历写入
-        BufferedWriter bw = new BufferedWriter(new FileWriter(sqlFile));
-        for (String key : keySet) {
-            bw.write("`" + key + "` double default null comment ''," + "\r\n");
-        }
-        bw.flush();
-        bw.close();
-
-        keySet.clear();
-    }
-
-    /**
-     * 下载所有html
+     * 多线程下载所有html
      */
     public void downAllHtml(String url) throws IOException {
-        log.info("========downAllHtml任务线程分发开始=========");
+        log.info("========多线程下载所有html 任务开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
         for (InvStock stock : stockList) {
             myQuartzAsyncTask.downAllHtml(url+stock.getMarket() + stock.getCode(), stock.getCode());
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
-        log.info("========downAllHtml任务线程分发完成=========");
-    }
-
-    /**
-     * 生成字段带有描述的sql文件
-     */
-    private static void writeSqlFileWithComment(String fileNme) throws IOException {
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-with-comment.sql");
-        File pafile = sqlFile.getParentFile();
-        // 判断文件夹是否存在
-        if (!pafile.exists()) {
-            pafile.mkdirs();
-        }
-        // 判断文件是否存在
-        if (!sqlFile.exists()) {
-            sqlFile.createNewFile();
-        }
-        // 遍历写入
-        BufferedWriter bw = new BufferedWriter(new FileWriter(sqlFile));
-        for (String sql : getSqlListWithComment(fileNme)) {
-            bw.write(sql);
-            bw.write(System.getProperty("line.separator"));
-        }
-        bw.flush();
-        bw.close();
-    }
-
-    /**
-     * 获取字段带描述的sql列表
-     */
-    private static List<String> getSqlListWithComment(String fileNme) throws IOException {
-        File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/html/"+fileNme);
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-without-comment.sql");
-        List<String> downloadHtmlList = readDownloadHtmlFile(htmlFile);
-        List<String> sqlWithoutCommentList = readSqlFileWithoutComment(sqlFile);
-        List<String> sqlWithCommentList = new ArrayList<>();
-
-        for (String sql : sqlWithoutCommentList) {
-            String sqlKey = sql.replace("double","")
-                    .replace("default","")
-                    .replace("null","")
-                    .replace("comment","")
-                    .replace("`","")
-                    .replace("'","")
-                    .replace(",","").trim();
-            sqlKey = "(value."+sqlKey.toUpperCase()+")";
-            for (int i=0; i<downloadHtmlList.size(); i++) {
-                String htmlKey = downloadHtmlList.get(i);
-                if (htmlKey.contains(sqlKey)) {
-                    String chinese = StringUtils.getChinese(downloadHtmlList.get(i-1));
-                    if(sqlKey.contains("_YOY")){
-                        sql = sql.replace("comment ''","comment '"+chinese+"(环比%)'");
-                    }else{
-                        sql = sql.replace("comment ''","comment '"+chinese+"'");
-                    }
-                    sqlWithCommentList.add(sql);
-                    break;
-                }
-            }
-        }
-        return sqlWithCommentList;
-    }
-
-    /**
-     * 读取程序生成的字段不带描述的sql文件
-     */
-    private static List<String> readSqlFileWithoutComment(File fin) throws IOException {
-        List<String> keyList = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new FileReader(fin));
-        String line = null;
-        while ((line = br.readLine()) != null) {
-            if (line.contains("comment")){
-                keyList.add(line);
-            }
-        }
-        br.close();
-        return keyList;
-    }
-
-    /**
-     * 读取html文件获得字段名和描述
-     */
-    private static List<String> readDownloadHtmlFile(File fin) throws IOException {
-        List<String> keyList = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new FileReader(fin));
-        String line = null;
-        while ((line = br.readLine()) != null) {
-            if (line.contains("(value.") || StringUtils.isContainChinese(line)){
-                keyList.add(line);
-            }
-        }
-        br.close();
-        return keyList;
-    }
-
-    /**
-     * main测试入口
-     */
-    public static void main(String[] args) throws IOException {
-        writeSqlFileWithComment("bfb.html");
+        log.info("========多线程下载所有html 任务完成=========");
     }
 
     ///////////////////////////////////////////////////////示例代码//////////////////////////////////////////////////////
