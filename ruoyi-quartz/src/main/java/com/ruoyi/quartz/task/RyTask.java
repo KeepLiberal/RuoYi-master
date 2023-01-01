@@ -219,6 +219,7 @@ public class RyTask {
             }
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
+
         TaskUtils.writeSqlFileWithComment(htmlFileNme);
         log.info("========多线程获取接口所有字段 任务完成=========");
     }

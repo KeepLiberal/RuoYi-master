@@ -17,9 +17,10 @@ public class TaskUtils {
     /**
      * 生成字段带有描述的sql文件
      */
-    public static void writeSqlFileWithComment(String htmlFileNme) throws IOException {
-        writeSqlFileWithoutComment();
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-with-comment.sql");
+    public static void writeSqlFileWithComment(String htmlFileName) throws IOException {
+        writeSqlFileWithoutComment(htmlFileName);
+
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-with-comment-"+htmlFileName+".sql");
         File pafile = sqlFile.getParentFile();
         // 判断文件夹是否存在
         if (!pafile.exists()) {
@@ -31,7 +32,7 @@ public class TaskUtils {
         }
         // 遍历写入
         BufferedWriter bw = new BufferedWriter(new FileWriter(sqlFile));
-        for (String sql : getSqlListWithComment(htmlFileNme)) {
+        for (String sql : getSqlListWithComment(htmlFileName)) {
             bw.write(sql);
             bw.write(System.getProperty("line.separator"));
         }
@@ -42,8 +43,8 @@ public class TaskUtils {
     /**
      * 写出接口所有字段
      */
-    private static void writeSqlFileWithoutComment() throws IOException {
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-without-comment.sql");
+    private static void writeSqlFileWithoutComment(String htmlFileName) throws IOException {
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-without-comment-"+htmlFileName+".sql");
         File pafile = sqlFile.getParentFile();
         // 判断文件夹是否存在
         if (!pafile.exists()) {
@@ -67,9 +68,9 @@ public class TaskUtils {
     /**
      * 获取字段带描述的sql列表
      */
-    private static List<String> getSqlListWithComment(String htmlFileNme) throws IOException {
-        File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/html/"+htmlFileNme);
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-without-comment.sql");
+    private static List<String> getSqlListWithComment(String htmlFileName) throws IOException {
+        File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/html/"+htmlFileName+".html");
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-without-comment-"+htmlFileName+".sql");
         List<String> downloadHtmlList = readDownloadHtmlFile(htmlFile);
         List<String> sqlWithoutCommentList = readSqlFileWithoutComment(sqlFile);
         List<String> sqlWithCommentList = new ArrayList<>();
@@ -103,9 +104,9 @@ public class TaskUtils {
     /**
      * 读取程序生成的字段不带描述的sql文件
      */
-    private static List<String> readSqlFileWithoutComment(File fin) throws IOException {
+    private static List<String> readSqlFileWithoutComment(File file) throws IOException {
         List<String> keyList = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new FileReader(fin));
+        BufferedReader br = new BufferedReader(new FileReader(file));
         String line = null;
         while ((line = br.readLine()) != null) {
             if (line.contains("comment")){
@@ -119,9 +120,9 @@ public class TaskUtils {
     /**
      * 读取html文件获得字段名和描述
      */
-    private static List<String> readDownloadHtmlFile(File fin) throws IOException {
+    private static List<String> readDownloadHtmlFile(File file) throws IOException {
         List<String> keyList = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new FileReader(fin));
+        BufferedReader br = new BufferedReader(new FileReader(file));
         String line = null;
         while ((line = br.readLine()) != null) {
             if (line.contains("(value.") || StringUtils.isContainChinese(line)){
