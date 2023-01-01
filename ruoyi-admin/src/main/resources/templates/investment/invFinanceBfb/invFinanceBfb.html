@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('财务分析-百分比列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>股票代码：</label>
+                                <input type="text" name="securityCode"/>
+                            </li>
+                            <li>
+                                <label>报告类型：</label>
+                                <select name="reportType" th:with="type=${@dict.getType('report_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>报告日期：</label>
+                                <input type="text" class="time-input" placeholder="请选择报告日期" name="reportDate"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="investment:invFinanceBfb:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="investment:invFinanceBfb:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="investment:invFinanceBfb:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="investment:invFinanceBfb:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('investment:invFinanceBfb:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('investment:invFinanceBfb:remove')}]];
+        var reportTypeDatas = [[${@dict.getType('report_type')}]];
+        var prefix = ctx + "investment/invFinanceBfb";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "财务分析-百分比",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'id',
+                    title: 'id',
+                    visible: false
+                },
+                {
+                    field: 'securityCode',
+                    title: '股票代码'
+                },
+                {
+                    field: 'reportType',
+                    title: '报告类型',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(reportTypeDatas, value);
+                    }
+                },
+                {
+                    field: 'reportDate',
+                    title: '报告日期'
+                },
+                {
+                    field: 'operateIncome',
+                    title: '营业收入'
+                },
+                {
+                    field: 'operateIncomeYoy',
+                    title: '营业收入(占比%)'
+                },
+                {
+                    field: 'interestNi',
+                    title: '利息净收入'
+                },
+                {
+                    field: 'interestNiYoy',
+                    title: '利息净收入(占比%)'
+                },
+                {
+                    field: 'feeCommissionNi',
+                    title: '手续费及佣金净收入'
+                },
+                {
+                    field: 'feeCommissionNiYoy',
+                    title: '手续费及佣金净收入(占比%)'
+                },
+                {
+                    field: 'investIncome',
+                    title: '投资收益'
+                },
+                {
+                    field: 'investIncomeYoy',
+                    title: '投资收益(占比%)'
+                },
+                {
+                    field: 'fairvalueChangeIncome',
+                    title: '公允价值变动收益'
+                },
+                {
+                    field: 'fairvalueChangeIncomeYoy',
+                    title: '公允价值变动收益(占比%)'
+                },
+                {
+                    field: 'exchangeIncome',
+                    title: '汇兑收益'
+                },
+                {
+                    field: 'exchangeIncomeYoy',
+                    title: '汇兑收益(占比%)'
+                },
+                {
+                    field: 'otherBusinessIncome',
+                    title: '其他业务收入'
+                },
+                {
+                    field: 'otherBusinessIncomeYoy',
+                    title: '其他业务收入(占比%)'
+                },
+                {
+                    field: 'assetDisposalIncome',
+                    title: '资产处置收益'
+                },
+                {
+                    field: 'assetDisposalIncomeYoy',
+                    title: '资产处置收益(占比%)'
+                },
+                {
+                    field: 'otherIncome',
+                    title: '其他收益'
+                },
+                {
+                    field: 'otherIncomeYoy',
+                    title: '其他收益(占比%)'
+                },
+                {
+                    field: 'operateExpense',
+                    title: '营业支出'
+                },
+                {
+                    field: 'operateExpenseYoy',
+                    title: '营业支出(占比%)'
+                },
+                {
+                    field: 'operateTaxAdd',
+                    title: '税金及附加'
+                },
+                {
+                    field: 'operateTaxAddYoy',
+                    title: '税金及附加(占比%)'
+                },
+                {
+                    field: 'businessManageExpense',
+                    title: '业务及管理费'
+                },
+                {
+                    field: 'businessManageExpenseYoy',
+                    title: '业务及管理费(占比%)'
+                },
+                {
+                    field: 'assetImpairmentLoss',
+                    title: '资产减值损失'
+                },
+                {
+                    field: 'assetImpairmentLossYoy',
+                    title: '资产减值损失(占比%)'
+                },
+                {
+                    field: 'creditImpairmentLoss',
+                    title: '信用减值损失'
+                },
+                {
+                    field: 'creditImpairmentLossYoy',
+                    title: '信用减值损失(占比%)'
+                },
+                {
+                    field: 'otherBusinessCost',
+                    title: '其他业务成本'
+                },
+                {
+                    field: 'otherBusinessCostYoy',
+                    title: '其他业务成本(占比%)'
+                },
+                {
+                    field: 'operateProfit',
+                    title: '营业利润'
+                },
+                {
+                    field: 'operateProfitYoy',
+                    title: '营业利润(占比%)'
+                },
+                {
+                    field: 'nonbusinessIncome',
+                    title: '营业外收入'
+                },
+                {
+                    field: 'nonbusinessIncomeYoy',
+                    title: '营业外收入(占比%)'
+                },
+                {
+                    field: 'nonbusinessExpense',
+                    title: '营业外支出'
+                },
+                {
+                    field: 'nonbusinessExpenseYoy',
+                    title: '营业外支出(占比%)'
+                },
+                {
+                    field: 'totalProfit',
+                    title: '利润总额'
+                },
+                {
+                    field: 'totalProfitYoy',
+                    title: '利润总额(占比%)'
+                },
+                {
+                    field: 'incomeTax',
+                    title: '所得税费用'
+                },
+                {
+                    field: 'incomeTaxYoy',
+                    title: '所得税费用(占比%)'
+                },
+                {
+                    field: 'netprofit',
+                    title: '净利润'
+                },
+                {
+                    field: 'netprofitYoy',
+                    title: '净利润(占比%)'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

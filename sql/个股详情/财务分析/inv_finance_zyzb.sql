@@ -80,5 +80,5 @@ create table `inv_finance_zyzb` (
     `xjllb` double default null comment '现金流量比率',
     `epsjbtz` double default null comment '归属净利润同比增长(%)',
     primary key (`id`) using btree,
-    key `inv_finance_zyzb_index` (`security_code`)
+    key `inv_finance_zyzb_index` (`security_code`,`report_type`)
 ) engine=innodb default charset=utf8mb4 collate=utf8mb4_general_ci comment='财务分析-重要指标';

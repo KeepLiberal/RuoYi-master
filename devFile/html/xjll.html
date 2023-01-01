@@ -1,0 +1,4833 @@
+<script type="text/template" id="xjllb_yh">
+    <table id="report_xjllb_table" style="table-layout: fixed;">
+        {{if data == null||data.length<=0 }}
+        <tbody>
+        <tr>
+            <td class="nodata">暂无数据</td>
+        </tr>
+        </tbody>
+        {{else}}
+        <tbody>
+        <tr>
+            <th class="tips-colname-Left" style="width: 366px;">
+                <span>现金流量表</span>
+            </th>
+            {{each data as value i}}
+            <th>
+                <span>{{formatDate(value.REPORT_DATE,'yyyy-MM-dd')}}</span>
+            </th>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>经营活动产生的现金流量</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span></span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>客户存款和同业及其他金融机构存放款项净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.DEPOSIT_IOFI_OTHER)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">客户存款净增加额</span>
+                <span>其中:客户存款净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.CUSTOMER_DEPOSIT_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">同业及其他金融机构存放款项净增加额</span>
+                <span style="display: none;">其中:同业及其他金融机构存放款项净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.IOFI_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>向中央银行借款净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.LOAN_PBC_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>存放中央银行和同业款项及其他金融机构净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.PBC_IOFI_REDUCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">存放中央银行款项净减少额</span>
+                <span>其中:存放中央银行款项净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.DEPOSIT_PBC_REDUCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">存放同业及其他金融机构款项净减少额</span>
+                <span style="display: none;">其中:存放同业及其他金融机构款项净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.DEPOSIT_IOFI_REDUCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>拆入资金及卖出回购金融资产款净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.BORROW_REPO_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">拆入资金净增加额</span>
+                <span>其中:拆入资金净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.BORROW_FUND_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">卖出回购金融资产款净增加额</span>
+                <span style="display: none;">其中:卖出回购金融资产款净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.SELL_REPO_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>拆出资金及买入返售金融资产净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.LEND_RESALE_REDUCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">拆出资金净减少额</span>
+                <span>其中:拆出资金净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.LEND_FUND_REDUCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">买入返售金融资产净减少额</span>
+                <span style="display: none;">其中:买入返售金融资产净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.BUY_RESALE_REDUCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>存款证净额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.NET_CD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>交易性金融负债净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.TRADE_FINLIAB_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>交易性金融资产净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.TRADE_FINASSET_REDUCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收取利息、手续费及佣金的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.RECEIVE_INTEREST_COMMISSION)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">收取利息的现金</span>
+                <span>其中:收取利息的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.RECEIVE_INTEREST)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">收取手续费及佣金的现金</span>
+                <span style="display: none;">其中:收取手续费及佣金的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.RECEIVE_COMMISSION)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>处置抵债资产收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.DISPOSAL_MORTGAGE_ASSET)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收回的已于以前年度核销的贷款</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.WITHDRAW_WRITEOFF_LOAN)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收到其他与经营活动有关的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.RECEIVE_OTHER_OPERATE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动现金流入的其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.OPERATE_INFLOW_OTHER)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动现金流入的平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.OPERATE_INFLOW_BALANCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>经营活动现金流入小计</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.TOTAL_OPERATE_INFLOW)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>客户贷款及垫款净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.LOAN_ADVANCE_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>向中央银行借款净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.LOAN_PBC_REDUCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>存放中央银行和同业及其他金融机构款项净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.PBC_IOFI_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">存放中央银行款项净增加额</span>
+                <span>其中:存放中央银行款项净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.DEPOSIT_PBC_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">存放同业及其他金融机构款项净增加额</span>
+                <span style="display: none;">其中:存放同业及其他金融机构款项净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.DEPOSIT_IOFI_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>同业及其他机构存放款减少净额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.INTERBANK_OTHER_REDUCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>已发行存款证净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.ISSUED_CD_REDUCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>拆出资金及买入返售金融资产净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.LEND_RESALE_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">拆出资金净增加额</span>
+                <span>其中:拆出资金净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.LEND_FUND_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">买入返售金融资产净增加额</span>
+                <span style="display: none;">其中:买入返售金融资产净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.BUY_RESALE_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>拆入资金及卖出回购金融资产款净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.BORROW_REPO_REDUCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">拆入资金净减少额</span>
+                <span>其中:拆入资金净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.BORROW_FUND_REDUCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">卖出回购金融资产净减少额</span>
+                <span style="display: none;">其中:卖出回购金融资产净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.SELL_REPO_REDUCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>交易性金融资产净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.TRADE_FINASSET_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>交易性金融负债净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.TRADE_FINLIAB_REDUCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>支付利息、手续费及佣金的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.PAY_INTEREST_COMMISSION)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">支付利息的现金</span>
+                <span>其中:支付利息的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.PAY_INTEREST)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">支付手续费及佣金的现金</span>
+                <span style="display: none;">其中:支付手续费及佣金的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.PAY_COMMISSION)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>支付给职工以及为职工支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.PAY_STAFF_CASH)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>支付的各项税费</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.PAY_ALL_TAX)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>购买融资租赁资产支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.BUY_FIN_LEASE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>应收账款净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.ACCOUNTS_RECE_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>支付其他与经营活动有关的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.PAY_OTHER_OPERATE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动现金流出的其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.OPERATE_OUTFLOW_OTHER)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动现金流出的平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.OPERATE_OUTFLOW_BALANCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>经营活动现金流出小计</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.TOTAL_OPERATE_OUTFLOW)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动产生的现金流量净额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.OPERATE_NETCASH_OTHER)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动产生的现金流量净额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.OPERATE_NETCASH_BALANCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>经营活动产生的现金流量净额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.NETCASH_OPERATE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>投资活动产生的现金流量</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span></span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收回投资收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.WITHDRAW_INVEST)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>取得投资收益收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.RECEIVE_INVEST_INCOME)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>其中:分得股利或利润所收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.RECEIVE_DIVIDEND_PROFIT)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>处置固定资产、无形资产和其他长期资产收回的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.DISPOSAL_LONG_ASSET)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>处置子公司、联营企业及合营企业投资及其他企业收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.DISPOSAL_SUBSIDIARY_JOINT)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收到的其他与投资活动有关的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.RECEIVE_OTHER_INVEST)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资活动现金流入的其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.INVEST_INFLOW_OTHER)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资活动现金流入的平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.INVEST_INFLOW_BALANCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>投资活动现金流入小计</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.TOTAL_INVEST_INFLOW)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.INVEST_PAY_CASH)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>购建固定资产、无形资产和其他长期资产支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.CONSTRUCT_LONG_ASSET)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>取得子公司及其他营业单位支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.OBTAIN_SUBSIDIARY_OTHER)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>支付其他与投资活动有关的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.PAY_OTHER_INVEST)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资活动现金流出的其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.INVEST_OUTFLOW_OTHER)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资活动现金流出的平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.INVEST_OUTFLOW_BALANCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>投资活动现金流出小计</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.TOTAL_INVEST_OUTFLOW)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资活动产生的现金流量净额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.INVEST_NETCASH_OTHER)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资活动产生的现金流量净额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.INVEST_NETCASH_BALANCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>投资活动产生的现金流量净额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.NETCASH_INVEST)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>筹资活动产生的现金流量</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span></span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>发行债券收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.ISSUE_BOND)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">发行次级债券所收到的现金</span>
+                <span>其中:发行次级债券所收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.ISSUE_SUBBOND)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">发行其他债券所收到的现金</span>
+                <span style="display: none;">其中:发行其他债券所收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.ISSUE_OTHER_BOND)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收到其他与筹资活动有关的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.RECEIVE_OTHER_FINANCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>吸收投资收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.ACCEPT_INVEST_CASH)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>其中:子公司吸收少数股东投资收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.SUBSIDIARY_ACCEPT_INVEST)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>发行存款证</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.ISSUE_CD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>增加股本所收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.RECEIVE_ADD_EQUITY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>筹资活动现金流入的其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.FINANCE_INFLOW_OTHER)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>筹资活动现金流入的平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.FINANCE_INFLOW_BALANCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>筹资活动现金流入小计</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.TOTAL_FINANCE_INFLOW)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>偿还债务所支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.PAY_DEBT_CASH)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>偿付债券利息支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.PAY_BOND_INTEREST)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>股份发行支付的费用</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.ISSUE_SHARES_EXPENSE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>支付其他与筹资活动有关的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.PAY_OTHER_FINANCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>分配股利、利润或偿付利息支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.ASSIGN_DIVIDEND_PORFIT)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>筹资活动现金流出的其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.FINANCE_OUTFLOW_OTHER)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>筹资活动现金流出的平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.FINANCE_OUTFLOW_BALANCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>筹资活动现金流出小计</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.TOTAL_FINANCE_OUTFLOW)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>筹资活动产生的现金流量净额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.FINANCE_NETCASH_OTHER)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>筹资活动产生的现金流量净额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.FINANCE_NETCASH_BALANCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>筹资活动产生的现金流量净额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.NETCASH_FINANCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>汇率变动对现金及现金等价物的影响</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.RATE_CHANGE_EFFECT)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>现金及现金等价物净增加额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.CCE_ADD_OTHER)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>现金及现金等价物净增加额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.CCE_ADD_BALANCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>现金及现金等价物净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.CCE_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>加:期初现金及现金等价物余额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.BEGIN_CCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>期末现金及现金等价物余额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.END_CCE_OTHER)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>期末现金及现金等价物余额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.END_CCE_BALANCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>期末现金及现金等价物余额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.END_CCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>补充资料</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span></span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>净利润</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.NETPROFIT)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>资产减值准备</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.ASSET_IMPAIRMENT)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>计提投资减值准备</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.PROVISION_INVEST_IMPAIRMENT)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>转回投资减值准备</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.TRANSFER_INVEST_IMPAIRMENT)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>计提贷款减值准备</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.PROVISION_LOAN_IMPAIRMENT)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>计提其他资产减值准备</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.OTHER_ASSET_IMPAIRMENT)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>计提预计负债</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.PROVISION_PREDICT_LIAB)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>固定资产和投资性房地产折旧</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.FA_IR_DEPR)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>固定资产折旧</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.FIXED_ASSET_DEPR)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>无形资产及长期待摊费用等摊销</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.IA_LPE_AMORTIZE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>无形资产摊销</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.IA_AMORTIZE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>长期待摊费用摊销</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.LPE_AMORTIZE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>长期资产摊销</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.LONGASSET_AMORTIZE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>处置固定资产、无形资产和其他长期资产的损失</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.DISPOSAL_LONGASSET_LOSS)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>固定资产报废损失</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.FA_SCRAP_LOSS)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>公允价值变动损失</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.FAIRVALUE_CHANGE_LOSS)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收到已核销款项</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.RECEIVE_WRITEOFF)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资损失</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.INVEST_LOSS)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>汇兑损失</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.EXCHANGE_LOSS)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>发行债券利息支出</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.BOND_INTEREST_EXPENSE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>递延所得税</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.DEFER_TAX)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>其中:递延所得税资产减少</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.DT_ASSET_REDUCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>递延所得税负债增加</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.DT_LIAB_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>存货的减少</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.INVENTORY_REDUCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>贷款的减少</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.LOAN_REDUCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>存款的增加</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.DEPOSIT_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>拆借款项的净增加</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.LEND_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>金融性资产的减少</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.FINASSET_REDUCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>金融性负债的增加</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.FINLIAB_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营性应收项目的减少</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.OPERATE_RECE_REDUCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营性应付项目的增加</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.OPERATE_PAYABLE_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>其他</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.OTHER)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动产生的现金流量净额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.FBOPERATE_NETCASH_OTHER)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动产生的现金流量净额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.FBOPERATE_NETCASH_BALANCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>经营活动产生的现金流量净额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.FBNETCASH_OPERATE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>债务转为资本</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.DEBT_TRANSFER_CAPITAL)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>一年内到期的可转换公司债券</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.CONVERT_BOND_1YEAR)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>融资租入固定资产</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.FINLEASE_OBTAIN_FA)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>不涉及现金收支的投资和筹资活动金额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.UNINVOLVE_INVESTFIN_OTHER)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>现金的期末余额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.END_CASH)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>减:现金的期初余额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.BEGIN_CASH)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>加:现金等价物的期末余额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.END_CASH_EQUIVALENTS)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>减:现金等价物的期初余额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.BEGIN_CASH_EQUIVALENTS)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>现金及现金等价物净增加额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.FBCCE_ADD_OTHER)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>现金及现金等价物净增加额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.FBCCE_ADD_BALANCE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>现金及现金等价物的净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatMoney(value.FBCCE_ADD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>审计意见(境内)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatStr(value.OPINION_TYPE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>审计意见(境外)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatStr(value.OSOPINION_TYPE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        </tbody>
+        {{/if}}
+    </table>
+</script>
+<script type="text/template" id="xjllb_yh_tb">
+    <table id="report_xjllb_table" style="table-layout: fixed;">
+        {{if data == null||data.length<=0 }}
+        <tbody>
+        <tr>
+            <td class="nodata">暂无数据</td>
+        </tr>
+        </tbody>
+        {{else}}
+        <tbody>
+        <tr>
+            <th class="tips-colname-Left" style="width: 366px;">
+                <span>现金流量表</span>
+            </th>
+            {{each data as value i}}
+            <th>
+                <span>{{formatDate(value.REPORT_DATE,'yyyy-MM-dd')}}</span>
+            </th>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>经营活动产生的现金流量</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span></span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>客户存款和同业及其他金融机构存放款项净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DEPOSIT_IOFI_OTHER_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">客户存款净增加额</span>
+                <span>其中:客户存款净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.CUSTOMER_DEPOSIT_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">同业及其他金融机构存放款项净增加额</span>
+                <span style="display: none;">其中:同业及其他金融机构存放款项净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.IOFI_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>向中央银行借款净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LOAN_PBC_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>存放中央银行和同业款项及其他金融机构净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PBC_IOFI_REDUCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">存放中央银行款项净减少额</span>
+                <span>其中:存放中央银行款项净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DEPOSIT_PBC_REDUCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">存放同业及其他金融机构款项净减少额</span>
+                <span style="display: none;">其中:存放同业及其他金融机构款项净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DEPOSIT_IOFI_REDUCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>拆入资金及卖出回购金融资产款净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BORROW_REPO_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">拆入资金净增加额</span>
+                <span>其中:拆入资金净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BORROW_FUND_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">卖出回购金融资产款净增加额</span>
+                <span style="display: none;">其中:卖出回购金融资产款净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.SELL_REPO_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>拆出资金及买入返售金融资产净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LEND_RESALE_REDUCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">拆出资金净减少额</span>
+                <span>其中:拆出资金净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LEND_FUND_REDUCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">买入返售金融资产净减少额</span>
+                <span style="display: none;">其中:买入返售金融资产净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BUY_RESALE_REDUCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>存款证净额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.NET_CD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>交易性金融负债净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TRADE_FINLIAB_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>交易性金融资产净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TRADE_FINASSET_REDUCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收取利息、手续费及佣金的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_INTEREST_COMMISSION_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">收取利息的现金</span>
+                <span>其中:收取利息的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_INTEREST_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">收取手续费及佣金的现金</span>
+                <span style="display: none;">其中:收取手续费及佣金的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_COMMISSION_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>处置抵债资产收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DISPOSAL_MORTGAGE_ASSET_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收回的已于以前年度核销的贷款</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.WITHDRAW_WRITEOFF_LOAN_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收到其他与经营活动有关的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_OTHER_OPERATE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动现金流入的其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OPERATE_INFLOW_OTHER_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动现金流入的平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OPERATE_INFLOW_BALANCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>经营活动现金流入小计</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TOTAL_OPERATE_INFLOW_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>客户贷款及垫款净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LOAN_ADVANCE_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>向中央银行借款净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LOAN_PBC_REDUCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>存放中央银行和同业及其他金融机构款项净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PBC_IOFI_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">存放中央银行款项净增加额</span>
+                <span>其中:存放中央银行款项净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DEPOSIT_PBC_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">存放同业及其他金融机构款项净增加额</span>
+                <span style="display: none;">其中:存放同业及其他金融机构款项净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DEPOSIT_IOFI_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>同业及其他机构存放款减少净额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INTERBANK_OTHER_REDUCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>已发行存款证净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ISSUED_CD_REDUCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>拆出资金及买入返售金融资产净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LEND_RESALE_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">拆出资金净增加额</span>
+                <span>其中:拆出资金净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LEND_FUND_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">买入返售金融资产净增加额</span>
+                <span style="display: none;">其中:买入返售金融资产净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BUY_RESALE_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>拆入资金及卖出回购金融资产款净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BORROW_REPO_REDUCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">拆入资金净减少额</span>
+                <span>其中:拆入资金净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BORROW_FUND_REDUCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">卖出回购金融资产净减少额</span>
+                <span style="display: none;">其中:卖出回购金融资产净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.SELL_REPO_REDUCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>交易性金融资产净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TRADE_FINASSET_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>交易性金融负债净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TRADE_FINLIAB_REDUCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>支付利息、手续费及佣金的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_INTEREST_COMMISSION_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">支付利息的现金</span>
+                <span>其中:支付利息的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_INTEREST_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">支付手续费及佣金的现金</span>
+                <span style="display: none;">其中:支付手续费及佣金的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_COMMISSION_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>支付给职工以及为职工支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_STAFF_CASH_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>支付的各项税费</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_ALL_TAX_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>购买融资租赁资产支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BUY_FIN_LEASE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>应收账款净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ACCOUNTS_RECE_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>支付其他与经营活动有关的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_OTHER_OPERATE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动现金流出的其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OPERATE_OUTFLOW_OTHER_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动现金流出的平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OPERATE_OUTFLOW_BALANCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>经营活动现金流出小计</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TOTAL_OPERATE_OUTFLOW_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动产生的现金流量净额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OPERATE_NETCASH_OTHER_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动产生的现金流量净额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OPERATE_NETCASH_BALANCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>经营活动产生的现金流量净额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.NETCASH_OPERATE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>投资活动产生的现金流量</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span></span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收回投资收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.WITHDRAW_INVEST_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>取得投资收益收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_INVEST_INCOME_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>其中:分得股利或利润所收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_DIVIDEND_PROFIT_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>处置固定资产、无形资产和其他长期资产收回的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DISPOSAL_LONG_ASSET_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>处置子公司、联营企业及合营企业投资及其他企业收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DISPOSAL_SUBSIDIARY_JOINT_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收到的其他与投资活动有关的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_OTHER_INVEST_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资活动现金流入的其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INVEST_INFLOW_OTHER_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资活动现金流入的平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INVEST_INFLOW_BALANCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>投资活动现金流入小计</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TOTAL_INVEST_INFLOW_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INVEST_PAY_CASH_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>购建固定资产、无形资产和其他长期资产支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.CONSTRUCT_LONG_ASSET_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>取得子公司及其他营业单位支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OBTAIN_SUBSIDIARY_OTHER_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>支付其他与投资活动有关的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_OTHER_INVEST_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资活动现金流出的其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INVEST_OUTFLOW_OTHER_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资活动现金流出的平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INVEST_OUTFLOW_BALANCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>投资活动现金流出小计</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TOTAL_INVEST_OUTFLOW_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资活动产生的现金流量净额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INVEST_NETCASH_OTHER_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资活动产生的现金流量净额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INVEST_NETCASH_BALANCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>投资活动产生的现金流量净额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.NETCASH_INVEST_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>筹资活动产生的现金流量</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span></span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>发行债券收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ISSUE_BOND_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">发行次级债券所收到的现金</span>
+                <span>其中:发行次级债券所收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ISSUE_SUBBOND_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">发行其他债券所收到的现金</span>
+                <span style="display: none;">其中:发行其他债券所收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ISSUE_OTHER_BOND_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收到其他与筹资活动有关的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_OTHER_FINANCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>吸收投资收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ACCEPT_INVEST_CASH_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>其中:子公司吸收少数股东投资收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.SUBSIDIARY_ACCEPT_INVEST_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>发行存款证</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ISSUE_CD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>增加股本所收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_ADD_EQUITY_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>筹资活动现金流入的其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FINANCE_INFLOW_OTHER_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>筹资活动现金流入的平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FINANCE_INFLOW_BALANCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>筹资活动现金流入小计</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TOTAL_FINANCE_INFLOW_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>偿还债务所支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_DEBT_CASH_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>偿付债券利息支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_BOND_INTEREST_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>股份发行支付的费用</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ISSUE_SHARES_EXPENSE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>支付其他与筹资活动有关的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_OTHER_FINANCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>分配股利、利润或偿付利息支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ASSIGN_DIVIDEND_PORFIT_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>筹资活动现金流出的其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FINANCE_OUTFLOW_OTHER_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>筹资活动现金流出的平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FINANCE_OUTFLOW_BALANCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>筹资活动现金流出小计</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TOTAL_FINANCE_OUTFLOW_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>筹资活动产生的现金流量净额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FINANCE_NETCASH_OTHER_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>筹资活动产生的现金流量净额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FINANCE_NETCASH_BALANCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>筹资活动产生的现金流量净额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.NETCASH_FINANCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>汇率变动对现金及现金等价物的影响</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RATE_CHANGE_EFFECT_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>现金及现金等价物净增加额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.CCE_ADD_OTHER_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>现金及现金等价物净增加额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.CCE_ADD_BALANCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>现金及现金等价物净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.CCE_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>加:期初现金及现金等价物余额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BEGIN_CCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>期末现金及现金等价物余额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.END_CCE_OTHER_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>期末现金及现金等价物余额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.END_CCE_BALANCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>期末现金及现金等价物余额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.END_CCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>补充资料</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span></span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>净利润</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.NETPROFIT_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>资产减值准备</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ASSET_IMPAIRMENT_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>计提投资减值准备</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PROVISION_INVEST_IMPAIRMENT_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>转回投资减值准备</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TRANSFER_INVEST_IMPAIRMENT_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>计提贷款减值准备</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PROVISION_LOAN_IMPAIRMENT_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>计提其他资产减值准备</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OTHER_ASSET_IMPAIRMENT_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>计提预计负债</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PROVISION_PREDICT_LIAB_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>固定资产和投资性房地产折旧</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FA_IR_DEPR_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>固定资产折旧</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FIXED_ASSET_DEPR_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>无形资产及长期待摊费用等摊销</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.IA_LPE_AMORTIZE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>无形资产摊销</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.IA_AMORTIZE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>长期待摊费用摊销</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LPE_AMORTIZE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>长期资产摊销</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LONGASSET_AMORTIZE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>处置固定资产、无形资产和其他长期资产的损失</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DISPOSAL_LONGASSET_LOSS_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>固定资产报废损失</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FA_SCRAP_LOSS_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>公允价值变动损失</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FAIRVALUE_CHANGE_LOSS_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收到已核销款项</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_WRITEOFF_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资损失</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INVEST_LOSS_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>汇兑损失</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.EXCHANGE_LOSS_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>发行债券利息支出</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BOND_INTEREST_EXPENSE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>递延所得税</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DEFER_TAX_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>其中:递延所得税资产减少</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DT_ASSET_REDUCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>递延所得税负债增加</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DT_LIAB_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>存货的减少</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INVENTORY_REDUCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>贷款的减少</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LOAN_REDUCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>存款的增加</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DEPOSIT_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>拆借款项的净增加</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LEND_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>金融性资产的减少</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FINASSET_REDUCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>金融性负债的增加</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FINLIAB_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营性应收项目的减少</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OPERATE_RECE_REDUCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营性应付项目的增加</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OPERATE_PAYABLE_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>其他</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OTHER_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动产生的现金流量净额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FBOPERATE_NETCASH_OTHER_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动产生的现金流量净额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FBOPERATE_NETCASH_BALANCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>经营活动产生的现金流量净额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FBNETCASH_OPERATE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>债务转为资本</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DEBT_TRANSFER_CAPITAL_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>一年内到期的可转换公司债券</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.CONVERT_BOND_1YEAR_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>融资租入固定资产</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FINLEASE_OBTAIN_FA_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>不涉及现金收支的投资和筹资活动金额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.UNINVOLVE_INVESTFIN_OTHER_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>现金的期末余额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.END_CASH_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>减:现金的期初余额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BEGIN_CASH_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>加:现金等价物的期末余额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.END_CASH_EQUIVALENTS_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>减:现金等价物的期初余额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BEGIN_CASH_EQUIVALENTS_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>现金及现金等价物净增加额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FBCCE_ADD_OTHER_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>现金及现金等价物净增加额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FBCCE_ADD_BALANCE_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>现金及现金等价物的净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FBCCE_ADD_YOY)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>审计意见(境内)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatStr(value.OPINION_TYPE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>审计意见(境外)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatStr(value.OSOPINION_TYPE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        </tbody>
+        {{/if}}
+    </table>
+</script>
+<script type="text/template" id="xjllb_yh_hb">
+    <table id="report_xjllb_table" style="table-layout: fixed;">
+        {{if data == null||data.length<=0 }}
+        <tbody>
+        <tr>
+            <td class="nodata">暂无数据</td>
+        </tr>
+        </tbody>
+        {{else}}
+        <tbody>
+        <tr>
+            <th class="tips-colname-Left" style="width: 366px;">
+                <span>现金流量表</span>
+            </th>
+            {{each data as value i}}
+            <th>
+                <span>{{formatDate(value.REPORT_DATE,'yyyy-MM-dd')}}</span>
+            </th>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>经营活动产生的现金流量</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span></span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>客户存款和同业及其他金融机构存放款项净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DEPOSIT_IOFI_OTHER_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">客户存款净增加额</span>
+                <span>其中:客户存款净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.CUSTOMER_DEPOSIT_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">同业及其他金融机构存放款项净增加额</span>
+                <span style="display: none;">其中:同业及其他金融机构存放款项净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.IOFI_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>向中央银行借款净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LOAN_PBC_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>存放中央银行和同业款项及其他金融机构净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PBC_IOFI_REDUCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">存放中央银行款项净减少额</span>
+                <span>其中:存放中央银行款项净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DEPOSIT_PBC_REDUCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">存放同业及其他金融机构款项净减少额</span>
+                <span style="display: none;">其中:存放同业及其他金融机构款项净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DEPOSIT_IOFI_REDUCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>拆入资金及卖出回购金融资产款净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BORROW_REPO_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">拆入资金净增加额</span>
+                <span>其中:拆入资金净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BORROW_FUND_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">卖出回购金融资产款净增加额</span>
+                <span style="display: none;">其中:卖出回购金融资产款净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.SELL_REPO_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>拆出资金及买入返售金融资产净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LEND_RESALE_REDUCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">拆出资金净减少额</span>
+                <span>其中:拆出资金净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LEND_FUND_REDUCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">买入返售金融资产净减少额</span>
+                <span style="display: none;">其中:买入返售金融资产净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BUY_RESALE_REDUCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>存款证净额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.NET_CD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>交易性金融负债净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TRADE_FINLIAB_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>交易性金融资产净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TRADE_FINASSET_REDUCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收取利息、手续费及佣金的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_INTEREST_COMMISSION_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">收取利息的现金</span>
+                <span>其中:收取利息的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_INTEREST_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">收取手续费及佣金的现金</span>
+                <span style="display: none;">其中:收取手续费及佣金的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_COMMISSION_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>处置抵债资产收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DISPOSAL_MORTGAGE_ASSET_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收回的已于以前年度核销的贷款</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.WITHDRAW_WRITEOFF_LOAN_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收到其他与经营活动有关的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_OTHER_OPERATE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动现金流入的其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OPERATE_INFLOW_OTHER_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动现金流入的平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OPERATE_INFLOW_BALANCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>经营活动现金流入小计</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TOTAL_OPERATE_INFLOW_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>客户贷款及垫款净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LOAN_ADVANCE_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>向中央银行借款净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LOAN_PBC_REDUCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>存放中央银行和同业及其他金融机构款项净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PBC_IOFI_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">存放中央银行款项净增加额</span>
+                <span>其中:存放中央银行款项净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DEPOSIT_PBC_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">存放同业及其他金融机构款项净增加额</span>
+                <span style="display: none;">其中:存放同业及其他金融机构款项净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DEPOSIT_IOFI_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>同业及其他机构存放款减少净额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INTERBANK_OTHER_REDUCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>已发行存款证净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ISSUED_CD_REDUCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>拆出资金及买入返售金融资产净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LEND_RESALE_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">拆出资金净增加额</span>
+                <span>其中:拆出资金净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LEND_FUND_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">买入返售金融资产净增加额</span>
+                <span style="display: none;">其中:买入返售金融资产净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BUY_RESALE_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>拆入资金及卖出回购金融资产款净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BORROW_REPO_REDUCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">拆入资金净减少额</span>
+                <span>其中:拆入资金净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BORROW_FUND_REDUCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">卖出回购金融资产净减少额</span>
+                <span style="display: none;">其中:卖出回购金融资产净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.SELL_REPO_REDUCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>交易性金融资产净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TRADE_FINASSET_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>交易性金融负债净减少额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TRADE_FINLIAB_REDUCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>支付利息、手续费及佣金的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_INTEREST_COMMISSION_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">支付利息的现金</span>
+                <span>其中:支付利息的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_INTEREST_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">支付手续费及佣金的现金</span>
+                <span style="display: none;">其中:支付手续费及佣金的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_COMMISSION_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>支付给职工以及为职工支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_STAFF_CASH_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>支付的各项税费</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_ALL_TAX_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>购买融资租赁资产支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BUY_FIN_LEASE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>应收账款净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ACCOUNTS_RECE_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>支付其他与经营活动有关的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_OTHER_OPERATE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动现金流出的其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OPERATE_OUTFLOW_OTHER_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动现金流出的平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OPERATE_OUTFLOW_BALANCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>经营活动现金流出小计</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TOTAL_OPERATE_OUTFLOW_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动产生的现金流量净额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OPERATE_NETCASH_OTHER_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动产生的现金流量净额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OPERATE_NETCASH_BALANCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>经营活动产生的现金流量净额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.NETCASH_OPERATE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>投资活动产生的现金流量</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span></span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收回投资收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.WITHDRAW_INVEST_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>取得投资收益收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_INVEST_INCOME_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>其中:分得股利或利润所收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_DIVIDEND_PROFIT_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>处置固定资产、无形资产和其他长期资产收回的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DISPOSAL_LONG_ASSET_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>处置子公司、联营企业及合营企业投资及其他企业收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DISPOSAL_SUBSIDIARY_JOINT_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收到的其他与投资活动有关的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_OTHER_INVEST_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资活动现金流入的其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INVEST_INFLOW_OTHER_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资活动现金流入的平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INVEST_INFLOW_BALANCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>投资活动现金流入小计</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TOTAL_INVEST_INFLOW_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INVEST_PAY_CASH_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>购建固定资产、无形资产和其他长期资产支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.CONSTRUCT_LONG_ASSET_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>取得子公司及其他营业单位支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OBTAIN_SUBSIDIARY_OTHER_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>支付其他与投资活动有关的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_OTHER_INVEST_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资活动现金流出的其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INVEST_OUTFLOW_OTHER_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资活动现金流出的平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INVEST_OUTFLOW_BALANCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>投资活动现金流出小计</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TOTAL_INVEST_OUTFLOW_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资活动产生的现金流量净额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INVEST_NETCASH_OTHER_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资活动产生的现金流量净额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INVEST_NETCASH_BALANCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>投资活动产生的现金流量净额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.NETCASH_INVEST_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>筹资活动产生的现金流量</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span></span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>发行债券收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ISSUE_BOND_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span style="display: none;">发行次级债券所收到的现金</span>
+                <span>其中:发行次级债券所收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ISSUE_SUBBOND_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span class="pl25">发行其他债券所收到的现金</span>
+                <span style="display: none;">其中:发行其他债券所收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ISSUE_OTHER_BOND_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收到其他与筹资活动有关的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_OTHER_FINANCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>吸收投资收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ACCEPT_INVEST_CASH_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>其中:子公司吸收少数股东投资收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.SUBSIDIARY_ACCEPT_INVEST_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>发行存款证</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ISSUE_CD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>增加股本所收到的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_ADD_EQUITY_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>筹资活动现金流入的其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FINANCE_INFLOW_OTHER_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>筹资活动现金流入的平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FINANCE_INFLOW_BALANCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>筹资活动现金流入小计</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TOTAL_FINANCE_INFLOW_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>偿还债务所支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_DEBT_CASH_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>偿付债券利息支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_BOND_INTEREST_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>股份发行支付的费用</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ISSUE_SHARES_EXPENSE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>支付其他与筹资活动有关的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PAY_OTHER_FINANCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>分配股利、利润或偿付利息支付的现金</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ASSIGN_DIVIDEND_PORFIT_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>筹资活动现金流出的其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FINANCE_OUTFLOW_OTHER_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>筹资活动现金流出的平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FINANCE_OUTFLOW_BALANCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>筹资活动现金流出小计</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TOTAL_FINANCE_OUTFLOW_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>筹资活动产生的现金流量净额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FINANCE_NETCASH_OTHER_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>筹资活动产生的现金流量净额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FINANCE_NETCASH_BALANCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>筹资活动产生的现金流量净额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.NETCASH_FINANCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>汇率变动对现金及现金等价物的影响</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RATE_CHANGE_EFFECT_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>现金及现金等价物净增加额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.CCE_ADD_OTHER_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>现金及现金等价物净增加额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.CCE_ADD_BALANCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>现金及现金等价物净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.CCE_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>加:期初现金及现金等价物余额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BEGIN_CCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>期末现金及现金等价物余额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.END_CCE_OTHER_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>期末现金及现金等价物余额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.END_CCE_BALANCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>期末现金及现金等价物余额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.END_CCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>补充资料</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span></span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>净利润</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.NETPROFIT_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>资产减值准备</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ASSET_IMPAIRMENT_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>计提投资减值准备</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PROVISION_INVEST_IMPAIRMENT_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>转回投资减值准备</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TRANSFER_INVEST_IMPAIRMENT_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>计提贷款减值准备</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PROVISION_LOAN_IMPAIRMENT_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>计提其他资产减值准备</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OTHER_ASSET_IMPAIRMENT_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>计提预计负债</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PROVISION_PREDICT_LIAB_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>固定资产和投资性房地产折旧</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FA_IR_DEPR_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>固定资产折旧</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FIXED_ASSET_DEPR_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>无形资产及长期待摊费用等摊销</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.IA_LPE_AMORTIZE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>无形资产摊销</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.IA_AMORTIZE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>长期待摊费用摊销</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LPE_AMORTIZE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>长期资产摊销</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LONGASSET_AMORTIZE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>处置固定资产、无形资产和其他长期资产的损失</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DISPOSAL_LONGASSET_LOSS_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>固定资产报废损失</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FA_SCRAP_LOSS_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>公允价值变动损失</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FAIRVALUE_CHANGE_LOSS_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>收到已核销款项</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.RECEIVE_WRITEOFF_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>投资损失</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INVEST_LOSS_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>汇兑损失</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.EXCHANGE_LOSS_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>发行债券利息支出</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BOND_INTEREST_EXPENSE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>递延所得税</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DEFER_TAX_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>其中:递延所得税资产减少</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DT_ASSET_REDUCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>递延所得税负债增加</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DT_LIAB_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>存货的减少</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.INVENTORY_REDUCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>贷款的减少</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LOAN_REDUCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>存款的增加</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DEPOSIT_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>拆借款项的净增加</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.LEND_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>金融性资产的减少</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FINASSET_REDUCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>金融性负债的增加</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FINLIAB_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营性应收项目的减少</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OPERATE_RECE_REDUCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营性应付项目的增加</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OPERATE_PAYABLE_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>其他</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.OTHER_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动产生的现金流量净额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FBOPERATE_NETCASH_OTHER_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>经营活动产生的现金流量净额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FBOPERATE_NETCASH_BALANCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>经营活动产生的现金流量净额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FBNETCASH_OPERATE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>债务转为资本</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DEBT_TRANSFER_CAPITAL_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>一年内到期的可转换公司债券</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.CONVERT_BOND_1YEAR_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>融资租入固定资产</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FINLEASE_OBTAIN_FA_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>不涉及现金收支的投资和筹资活动金额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.UNINVOLVE_INVESTFIN_OTHER_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>现金的期末余额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.END_CASH_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>减:现金的期初余额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BEGIN_CASH_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>加:现金等价物的期末余额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.END_CASH_EQUIVALENTS_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>减:现金等价物的期初余额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BEGIN_CASH_EQUIVALENTS_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>现金及现金等价物净增加额其他项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FBCCE_ADD_OTHER_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>现金及现金等价物净增加额平衡项目</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FBCCE_ADD_BALANCE_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+
+        <tr>
+            <td class="tips-fieldname-Left font-bold">
+                <span>现金及现金等价物的净增加额</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.FBCCE_ADD_QOQ)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>审计意见(境内)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatStr(value.OPINION_TYPE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left pl20">
+                <span>审计意见(境外)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatStr(value.OSOPINION_TYPE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        </tbody>
+        {{/if}}
+    </table>
+</script>

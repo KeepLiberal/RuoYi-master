@@ -215,7 +215,7 @@ public class RyTask {
     /**
      * 写出接口所有字段
      */
-    public void writeAllKey() throws IOException {
+    public void writeSqlFileWithoutComment() throws IOException {
         File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-without-comment.sql");
 
         File pafile = sqlFile.getParentFile();
@@ -254,7 +254,7 @@ public class RyTask {
     /**
      * 生成字段带有描述的sql文件
      */
-    private static void writeSqlFileWithComment() throws IOException {
+    private static void writeSqlFileWithComment(String fileNme) throws IOException {
         File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-with-comment.sql");
         File pafile = sqlFile.getParentFile();
         // 判断文件夹是否存在
@@ -267,8 +267,9 @@ public class RyTask {
         }
         // 遍历写入
         BufferedWriter bw = new BufferedWriter(new FileWriter(sqlFile));
-        for (String sql : getSqlListWithComment()) {
+        for (String sql : getSqlListWithComment(fileNme)) {
             bw.write(sql);
+            bw.write(System.getProperty("line.separator"));
         }
         bw.flush();
         bw.close();
@@ -277,8 +278,8 @@ public class RyTask {
     /**
      * 获取字段带描述的sql列表
      */
-    private static List<String> getSqlListWithComment() throws IOException {
-        File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/html/dev.html");
+    private static List<String> getSqlListWithComment(String fileNme) throws IOException {
+        File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/html/"+fileNme);
         File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-without-comment.sql");
         List<String> downloadHtmlList = readDownloadHtmlFile(htmlFile);
         List<String> sqlWithoutCommentList = readSqlFileWithoutComment(sqlFile);
@@ -346,7 +347,7 @@ public class RyTask {
      * main测试入口
      */
     public static void main(String[] args) throws IOException {
-        writeSqlFileWithComment();
+        writeSqlFileWithComment("bfb.html");
     }
 
     ///////////////////////////////////////////////////////示例代码//////////////////////////////////////////////////////

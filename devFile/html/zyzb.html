@@ -1,0 +1,944 @@
+<script type="text/template" id="tmpl_zyzb">
+    {{if data==null||data.length<=0 }}
+    <div class="no-data">
+        暂无数据
+    </div>
+    {{else}}
+    {{if type==0||type==1 }}
+    <table class="needScroll">
+        <tbody>
+        <tr>
+            <th class="tips-colname-Left">
+                <span>每股指标</span>
+            </th>
+            {{each data as value i}}
+            <th class="tips-fieldname-Right" data-value="{{formatDate(value.REPORT_DATE)}}">
+                <span>{{formatDate(value.REPORT_DATE,'yy-MM-dd')}}</span>
+            </th>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>基本每股收益(元)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.EPSJB,4)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>扣非每股收益(元)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.EPSKCJB,4)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>稀释每股收益(元)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.EPSXS,4)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>每股净资产(元)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.BPS,4)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>每股公积金(元)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.MGZBGJ,4)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>每股未分配利润(元)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.MGWFPLR,4)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>每股经营现金流(元)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.MGJYXJJE,4)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <th class="tips-colname-Left">
+                <span>成长能力指标</span>
+            </th>
+            {{each data as value i}}
+            <th class="tips-fieldname-Right">
+                <span>{{formatDate(value.REPORT_DATE,'yy-MM-dd')}}</span>
+            </th>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>营业总收入(元)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right" data-value="{{value.TOTALOPERATEREVE}}">
+                <span>{{formatMoney(value.TOTALOPERATEREVE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        {{if ctyp==4 }}
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>毛利润(元)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right" data-value="{{value.MLR}}">
+                <span>{{formatMoney(value.MLR)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        {{/if}}
+        <tr id="gsjlr" class="ChooseBlue">
+            <td class="tips-fieldname-Left">
+                <span>归属净利润(元)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right" data-value="{{value.PARENTNETPROFIT}}">
+                <span>{{formatMoney(value.PARENTNETPROFIT)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>扣非净利润(元)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right" data-value="{{value.KCFJCXSYJLR}}">
+                <span>{{formatMoney(value.KCFJCXSYJLR)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>营业总收入同比增长(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TOTALOPERATEREVETZ, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>归属净利润同比增长(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PARENTNETPROFITTZ, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>扣非净利润同比增长(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.KCFJCXSYJLRTZ, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>营业总收入滚动环比增长(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.YYZSRGDHBZC, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>归属净利润滚动环比增长(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.NETPROFITRPHBZC, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>扣非净利润滚动环比增长(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.KFJLRGDHBZC, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <th class="tips-colname-Left">
+                <span>盈利能力指标</span>
+            </th>
+            {{each data as value i}}
+            <th class="tips-fieldname-Right">
+                <span>{{formatDate(value.REPORT_DATE,'yy-MM-dd')}}</span>
+            </th>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>净资产收益率(加权)(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ROEJQ, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>净资产收益率(扣非/加权)(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ROEKCJQ, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>总资产收益率(加权)(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ZZCJLL, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        {{if ctype==4 }}
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>毛利率(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.XSMLL, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        {{/if}}
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>净利率(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.XSJLL, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        {{if cytpe==4 }}
+        <tr>
+            <th class="tips-colname-Left">
+                <span>收益质量指标</span>
+            </th>
+            {{each data as value i}}
+            <th class="tips-fieldname-Right">
+                <span>{{formatDate(value.REPORT_DATE,'yy-MM-dd')}}</span>
+            </th>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>预收账款/营业总收入</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.YSZKYYSR)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>销售净现金流/营业总收入</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.XSJXLYYSR)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>经营净现金流/营业总收入</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.JYXJLYYSR)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>实际税率(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TAXRATE, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        {{/if}}
+        <tr>
+            <th class="tips-colname-Left">
+                <span>财务风险指标</span>
+            </th>
+            {{each data as value i}}
+            <th class="tips-fieldname-Right">
+                <span>{{formatDate(value.REPORT_DATE,'yy-MM-dd')}}</span>
+            </th>
+            {{/each}}
+        </tr>
+        {{if ctype==4 }}
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>流动比率</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.LD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>速动比率</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.SD)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>现金流量比率</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.XJLLB)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        {{/if}}
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>资产负债率(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ZCFZL, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>权益乘数</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.QYCS)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>产权比率</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.CQBL)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        {{if ctype==4 }}
+        <tr>
+            <th class="tips-colname-Left">
+                <span>营运能力指标</span>
+            </th>
+            {{each data as value i}}
+            <th class="tips-fieldname-Right">
+                <span>{{formatDate(value.REPORT_DATE,'yy-MM-dd')}}</span>
+            </th>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>总资产周转天数(天)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.ZZCZZTS)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>存货周转天数(天)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.CHZZTS)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>应收账款周转天数(天)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.YSZKZZTS)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>总资产周转率(次)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.TOAZZL)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>存货周转率(次)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.CHZZL)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>应收账款周转率(次)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.YSZKZZL)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        {{else}}
+        <tr>
+            <th class="tips-colname-Left">
+                <span>专项指标</span>
+            </th>
+            {{each data as value i}}
+            <th class="tips-fieldname-Right">
+                <span>{{formatDate(value.REPORT_DATE,'yy-MM-dd')}}</span>
+            </th>
+            {{/each}}
+        </tr>
+        {{if ctype==3 }}
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>存款总额(元)</span>
+            </td>
+            {{each data as value i}}
+            <td data-value="{{value.TOTALDEPOSITS}}" class="tips-data-Right">
+                <span>{{formatMoney(value.TOTALDEPOSITS)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>贷款总额(元)</span>
+            </td>
+            {{each data as value i}}
+            <td data-value="{{value.GROSSLOANS}}" class="tips-data-Right">
+                <span>{{formatMoney(value.GROSSLOANS)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>存贷款比例</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.LTDRR)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>资本充足率(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.NEWCAPITALADER, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>核心资本充足率(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.HXYJBCZL, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>不良贷款率(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.NONPERLOAN, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>不良贷款拨备覆盖率(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.BLDKBBL, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>资本净额(元)</span>
+            </td>
+            {{each data as value i}}
+            <td data-value="{{value.NZBJE}}" class="tips-data-Right">
+                <span>{{formatMoney(value.NZBJE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        {{else if ctype==2 }}
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>总投资收益率(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TOTAL_ROI, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>净投资收益率(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.NET_ROI, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>已赚保费(元)</span>
+            </td>
+            {{each data as value i}}
+            <td data-value="{{value.EARNED_PREMIUM}}" class="tips-data-Right">
+                <span>{{formatMoney(value.EARNED_PREMIUM)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>赔付支出(元)</span>
+            </td>
+            {{each data as value i}}
+            <td data-value="{{value.COMPENSATE_EXPENSE}}" class="tips-data-Right">
+                <span>{{formatMoney(value.COMPENSATE_EXPENSE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>退保率(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.SURRENDER_RATE_LIFE, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>偿付能力充足率(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.SOLVENCY_AR, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        {{else if ctype==1 }}
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>净资本(元)</span>
+            </td>
+            {{each data as value i}}
+            <td data-value="{{value.JZB}}" class="tips-data-Right">
+                <span>{{formatMoney(value.JZB)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>净资产(元)</span>
+            </td>
+            {{each data as value i}}
+            <td data-value="{{value.JZC}}" class="tips-data-Right">
+                <span>{{formatMoney(value.JZC)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>净资本/净资产</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.JZBJZC)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>自营股票规模/净资产</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.ZYGPGMJZC)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>自营固定收益类证券规模/净资产</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.ZYGDSYLZQJZB)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>营运风险准备(元)</span>
+            </td>
+            {{each data as value i}}
+            <td data-value="{{value.YYFXZB}}" class="tips-data-Right">
+                <span>{{formatMoney(value.YYFXZB)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>经纪业务风险准备(元)</span>
+            </td>
+            {{each data as value i}}
+            <td data-value="{{value.JJYWFXZB}}" class="tips-data-Right">
+                <span>{{formatMoney(value.JJYWFXZB)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>证券自营业务风险准备(元)</span>
+            </td>
+            {{each data as value i}}
+            <td data-value="{{value.ZQZYYWFXZB}}" class="tips-data-Right">
+                <span>{{formatMoney(value.ZQZYYWFXZB)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>证券承销业务风险准备(元)</span>
+            </td>
+            {{each data as value i}}
+            <td data-value="{{value.ZQCXYWFXZB}}" class="tips-data-Right">
+                <span>{{formatMoney(value.ZQCXYWFXZB)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>融资融券业务风险准备(元)</span>
+            </td>
+            {{each data as value i}}
+            <td data-value="{{value.RZRQYWFXZB}}" class="tips-data-Right">
+                <span>{{formatMoney(value.RZRQYWFXZB)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        {{/if}}
+        {{/if}}
+        </tbody>
+    </table>
+    {{else}}
+    <table class="needScroll">
+        <tr>
+            <th class="tips-colname-Left">
+                <span>每股指标</span>
+            </th>
+            {{each data as value i}}
+            <th data-value="{{formatDate(value.REPORT_DATE)}}" class="tips-fieldname-Right">
+                <span>{{formatDate(value.REPORT_DATE,'yy-MM-dd')}}</span>
+            </th>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>摊薄每股收益(元)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.EPSJB,4)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>每股净资产(元)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.BPS,4)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>每股公积金(元)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.PER_CAPITAL_RESERVE,4)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>每股未分配利润(元)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.PER_UNASSIGN_PROFIT,4)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>每股经营现金流(元)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{toFixed(value.PER_NETCASH,4)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <th class="tips-colname-Left">
+                <span>成长能力指标</span>
+            </th>
+            {{each data as value i}}
+            <th class="tips-fieldname-Right">
+                <span>{{formatDate(value.REPORT_DATE,'yy-MM-dd')}}</span>
+            </th>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>营业总收入(元)</span>
+            </td>
+            {{each data as value i}}
+            <td data-value="{{value.TOTALOPERATEREVE}}" class="tips-data-Right">
+                <span>{{formatMoney(value.TOTALOPERATEREVE)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>毛利润(元)</span>
+            </td>
+            {{each data as value i}}
+            <td data-value="{{value.GROSS_PROFIT}}" class="tips-data-Right">
+                <span>{{formatMoney(value.GROSS_PROFIT)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr id="gsjlr" class="ChooseBlue">
+            <td class="tips-fieldname-Left">
+                <span>归属净利润(元)</span>
+            </td>
+            {{each data as value i}}
+            <td data-value="{{value.PARENTNETPROFIT}}" class="tips-data-Right">
+                <span>{{formatMoney(value.PARENTNETPROFIT)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>扣非净利润(元)</span>
+            </td>
+            {{each data as value i}}
+            <td data-value="{{value.DEDU_PARENT_PROFIT}}" class="tips-data-Right">
+                <span>{{formatMoney(value.DEDU_PARENT_PROFIT)}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>营业总收入同比增长(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.TOTALOPERATEREVETZ, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>归属净利润同比增长(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.PARENTNETPROFITTZ, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>扣非净利润同比增长(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.DPNP_YOY_RATIO, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>营业总收入滚动环比增长(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.YYZSRGDHBZC, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>归属净利润滚动环比增长(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.NETPROFITRPHBZC, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>扣非净利润滚动环比增长(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.KFJLRGDHBZC, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <th class="tips-colname-Left">
+                <span>盈利能力指标</span>
+            </th>
+            {{each data as value i}}
+            <th class="tips-fieldname-Right">
+                <span>{{formatDate(value.REPORT_DATE,'yy-MM-dd')}}</span>
+            </th>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>摊薄净资产收益率(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.ROE_DILUTED, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>摊薄总资产收益率(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.JROA, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        {{if ctype==4 }}
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>毛利率(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.GROSS_PROFIT_RATIO, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+        {{/if}}
+        <tr>
+            <td class="tips-fieldname-Left">
+                <span>净利率(%)</span>
+            </td>
+            {{each data as value i}}
+            <td class="tips-data-Right">
+                <span>{{formatPercent(value.NET_PROFIT_RATIO, '')}}</span>
+            </td>
+            {{/each}}
+        </tr>
+    </table>
+    {{/if}}
+    {{/if}}
+</script>

@@ -657,7 +657,6 @@ public class MyQuartzAsyncTask {
      */
     @Async("threadPoolTaskExecutor")
     public void getInterfaceAllKey(InvStock stock, String url, Boolean containMarket) {
-
         try {
             if (url.contains("'companyType'")) {
                 url = url.replace("'companyType'", stock.getStockType());
@@ -685,16 +684,21 @@ public class MyQuartzAsyncTask {
             } else {
                 url += stock.getCode();
             }
+
             String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
             if (StringUtils.isNotEmpty(jsonStr)) {
                 JSONObject jsonObject = JSONObject.parseObject(jsonStr);
-                if (jsonObject.containsKey("data") || jsonObject.containsKey("bgq") || jsonObject.containsKey("nd") || jsonObject.containsKey("jd")) {
-                    JSONArray dataArray = jsonObject.getJSONArray("data");
-                    if (!dataArray.isEmpty()) {
-                        Iterator<Object> iterator = dataArray.iterator();
-                        if (iterator.hasNext()) {
-                            JSONObject next = (JSONObject) iterator.next();
-                            RyTask.keySet.addAll(next.keySet());
+                Set<String> keySet = jsonObject.keySet();
+                for (String key : keySet){
+                    Object obj = jsonObject.get(key);
+                    if (obj instanceof JSONArray){
+                        JSONArray jsonArray = (JSONArray)obj;
+                        if (!jsonArray.isEmpty()) {
+                            Iterator<Object> iterator = jsonArray.iterator();
+                            if (iterator.hasNext()) {
+                                JSONObject next = (JSONObject) iterator.next();
+                                RyTask.keySet.addAll(next.keySet());
+                            }
                         }
                     }
                 }
