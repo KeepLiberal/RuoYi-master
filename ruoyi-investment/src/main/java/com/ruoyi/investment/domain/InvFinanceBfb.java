@@ -1,6 +1,8 @@
 package com.ruoyi.investment.domain;
 
 import java.util.Date;
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -338,6 +340,28 @@ public class InvFinanceBfb extends BaseEntity{
     public void setNetprofitYoy(Double netprofitYoy){this.netprofitYoy = netprofitYoy;}
     public Double getNetprofitYoy(){return netprofitYoy;}
 
+
+    public InvFinanceBfb() {
+        super();
+    }
+
+    public InvFinanceBfb(String securityCode, String reportType) {
+        this.securityCode = securityCode;
+        this.reportType = reportType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof InvFinanceBfb)) return false;
+        InvFinanceBfb that = (InvFinanceBfb) o;
+        return Objects.equals(securityCode, that.securityCode) && Objects.equals(reportType, that.reportType) && Objects.equals(reportDate, that.reportDate) && Objects.equals(operateIncome, that.operateIncome) && Objects.equals(operateIncomeYoy, that.operateIncomeYoy) && Objects.equals(interestNi, that.interestNi) && Objects.equals(interestNiYoy, that.interestNiYoy) && Objects.equals(feeCommissionNi, that.feeCommissionNi) && Objects.equals(feeCommissionNiYoy, that.feeCommissionNiYoy) && Objects.equals(investIncome, that.investIncome) && Objects.equals(investIncomeYoy, that.investIncomeYoy) && Objects.equals(fairvalueChangeIncome, that.fairvalueChangeIncome) && Objects.equals(fairvalueChangeIncomeYoy, that.fairvalueChangeIncomeYoy) && Objects.equals(exchangeIncome, that.exchangeIncome) && Objects.equals(exchangeIncomeYoy, that.exchangeIncomeYoy) && Objects.equals(otherBusinessIncome, that.otherBusinessIncome) && Objects.equals(otherBusinessIncomeYoy, that.otherBusinessIncomeYoy) && Objects.equals(assetDisposalIncome, that.assetDisposalIncome) && Objects.equals(assetDisposalIncomeYoy, that.assetDisposalIncomeYoy) && Objects.equals(otherIncome, that.otherIncome) && Objects.equals(otherIncomeYoy, that.otherIncomeYoy) && Objects.equals(operateExpense, that.operateExpense) && Objects.equals(operateExpenseYoy, that.operateExpenseYoy) && Objects.equals(operateTaxAdd, that.operateTaxAdd) && Objects.equals(operateTaxAddYoy, that.operateTaxAddYoy) && Objects.equals(businessManageExpense, that.businessManageExpense) && Objects.equals(businessManageExpenseYoy, that.businessManageExpenseYoy) && Objects.equals(assetImpairmentLoss, that.assetImpairmentLoss) && Objects.equals(assetImpairmentLossYoy, that.assetImpairmentLossYoy) && Objects.equals(creditImpairmentLoss, that.creditImpairmentLoss) && Objects.equals(creditImpairmentLossYoy, that.creditImpairmentLossYoy) && Objects.equals(otherBusinessCost, that.otherBusinessCost) && Objects.equals(otherBusinessCostYoy, that.otherBusinessCostYoy) && Objects.equals(operateProfit, that.operateProfit) && Objects.equals(operateProfitYoy, that.operateProfitYoy) && Objects.equals(nonbusinessIncome, that.nonbusinessIncome) && Objects.equals(nonbusinessIncomeYoy, that.nonbusinessIncomeYoy) && Objects.equals(nonbusinessExpense, that.nonbusinessExpense) && Objects.equals(nonbusinessExpenseYoy, that.nonbusinessExpenseYoy) && Objects.equals(totalProfit, that.totalProfit) && Objects.equals(totalProfitYoy, that.totalProfitYoy) && Objects.equals(incomeTax, that.incomeTax) && Objects.equals(incomeTaxYoy, that.incomeTaxYoy) && Objects.equals(netprofit, that.netprofit) && Objects.equals(netprofitYoy, that.netprofitYoy);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(securityCode, reportType, reportDate, operateIncome, operateIncomeYoy, interestNi, interestNiYoy, feeCommissionNi, feeCommissionNiYoy, investIncome, investIncomeYoy, fairvalueChangeIncome, fairvalueChangeIncomeYoy, exchangeIncome, exchangeIncomeYoy, otherBusinessIncome, otherBusinessIncomeYoy, assetDisposalIncome, assetDisposalIncomeYoy, otherIncome, otherIncomeYoy, operateExpense, operateExpenseYoy, operateTaxAdd, operateTaxAddYoy, businessManageExpense, businessManageExpenseYoy, assetImpairmentLoss, assetImpairmentLossYoy, creditImpairmentLoss, creditImpairmentLossYoy, otherBusinessCost, otherBusinessCostYoy, operateProfit, operateProfitYoy, nonbusinessIncome, nonbusinessIncomeYoy, nonbusinessExpense, nonbusinessExpenseYoy, totalProfit, totalProfitYoy, incomeTax, incomeTaxYoy, netprofit, netprofitYoy);
+    }
 
     @Override
     public String toString() {
