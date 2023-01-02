@@ -216,11 +216,14 @@ public class RyTask {
         keySet.clear();
 
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
+        String[] urlArr = interfaceUrls.split(";");
         for (InvStock stock : stockList) {
             //1.多线程获取接口字段
-            myQuartzAsyncTask.getInterfaceKey(stock, interfaceUrls);
+            for (String interfaceUrl : urlArr){
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty(interfaceUrl));
+            }
             //2.多线程下载接口所在的HTML文件
-            myQuartzAsyncTask.downInterfaceHtml(stock, webUrl);
+            myQuartzAsyncTask.downInterfaceHtml(stock, ev.getProperty(webUrl));
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
 

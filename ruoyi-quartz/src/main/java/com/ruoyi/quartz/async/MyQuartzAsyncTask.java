@@ -779,43 +779,41 @@ public class MyQuartzAsyncTask {
      * 多线程获取接口字段
      */
     @Async("threadPoolTaskExecutor")
-    public void getInterfaceKey(InvStock stock, String interfaceUrls) {
+    public void getInterfaceKey(InvStock stock, String interfaceUrl) {
         try {
-            String[] urlArr = interfaceUrls.split(";");
-            for (String url : urlArr) {
-                url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
-                url = url.replace("companyType=", "companyType=" + stock.getStockType());
-                
-                ZonedDateTime dateTime = ZonedDateTime.now();
-                int year = dateTime.getYear();
-                int month = dateTime.getMonthValue();
-                if (month < 3) {
-                    url = url.replace("dates=", "dates=" + (year - 1) + "-12-31");
-                }
-                if (month > 3 && month <= 6) {
-                    url = url.replace("dates=", "dates=" + year + "-3-31");
-                }
-                if (month > 6 && month <= 9) {
-                    url = url.replace("dates=", "dates=" + year + "-6-30");
-                }
-                if (month > 9 && month <= 12) {
-                    url = url.replace("dates=", "dates=" + year + "-9-30");
-                }
+            interfaceUrl = interfaceUrl.replace("code=", "code=" + stock.getMarket() + stock.getCode());
+            interfaceUrl = interfaceUrl.replace("companyType=", "companyType=" + stock.getStockType());
+            interfaceUrl = interfaceUrl.replace("ctype=", "ctype=" + stock.getStockType());
 
-                String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
-                if (StringUtils.isNotEmpty(jsonStr)) {
-                    JSONObject jsonObject = JSONObject.parseObject(jsonStr);
-                    Set<String> keySet = jsonObject.keySet();
-                    for (String key : keySet) {
-                        Object obj = jsonObject.get(key);
-                        if (obj instanceof JSONArray) {
-                            JSONArray jsonArray = (JSONArray) obj;
-                            if (!jsonArray.isEmpty()) {
-                                Iterator<Object> iterator = jsonArray.iterator();
-                                if (iterator.hasNext()) {
-                                    JSONObject next = (JSONObject) iterator.next();
-                                    RyTask.keySet.addAll(next.keySet());
-                                }
+            ZonedDateTime dateTime = ZonedDateTime.now();
+            int year = dateTime.getYear();
+            int month = dateTime.getMonthValue();
+            if (month < 3) {
+                interfaceUrl = interfaceUrl.replace("dates=", "dates=" + (year - 1) + "-12-31");
+            }
+            if (month > 3 && month <= 6) {
+                interfaceUrl = interfaceUrl.replace("dates=", "dates=" + year + "-3-31");
+            }
+            if (month > 6 && month <= 9) {
+                interfaceUrl = interfaceUrl.replace("dates=", "dates=" + year + "-6-30");
+            }
+            if (month > 9 && month <= 12) {
+                interfaceUrl = interfaceUrl.replace("dates=", "dates=" + year + "-9-30");
+            }
+
+            String jsonStr = HttpUtils.sendGet(interfaceUrl, new AtomicInteger(10));
+            if (StringUtils.isNotEmpty(jsonStr)) {
+                JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+                Set<String> keySet = jsonObject.keySet();
+                for (String key : keySet) {
+                    Object obj = jsonObject.get(key);
+                    if (obj instanceof JSONArray) {
+                        JSONArray jsonArray = (JSONArray) obj;
+                        if (!jsonArray.isEmpty()) {
+                            Iterator<Object> iterator = jsonArray.iterator();
+                            if (iterator.hasNext()) {
+                                JSONObject next = (JSONObject) iterator.next();
+                                RyTask.keySet.addAll(next.keySet());
                             }
                         }
                     }

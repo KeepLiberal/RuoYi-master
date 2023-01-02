@@ -6,6 +6,9 @@ inv:
   company-detail: http://f10.eastmoney.com/CompanySurvey/CompanySurveyAjax?code=
 
   #########################################################财务分析 开始#########################################################
+  #财务分析所在页面
+  finance-web: https://emweb:eastmoney:com/PC_HSF10/NewFinanceAnalysis/Index?type=web&code=
+  #重要指标
   finance-zyzb-bgq: https://emweb.securities.eastmoney.com/PC_HSF10/NewFinanceAnalysis/ZYZBAjaxNew?type=0&code=
   finance-zyzb-nd: https://emweb.securities.eastmoney.com/PC_HSF10/NewFinanceAnalysis/ZYZBAjaxNew?type=1&code=
   finance-zyzb-jd: https://emweb.securities.eastmoney.com/PC_HSF10/NewFinanceAnalysis/ZYZBAjaxNew?type=2&code=
