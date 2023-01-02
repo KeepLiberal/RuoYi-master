@@ -12,26 +12,26 @@ inv:
   #杜邦分析
   finance-dbfx: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/DBFXAjaxNew?code=
   #资产负债
-  finance-zcfz-date-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/zcfzbDateAjaxNew?companyType='companyType'&reportDateType=0&code=
-  finance-zcfz-date-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/zcfzbDateAjaxNew?companyType='companyType'&reportDateType=1&code=
-  finance-zcfz-ajax-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/zcfzbAjaxNew?companyType='companyType'&reportDateType=0&reportType=1&dates='dates'&code=
-  finance-zcfz-ajax-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/zcfzbAjaxNew?companyType='companyType'&reportDateType=1&reportType=1&dates='dates'&code=
+  finance-zcfz-date-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/zcfzbDateAjaxNew?companyType=&reportDateType=0&code=
+  finance-zcfz-date-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/zcfzbDateAjaxNew?companyType=&reportDateType=1&code=
+  finance-zcfz-ajax-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/zcfzbAjaxNew?companyType=&reportDateType=0&reportType=1&dates=&code=
+  finance-zcfz-ajax-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/zcfzbAjaxNew?companyType=&reportDateType=1&reportType=1&dates=&code=
   #利润
-  finance-lr-date-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/lrbDateAjaxNew?companyType='companyType'&reportDateType=0&code=
-  finance-lr-date-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/lrbDateAjaxNew?companyType='companyType'&reportDateType=1&code=
-  finance-lr-date-jd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/lrbDateAjaxNew?companyType='companyType'&reportDateType=2&code=
-  finance-lr-ajax-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/lrbAjaxNew?companyType='companyType'&reportDateType=0&reportType=1&dates='dates'&code=
-  finance-lr-ajax-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/lrbAjaxNew?companyType='companyType'&reportDateType=1&reportType=1&dates='dates'&code=
-  finance-lr-ajax-jd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/lrbAjaxNew?companyType='companyType'&reportDateType=0&reportType=2&dates='dates'&code=
+  finance-lr-date-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/lrbDateAjaxNew?companyType=&reportDateType=0&code=
+  finance-lr-date-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/lrbDateAjaxNew?companyType=&reportDateType=1&code=
+  finance-lr-date-jd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/lrbDateAjaxNew?companyType=&reportDateType=2&code=
+  finance-lr-ajax-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/lrbAjaxNew?companyType=&reportDateType=0&reportType=1&dates=&code=
+  finance-lr-ajax-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/lrbAjaxNew?companyType=&reportDateType=1&reportType=1&dates=&code=
+  finance-lr-ajax-jd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/lrbAjaxNew?companyType=&reportDateType=0&reportType=2&dates=&code=
   #现金流量
-  finance-xjll-date-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbDateAjaxNew?companyType='companyType'&reportDateType=0&code=
-  finance-xjll-date-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbDateAjaxNew?companyType='companyType'&reportDateType=1&code=
-  finance-xjll-date-jd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbDateAjaxNew?companyType='companyType'&reportDateType=2&code=
-  finance-xjll-ajax-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbAjaxNew?companyType='companyType'&reportDateType=0&reportType=1&dates='dates'&code=
-  finance-xjll-ajax-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbAjaxNew?companyType='companyType'&reportDateType=1&reportType=1&dates='dates'&code=
-  finance-xjll-ajax-jd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbAjaxNew?companyType='companyType'&reportDateType=0&reportType=2&dates='dates'&code=
+  finance-xjll-date-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbDateAjaxNew?companyType=&reportDateType=0&code=
+  finance-xjll-date-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbDateAjaxNew?companyType=&reportDateType=1&code=
+  finance-xjll-date-jd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbDateAjaxNew?companyType=&reportDateType=2&code=
+  finance-xjll-ajax-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbAjaxNew?companyType=&reportDateType=0&reportType=1&dates=&code=
+  finance-xjll-ajax-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbAjaxNew?companyType=&reportDateType=1&reportType=1&dates=&code=
+  finance-xjll-ajax-jd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/xjllbAjaxNew?companyType=&reportDateType=0&reportType=2&dates=&code=
   #百分比
-  finance-bfb-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/bfbbbAjaxNew?ctype='ctype'&type=0&code=
-  finance-bfb-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/bfbbbAjaxNew?ctype='ctype'&type=1&code=
-  finance-bfb-jd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/bfbbbAjaxNew?ctype='ctype'&type=2&code=
+  finance-bfb-bgq: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/bfbbbAjaxNew?ctype=&type=0&code=
+  finance-bfb-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/bfbbbAjaxNew?ctype=&type=1&code=
+  finance-bfb-jd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/bfbbbAjaxNew?ctype=&type=2&code=
   #########################################################财务分析 结束#########################################################

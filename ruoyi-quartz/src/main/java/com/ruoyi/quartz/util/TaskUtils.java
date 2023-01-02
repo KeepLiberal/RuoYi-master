@@ -20,16 +20,16 @@ public class TaskUtils {
     /**
      * 生成SQL文件
      */
-    public static void writeSqlFile(List<InvStock> stockList, String interfaceCode) throws IOException {
-        writeSqlFileWithoutComment(interfaceCode);
-        writeSqlFileWithComment(stockList, interfaceCode);
+    public static void writeSqlFile(List<InvStock> stockList) throws IOException {
+        writeSqlFileWithoutComment();
+        writeSqlFileWithComment(stockList);
     }
 
     /**
      * 生成字段不带有描述的SQL文件
      */
-    private static void writeSqlFileWithoutComment(String interfaceCode) throws IOException {
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/sql/dev-"+interfaceCode+"-without.sql");
+    private static void writeSqlFileWithoutComment() throws IOException {
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/sql/dev-without.sql");
         File pafile = sqlFile.getParentFile();
         // 判断文件夹是否存在
         if (!pafile.exists()) {
@@ -43,9 +43,9 @@ public class TaskUtils {
         BufferedWriter bw = new BufferedWriter(new FileWriter(sqlFile));
         for (String key : RyTask.keySet) {
             String sql = "";
-            if(key.endsWith("_YOY")){
+            if (key.endsWith("_YOY")) {
                 sql = "`" + key + "` double default null comment '(环比%)'";
-            }else{
+            } else {
                 sql = "`" + key + "` double default null comment ''";
             }
             bw.write(sql);
@@ -58,8 +58,8 @@ public class TaskUtils {
     /**
      * 生成字段带有描述的SQL文件
      */
-    private static void writeSqlFileWithComment(List<InvStock> stockList, String interfaceCode) throws IOException {
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/sql/dev-"+interfaceCode+".sql");
+    private static void writeSqlFileWithComment(List<InvStock> stockList) throws IOException {
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/sql/dev-with.sql");
         File pafile = sqlFile.getParentFile();
         // 判断文件夹是否存在
         if (!pafile.exists()) {
@@ -71,7 +71,7 @@ public class TaskUtils {
         }
         // 遍历写入
         BufferedWriter bw = new BufferedWriter(new FileWriter(sqlFile));
-        for (String sql : getSqlListWithComment(stockList, interfaceCode)) {
+        for (String sql : getSqlListWithComment(stockList)) {
             bw.write(sql);
             bw.write(System.getProperty("line.separator"));
         }
@@ -82,14 +82,14 @@ public class TaskUtils {
     /**
      * 获取字段带描述的SQL列表
      */
-    private static List<String> getSqlListWithComment(List<InvStock> stockList, String interfaceCode) throws IOException {
+    private static List<String> getSqlListWithComment(List<InvStock> stockList) throws IOException {
         List<String> htmlLineList = new ArrayList<>();
 
         Set<String> set = new HashSet<>();
-        for (InvStock stock : stockList){
-            File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/downloadHtml/html/"+interfaceCode+"/dev-" + stock.getCode() + ".html");
-            for (String htmlLine : readDownloadHtmlFile(htmlFile)){
-                if (set.add(htmlLine)){
+        for (InvStock stock : stockList) {
+            File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/downloadHtml/html/" + stock.getCode() + ".html");
+            for (String htmlLine : readDownloadHtmlFile(htmlFile)) {
+                if (set.add(htmlLine)) {
                     htmlLineList.add(htmlLine);
                 }
             }
@@ -97,15 +97,15 @@ public class TaskUtils {
 
         List<String> sqlWithCommentList = new ArrayList<>();
         for (String key : RyTask.keySet) {
-            for (int i=0; i<htmlLineList.size(); i++) {
+            for (int i = 0; i < htmlLineList.size(); i++) {
                 String htmlKey = htmlLineList.get(i);
-                if (htmlKey.contains("(value."+key+")")) {
-                    String chinese = StringUtils.getChinese(htmlLineList.get(i-1));
+                if (htmlKey.contains("(value." + key + ")")) {
+                    String chinese = StringUtils.getChinese(htmlLineList.get(i - 1));
                     String sql = "";
-                    if(key.endsWith("_YOY")){
-                        sql = "`" + key + "` double default null comment '"+chinese+"(环比%)'";
-                    }else{
-                        sql = "`" + key + "` double default null comment '"+chinese+"'";
+                    if (key.endsWith("_YOY")) {
+                        sql = "`" + key + "` double default null comment '" + chinese + "(环比%)'";
+                    } else {
+                        sql = "`" + key + "` double default null comment '" + chinese + "'";
                     }
                     sqlWithCommentList.add(sql);
                     break;
@@ -125,8 +125,8 @@ public class TaskUtils {
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line = null;
         while ((line = br.readLine()) != null) {
-            if (line.contains("(value.") || StringUtils.isContainChinese(line)){
-                if (keySet.add(line)){
+            if (line.contains("(value.") || StringUtils.isContainChinese(line)) {
+                if (keySet.add(line)) {
                     keyList.add(line);
                 }
             }

@@ -64,7 +64,8 @@ public class MyQuartzAsyncTask {
              */
             String companyType = stock.getStockType();
             if (null != companyType) {
-                url = url.replace("'companyType'", companyType);
+                url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
+                url = url.replace("companyType=", "companyType=" + companyType);
                 String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
                 if (StringUtils.isNotEmpty(jsonStr)) {
                     JSONObject jsonObject = JSONObject.parseObject(jsonStr);
@@ -94,10 +95,11 @@ public class MyQuartzAsyncTask {
                 }
             } else {
                 for (int i = 1; i < 20; i++) {//目前财富通为1-4类
-                    url = url.replace("'companyType'", String.valueOf(i));
+                    url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
+                    url = url.replace("companyType=", "companyType=" + String.valueOf(i));
                     String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
                     //调用完接口链接后回退到原始链接
-                    url = url.replace("companyType=" + String.valueOf(i), "companyType='companyType'");
+                    url = url.replace("companyType=" + i, "companyType=");
                     if (StringUtils.isNotEmpty(jsonStr)) {
                         JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                         Set<String> keySet = jsonObject.keySet();
@@ -146,6 +148,7 @@ public class MyQuartzAsyncTask {
     @Async("threadPoolTaskExecutor")
     public void invFinanceZyzbTask(InvStock stock, String url, String reportType, AtomicInteger count) {
         try {
+            url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
             String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
             if (StringUtils.isNotEmpty(jsonStr)) {
                 JSONObject jsonObject = JSONObject.parseObject(jsonStr);
@@ -216,11 +219,12 @@ public class MyQuartzAsyncTask {
     @Async("threadPoolTaskExecutor")
     public void invFinanceDbfxTask(InvStock stock, String url, AtomicInteger count) {
         try {
+            url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
             String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
             if (StringUtils.isNotEmpty(jsonStr)) {
                 JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                 Set<String> reportTypes = jsonObject.keySet();
-                for (String reportType : reportTypes){
+                for (String reportType : reportTypes) {
                     JSONArray jsonArray = jsonObject.getJSONArray(reportType);
                     if (!jsonArray.isEmpty()) {
                         List<InvFinanceDbfx> entityList = invFinanceDbfxMapper.selectInvFinanceDbfxList(new InvFinanceDbfx(stock.getCode(), reportType));
@@ -295,7 +299,7 @@ public class MyQuartzAsyncTask {
             }
             if (null != companyType && dateList.size() > 0) {
                 List<InvFinanceZcfz> entityList = new ArrayList<InvFinanceZcfz>();
-                entityList.addAll(invFinanceZcfzMapper.selectInvFinanceZcfzList(new InvFinanceZcfz(stock.getCode(),reportType)));
+                entityList.addAll(invFinanceZcfzMapper.selectInvFinanceZcfzList(new InvFinanceZcfz(stock.getCode(), reportType)));
                 Map<String, InvFinanceZcfz> entityMap = new HashMap<String, InvFinanceZcfz>();
                 for (int i = 0; i < entityList.size(); i++) {
                     InvFinanceZcfz zcfz = entityList.get(i);
@@ -319,10 +323,12 @@ public class MyQuartzAsyncTask {
                             datesSb.append(date);
                         }
                     }
-                    url = url.replace("'companyType'", companyType).replace("'dates'", datesSb.toString());
+                    url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
+                    url = url.replace("companyType=", "companyType=" + stock.getStockType());
+                    url = url.replace("dates=", "dates=" + datesSb);
                     String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
                     //调用完接口链接后回退到原始链接
-                    url = url.replace("dates=" + datesSb.toString(), "dates='dates'");
+                    url = url.replace("dates=" + datesSb, "dates=");
                     if (StringUtils.isNotEmpty(jsonStr)) {
                         JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                         Set<String> keySet = jsonObject.keySet();
@@ -350,7 +356,7 @@ public class MyQuartzAsyncTask {
                                     Iterator<Object> iterator = jsonArray.iterator();
                                     while (iterator.hasNext()) {
                                         //反射赋值
-                                        InvFinanceZcfz entity = new InvFinanceZcfz(stock.getCode(),reportType);
+                                        InvFinanceZcfz entity = new InvFinanceZcfz(stock.getCode(), reportType);
                                         Class<? extends InvFinanceZcfz> clazz = entity.getClass();
                                         Field[] declaredFields = clazz.getDeclaredFields();
                                         JSONObject next = (JSONObject) iterator.next();
@@ -371,15 +377,15 @@ public class MyQuartzAsyncTask {
                                                 if ("class java.lang.String".equals(genericType)) {
                                                     //审计意见字典数据匹配
                                                     if (StringUtils.isNotEmpty(valueString) && ("opinionType".equals(fieldName) || "osopinionType".equals(fieldName))) {
-                                                        for (SysDictData dict : dictDatas){
-                                                            if (dict.getDictLabel().equals(valueString)){
+                                                        for (SysDictData dict : dictDatas) {
+                                                            if (dict.getDictLabel().equals(valueString)) {
                                                                 field.set(entity, dict.getDictValue());
                                                             }
                                                         }
-                                                        if (StringUtils.isEmpty((String)field.get(entity))){
-                                                            log.error(">>>invFinanceZcfzTask任务:"+entity.getSecurityCode()+" "+entity.getReportType()+" "+entity.getReportDate()+" 对应的审计意见:"+valueString+" 不在字典表opinion_type内，请添加");
+                                                        if (StringUtils.isEmpty((String) field.get(entity))) {
+                                                            log.error(">>>invFinanceZcfzTask任务:" + entity.getSecurityCode() + " " + entity.getReportType() + " " + entity.getReportDate() + " 对应的审计意见:" + valueString + " 不在字典表opinion_type内，请添加");
                                                         }
-                                                    }else{
+                                                    } else {
                                                         field.set(entity, valueString);
                                                     }
                                                 }
@@ -429,7 +435,7 @@ public class MyQuartzAsyncTask {
             }
             if (null != companyType && dateList.size() > 0) {
                 List<InvFinanceLr> entityList = new ArrayList<InvFinanceLr>();
-                entityList.addAll(invFinanceLrMapper.selectInvFinanceLrList(new InvFinanceLr(stock.getCode(),reportType)));
+                entityList.addAll(invFinanceLrMapper.selectInvFinanceLrList(new InvFinanceLr(stock.getCode(), reportType)));
                 Map<String, InvFinanceLr> entityMap = new HashMap<String, InvFinanceLr>();
                 for (int i = 0; i < entityList.size(); i++) {
                     InvFinanceLr lr = entityList.get(i);
@@ -453,10 +459,12 @@ public class MyQuartzAsyncTask {
                             datesSb.append(date);
                         }
                     }
-                    url = url.replace("'companyType'", companyType).replace("'dates'", datesSb.toString());
+                    url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
+                    url = url.replace("companyType=", "companyType=" + stock.getStockType());
+                    url = url.replace("dates=", "dates=" + datesSb);
                     String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
                     //调用完接口链接后回退到原始链接
-                    url = url.replace("dates=" + datesSb.toString(), "dates='dates'");
+                    url = url.replace("dates=" + datesSb, "dates=");
                     if (StringUtils.isNotEmpty(jsonStr)) {
                         JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                         Set<String> keySet = jsonObject.keySet();
@@ -484,7 +492,7 @@ public class MyQuartzAsyncTask {
                                     Iterator<Object> iterator = jsonArray.iterator();
                                     while (iterator.hasNext()) {
                                         //反射赋值
-                                        InvFinanceLr entity = new InvFinanceLr(stock.getCode(),reportType);
+                                        InvFinanceLr entity = new InvFinanceLr(stock.getCode(), reportType);
                                         Class<? extends InvFinanceLr> clazz = entity.getClass();
                                         Field[] declaredFields = clazz.getDeclaredFields();
                                         JSONObject next = (JSONObject) iterator.next();
@@ -505,15 +513,15 @@ public class MyQuartzAsyncTask {
                                                 if ("class java.lang.String".equals(genericType)) {
                                                     //审计意见字典匹配
                                                     if (StringUtils.isNotEmpty(valueString) && ("opinionType".equals(fieldName) || "osopinionType".equals(fieldName))) {
-                                                        for (SysDictData dict : dictDatas){
-                                                            if (dict.getDictLabel().equals(valueString)){
+                                                        for (SysDictData dict : dictDatas) {
+                                                            if (dict.getDictLabel().equals(valueString)) {
                                                                 field.set(entity, dict.getDictValue());
                                                             }
                                                         }
-                                                        if (StringUtils.isEmpty((String)field.get(entity))){
-                                                            log.error(">>>invFinanceLrTask任务:"+entity.getSecurityCode()+" "+entity.getReportType()+" "+entity.getReportDate()+" 对应的审计意见:"+valueString+" 不在字典表opinion_type内，请添加");
+                                                        if (StringUtils.isEmpty((String) field.get(entity))) {
+                                                            log.error(">>>invFinanceLrTask任务:" + entity.getSecurityCode() + " " + entity.getReportType() + " " + entity.getReportDate() + " 对应的审计意见:" + valueString + " 不在字典表opinion_type内，请添加");
                                                         }
-                                                    }else{
+                                                    } else {
                                                         field.set(entity, valueString);
                                                     }
                                                 }
@@ -563,7 +571,7 @@ public class MyQuartzAsyncTask {
             }
             if (null != companyType && dateList.size() > 0) {
                 List<InvFinanceXjll> entityList = new ArrayList<InvFinanceXjll>();
-                entityList.addAll(invFinanceXjllMapper.selectInvFinanceXjllList(new InvFinanceXjll(stock.getCode(),reportType)));
+                entityList.addAll(invFinanceXjllMapper.selectInvFinanceXjllList(new InvFinanceXjll(stock.getCode(), reportType)));
                 Map<String, InvFinanceXjll> entityMap = new HashMap<String, InvFinanceXjll>();
                 for (int i = 0; i < entityList.size(); i++) {
                     InvFinanceXjll xjll = entityList.get(i);
@@ -587,10 +595,12 @@ public class MyQuartzAsyncTask {
                             datesSb.append(date);
                         }
                     }
-                    url = url.replace("'companyType'", companyType).replace("'dates'", datesSb.toString());
+                    url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
+                    url = url.replace("companyType=", "companyType=" + stock.getStockType());
+                    url = url.replace("dates=", "dates=" + datesSb);
                     String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
                     //调用完接口链接后回退到原始链接
-                    url = url.replace("dates=" + datesSb.toString(), "dates='dates'");
+                    url = url.replace("dates=" + datesSb, "dates=");
                     if (StringUtils.isNotEmpty(jsonStr)) {
                         JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                         Set<String> keySet = jsonObject.keySet();
@@ -618,7 +628,7 @@ public class MyQuartzAsyncTask {
                                     Iterator<Object> iterator = jsonArray.iterator();
                                     while (iterator.hasNext()) {
                                         //反射赋值
-                                        InvFinanceXjll entity = new InvFinanceXjll(stock.getCode(),reportType);
+                                        InvFinanceXjll entity = new InvFinanceXjll(stock.getCode(), reportType);
                                         Class<? extends InvFinanceXjll> clazz = entity.getClass();
                                         Field[] declaredFields = clazz.getDeclaredFields();
                                         JSONObject next = (JSONObject) iterator.next();
@@ -639,15 +649,15 @@ public class MyQuartzAsyncTask {
                                                 if ("class java.lang.String".equals(genericType)) {
                                                     //审计意见字典匹配
                                                     if (StringUtils.isNotEmpty(valueString) && ("opinionType".equals(fieldName) || "osopinionType".equals(fieldName))) {
-                                                        for (SysDictData dict : dictDatas){
-                                                            if (dict.getDictLabel().equals(valueString)){
+                                                        for (SysDictData dict : dictDatas) {
+                                                            if (dict.getDictLabel().equals(valueString)) {
                                                                 field.set(entity, dict.getDictValue());
                                                             }
                                                         }
-                                                        if (StringUtils.isEmpty((String)field.get(entity))){
-                                                            log.error(">>>invFinanceXjllTask任务:"+entity.getSecurityCode()+" "+entity.getReportType()+" "+entity.getReportDate()+" 对应的审计意见:"+valueString+" 不在字典表opinion_type内，请添加");
+                                                        if (StringUtils.isEmpty((String) field.get(entity))) {
+                                                            log.error(">>>invFinanceXjllTask任务:" + entity.getSecurityCode() + " " + entity.getReportType() + " " + entity.getReportDate() + " 对应的审计意见:" + valueString + " 不在字典表opinion_type内，请添加");
                                                         }
-                                                    }else{
+                                                    } else {
                                                         field.set(entity, valueString);
                                                     }
                                                 }
@@ -685,14 +695,16 @@ public class MyQuartzAsyncTask {
     @Async("threadPoolTaskExecutor")
     public void invFinanceBfbTask(InvStock stock, String url, String reportType, AtomicInteger count) {
         try {
-            String jsonStr = HttpUtils.sendGet(url.replace("'ctype'",stock.getStockType()), new AtomicInteger(10));
+            url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
+            url = url.replace("ctype=", "ctype=" + stock.getStockType());
+            String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
             if (StringUtils.isNotEmpty(jsonStr)) {
                 JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                 Set<String> keySet = jsonObject.keySet();
                 for (String key : keySet) {
                     Object obj = jsonObject.get(key);
                     if (obj instanceof JSONArray) {
-                        JSONArray jsonArray = (JSONArray)obj;
+                        JSONArray jsonArray = (JSONArray) obj;
                         if (!jsonArray.isEmpty()) {
                             List<InvFinanceBfb> entitys = invFinanceBfbMapper.selectInvFinanceBfbList(new InvFinanceBfb(stock.getCode(), reportType));
                             Map<String, InvFinanceBfb> entityMap = new HashMap<>();
@@ -701,12 +713,12 @@ public class MyQuartzAsyncTask {
                             }
                             //反射赋值
                             List<InvFinanceBfb> entityList = new ArrayList<>();
-                            for(int i=0;i<jsonArray.size()-1;i+=2){
+                            for (int i = 0; i < jsonArray.size() - 1; i += 2) {
                                 InvFinanceBfb entity = new InvFinanceBfb(stock.getCode(), reportType);
                                 Class<? extends InvFinanceBfb> clazz = entity.getClass();
 
                                 JSONObject next1 = jsonArray.getJSONObject(i);
-                                JSONObject next2 = jsonArray.getJSONObject(i+1);
+                                JSONObject next2 = jsonArray.getJSONObject(i + 1);
                                 Field[] declaredFields = clazz.getDeclaredFields();
                                 for (Field field : declaredFields) {
                                     field.setAccessible(true);
@@ -715,11 +727,11 @@ public class MyQuartzAsyncTask {
                                     fieldName = StringUtils.toUnderScoreCase(fieldName).toUpperCase();
                                     String valueString = null;
                                     if (!"REPORT_TYPE".equals(fieldName)) {
-                                        if (!fieldName.endsWith("_YOY")){//数据
+                                        if (!fieldName.endsWith("_YOY")) {//数据
                                             valueString = next1.getString(fieldName);
                                         }
-                                        if (fieldName.endsWith("_YOY")){//占比
-                                            valueString = next2.getString(fieldName.replace("_YOY",""));
+                                        if (fieldName.endsWith("_YOY")) {//占比
+                                            valueString = next2.getString(fieldName.replace("_YOY", ""));
                                         }
                                         if ("class java.lang.Double".equals(genericType)) {
                                             Double value = NumFormatUtil.toDouble(valueString);
@@ -736,7 +748,7 @@ public class MyQuartzAsyncTask {
                                 }
                                 entityList.add(entity);
                             }
-                            for (InvFinanceBfb ent : entityList){
+                            for (InvFinanceBfb ent : entityList) {
                                 if (entityMap.containsKey(ent.getReportDate().toString())) {//数据库已有code指定日期报告
                                     InvFinanceBfb companies = entityMap.get(ent.getReportDate().toString());
                                     if (!companies.equals(ent)) {//报告数据不相同，以最新获取为准更新数据库
@@ -767,46 +779,37 @@ public class MyQuartzAsyncTask {
      * 多线程获取接口字段
      */
     @Async("threadPoolTaskExecutor")
-    public void getInterfaceKey(InvStock stock, InvInterface invInterface) {
+    public void getInterfaceKey(InvStock stock, String interfaceUrls) {
         try {
-            String[] urls = invInterface.getInterfaceUrl().split(";");
-            for (String url : urls) {
-                if (url.contains("'companyType'")) {
-                    url = url.replace("'companyType'", stock.getStockType());
+            String[] urlArr = interfaceUrls.split(";");
+            for (String url : urlArr) {
+                url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
+                url = url.replace("companyType=", "companyType=" + stock.getStockType());
+                
+                ZonedDateTime dateTime = ZonedDateTime.now();
+                int year = dateTime.getYear();
+                int month = dateTime.getMonthValue();
+                if (month < 3) {
+                    url = url.replace("dates=", "dates=" + (year - 1) + "-12-31");
                 }
-                if (url.contains("'dates'")) {
-                    ZonedDateTime dateTime = ZonedDateTime.now();
-                    int year = dateTime.getYear();
-                    int month = dateTime.getMonthValue();
-                    if (month<3){
-                        url = url.replace("'dates'", (year-1)+"-12-31");
-                    }
-                    if (month>3 && month<=6){
-                        url = url.replace("'dates'", year+"-3-31");
-                    }
-                    if (month>6 && month<=9){
-                        url = url.replace("'dates'", year+"-6-30");
-                    }
-                    if (month>9 && month<=12){
-                        url = url.replace("'dates'", year+"-9-30");
-                    }
+                if (month > 3 && month <= 6) {
+                    url = url.replace("dates=", "dates=" + year + "-3-31");
                 }
-
-                if ("Y".equals(invInterface.getHtmlUrlMarketFlag())) {
-                    url += stock.getMarket();
+                if (month > 6 && month <= 9) {
+                    url = url.replace("dates=", "dates=" + year + "-6-30");
                 }
-                if ("Y".equals(invInterface.getHtmlUrlCodeFlag())) {
-                    url += stock.getCode();
+                if (month > 9 && month <= 12) {
+                    url = url.replace("dates=", "dates=" + year + "-9-30");
                 }
 
                 String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
                 if (StringUtils.isNotEmpty(jsonStr)) {
                     JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                     Set<String> keySet = jsonObject.keySet();
-                    for (String key : keySet){
+                    for (String key : keySet) {
                         Object obj = jsonObject.get(key);
-                        if (obj instanceof JSONArray){
-                            JSONArray jsonArray = (JSONArray)obj;
+                        if (obj instanceof JSONArray) {
+                            JSONArray jsonArray = (JSONArray) obj;
                             if (!jsonArray.isEmpty()) {
                                 Iterator<Object> iterator = jsonArray.iterator();
                                 if (iterator.hasNext()) {
@@ -827,19 +830,12 @@ public class MyQuartzAsyncTask {
      * 多线程下载接口所在的HTML文件
      */
     @Async("threadPoolTaskExecutor")
-    public void downInterfaceHtml(InvStock stock, InvInterface invInterface) {
+    public void downInterfaceHtml(InvStock stock, String webUrl) {
         try {
-            String url = invInterface.getHtmlUrl();
-            if ("Y".equals(invInterface.getHtmlUrlMarketFlag())) {
-                url += stock.getMarket();
-            }
-            if ("Y".equals(invInterface.getHtmlUrlCodeFlag())) {
-                url += stock.getCode();
-            }
-
-            String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
+            webUrl = webUrl.replace("code=", "code=" + stock.getMarket() + stock.getCode());
+            String jsonStr = HttpUtils.sendGet(webUrl, new AtomicInteger(10));
             if (StringUtils.isNotEmpty(jsonStr)) {
-                File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/downloadHtml/html/" + invInterface.getInterfaceCode() + "/dev-" + stock.getCode() + ".html");
+                File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/downloadHtml/html/" + stock.getCode() + ".html");
                 File pafile = htmlFile.getParentFile();
                 // 判断文件夹是否存在
                 if (!pafile.exists()) {
