@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
 
-    <select id="selectInvInterfaceById" parameterType="String" resultMap="InvInterfaceResult">
+    <select id="selectInvInterfaceByCode" parameterType="String" resultMap="InvInterfaceResult">
         <include refid="selectInvInterfaceVo"/>
         where code = #{code}
     </select>
