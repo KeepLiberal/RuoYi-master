@@ -761,62 +761,65 @@ public class MyQuartzAsyncTask {
         }
     }
 
-
-
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * 多线程获取接口所有字段
+     * 多线程获取接口字段
      */
     @Async("threadPoolTaskExecutor")
-    public void getInterfaceKeyAll(InvStock stock, String url, String containMarket) {
+    public void getInterfaceKey(InvStock stock, InvInterface invInterface) {
         try {
-            if (url.contains("'companyType'")) {
-                url = url.replace("'companyType'", stock.getStockType());
-            }
-            if (url.contains("'dates'")) {
-                ZonedDateTime dateTime = ZonedDateTime.now();
-                int year = dateTime.getYear();
-                int month = dateTime.getMonthValue();
-                if (month<3){
-                    url = url.replace("'dates'", (year-1)+"-12-31");
+            String[] urls = invInterface.getInterfaceUrl().split(";");
+            for (String url : urls) {
+                if (url.contains("'companyType'")) {
+                    url = url.replace("'companyType'", stock.getStockType());
                 }
-                if (month>3 && month<=6){
-                    url = url.replace("'dates'", year+"-3-31");
+                if (url.contains("'dates'")) {
+                    ZonedDateTime dateTime = ZonedDateTime.now();
+                    int year = dateTime.getYear();
+                    int month = dateTime.getMonthValue();
+                    if (month<3){
+                        url = url.replace("'dates'", (year-1)+"-12-31");
+                    }
+                    if (month>3 && month<=6){
+                        url = url.replace("'dates'", year+"-3-31");
+                    }
+                    if (month>6 && month<=9){
+                        url = url.replace("'dates'", year+"-6-30");
+                    }
+                    if (month>9 && month<=12){
+                        url = url.replace("'dates'", year+"-9-30");
+                    }
                 }
-                if (month>6 && month<=9){
-                    url = url.replace("'dates'", year+"-6-30");
-                }
-                if (month>9 && month<=12){
-                    url = url.replace("'dates'", year+"-9-30");
-                }
-            }
 
-            if ("Y".equals(containMarket)) {
-                url += stock.getMarket();
-            }
-            url += stock.getCode();
+                if ("Y".equals(invInterface.getHtmlUrlMarketFlag())) {
+                    url += stock.getMarket();
+                }
+                if ("Y".equals(invInterface.getHtmlUrlCodeFlag())) {
+                    url += stock.getCode();
+                }
 
-            String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
-            if (StringUtils.isNotEmpty(jsonStr)) {
-                JSONObject jsonObject = JSONObject.parseObject(jsonStr);
-                Set<String> keySet = jsonObject.keySet();
-                for (String key : keySet){
-                    Object obj = jsonObject.get(key);
-                    if (obj instanceof JSONArray){
-                        JSONArray jsonArray = (JSONArray)obj;
-                        if (!jsonArray.isEmpty()) {
-                            Iterator<Object> iterator = jsonArray.iterator();
-                            if (iterator.hasNext()) {
-                                JSONObject next = (JSONObject) iterator.next();
-                                RyTask.keySet.addAll(next.keySet());
+                String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
+                if (StringUtils.isNotEmpty(jsonStr)) {
+                    JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+                    Set<String> keySet = jsonObject.keySet();
+                    for (String key : keySet){
+                        Object obj = jsonObject.get(key);
+                        if (obj instanceof JSONArray){
+                            JSONArray jsonArray = (JSONArray)obj;
+                            if (!jsonArray.isEmpty()) {
+                                Iterator<Object> iterator = jsonArray.iterator();
+                                if (iterator.hasNext()) {
+                                    JSONObject next = (JSONObject) iterator.next();
+                                    RyTask.keySet.addAll(next.keySet());
+                                }
                             }
                         }
                     }
                 }
             }
         } catch (Exception e) {
-            log.error(">>>MyQuartzAsyncTask.getInterfaceAllKey(" + url + ")异常:", e);
+            log.error(">>>MyQuartzAsyncTask.getInterfaceKey 异常:", e);
         }
     }
 
@@ -824,29 +827,35 @@ public class MyQuartzAsyncTask {
      * 多线程下载接口所在的HTML文件
      */
     @Async("threadPoolTaskExecutor")
-    public void downInterfaceHtmlAll(InvStock stock, InvInterface invInterface) throws IOException {
-        String url = invInterface.getHtmlUrl();
-        if ("Y".equals(invInterface.getUrlMarket())) {
-            url += stock.getMarket();
-        }
-        url += stock.getCode();
+    public void downInterfaceHtml(InvStock stock, InvInterface invInterface) {
+        try {
+            String url = invInterface.getHtmlUrl();
+            if ("Y".equals(invInterface.getHtmlUrlMarketFlag())) {
+                url += stock.getMarket();
+            }
+            if ("Y".equals(invInterface.getHtmlUrlCodeFlag())) {
+                url += stock.getCode();
+            }
 
-        String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
-        if (StringUtils.isNotEmpty(jsonStr)) {
-            File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/downloadHtml/html/"+invInterface.getCode()+"/dev-" + stock.getCode() + ".html");
-            File pafile = htmlFile.getParentFile();
-            // 判断文件夹是否存在
-            if (!pafile.exists()) {
-                pafile.mkdirs();
+            String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
+            if (StringUtils.isNotEmpty(jsonStr)) {
+                File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/downloadHtml/html/" + invInterface.getInterfaceCode() + "/dev-" + stock.getCode() + ".html");
+                File pafile = htmlFile.getParentFile();
+                // 判断文件夹是否存在
+                if (!pafile.exists()) {
+                    pafile.mkdirs();
+                }
+                // 判断文件是否存在
+                if (!htmlFile.exists()) {
+                    htmlFile.createNewFile();
+                }
+                BufferedWriter bw = new BufferedWriter(new FileWriter(htmlFile));
+                bw.write(jsonStr);
+                bw.flush();
+                bw.close();
             }
-            // 判断文件是否存在
-            if (!htmlFile.exists()) {
-                htmlFile.createNewFile();
-            }
-            BufferedWriter bw = new BufferedWriter(new FileWriter(htmlFile));
-            bw.write(jsonStr);
-            bw.flush();
-            bw.close();
+        } catch (Exception e) {
+            log.error(">>>MyQuartzAsyncTask.downInterfaceHtml 异常:", e);
         }
     }
 

@@ -19,7 +19,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.io.*;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -210,43 +210,28 @@ public class RyTask {
     ///////////////////////////////////////////////////////快速工具///////////////////////////////////////////////////////
 
     /**
-     * 多线程获取接口所有字段
+     * 生成接口对应SQL文件
      */
-    public void getInterfaceAllKey(String interfaceCode) throws IOException {
-        log.info("========多线程获取接口所有字段 任务开始=========");
+    public void createInterfaceSql(String interfaceCode) throws IOException {
+        log.info("========生成SQL 任务等待=========");
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        log.info("========生成SQL 任务开始=========");
         keySet.clear();
-        List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
+
         InvInterface invInterface = invInterfaceMapper.selectInvInterfaceByCode(interfaceCode);
-
-        Set<String> urlSet = new HashSet<>();
-        urlSet.add(invInterface.getUrl());
-        urlSet.add(invInterface.getBgqUrl());
-        urlSet.add(invInterface.getNdUrl());
-        urlSet.add(invInterface.getJdUrl());
-
+        List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
         for (InvStock stock : stockList) {
-            for (String url : urlSet) {
-                myQuartzAsyncTask.getInterfaceKeyAll(stock, url, invInterface.getUrlMarket());
-            }
+            //1.多线程获取接口字段
+            myQuartzAsyncTask.getInterfaceKey(stock, invInterface);
+            //2.多线程下载接口所在的HTML文件
+            myQuartzAsyncTask.downInterfaceHtml(stock, invInterface);
         }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
 
+
+        //3.匹配字段和HTML中的描述生成SQL文件
         TaskUtils.writeSqlFileWithComment(stockList, interfaceCode);
-        log.info("========多线程获取接口所有字段 任务完成=========");
-    }
-
-    /**
-     * 多线程下载接口所在的HTML文件
-     */
-    public void downInterfaceHtmlAll(String interfaceCode) throws IOException {
-        log.info("========多线程下载接口所在的HTML文件 任务开始=========");
-        List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
-        InvInterface invInterface = invInterfaceMapper.selectInvInterfaceByCode(interfaceCode);
-        for (InvStock stock : stockList) {
-            myQuartzAsyncTask.downInterfaceHtmlAll(stock, invInterface);
-        }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
-        log.info("========多线程下载接口所在的HTML文件 任务完成=========");
+        log.info("========生成SQL 任务完成=========");
     }
 
     ///////////////////////////////////////////////////////示例代码//////////////////////////////////////////////////////

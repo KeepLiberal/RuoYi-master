@@ -21,9 +21,7 @@ public class TaskUtils {
      * 生成字段带有描述的sql文件
      */
     public static void writeSqlFileWithComment(List<InvStock> stockList, String interfaceCode) throws IOException {
-        writeSqlFileWithoutComment(interfaceCode);
-
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/sql/dev-with-comment-"+interfaceCode+".sql");
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/sql/dev-"+interfaceCode+".sql");
         File pafile = sqlFile.getParentFile();
         // 判断文件夹是否存在
         if (!pafile.exists()) {
@@ -44,61 +42,33 @@ public class TaskUtils {
     }
 
     /**
-     * 写出接口所有字段
-     */
-    private static void writeSqlFileWithoutComment(String interfaceCode) throws IOException {
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/sql/dev-without-comment-"+interfaceCode+".sql");
-        File pafile = sqlFile.getParentFile();
-        // 判断文件夹是否存在
-        if (!pafile.exists()) {
-            pafile.mkdirs();
-        }
-        // 判断文件是否存在
-        if (!sqlFile.exists()) {
-            sqlFile.createNewFile();
-        }
-        // 遍历写入
-        BufferedWriter bw = new BufferedWriter(new FileWriter(sqlFile));
-        for (String key : RyTask.keySet) {
-            bw.write("`" + key + "` double default null comment ''," + "\r\n");
-        }
-        bw.flush();
-        bw.close();
-
-        RyTask.keySet.clear();
-    }
-
-    /**
      * 获取字段带描述的sql列表
      */
     private static List<String> getSqlListWithComment(List<InvStock> stockList, String interfaceCode) throws IOException {
-        List<String> downloadHtmlList = new ArrayList<>();
+        List<String> htmlLineList = new ArrayList<>();
+
+        Set<String> set = new HashSet<>();
         for (InvStock stock : stockList){
             File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/downloadHtml/html/"+interfaceCode+"/dev-" + stock.getCode() + ".html");
-            downloadHtmlList.addAll(readDownloadHtmlFile(htmlFile));
+            List<String> downloadHtmlFileList = readDownloadHtmlFile(htmlFile);
+            for (String htmlLine : downloadHtmlFileList){
+                if (set.add(htmlLine)){
+                    htmlLineList.add(htmlLine);
+                }
+            }
         }
 
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/sql/dev-without-comment-"+interfaceCode+".sql");
-        List<String> sqlWithoutCommentList = readSqlFileWithoutComment(sqlFile);
-
         List<String> sqlWithCommentList = new ArrayList<>();
-        for (String sql : sqlWithoutCommentList) {
-            String sqlKey = sql.replace("double","")
-                    .replace("default","")
-                    .replace("null","")
-                    .replace("comment","")
-                    .replace("`","")
-                    .replace("'","")
-                    .replace(",","").trim();
-            sqlKey = "(value."+sqlKey.toUpperCase()+")";
-            for (int i=0; i<downloadHtmlList.size(); i++) {
-                String htmlKey = downloadHtmlList.get(i);
-                if (htmlKey.contains(sqlKey)) {
-                    String chinese = StringUtils.getChinese(downloadHtmlList.get(i-1));
-                    if(sqlKey.contains("_YOY")){
-                        sql = sql.replace("comment ''","comment '"+chinese+"(环比%)'");
+        for (String key : RyTask.keySet) {
+            for (int i=0; i<htmlLineList.size(); i++) {
+                String htmlKey = htmlLineList.get(i);
+                if (htmlKey.contains("(value."+key+")")) {
+                    String chinese = StringUtils.getChinese(htmlLineList.get(i-1));
+                    String sql = "";
+                    if(key.endsWith("_YOY")){
+                        sql = "`" + key + "` double default null comment '"+chinese+"(环比%)'";
                     }else{
-                        sql = sql.replace("comment ''","comment '"+chinese+"'");
+                        sql = "`" + key + "` double default null comment '"+chinese+"'";
                     }
                     sqlWithCommentList.add(sql);
                     break;
@@ -108,21 +78,6 @@ public class TaskUtils {
         return sqlWithCommentList;
     }
 
-    /**
-     * 读取程序生成的字段不带描述的sql文件
-     */
-    private static List<String> readSqlFileWithoutComment(File file) throws IOException {
-        List<String> keyList = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        String line = null;
-        while ((line = br.readLine()) != null) {
-            if (line.contains("comment")){
-                keyList.add(line);
-            }
-        }
-        br.close();
-        return keyList;
-    }
 
     /**
      * 读取html文件获得字段名和描述
