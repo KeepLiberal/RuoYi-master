@@ -209,7 +209,7 @@ public class RyTask {
     /**
      * 生成接口对应SQL文件
      */
-    public void createInterfaceSql(String interfaceUrls, String webUrl) throws IOException {
+    public void createInterfaceSqlFile(String interfaceUrls, String webUrl) throws IOException {
         log.info("========生成SQL 任务等待=========");
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========生成SQL 任务开始=========");
