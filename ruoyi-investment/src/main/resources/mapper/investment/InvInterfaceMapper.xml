@@ -6,36 +6,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="InvInterface" id="InvInterfaceResult">
         <result property="id"    column="id"    />
-        <result property="code"    column="code"    />
-        <result property="name"    column="name"    />
-        <result property="type"    column="type"    />
-        <result property="url"    column="url"    />
-        <result property="bgqUrl"    column="bgq_url"    />
-        <result property="ndUrl"    column="nd_url"    />
-        <result property="jdUrl"    column="jd_url"    />
-        <result property="urlMarket"    column="url_market"    />
+        <result property="interfaceCode"    column="interface_code"    />
+        <result property="interfaceName"    column="interface_name"    />
+        <result property="interfaceType"    column="interface_type"    />
+        <result property="interfaceUrl"    column="interface_url"    />
+        <result property="interfaceUrlMarketFlag"    column="interface_url_market_flag"    />
+        <result property="interfaceUrlCodeFlag"    column="interface_url_code_flag"    />
         <result property="htmlUrl"    column="html_url"    />
-        <result property="htmlMarket"    column="html_market"    />
+        <result property="htmlUrlMarketFlag"    column="html_url_market_flag"    />
+        <result property="htmlUrlCodeFlag"    column="html_url_code_flag"    />
         <result property="remark"    column="remark"    />
     </resultMap>
 
     <sql id="selectInvInterfaceVo">
-        select id, code, name, type, url, bgq_url, nd_url, jd_url, url_market, html_url, html_market, remark from inv_interface
+        select id, interface_code, interface_name, interface_type, interface_url, interface_url_market_flag, interface_url_code_flag, html_url, html_url_market_flag, html_url_code_flag, remark from inv_interface
     </sql>
 
     <select id="selectInvInterfaceList" parameterType="InvInterface" resultMap="InvInterfaceResult">
         <include refid="selectInvInterfaceVo"/>
         <where>  
-            <if test="code != null  and code != ''"> and code = #{code}</if>
-            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
-            <if test="type != null  and type != ''"> and type = #{type}</if>
-            <if test="url != null  and url != ''"> and url = #{url}</if>
-            <if test="bgqUrl != null  and bgqUrl != ''"> and bgq_url = #{bgqUrl}</if>
-            <if test="ndUrl != null  and ndUrl != ''"> and nd_url = #{ndUrl}</if>
-            <if test="jdUrl != null  and jdUrl != ''"> and jd_url = #{jdUrl}</if>
-            <if test="urlMarket != null  and urlMarket != ''"> and url_market = #{urlMarket}</if>
-            <if test="htmlUrl != null  and htmlUrl != ''"> and html_url = #{htmlUrl}</if>
-            <if test="htmlMarket != null  and htmlMarket != ''"> and html_market = #{htmlMarket}</if>
+            <if test="interfaceCode != null  and interfaceCode != ''"> and interface_code = #{interfaceCode}</if>
+            <if test="interfaceName != null  and interfaceName != ''"> and interface_name like concat('%', #{interfaceName}, '%')</if>
         </where>
     </select>
     
@@ -48,33 +39,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectInvInterfaceVo"/>
         where code = #{code}
     </select>
-        
+
     <insert id="insertInvInterface" parameterType="InvInterface" useGeneratedKeys="true" keyProperty="id">
         insert into inv_interface
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="code != null and code != ''">code,</if>
-            <if test="name != null and name != ''">name,</if>
-            <if test="type != null and type != ''">type,</if>
-            <if test="url != null">url,</if>
-            <if test="bgqUrl != null and bgqUrl != ''">bgq_url,</if>
-            <if test="ndUrl != null and ndUrl != ''">nd_url,</if>
-            <if test="jdUrl != null and jdUrl != ''">jd_url,</if>
-            <if test="urlMarket != null and urlMarket != ''">url_market,</if>
-            <if test="htmlUrl != null and htmlUrl != ''">html_url,</if>
-            <if test="htmlMarket != null and htmlMarket != ''">html_market,</if>
+            <if test="interfaceCode != null and interfaceCode != ''">interface_code,</if>
+            <if test="interfaceName != null and interfaceName != ''">interface_name,</if>
+            <if test="interfaceType != null and interfaceType != ''">interface_type,</if>
+            <if test="interfaceUrl != null and interfaceUrl != ''">interface_url,</if>
+            <if test="interfaceUrlMarketFlag != null and interfaceUrlMarketFlag != ''">interface_url_market_flag,</if>
+            <if test="interfaceUrlCodeFlag != null and interfaceUrlCodeFlag != ''">interface_url_code_flag,</if>
+            <if test="htmlUrl != null">html_url,</if>
+            <if test="htmlUrlMarketFlag != null">html_url_market_flag,</if>
+            <if test="htmlUrlCodeFlag != null">html_url_code_flag,</if>
             <if test="remark != null">remark,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="code != null and code != ''">#{code},</if>
-            <if test="name != null and name != ''">#{name},</if>
-            <if test="type != null and type != ''">#{type},</if>
-            <if test="url != null">#{url},</if>
-            <if test="bgqUrl != null and bgqUrl != ''">#{bgqUrl},</if>
-            <if test="ndUrl != null and ndUrl != ''">#{ndUrl},</if>
-            <if test="jdUrl != null and jdUrl != ''">#{jdUrl},</if>
-            <if test="urlMarket != null and urlMarket != ''">#{urlMarket},</if>
-            <if test="htmlUrl != null and htmlUrl != ''">#{htmlUrl},</if>
-            <if test="htmlMarket != null and htmlMarket != ''">#{htmlMarket},</if>
+            <if test="interfaceCode != null and interfaceCode != ''">#{interfaceCode},</if>
+            <if test="interfaceName != null and interfaceName != ''">#{interfaceName},</if>
+            <if test="interfaceType != null and interfaceType != ''">#{interfaceType},</if>
+            <if test="interfaceUrl != null and interfaceUrl != ''">#{interfaceUrl},</if>
+            <if test="interfaceUrlMarketFlag != null and interfaceUrlMarketFlag != ''">#{interfaceUrlMarketFlag},</if>
+            <if test="interfaceUrlCodeFlag != null and interfaceUrlCodeFlag != ''">#{interfaceUrlCodeFlag},</if>
+            <if test="htmlUrl != null">#{htmlUrl},</if>
+            <if test="htmlUrlMarketFlag != null">#{htmlUrlMarketFlag},</if>
+            <if test="htmlUrlCodeFlag != null">#{htmlUrlCodeFlag},</if>
             <if test="remark != null">#{remark},</if>
          </trim>
     </insert>
@@ -82,16 +71,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateInvInterface" parameterType="InvInterface">
         update inv_interface
         <trim prefix="SET" suffixOverrides=",">
-            <if test="code != null and code != ''">code = #{code},</if>
-            <if test="name != null and name != ''">name = #{name},</if>
-            <if test="type != null and type != ''">type = #{type},</if>
-            <if test="url != null">url = #{url},</if>
-            <if test="bgqUrl != null and bgqUrl != ''">bgq_url = #{bgqUrl},</if>
-            <if test="ndUrl != null and ndUrl != ''">nd_url = #{ndUrl},</if>
-            <if test="jdUrl != null and jdUrl != ''">jd_url = #{jdUrl},</if>
-            <if test="urlMarket != null and urlMarket != ''">url_market = #{urlMarket},</if>
-            <if test="htmlUrl != null and htmlUrl != ''">html_url = #{htmlUrl},</if>
-            <if test="htmlMarket != null and htmlMarket != ''">html_market = #{htmlMarket},</if>
+            <if test="interfaceCode != null and interfaceCode != ''">interface_code = #{interfaceCode},</if>
+            <if test="interfaceName != null and interfaceName != ''">interface_name = #{interfaceName},</if>
+            <if test="interfaceType != null and interfaceType != ''">interface_type = #{interfaceType},</if>
+            <if test="interfaceUrl != null and interfaceUrl != ''">interface_url = #{interfaceUrl},</if>
+            <if test="interfaceUrlMarketFlag != null and interfaceUrlMarketFlag != ''">interface_url_market_flag = #{interfaceUrlMarketFlag},</if>
+            <if test="interfaceUrlCodeFlag != null and interfaceUrlCodeFlag != ''">interface_url_code_flag = #{interfaceUrlCodeFlag},</if>
+            <if test="htmlUrl != null">html_url = #{htmlUrl},</if>
+            <if test="htmlUrlMarketFlag != null">html_url_market_flag = #{htmlUrlMarketFlag},</if>
+            <if test="htmlUrlCodeFlag != null">html_url_code_flag = #{htmlUrlCodeFlag},</if>
             <if test="remark != null">remark = #{remark},</if>
         </trim>
         where id = #{id}

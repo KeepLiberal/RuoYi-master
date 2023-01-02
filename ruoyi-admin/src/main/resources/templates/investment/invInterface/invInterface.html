@@ -12,11 +12,11 @@
                         <ul>
                             <li>
                                 <label>接口代码：</label>
-                                <input type="text" name="code"/>
+                                <input type="text" name="interfaceCode"/>
                             </li>
                             <li>
                                 <label>接口名称：</label>
-                                <input type="text" name="name"/>
+                                <input type="text" name="interfaceName"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -50,6 +50,11 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('investment:invInterface:edit')}]];
         var removeFlag = [[${@permission.hasPermi('investment:invInterface:remove')}]];
+        var interfaceTypeDatas = [[${@dict.getType('interface_type')}]];
+        var interfaceUrlMarketFlagDatas = [[${@dict.getType('boolean_type')}]];
+        var interfaceUrlCodeFlagDatas = [[${@dict.getType('boolean_type')}]];
+        var htmlUrlMarketFlagDatas = [[${@dict.getType('boolean_type')}]];
+        var htmlUrlCodeFlagDatas = [[${@dict.getType('boolean_type')}]];
         var prefix = ctx + "investment/invInterface";
 
         $(function() {
@@ -69,44 +74,55 @@
                     visible: false
                 },
                 {
-                    field: 'code',
-                    title: '接口代码',
+                    field: 'interfaceCode',
+                    title: '接口代码'
                 },
                 {
-                    field: 'name',
+                    field: 'interfaceName',
                     title: '接口名称'
                 },
                 {
-                    field: 'type',
-                    title: '接口分类'
+                    field: 'interfaceType',
+                    title: '接口分类',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(interfaceTypeDatas, value);
+                    }
                 },
                 {
-                    field: 'url',
+                    field: 'interfaceUrl',
                     title: '接口地址'
                 },
                 {
-                    field: 'bgqUrl',
-                    title: '报告期地址'
+                    field: 'interfaceUrlMarketFlag',
+                    title: '接口地址是否包含股票市场',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(interfaceUrlMarketFlagDatas, value);
+                    }
                 },
                 {
-                    field: 'ndUrl',
-                    title: '年度地址'
-                },
-                {
-                    field: 'jdUrl',
-                    title: '季度地址'
-                },
-                {
-                    field: 'urlMarket',
-                    title: '接口地址是否包含市场'
+                    field: 'interfaceUrlCodeFlag',
+                    title: '接口地址是否包含股票代码',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(interfaceUrlCodeFlagDatas, value);
+                    }
                 },
                 {
                     field: 'htmlUrl',
                     title: '页面地址'
                 },
                 {
-                    field: 'htmlMarket',
-                    title: '页面地址是否包含市场'
+                    field: 'htmlUrlMarketFlag',
+                    title: '页面地址是否包含股票市场',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(htmlUrlMarketFlagDatas, value);
+                    }
+                },
+                {
+                    field: 'htmlUrlCodeFlag',
+                    title: '页面地址是否包含股票代码',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(htmlUrlCodeFlagDatas, value);
+                    }
                 },
                 {
                     field: 'remark',

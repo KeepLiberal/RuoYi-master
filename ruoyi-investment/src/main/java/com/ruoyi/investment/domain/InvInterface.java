@@ -19,92 +19,84 @@ public class InvInterface extends BaseEntity{
 
     /** 接口代码 */
     @Excel(name = "接口代码")
-    private String code;
+    private String interfaceCode;
 
     /** 接口名称 */
     @Excel(name = "接口名称")
-    private String name;
+    private String interfaceName;
 
     /** 接口分类 */
     @Excel(name = "接口分类")
-    private String type;
+    private String interfaceType;
 
     /** 接口地址 */
     @Excel(name = "接口地址")
-    private String url;
+    private String interfaceUrl;
 
-    /** 报告期地址 */
-    @Excel(name = "报告期地址")
-    private String bgqUrl;
+    /** 接口地址是否包含股票市场 */
+    @Excel(name = "接口地址是否包含股票市场")
+    private String interfaceUrlMarketFlag;
 
-    /** 年度地址 */
-    @Excel(name = "年度地址")
-    private String ndUrl;
-
-    /** 季度地址 */
-    @Excel(name = "季度地址")
-    private String jdUrl;
-
-    /** 接口地址是否包含市场 */
-    @Excel(name = "接口地址是否包含市场")
-    private String urlMarket;
+    /** 接口地址是否包含股票代码 */
+    @Excel(name = "接口地址是否包含股票代码")
+    private String interfaceUrlCodeFlag;
 
     /** 页面地址 */
     @Excel(name = "页面地址")
     private String htmlUrl;
 
-    /** 页面地址是否包含市场 */
-    @Excel(name = "页面地址是否包含市场")
-    private String htmlMarket;
+    /** 页面地址是否包含股票市场 */
+    @Excel(name = "页面地址是否包含股票市场")
+    private String htmlUrlMarketFlag;
+
+    /** 页面地址是否包含股票代码 */
+    @Excel(name = "页面地址是否包含股票代码")
+    private String htmlUrlCodeFlag;
 
     public void setId(Long id){this.id = id;}
     public Long getId(){return id;}
 
-    public void setCode(String code){this.code = code;}
-    public String getCode(){return code;}
+    public void setInterfaceCode(String interfaceCode){this.interfaceCode = interfaceCode;}
+    public String getInterfaceCode(){return interfaceCode;}
 
-    public void setName(String name){this.name = name;}
-    public String getName(){return name;}
+    public void setInterfaceName(String interfaceName){this.interfaceName = interfaceName;}
+    public String getInterfaceName(){return interfaceName;}
 
-    public void setType(String type){this.type = type;}
-    public String getType(){return type;}
+    public void setInterfaceType(String interfaceType){this.interfaceType = interfaceType;}
+    public String getInterfaceType(){return interfaceType;}
 
-    public void setUrl(String url){this.url = url;}
-    public String getUrl(){return url;}
+    public void setInterfaceUrl(String interfaceUrl){this.interfaceUrl = interfaceUrl;}
+    public String getInterfaceUrl(){return interfaceUrl;}
 
-    public void setBgqUrl(String bgqUrl){this.bgqUrl = bgqUrl;}
-    public String getBgqUrl(){return bgqUrl;}
+    public void setInterfaceUrlMarketFlag(String interfaceUrlMarketFlag){this.interfaceUrlMarketFlag = interfaceUrlMarketFlag;}
+    public String getInterfaceUrlMarketFlag(){return interfaceUrlMarketFlag;}
 
-    public void setNdUrl(String ndUrl){this.ndUrl = ndUrl;}
-    public String getNdUrl(){return ndUrl;}
-
-    public void setJdUrl(String jdUrl){this.jdUrl = jdUrl;}
-    public String getJdUrl(){return jdUrl;}
-
-    public void setUrlMarket(String urlMarket){this.urlMarket = urlMarket;}
-    public String getUrlMarket(){return urlMarket;}
+    public void setInterfaceUrlCodeFlag(String interfaceUrlCodeFlag){this.interfaceUrlCodeFlag = interfaceUrlCodeFlag;}
+    public String getInterfaceUrlCodeFlag(){return interfaceUrlCodeFlag;}
 
     public void setHtmlUrl(String htmlUrl){this.htmlUrl = htmlUrl;}
     public String getHtmlUrl(){return htmlUrl;}
 
-    public void setHtmlMarket(String htmlMarket){this.htmlMarket = htmlMarket;}
-    public String getHtmlMarket(){return htmlMarket;}
+    public void setHtmlUrlMarketFlag(String htmlUrlMarketFlag){this.htmlUrlMarketFlag = htmlUrlMarketFlag;}
+    public String getHtmlUrlMarketFlag(){return htmlUrlMarketFlag;}
+
+    public void setHtmlUrlCodeFlag(String htmlUrlCodeFlag){this.htmlUrlCodeFlag = htmlUrlCodeFlag;}
+    public String getHtmlUrlCodeFlag(){return htmlUrlCodeFlag;}
 
 
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
-            .append("code", getCode())
-            .append("name", getName())
-            .append("type", getType())
-            .append("url", getUrl())
-            .append("bgqUrl", getBgqUrl())
-            .append("ndUrl", getNdUrl())
-            .append("jdUrl", getJdUrl())
-            .append("urlMarket", getUrlMarket())
+            .append("interfaceCode", getInterfaceCode())
+            .append("interfaceName", getInterfaceName())
+            .append("interfaceType", getInterfaceType())
+            .append("interfaceUrl", getInterfaceUrl())
+            .append("interfaceUrlMarketFlag", getInterfaceUrlMarketFlag())
+            .append("interfaceUrlCodeFlag", getInterfaceUrlCodeFlag())
             .append("htmlUrl", getHtmlUrl())
-            .append("htmlMarket", getHtmlMarket())
+            .append("htmlUrlMarketFlag", getHtmlUrlMarketFlag())
+            .append("htmlUrlCodeFlag", getHtmlUrlCodeFlag())
             .append("remark", getRemark())
             .toString();
     }
