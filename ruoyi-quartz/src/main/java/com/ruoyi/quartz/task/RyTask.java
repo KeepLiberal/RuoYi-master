@@ -219,6 +219,7 @@ public class RyTask {
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========生成SQL 任务开始=========");
         keySet.clear();
+        sqlSet.clear();
 
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
 
