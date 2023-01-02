@@ -6,7 +6,9 @@ import com.ruoyi.common.core.domain.entity.SysDictData;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.common.utils.spring.SpringUtils;
+import com.ruoyi.investment.domain.InvInterface;
 import com.ruoyi.investment.domain.InvStock;
+import com.ruoyi.investment.mapper.InvInterfaceMapper;
 import com.ruoyi.investment.mapper.InvStockMapper;
 import com.ruoyi.quartz.async.MyQuartzAsyncTask;
 import com.ruoyi.quartz.util.TaskUtils;
@@ -36,6 +38,8 @@ public class RyTask {
     private MyQuartzAsyncTask myQuartzAsyncTask;
     @Resource
     private InvStockMapper invStockMapper;
+    @Resource
+    private InvInterfaceMapper invInterfaceMapper;
     @Resource
     private SysDictDataMapper dictDataMapper;
 
@@ -208,33 +212,41 @@ public class RyTask {
     /**
      * 多线程获取接口所有字段
      */
-    public void getInterfaceAllKey(String urls, Boolean containMarket, String htmlFileNme) throws IOException {
-        keySet.clear();
+    public void getInterfaceAllKey(String interfaceCode) throws IOException {
         log.info("========多线程获取接口所有字段 任务开始=========");
+        keySet.clear();
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
-        String[] urlArr = urls.split("&");
+        InvInterface invInterface = invInterfaceMapper.selectInvInterfaceByCode(interfaceCode);
+
+        Set<String> urlSet = new HashSet<>();
+        urlSet.add(invInterface.getUrl());
+        urlSet.add(invInterface.getBgqUrl());
+        urlSet.add(invInterface.getNdUrl());
+        urlSet.add(invInterface.getJdUrl());
+
         for (InvStock stock : stockList) {
-            for (String url : urlArr) {
-                myQuartzAsyncTask.getInterfaceAllKey(stock, ev.getProperty(url), containMarket);
+            for (String url : urlSet) {
+                myQuartzAsyncTask.getInterfaceKeyAll(stock, url, invInterface.getUrlMarket());
             }
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
 
-        TaskUtils.writeSqlFileWithComment(htmlFileNme);
+        TaskUtils.writeSqlFileWithComment(stockList, interfaceCode);
         log.info("========多线程获取接口所有字段 任务完成=========");
     }
 
     /**
-     * 多线程下载所有html
+     * 多线程下载接口所在的HTML文件
      */
-    public void downAllHtml(String url) throws IOException {
-        log.info("========多线程下载所有html 任务开始=========");
+    public void downInterfaceHtmlAll(String interfaceCode) throws IOException {
+        log.info("========多线程下载接口所在的HTML文件 任务开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
+        InvInterface invInterface = invInterfaceMapper.selectInvInterfaceByCode(interfaceCode);
         for (InvStock stock : stockList) {
-            myQuartzAsyncTask.downAllHtml(url+stock.getMarket() + stock.getCode(), stock.getCode());
+            myQuartzAsyncTask.downInterfaceHtmlAll(stock, invInterface);
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
-        log.info("========多线程下载所有html 任务完成=========");
+        log.info("========多线程下载接口所在的HTML文件 任务完成=========");
     }
 
     ///////////////////////////////////////////////////////示例代码//////////////////////////////////////////////////////

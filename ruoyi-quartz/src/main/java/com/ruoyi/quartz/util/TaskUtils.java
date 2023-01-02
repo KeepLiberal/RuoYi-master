@@ -1,11 +1,14 @@
 package com.ruoyi.quartz.util;
 
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.investment.domain.InvStock;
 import com.ruoyi.quartz.task.RyTask;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 定时任务调度工具类
@@ -17,10 +20,10 @@ public class TaskUtils {
     /**
      * 生成字段带有描述的sql文件
      */
-    public static void writeSqlFileWithComment(String htmlFileName) throws IOException {
-        writeSqlFileWithoutComment(htmlFileName);
+    public static void writeSqlFileWithComment(List<InvStock> stockList, String interfaceCode) throws IOException {
+        writeSqlFileWithoutComment(interfaceCode);
 
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-with-comment-"+htmlFileName+".sql");
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/sql/dev-with-comment-"+interfaceCode+".sql");
         File pafile = sqlFile.getParentFile();
         // 判断文件夹是否存在
         if (!pafile.exists()) {
@@ -32,7 +35,7 @@ public class TaskUtils {
         }
         // 遍历写入
         BufferedWriter bw = new BufferedWriter(new FileWriter(sqlFile));
-        for (String sql : getSqlListWithComment(htmlFileName)) {
+        for (String sql : getSqlListWithComment(stockList, interfaceCode)) {
             bw.write(sql);
             bw.write(System.getProperty("line.separator"));
         }
@@ -43,8 +46,8 @@ public class TaskUtils {
     /**
      * 写出接口所有字段
      */
-    private static void writeSqlFileWithoutComment(String htmlFileName) throws IOException {
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-without-comment-"+htmlFileName+".sql");
+    private static void writeSqlFileWithoutComment(String interfaceCode) throws IOException {
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/sql/dev-without-comment-"+interfaceCode+".sql");
         File pafile = sqlFile.getParentFile();
         // 判断文件夹是否存在
         if (!pafile.exists()) {
@@ -68,13 +71,17 @@ public class TaskUtils {
     /**
      * 获取字段带描述的sql列表
      */
-    private static List<String> getSqlListWithComment(String htmlFileName) throws IOException {
-        File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/html/"+htmlFileName+".html");
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-without-comment-"+htmlFileName+".sql");
-        List<String> downloadHtmlList = readDownloadHtmlFile(htmlFile);
-        List<String> sqlWithoutCommentList = readSqlFileWithoutComment(sqlFile);
-        List<String> sqlWithCommentList = new ArrayList<>();
+    private static List<String> getSqlListWithComment(List<InvStock> stockList, String interfaceCode) throws IOException {
+        List<String> downloadHtmlList = new ArrayList<>();
+        for (InvStock stock : stockList){
+            File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/downloadHtml/html/"+interfaceCode+"/dev-" + stock.getCode() + ".html");
+            downloadHtmlList.addAll(readDownloadHtmlFile(htmlFile));
+        }
 
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/sql/dev-without-comment-"+interfaceCode+".sql");
+        List<String> sqlWithoutCommentList = readSqlFileWithoutComment(sqlFile);
+
+        List<String> sqlWithCommentList = new ArrayList<>();
         for (String sql : sqlWithoutCommentList) {
             String sqlKey = sql.replace("double","")
                     .replace("default","")
@@ -122,11 +129,14 @@ public class TaskUtils {
      */
     private static List<String> readDownloadHtmlFile(File file) throws IOException {
         List<String> keyList = new ArrayList<>();
+        Set<String> keySet = new HashSet<>();
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line = null;
         while ((line = br.readLine()) != null) {
             if (line.contains("(value.") || StringUtils.isContainChinese(line)){
-                keyList.add(line);
+                if (keySet.add(line)){
+                    keyList.add(line);
+                }
             }
         }
         br.close();

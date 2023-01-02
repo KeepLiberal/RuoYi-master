@@ -19,8 +19,8 @@
                                 <input type="text" name="name"/>
                             </li>
                             <li>
-                                <label>是否包含市场：</label>
-                                <input type="text" name="containMarket"/>
+                                <label>接口地址是否包含市场：</label>
+                                <input type="text" name="urlMarket"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -54,6 +54,7 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('investment:invInterface:edit')}]];
         var removeFlag = [[${@permission.hasPermi('investment:invInterface:remove')}]];
+        var idDatas = [[${@dict.getType('${column.dictType}')}]];
         var prefix = ctx + "investment/invInterface";
 
         $(function() {
@@ -86,8 +87,8 @@
                     title: '接口分类'
                 },
                 {
-                    field: 'containMarket',
-                    title: '是否包含市场'
+                    field: 'url',
+                    title: '接口地址'
                 },
                 {
                     field: 'bgqUrl',
@@ -102,8 +103,16 @@
                     title: '季度地址'
                 },
                 {
+                    field: 'urlMarket',
+                    title: '接口地址是否包含市场'
+                },
+                {
                     field: 'htmlUrl',
                     title: '页面地址'
+                },
+                {
+                    field: 'htmlMarket',
+                    title: '页面地址是否包含市场'
                 },
                 {
                     field: 'remark',

@@ -766,10 +766,10 @@ public class MyQuartzAsyncTask {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * 获取接口所有字段
+     * 多线程获取接口所有字段
      */
     @Async("threadPoolTaskExecutor")
-    public void getInterfaceAllKey(InvStock stock, String url, Boolean containMarket) {
+    public void getInterfaceKeyAll(InvStock stock, String url, String containMarket) {
         try {
             if (url.contains("'companyType'")) {
                 url = url.replace("'companyType'", stock.getStockType());
@@ -792,11 +792,10 @@ public class MyQuartzAsyncTask {
                 }
             }
 
-            if (containMarket) {
-                url += stock.getMarket() + stock.getCode();
-            } else {
-                url += stock.getCode();
+            if ("Y".equals(containMarket)) {
+                url += stock.getMarket();
             }
+            url += stock.getCode();
 
             String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
             if (StringUtils.isNotEmpty(jsonStr)) {
@@ -817,18 +816,24 @@ public class MyQuartzAsyncTask {
                 }
             }
         } catch (Exception e) {
-            log.error(">>>getInterfaceAllKey(" + stock.getCode() + ")异常:", e);
+            log.error(">>>MyQuartzAsyncTask.getInterfaceAllKey(" + url + ")异常:", e);
         }
     }
 
     /**
-     * 下载所有html
+     * 多线程下载接口所在的HTML文件
      */
     @Async("threadPoolTaskExecutor")
-    public void downAllHtml(String url, String code) throws IOException {
+    public void downInterfaceHtmlAll(InvStock stock, InvInterface invInterface) throws IOException {
+        String url = invInterface.getHtmlUrl();
+        if ("Y".equals(invInterface.getUrlMarket())) {
+            url += stock.getMarket();
+        }
+        url += stock.getCode();
+
         String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
         if (StringUtils.isNotEmpty(jsonStr)) {
-            File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/downloadHtml/dev-" + code + ".html");
+            File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/downloadHtml/html/"+invInterface.getCode()+"/dev-" + stock.getCode() + ".html");
             File pafile = htmlFile.getParentFile();
             // 判断文件夹是否存在
             if (!pafile.exists()) {

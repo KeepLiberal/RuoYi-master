@@ -19,6 +19,14 @@ public interface InvInterfaceMapper {
     public InvInterface selectInvInterfaceById(Long id);
 
     /**
+     * 查询接口配置
+     *
+     * @param code 接口配置代码
+     * @return 接口配置
+     */
+    InvInterface selectInvInterfaceByCode(String code);
+
+    /**
      * 查询接口配置列表
      * 
      * @param invInterface 接口配置

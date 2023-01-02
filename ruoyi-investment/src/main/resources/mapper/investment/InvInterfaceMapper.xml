@@ -9,16 +9,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="code"    column="code"    />
         <result property="name"    column="name"    />
         <result property="type"    column="type"    />
-        <result property="containMarket"    column="contain_market"    />
+        <result property="url"    column="url"    />
         <result property="bgqUrl"    column="bgq_url"    />
         <result property="ndUrl"    column="nd_url"    />
         <result property="jdUrl"    column="jd_url"    />
+        <result property="urlMarket"    column="url_market"    />
         <result property="htmlUrl"    column="html_url"    />
+        <result property="htmlMarket"    column="html_market"    />
         <result property="remark"    column="remark"    />
     </resultMap>
 
     <sql id="selectInvInterfaceVo">
-        select id, code, name, type, contain_market, bgq_url, nd_url, jd_url, html_url, remark from inv_interface
+        select id, code, name, type, url, bgq_url, nd_url, jd_url, url_market, html_url, html_market, remark from inv_interface
     </sql>
 
     <select id="selectInvInterfaceList" parameterType="InvInterface" resultMap="InvInterfaceResult">
@@ -27,17 +29,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="code != null  and code != ''"> and code = #{code}</if>
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="type != null  and type != ''"> and type = #{type}</if>
-            <if test="containMarket != null  and containMarket != ''"> and contain_market = #{containMarket}</if>
+            <if test="url != null  and url != ''"> and url = #{url}</if>
             <if test="bgqUrl != null  and bgqUrl != ''"> and bgq_url = #{bgqUrl}</if>
             <if test="ndUrl != null  and ndUrl != ''"> and nd_url = #{ndUrl}</if>
             <if test="jdUrl != null  and jdUrl != ''"> and jd_url = #{jdUrl}</if>
+            <if test="urlMarket != null  and urlMarket != ''"> and url_market = #{urlMarket}</if>
             <if test="htmlUrl != null  and htmlUrl != ''"> and html_url = #{htmlUrl}</if>
+            <if test="htmlMarket != null  and htmlMarket != ''"> and html_market = #{htmlMarket}</if>
         </where>
     </select>
     
     <select id="selectInvInterfaceById" parameterType="Long" resultMap="InvInterfaceResult">
         <include refid="selectInvInterfaceVo"/>
         where id = #{id}
+    </select>
+
+    <select id="selectInvInterfaceById" parameterType="String" resultMap="InvInterfaceResult">
+        <include refid="selectInvInterfaceVo"/>
+        where code = #{code}
     </select>
         
     <insert id="insertInvInterface" parameterType="InvInterface" useGeneratedKeys="true" keyProperty="id">
@@ -46,22 +55,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="code != null and code != ''">code,</if>
             <if test="name != null and name != ''">name,</if>
             <if test="type != null and type != ''">type,</if>
-            <if test="containMarket != null and containMarket != ''">contain_market,</if>
+            <if test="url != null">url,</if>
             <if test="bgqUrl != null and bgqUrl != ''">bgq_url,</if>
             <if test="ndUrl != null and ndUrl != ''">nd_url,</if>
             <if test="jdUrl != null and jdUrl != ''">jd_url,</if>
+            <if test="urlMarket != null and urlMarket != ''">url_market,</if>
             <if test="htmlUrl != null and htmlUrl != ''">html_url,</if>
+            <if test="htmlMarket != null and htmlMarket != ''">html_market,</if>
             <if test="remark != null">remark,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="code != null and code != ''">#{code},</if>
             <if test="name != null and name != ''">#{name},</if>
             <if test="type != null and type != ''">#{type},</if>
-            <if test="containMarket != null and containMarket != ''">#{containMarket},</if>
+            <if test="url != null">#{url},</if>
             <if test="bgqUrl != null and bgqUrl != ''">#{bgqUrl},</if>
             <if test="ndUrl != null and ndUrl != ''">#{ndUrl},</if>
             <if test="jdUrl != null and jdUrl != ''">#{jdUrl},</if>
+            <if test="urlMarket != null and urlMarket != ''">#{urlMarket},</if>
             <if test="htmlUrl != null and htmlUrl != ''">#{htmlUrl},</if>
+            <if test="htmlMarket != null and htmlMarket != ''">#{htmlMarket},</if>
             <if test="remark != null">#{remark},</if>
          </trim>
     </insert>
@@ -72,11 +85,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="code != null and code != ''">code = #{code},</if>
             <if test="name != null and name != ''">name = #{name},</if>
             <if test="type != null and type != ''">type = #{type},</if>
-            <if test="containMarket != null and containMarket != ''">contain_market = #{containMarket},</if>
+            <if test="url != null">url = #{url},</if>
             <if test="bgqUrl != null and bgqUrl != ''">bgq_url = #{bgqUrl},</if>
             <if test="ndUrl != null and ndUrl != ''">nd_url = #{ndUrl},</if>
             <if test="jdUrl != null and jdUrl != ''">jd_url = #{jdUrl},</if>
+            <if test="urlMarket != null and urlMarket != ''">url_market = #{urlMarket},</if>
             <if test="htmlUrl != null and htmlUrl != ''">html_url = #{htmlUrl},</if>
+            <if test="htmlMarket != null and htmlMarket != ''">html_market = #{htmlMarket},</if>
             <if test="remark != null">remark = #{remark},</if>
         </trim>
         where id = #{id}
