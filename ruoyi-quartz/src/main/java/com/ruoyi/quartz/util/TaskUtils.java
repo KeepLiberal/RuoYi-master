@@ -18,9 +18,47 @@ import java.util.Set;
 public class TaskUtils {
 
     /**
-     * 生成字段带有描述的sql文件
+     * 生成SQL文件
      */
-    public static void writeSqlFileWithComment(List<InvStock> stockList, String interfaceCode) throws IOException {
+    public static void writeSqlFile(List<InvStock> stockList, String interfaceCode) throws IOException {
+        writeSqlFileWithoutComment(interfaceCode);
+        writeSqlFileWithComment(stockList, interfaceCode);
+    }
+
+    /**
+     * 生成字段不带有描述的SQL文件
+     */
+    private static void writeSqlFileWithoutComment(String interfaceCode) throws IOException {
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/sql/dev-"+interfaceCode+"-without.sql");
+        File pafile = sqlFile.getParentFile();
+        // 判断文件夹是否存在
+        if (!pafile.exists()) {
+            pafile.mkdirs();
+        }
+        // 判断文件是否存在
+        if (!sqlFile.exists()) {
+            sqlFile.createNewFile();
+        }
+        // 遍历写入
+        BufferedWriter bw = new BufferedWriter(new FileWriter(sqlFile));
+        for (String key : RyTask.keySet) {
+            String sql = "";
+            if(key.endsWith("_YOY")){
+                sql = "`" + key + "` double default null comment '(环比%)'";
+            }else{
+                sql = "`" + key + "` double default null comment ''";
+            }
+            bw.write(sql);
+            bw.write(System.getProperty("line.separator"));
+        }
+        bw.flush();
+        bw.close();
+    }
+
+    /**
+     * 生成字段带有描述的SQL文件
+     */
+    private static void writeSqlFileWithComment(List<InvStock> stockList, String interfaceCode) throws IOException {
         File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/sql/dev-"+interfaceCode+".sql");
         File pafile = sqlFile.getParentFile();
         // 判断文件夹是否存在
@@ -42,7 +80,7 @@ public class TaskUtils {
     }
 
     /**
-     * 获取字段带描述的sql列表
+     * 获取字段带描述的SQL列表
      */
     private static List<String> getSqlListWithComment(List<InvStock> stockList, String interfaceCode) throws IOException {
         List<String> htmlLineList = new ArrayList<>();
@@ -50,8 +88,7 @@ public class TaskUtils {
         Set<String> set = new HashSet<>();
         for (InvStock stock : stockList){
             File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/downloadHtml/html/"+interfaceCode+"/dev-" + stock.getCode() + ".html");
-            List<String> downloadHtmlFileList = readDownloadHtmlFile(htmlFile);
-            for (String htmlLine : downloadHtmlFileList){
+            for (String htmlLine : readDownloadHtmlFile(htmlFile)){
                 if (set.add(htmlLine)){
                     htmlLineList.add(htmlLine);
                 }
@@ -80,7 +117,7 @@ public class TaskUtils {
 
 
     /**
-     * 读取html文件获得字段名和描述
+     * 读取HTML文件获得字段名和描述
      */
     private static List<String> readDownloadHtmlFile(File file) throws IOException {
         List<String> keyList = new ArrayList<>();

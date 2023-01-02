@@ -122,9 +122,10 @@ public class RyTask {
      * 财务分析数据抓取
      */
     public void invFinanceTask() {
-        log.info("================财务分析任务  开始=================");
+        log.info("================财务分析任务 等待=================");
         //保证线程池比较闲时候再开始任务
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
+        log.info("================财务分析任务 开始=================");
 
         log.info("========沪深A股基础数据初始化 任务开始=========");
         //沪深A股基础数据抓取任务
@@ -201,7 +202,7 @@ public class RyTask {
             myQuartzAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-nd") + stock.getMarket() + stock.getCode(), "nd",  new AtomicInteger(10));
             myQuartzAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-jd") + stock.getMarket() + stock.getCode(), "jd", new AtomicInteger(10));
         }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1);
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========财务分析-百分比 任务完成=========");
 
         log.info("================财务分析任务  完成=================");
@@ -228,9 +229,8 @@ public class RyTask {
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
 
-
-        //3.匹配字段和HTML中的描述生成SQL文件
-        TaskUtils.writeSqlFileWithComment(stockList, interfaceCode);
+        //3.匹配字段和HTML中的描述并生成SQL文件
+        TaskUtils.writeSqlFile(stockList, interfaceCode);
         log.info("========生成SQL 任务完成=========");
     }
 
