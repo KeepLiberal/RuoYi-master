@@ -12,6 +12,9 @@ import com.ruoyi.investment.mapper.*;
 import com.ruoyi.quartz.task.RyTask;
 import com.ruoyi.quartz.util.TaskUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +22,6 @@ import javax.annotation.Resource;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -780,29 +782,29 @@ public class MyQuartzAsyncTask {
      * 多线程获取接口字段
      */
     @Async("threadPoolTaskExecutor")
-    public void getInterfaceKey(InvStock stock, String interfaceUrl) {
+    public void getInterfaceKey(InvStock stock, String dataUrl) {
         try {
-            interfaceUrl = interfaceUrl.replace("code=", "code=" + stock.getMarket() + stock.getCode());
-            interfaceUrl = interfaceUrl.replace("companyType=", "companyType=" + stock.getStockType());
-            interfaceUrl = interfaceUrl.replace("ctype=", "ctype=" + stock.getStockType());
+            dataUrl = dataUrl.replace("code=", "code=" + stock.getMarket() + stock.getCode());
+            dataUrl = dataUrl.replace("companyType=", "companyType=" + stock.getStockType());
+            dataUrl = dataUrl.replace("ctype=", "ctype=" + stock.getStockType());
 
             ZonedDateTime dateTime = ZonedDateTime.now();
             int year = dateTime.getYear();
             int month = dateTime.getMonthValue();
             if (month < 3) {
-                interfaceUrl = interfaceUrl.replace("dates=", "dates=" + (year - 1) + "-12-31");
+                dataUrl = dataUrl.replace("dates=", "dates=" + (year - 1) + "-12-31");
             }
             if (month > 3 && month <= 6) {
-                interfaceUrl = interfaceUrl.replace("dates=", "dates=" + year + "-3-31");
+                dataUrl = dataUrl.replace("dates=", "dates=" + year + "-3-31");
             }
             if (month > 6 && month <= 9) {
-                interfaceUrl = interfaceUrl.replace("dates=", "dates=" + year + "-6-30");
+                dataUrl = dataUrl.replace("dates=", "dates=" + year + "-6-30");
             }
             if (month > 9 && month <= 12) {
-                interfaceUrl = interfaceUrl.replace("dates=", "dates=" + year + "-9-30");
+                dataUrl = dataUrl.replace("dates=", "dates=" + year + "-9-30");
             }
 
-            String jsonStr = HttpUtils.sendGet(interfaceUrl, new AtomicInteger(10));
+            String jsonStr = HttpUtils.sendGet(dataUrl, new AtomicInteger(10));
             if (StringUtils.isNotEmpty(jsonStr)) {
                 JSONObject jsonObject = JSONObject.parseObject(jsonStr);
                 Set<String> keySet = jsonObject.keySet();
@@ -829,12 +831,12 @@ public class MyQuartzAsyncTask {
      * 多线程下载接口所在的HTML文件
      */
     @Async("threadPoolTaskExecutor")
-    public void downInterfaceHtml(InvStock stock, String webUrl, String fileName) {
+    public void downInterfaceHtml(InvStock stock, String htmlUrl, String interfaceName, String elementById) {
         try {
-            webUrl = webUrl.replace("code=", "code=" + stock.getMarket() + stock.getCode());
-            String jsonStr = HttpUtils.sendGet(webUrl, new AtomicInteger(10));
-            if (StringUtils.isNotEmpty(jsonStr)) {
-                File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/html/" + fileName + "/" + stock.getCode() + ".html");
+            htmlUrl = htmlUrl.replace("code=", "code=" + stock.getMarket() + stock.getCode());
+            String result = HttpUtils.sendGet(htmlUrl, new AtomicInteger(10));
+            if (StringUtils.isNotEmpty(result)) {
+                File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/html/" + interfaceName + "/" + stock.getCode() + ".html");
                 File pafile = htmlFile.getParentFile();
                 // 判断文件夹是否存在
                 if (!pafile.exists()) {
@@ -845,7 +847,11 @@ public class MyQuartzAsyncTask {
                     htmlFile.createNewFile();
                 }
                 BufferedWriter bw = new BufferedWriter(new FileWriter(htmlFile));
-                bw.write(jsonStr);
+
+                Document doc = Jsoup.parse(result);
+                Element tmpl_zyzb = doc.getElementById(elementById);
+
+                bw.write(tmpl_zyzb.toString());
                 bw.flush();
                 bw.close();
             }
@@ -858,32 +864,25 @@ public class MyQuartzAsyncTask {
      * 多线程获取接口字段描述的SQL集合
      */
     @Async("threadPoolTaskExecutor")
-    public void getSqlListWithComment(String fileName) {
-        File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/html/" + fileName + "/");
-        if (htmlFile.isDirectory()) {
-            File[] files = htmlFile.listFiles();
-            for (File file : files) {
-                List<String> htmlLineList = TaskUtils.readDownloadHtmlFile(file);
-                for (String key : RyTask.keySet) {
-                    for (int i = 0; i < htmlLineList.size(); i++) {
-                        String htmlKey = htmlLineList.get(i);
-                        if (htmlKey.contains("(value." + key + ")")) {
-                            String chinese = StringUtils.getChinese(htmlLineList.get(i - 1));
-                            String sql = "";
-                            if (key.endsWith("_YOY")) {
-                                sql = "`" + key + "` double default null comment '" + chinese + "(环比%)'";
-                            } else {
-                                sql = "`" + key + "` double default null comment '" + chinese + "'";
-                            }
-                            RyTask.sqlSet.add(sql);
-                            break;
-                        }
+    public void getSqlListWithComment(File file) {
+        List<String> htmlLineList = TaskUtils.readDownloadHtmlFile(file);
+        for (String key : RyTask.keySet) {
+            for (int i = 0; i < htmlLineList.size(); i++) {
+                String htmlKey = htmlLineList.get(i);
+                if (htmlKey.contains("(value." + key + ")")) {
+                    String chinese = StringUtils.getChinese(htmlLineList.get(i - 1));
+                    String sql = "";
+                    if (key.endsWith("_YOY")) {
+                        sql = "`" + key + "` double default null comment '" + chinese + "(环比%)'";
+                    } else {
+                        sql = "`" + key + "` double default null comment '" + chinese + "'";
                     }
+                    RyTask.sqlSet.add(sql);
+                    break;
                 }
             }
         }
     }
-
 
 
 }

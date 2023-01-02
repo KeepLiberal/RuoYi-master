@@ -1,15 +1,20 @@
 package com.ruoyi.quartz.util;
 
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.investment.domain.InvStock;
 import com.ruoyi.quartz.task.RyTask;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 定时任务调度工具类
@@ -22,8 +27,8 @@ public class TaskUtils {
     /**
      * 生成字段不带有描述的SQL文件
      */
-    public static void writeSqlFileWithoutComment(String fileName) throws IOException {
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-without-" + fileName + ".sql");
+    public static void writeSqlFileWithoutComment(String interfaceName) throws IOException {
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-without-" + interfaceName + ".sql");
         File pafile = sqlFile.getParentFile();
         // 判断文件夹是否存在
         if (!pafile.exists()) {
@@ -52,8 +57,8 @@ public class TaskUtils {
     /**
      * 生成字段带有描述的SQL文件
      */
-    public static void writeSqlFileWithComment(String fileName) throws IOException {
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-y-" + fileName + ".sql");
+    public static void writeSqlFileWithComment(String interfaceName) throws IOException {
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-with-" + interfaceName + ".sql");
         File pafile = sqlFile.getParentFile();
         // 判断文件夹是否存在
         if (!pafile.exists()) {
@@ -95,6 +100,14 @@ public class TaskUtils {
             log.error(">>>TaskUtils.readDownloadHtmlFile 异常:", e);
         }
         return keyList;
+    }
+
+
+    public static void main(String[] args) {
+        String result = HttpUtils.sendGet("https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/Index?type=web&code=sz000001", new AtomicInteger(10));
+        Document doc = Jsoup.parse(result);
+        Element tmpl_zyzb = doc.getElementById("tmpl_zyzb");
+        System.out.println(tmpl_zyzb);
     }
 
 }

@@ -26,6 +26,7 @@
         <mybatis-spring-boot.version>2.2.2</mybatis-spring-boot.version>
         <pagehelper.boot.version>1.4.3</pagehelper.boot.version>
         <fastjson.version>1.2.83</fastjson.version>
+        <jsoup.version>1.15.3</jsoup.version>
         <oshi.version>6.2.2</oshi.version>
         <commons.io.version>2.11.0</commons.io.version>
         <commons.fileupload.version>1.4</commons.fileupload.version>
@@ -162,6 +163,13 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+
+            <!-- jsoup解析器 -->
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>${jsoup.version}</version>
             </dependency>
 
             <!-- 定时任务-->

@@ -17,6 +17,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -213,32 +214,40 @@ public class RyTask {
     /**
      * 生成接口对应SQL文件
      */
-    public void createInterfaceSqlFile(String interfaceUrls, String webUrl, String fileName) throws IOException {
+    public void createInterfaceSqlFile(String dataUrls, String htmlUrl, String interfaceName, String elementById) throws IOException {
         log.info("========生成SQL 任务等待=========");
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========生成SQL 任务开始=========");
         keySet.clear();
 
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
-        String[] urlArr = interfaceUrls.split(";");
+
+        String[] dataUrlArr = dataUrls.split(";");
         for (InvStock stock : stockList) {
             //1.多线程获取接口字段
-            for (String interfaceUrl : urlArr) {
-                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + interfaceUrl));
+            for (String dataUrl : dataUrlArr) {
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + dataUrl));
             }
             //2.多线程下载接口所在的HTML文件
-            myQuartzAsyncTask.downInterfaceHtml(stock, ev.getProperty("inv." + webUrl), fileName);
+            myQuartzAsyncTask.downInterfaceHtml(stock, ev.getProperty("inv." + htmlUrl), interfaceName, elementById);
         }
-        //确保所有HTML文件下载完毕
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+
         //3.生成不带描述的SQL文件
-        TaskUtils.writeSqlFileWithoutComment(fileName);
+        TaskUtils.writeSqlFileWithoutComment(interfaceName);
+
         //4.匹配字段和HTML中的描述
-        myQuartzAsyncTask.getSqlListWithComment(fileName);
-        //确保所有HTML文件读取并匹配完毕
+        File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/html/" + interfaceName + "/");
+        if (htmlFile.isDirectory()) {
+            File[] files = htmlFile.listFiles();
+            for (File file : files) {
+                myQuartzAsyncTask.getSqlListWithComment(file);
+            }
+        }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+
         //5.生成带描述的SQL文件
-        TaskUtils.writeSqlFileWithComment(fileName);
+        TaskUtils.writeSqlFileWithComment(interfaceName);
         log.info("========生成SQL 任务完成=========");
     }
 

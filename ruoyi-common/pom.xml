@@ -113,6 +113,12 @@
             <artifactId>spring-webmvc</artifactId>
         </dependency>
 
+        <!-- jsoup解析器 -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>
