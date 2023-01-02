@@ -68,6 +68,7 @@ public class HttpUtils {
             String line;
             while ((line = in.readLine()) != null) {
                 result.append(line);
+                result.append(System.getProperty("line.separator"));//换行
             }
             //log.info("recv - {}", result);
         } catch (ConnectException e) {
@@ -136,6 +137,7 @@ public class HttpUtils {
             String line;
             while ((line = in.readLine()) != null) {
                 result.append(line);
+                result.append(System.getProperty("line.separator"));//换行
             }
             log.info("recv - {}", result);
         } catch (ConnectException e) {
