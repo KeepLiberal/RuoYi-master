@@ -10,6 +10,7 @@ import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.investment.domain.*;
 import com.ruoyi.investment.mapper.*;
 import com.ruoyi.quartz.task.RyTask;
+import com.ruoyi.quartz.util.TaskUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -852,5 +853,37 @@ public class MyQuartzAsyncTask {
             log.error(">>>MyQuartzAsyncTask.downInterfaceHtml 异常:", e);
         }
     }
+
+    /**
+     * 多线程获取接口字段描述的SQL集合
+     */
+    @Async("threadPoolTaskExecutor")
+    public void getSqlListWithComment(String fileName) {
+        File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/html/" + fileName + "/");
+        if (htmlFile.isDirectory()) {
+            File[] files = htmlFile.listFiles();
+            for (File file : files) {
+                List<String> htmlLineList = TaskUtils.readDownloadHtmlFile(file);
+                for (String key : RyTask.keySet) {
+                    for (int i = 0; i < htmlLineList.size(); i++) {
+                        String htmlKey = htmlLineList.get(i);
+                        if (htmlKey.contains("(value." + key + ")")) {
+                            String chinese = StringUtils.getChinese(htmlLineList.get(i - 1));
+                            String sql = "";
+                            if (key.endsWith("_YOY")) {
+                                sql = "`" + key + "` double default null comment '" + chinese + "(环比%)'";
+                            } else {
+                                sql = "`" + key + "` double default null comment '" + chinese + "'";
+                            }
+                            RyTask.sqlSet.add(sql);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
 
 }

@@ -48,6 +48,10 @@ public class RyTask {
      * 存放接口所有字段
      */
     public static Set<String> keySet = new HashSet<>();
+    /**
+     * 存放接口所有字段
+     */
+    public static Set<String> sqlSet = new HashSet<>();
 
 
     ///////////////////////////////////////////////////////个股信息//////////////////////////////////////////////////////
@@ -225,10 +229,16 @@ public class RyTask {
             //2.多线程下载接口所在的HTML文件
             myQuartzAsyncTask.downInterfaceHtml(stock, ev.getProperty("inv." + webUrl), fileName);
         }
+        //确保所有HTML文件下载完毕
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-
-        //3.匹配字段和HTML中的描述并生成SQL文件
-        TaskUtils.writeSqlFile(stockList, fileName);
+        //3.生成不带描述的SQL文件
+        TaskUtils.writeSqlFileWithoutComment(fileName);
+        //4.匹配字段和HTML中的描述
+        myQuartzAsyncTask.getSqlListWithComment(fileName);
+        //确保所有HTML文件读取并匹配完毕
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        //5.生成带描述的SQL文件
+        TaskUtils.writeSqlFileWithComment(fileName);
         log.info("========生成SQL 任务完成=========");
     }
 
