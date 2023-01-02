@@ -209,7 +209,7 @@ public class RyTask {
     /**
      * 生成接口对应SQL文件
      */
-    public void createInterfaceSqlFile(String interfaceUrls, String webUrl) throws IOException {
+    public void createInterfaceSqlFile(String interfaceUrls, String webUrl, String fileName) throws IOException {
         log.info("========生成SQL 任务等待=========");
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========生成SQL 任务开始=========");
@@ -219,16 +219,16 @@ public class RyTask {
         String[] urlArr = interfaceUrls.split(";");
         for (InvStock stock : stockList) {
             //1.多线程获取接口字段
-            for (String interfaceUrl : urlArr){
-                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty(interfaceUrl));
+            for (String interfaceUrl : urlArr) {
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + interfaceUrl));
             }
             //2.多线程下载接口所在的HTML文件
-            myQuartzAsyncTask.downInterfaceHtml(stock, ev.getProperty(webUrl));
+            myQuartzAsyncTask.downInterfaceHtml(stock, ev.getProperty("inv." + webUrl), fileName);
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
 
         //3.匹配字段和HTML中的描述并生成SQL文件
-        TaskUtils.writeSqlFile(stockList);
+        TaskUtils.writeSqlFile(stockList, fileName);
         log.info("========生成SQL 任务完成=========");
     }
 

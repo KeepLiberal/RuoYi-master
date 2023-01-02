@@ -828,12 +828,12 @@ public class MyQuartzAsyncTask {
      * 多线程下载接口所在的HTML文件
      */
     @Async("threadPoolTaskExecutor")
-    public void downInterfaceHtml(InvStock stock, String webUrl) {
+    public void downInterfaceHtml(InvStock stock, String webUrl, String fileName) {
         try {
             webUrl = webUrl.replace("code=", "code=" + stock.getMarket() + stock.getCode());
             String jsonStr = HttpUtils.sendGet(webUrl, new AtomicInteger(10));
             if (StringUtils.isNotEmpty(jsonStr)) {
-                File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/downloadHtml/html/" + stock.getCode() + ".html");
+                File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/html/" + fileName + "/" + stock.getCode() + ".html");
                 File pafile = htmlFile.getParentFile();
                 // 判断文件夹是否存在
                 if (!pafile.exists()) {

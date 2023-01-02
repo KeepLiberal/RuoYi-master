@@ -20,16 +20,16 @@ public class TaskUtils {
     /**
      * 生成SQL文件
      */
-    public static void writeSqlFile(List<InvStock> stockList) throws IOException {
-        writeSqlFileWithoutComment();
-        writeSqlFileWithComment(stockList);
+    public static void writeSqlFile(List<InvStock> stockList, String fileName) throws IOException {
+        writeSqlFileWithoutComment(fileName);
+        writeSqlFileWithComment(fileName);
     }
 
     /**
      * 生成字段不带有描述的SQL文件
      */
-    private static void writeSqlFileWithoutComment() throws IOException {
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/sql/dev-without.sql");
+    private static void writeSqlFileWithoutComment(String fileName) throws IOException {
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-without-" + fileName + ".sql");
         File pafile = sqlFile.getParentFile();
         // 判断文件夹是否存在
         if (!pafile.exists()) {
@@ -58,8 +58,8 @@ public class TaskUtils {
     /**
      * 生成字段带有描述的SQL文件
      */
-    private static void writeSqlFileWithComment(List<InvStock> stockList) throws IOException {
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/sql/dev-with.sql");
+    private static void writeSqlFileWithComment(String fileName) throws IOException {
+        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-y-" + fileName + ".sql");
         File pafile = sqlFile.getParentFile();
         // 判断文件夹是否存在
         if (!pafile.exists()) {
@@ -71,7 +71,7 @@ public class TaskUtils {
         }
         // 遍历写入
         BufferedWriter bw = new BufferedWriter(new FileWriter(sqlFile));
-        for (String sql : getSqlListWithComment(stockList)) {
+        for (String sql : getSqlListWithComment(fileName)) {
             bw.write(sql);
             bw.write(System.getProperty("line.separator"));
         }
@@ -82,37 +82,33 @@ public class TaskUtils {
     /**
      * 获取字段带描述的SQL列表
      */
-    private static List<String> getSqlListWithComment(List<InvStock> stockList) throws IOException {
-        List<String> htmlLineList = new ArrayList<>();
+    private static Set<String> getSqlListWithComment(String fileName) throws IOException {
+        Set<String> sqlSet = new HashSet<>();
 
-        Set<String> set = new HashSet<>();
-        for (InvStock stock : stockList) {
-            File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/downloadHtml/html/" + stock.getCode() + ".html");
-            for (String htmlLine : readDownloadHtmlFile(htmlFile)) {
-                if (set.add(htmlLine)) {
-                    htmlLineList.add(htmlLine);
-                }
-            }
-        }
-
-        List<String> sqlWithCommentList = new ArrayList<>();
-        for (String key : RyTask.keySet) {
-            for (int i = 0; i < htmlLineList.size(); i++) {
-                String htmlKey = htmlLineList.get(i);
-                if (htmlKey.contains("(value." + key + ")")) {
-                    String chinese = StringUtils.getChinese(htmlLineList.get(i - 1));
-                    String sql = "";
-                    if (key.endsWith("_YOY")) {
-                        sql = "`" + key + "` double default null comment '" + chinese + "(环比%)'";
-                    } else {
-                        sql = "`" + key + "` double default null comment '" + chinese + "'";
+        File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/html/" + fileName + "/");
+        if (htmlFile.isDirectory()) {
+            File[] files = htmlFile.listFiles();
+            for (File file : files) {
+                List<String> htmlLineList = readDownloadHtmlFile(file);
+                for (String key : RyTask.keySet) {
+                    for (int i = 0; i < htmlLineList.size(); i++) {
+                        String htmlKey = htmlLineList.get(i);
+                        if (htmlKey.contains("(value." + key + ")")) {
+                            String chinese = StringUtils.getChinese(htmlLineList.get(i - 1));
+                            String sql = "";
+                            if (key.endsWith("_YOY")) {
+                                sql = "`" + key + "` double default null comment '" + chinese + "(环比%)'";
+                            } else {
+                                sql = "`" + key + "` double default null comment '" + chinese + "'";
+                            }
+                            sqlSet.add(sql);
+                            break;
+                        }
                     }
-                    sqlWithCommentList.add(sql);
-                    break;
                 }
             }
         }
-        return sqlWithCommentList;
+        return sqlSet;
     }
 
 
@@ -121,9 +117,9 @@ public class TaskUtils {
      */
     private static List<String> readDownloadHtmlFile(File file) throws IOException {
         List<String> keyList = new ArrayList<>();
-        Set<String> keySet = new HashSet<>();
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line = null;
+        Set<String> keySet = new HashSet<>();
         while ((line = br.readLine()) != null) {
             if (line.contains("(value.") || StringUtils.isContainChinese(line)) {
                 if (keySet.add(line)) {
