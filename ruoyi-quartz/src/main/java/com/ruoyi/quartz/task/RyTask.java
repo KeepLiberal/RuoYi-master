@@ -233,7 +233,7 @@ public class RyTask {
 
         TaskUtils.writeSqlFile(name + ".txt", keySetOfInterface);
         TaskUtils.writeSqlFile(name + ".sql", keyMapOfHtml);
-        TaskUtils.writeCompareFile(name);
+        TaskUtils.writeCompareFile(name + ".txt");
         log.info("========生成SQL 任务完成=========");
     }
 
