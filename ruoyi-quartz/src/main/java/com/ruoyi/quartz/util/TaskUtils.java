@@ -1,5 +1,7 @@
 package com.ruoyi.quartz.util;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.investment.domain.InvStock;
@@ -8,12 +10,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -24,90 +28,171 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 public class TaskUtils {
 
-    /**
-     * 生成字段不带有描述的SQL文件
-     */
-    public static void writeSqlFileWithoutComment(String interfaceName) throws IOException {
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-without-" + interfaceName + ".sql");
-        File pafile = sqlFile.getParentFile();
-        // 判断文件夹是否存在
-        if (!pafile.exists()) {
-            pafile.mkdirs();
-        }
-        // 判断文件是否存在
-        if (!sqlFile.exists()) {
-            sqlFile.createNewFile();
-        }
-        // 遍历写入
-        BufferedWriter bw = new BufferedWriter(new FileWriter(sqlFile));
-        for (String key : RyTask.keySet) {
-            String sql = "";
-            if (key.endsWith("_YOY")) {
-                sql = "`" + key + "` double default null comment '(环比%)'";
-            } else {
-                sql = "`" + key + "` double default null comment ''";
-            }
-            bw.write(sql);
-            bw.write(System.getProperty("line.separator"));
-        }
-        bw.flush();
-        bw.close();
-    }
 
     /**
-     * 生成字段带有描述的SQL文件
+     * 获取接口字段
      */
-    public static void writeSqlFileWithComment(String interfaceName) throws IOException {
-        File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/sql/dev-with-" + interfaceName + ".sql");
-        File pafile = sqlFile.getParentFile();
-        // 判断文件夹是否存在
-        if (!pafile.exists()) {
-            pafile.mkdirs();
-        }
-        // 判断文件是否存在
-        if (!sqlFile.exists()) {
-            sqlFile.createNewFile();
-        }
-        // 遍历写入
-        BufferedWriter bw = new BufferedWriter(new FileWriter(sqlFile));
-        for (String sql : RyTask.sqlSet) {
-            bw.write(sql);
-            bw.write(System.getProperty("line.separator"));
-        }
-        bw.flush();
-        bw.close();
-    }
-
-
-    /**
-     * 读取HTML文件获得字段名和描述
-     */
-    public static List<String> readDownloadHtmlFile(File file) {
-        List<String> keyList = new ArrayList<>();
+    public static void getInterfaceKey(InvStock stock, String dataUrl) {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String line = null;
-            Set<String> keySet = new HashSet<>();
-            while ((line = br.readLine()) != null) {
-                if (line.contains("(value.") || StringUtils.isContainChinese(line)) {
-                    if (keySet.add(line)) {
-                        keyList.add(line);
+            if (dataUrl.contains("code="))
+                dataUrl = dataUrl.replace("code=", "code=" + stock.getMarket() + stock.getCode());
+            if (dataUrl.contains("companyType="))
+                dataUrl = dataUrl.replace("companyType=", "companyType=" + stock.getStockType());
+            if (dataUrl.contains("ctype=")) dataUrl = dataUrl.replace("ctype=", "ctype=" + stock.getStockType());
+            if (dataUrl.contains("ctype=")) {
+                ZonedDateTime dateTime = ZonedDateTime.now();
+                int year = dateTime.getYear();
+                int month = dateTime.getMonthValue();
+                if (month < 3) {
+                    dataUrl = dataUrl.replace("dates=", "dates=" + (year - 1) + "-12-31");
+                }
+                if (month > 3 && month <= 6) {
+                    dataUrl = dataUrl.replace("dates=", "dates=" + year + "-3-31");
+                }
+                if (month > 6 && month <= 9) {
+                    dataUrl = dataUrl.replace("dates=", "dates=" + year + "-6-30");
+                }
+                if (month > 9 && month <= 12) {
+                    dataUrl = dataUrl.replace("dates=", "dates=" + year + "-9-30");
+                }
+            }
+            String result = HttpUtils.sendGet(dataUrl, new AtomicInteger(10));
+            if (StringUtils.isNotEmpty(result)) {
+                JSONObject jsonObject = JSONObject.parseObject(result);
+                Set<String> keySet = jsonObject.keySet();
+                for (String key : keySet) {
+                    Object obj = jsonObject.get(key);
+                    if (obj instanceof JSONArray) {
+                        JSONArray jsonArray = (JSONArray) obj;
+                        if (!jsonArray.isEmpty()) {
+                            Iterator<Object> iterator = jsonArray.iterator();
+                            if (iterator.hasNext()) {
+                                JSONObject next = (JSONObject) iterator.next();
+                                RyTask.keySetOfInterface.addAll(next.keySet());
+                            }
+                        }
                     }
                 }
             }
-            br.close();
         } catch (Exception e) {
-            log.error(">>>TaskUtils.readDownloadHtmlFile 异常:", e);
+            log.error(">>>TaskUtils.getInterfaceKey 异常:{}", dataUrl);
         }
-        return keyList;
     }
-
 
     public static void main(String[] args) {
-        String result = HttpUtils.sendGet("https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/Index?type=web&code=sz000001", new AtomicInteger(10));
-        Document doc = Jsoup.parse(result);
-        Element tmpl_zyzb = doc.getElementById("tmpl_zyzb");
-        System.out.println(tmpl_zyzb);
+        getHtmlKey(new InvStock("000001", "", "sz") , "https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/Index?type=web&code=", Arrays.asList("tmpl_zyzb"));
+    }
+    /**
+     * 获取接口字段
+     */
+    public static void getHtmlKey(InvStock stock, String htmlUrl, List<String> elementIdList) {
+        try {
+            htmlUrl = htmlUrl.replace("code=", "code=" + stock.getMarket() + stock.getCode());
+            String result = HttpUtils.sendGet(htmlUrl, new AtomicInteger(10));
+            if (StringUtils.isNotEmpty(result)) {
+                Document doc = Jsoup.parse(result);
+
+                for (String elementById : elementIdList) {
+                    Element element = doc.getElementById(elementById);
+
+                    String replace1 = "<script type=\"text/template\" id=\"" + elementById + "\">";
+                    String replace2 = "</script>";
+                    String elementStr = element.toString().replace(replace1, "").replace(replace2, "");
+
+                    Document elementDoc = Jsoup.parse(elementStr);
+                    Elements elementTds = elementDoc.select("td");
+                    for (int i = 0; i < elementTds.size() - 1; i++) {
+                        Element ele = elementTds.get(i);
+                        String eleStr = ele.toString();
+                        if (eleStr.contains("nodata") || eleStr.contains("暂无数据")) {
+                            elementTds.remove(ele);
+                        }
+                    }
+
+                    for (int i = 0; i < elementTds.size() - 2; i += 2) {
+                        Element keyElement = elementTds.get(i + 1);
+                        Element keySpan = keyElement.select("span").get(0);
+                        String keyText = keySpan.text();
+
+                        Element nameElement = elementTds.get(i);
+                        Element nameSpan = nameElement.select("span").get(0);
+                        String nameText = nameSpan.text();
+
+                        String clearKey = cleanKey(keyText);
+                        String sql = "";
+                        if (StringUtils.isNotEmpty(clearKey)) {
+                            sql = "`" + cleanKey(keyText) + "` double default null comment '" + nameText + "',";
+                        } else {
+                            sql = "-- =================" + nameText + "================= --";
+                        }
+
+                        RyTask.keySetOfHtml.add(sql);
+                        //System.out.println(sql);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error(">>>TaskUtils.getHtmlKey 异常:{}", e.getMessage());
+        }
     }
 
+    /**
+     * 生成SQL文件
+     */
+    public static void writeSqlFile(String fileName, Set<String> sqlSet) {
+        BufferedWriter bw = null;
+        try {
+            File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/" + fileName);
+            File pafile = sqlFile.getParentFile();
+            // 判断文件夹是否存在
+            if (!pafile.exists()) {
+                pafile.mkdirs();
+            }
+            // 判断文件是否存在
+            if (!sqlFile.exists()) {
+                sqlFile.createNewFile();
+            }
+            // 遍历写入
+            bw = new BufferedWriter(new FileWriter(sqlFile));
+            for (String sql : sqlSet) {
+                bw.write(sql);
+                bw.write(System.getProperty("line.separator"));
+            }
+            bw.flush();
+            bw.close();
+        } catch (Exception e) {
+            log.error(">>>TaskUtils.writeSqlFile 异常:{}", e.getMessage());
+        }finally {
+            if (null!=bw){
+                try {
+                    bw.close();
+                } catch (IOException e) {
+                }
+            }
+        }
+    }
+
+    /**
+     * 清洗HTML
+     */
+    private static String cleanKey(String str) {
+        List<String> replaceList = new ArrayList<>();
+        replaceList.add("{");
+        replaceList.add("toFixed");
+        replaceList.add("formatMoney");
+        replaceList.add("formatPercent");
+        replaceList.add("(");
+        replaceList.add("value");
+        replaceList.add(".");
+        replaceList.add(",");
+        replaceList.add("'");
+        replaceList.add("4");
+        replaceList.add(")");
+        replaceList.add("}");
+
+        for (String replace : replaceList) {
+            str = str.replace(replace, "");
+        }
+        return str.trim();
+    }
 }

@@ -17,7 +17,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -44,15 +43,14 @@ public class RyTask {
      * 容器中的线程池
      */
     private ThreadPoolTaskExecutor threadPoolTaskExecutor = SpringUtils.getBean("threadPoolTaskExecutor");
-
     /**
      * 存放接口所有字段
      */
-    public static Set<String> keySet = new HashSet<>();
+    public static Set<String> keySetOfInterface = new LinkedHashSet<>();
     /**
      * 存放接口所有字段
      */
-    public static Set<String> sqlSet = new HashSet<>();
+    public static Set<String> keySetOfHtml = new LinkedHashSet<>();
 
 
     ///////////////////////////////////////////////////////个股信息//////////////////////////////////////////////////////
@@ -61,7 +59,7 @@ public class RyTask {
      * 判断线程池状态
      */
     private static void isCompletedByTaskCount(ThreadPoolExecutor threadPool, Integer value) {
-        while (threadPool.getQueue().size() > value) ;
+        while (threadPool.getActiveCount() > value) ;
     }
 
     /**
@@ -73,9 +71,9 @@ public class RyTask {
         List<SysDictData> dictDatas = dictDataMapper.selectDictDataList(dictData);
 
         String url = ev.getProperty("inv.stock-list");
-        String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
-        if (StringUtils.isNotEmpty(jsonStr)) {
-            JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+        String result = HttpUtils.sendGet(url, new AtomicInteger(10));
+        if (StringUtils.isNotEmpty(result)) {
+            JSONObject jsonObject = JSONObject.parseObject(result);
             if (jsonObject.containsKey("data")) {
                 JSONObject dataObject = jsonObject.getJSONObject("data");
                 if (dataObject.containsKey("diff")) {
@@ -125,7 +123,7 @@ public class RyTask {
     public void invFinanceTask() {
         log.info("================财务分析任务 等待=================");
         //保证线程池比较闲时候再开始任务
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("================财务分析任务 开始=================");
 
         log.info("========沪深A股基础数据初始化 任务开始=========");
@@ -149,7 +147,7 @@ public class RyTask {
             myQuartzAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-xjll-date-nd"), "xjll", "nd", new AtomicInteger(10));
             myQuartzAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-xjll-date-jd"), "xjll", "jd", new AtomicInteger(10));
         }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========财务分析-报告日期 任务完成=========");
 
         log.info("========财务分析-重要指标 任务开始=========");
@@ -158,14 +156,14 @@ public class RyTask {
             myQuartzAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-nd"), "nd", new AtomicInteger(10));
             myQuartzAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-jd"), "jd", new AtomicInteger(10));
         }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========财务分析-重要指标 任务完成=========");
 
         log.info("========财务分析-杜邦分析 任务开始=========");
         for (InvStock stock : stockList) {
             myQuartzAsyncTask.invFinanceDbfxTask(stock, ev.getProperty("inv.finance-dbfx"), new AtomicInteger(10));
         }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========财务分析-杜邦分析 任务完成=========");
 
         log.info("========财务分析-资产负债 任务开始=========");
@@ -176,7 +174,7 @@ public class RyTask {
             myQuartzAsyncTask.invFinanceZcfzTask(stock, ev.getProperty("inv.finance-zcfz-ajax-bgq"), "zcfz", "bgq", dictDatas, new AtomicInteger(10));
             myQuartzAsyncTask.invFinanceZcfzTask(stock, ev.getProperty("inv.finance-zcfz-ajax-nd"), "zcfz", "nd", dictDatas, new AtomicInteger(10));
         }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========财务分析-资产负债 任务完成=========");
 
         log.info("========财务分析-利润 任务开始=========");
@@ -185,7 +183,7 @@ public class RyTask {
             myQuartzAsyncTask.invFinanceLrTask(stock, ev.getProperty("inv.finance-lr-ajax-nd"), "lr", "nd", dictDatas, new AtomicInteger(10));
             myQuartzAsyncTask.invFinanceLrTask(stock, ev.getProperty("inv.finance-lr-ajax-jd"), "lr", "jd", dictDatas, new AtomicInteger(10));
         }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========财务分析-利润 任务完成=========");
 
         log.info("========财务分析-现金流量 任务开始=========");
@@ -194,7 +192,7 @@ public class RyTask {
             myQuartzAsyncTask.invFinanceXjllTask(stock, ev.getProperty("inv.finance-xjll-ajax-nd"), "xjll", "nd", dictDatas, new AtomicInteger(10));
             myQuartzAsyncTask.invFinanceXjllTask(stock, ev.getProperty("inv.finance-xjll-ajax-jd"), "xjll", "jd", dictDatas, new AtomicInteger(10));
         }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 1000);
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========财务分析-现金流量 任务完成=========");
 
         log.info("========财务分析-百分比 任务开始=========");
@@ -214,64 +212,38 @@ public class RyTask {
     /**
      * 生成接口对应SQL文件
      */
-    public void createInterfaceSqlFile(String dataUrls, String htmlUrl, String interfaceName, String elementById) throws IOException {
+    public void createSqlFile(String dataUrls, String htmlUrl, String fileName, String elementIds) throws IOException {
         log.info("========生成SQL 任务等待=========");
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========生成SQL 任务开始=========");
-        keySet.clear();
-        sqlSet.clear();
 
-        List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();//获取所有未退市股
-
-        String[] dataUrlArr = dataUrls.split(";");
+        keySetOfInterface.clear();
+        keySetOfHtml.clear();
+        List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
+        int i = 0;
         for (InvStock stock : stockList) {
-            //1.多线程获取接口字段
-            for (String dataUrl : dataUrlArr) {
+            i++;
+            for (String dataUrl : dataUrls.split(";")) {
                 myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + dataUrl));
             }
-            //2.多线程下载接口所在的HTML文件
-            myQuartzAsyncTask.downInterfaceHtml(stock, ev.getProperty("inv." + htmlUrl), interfaceName, elementById);
-        }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-
-        //3.生成不带描述的SQL文件
-        TaskUtils.writeSqlFileWithoutComment(interfaceName);
-
-        //4.匹配字段和HTML中的描述
-        File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/html/" + interfaceName + "/");
-        if (htmlFile.isDirectory()) {
-            File[] files = htmlFile.listFiles();
-            for (File file : files) {
-                myQuartzAsyncTask.getSqlListWithComment(file);
+            myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv." + htmlUrl), Arrays.asList(elementIds.split(";")));
+            if (i>100){
+                break;
             }
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
 
-        //5.生成带描述的SQL文件
-        TaskUtils.writeSqlFileWithComment(interfaceName);
+        TaskUtils.writeSqlFile(fileName + ".txt", keySetOfInterface);
+        TaskUtils.writeSqlFile(fileName + ".sql", keySetOfHtml);
         log.info("========生成SQL 任务完成=========");
     }
 
     ///////////////////////////////////////////////////////示例代码//////////////////////////////////////////////////////
 
     /**
-     * 多参数任务示例
+     * 示例代码
      */
     public void ryMultipleParams(String s, Boolean b, Long l, Double d, Integer i) {
         System.out.println(StringUtils.format("执行多参方法： 字符串类型{}，布尔类型{}，长整型{}，浮点型{}，整形{}", s, b, l, d, i));
-    }
-
-    /**
-     * 单参数任务示例
-     */
-    public void ryParams(String params) {
-        System.out.println("执行有参方法：" + params);
-    }
-
-    /**
-     * 无参数任务示例
-     */
-    public void ryNoParams() {
-        System.out.println("执行无参方法");
     }
 }

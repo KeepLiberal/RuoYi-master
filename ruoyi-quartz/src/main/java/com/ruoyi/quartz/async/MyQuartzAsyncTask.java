@@ -9,21 +9,13 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.investment.domain.*;
 import com.ruoyi.investment.mapper.*;
-import com.ruoyi.quartz.task.RyTask;
 import com.ruoyi.quartz.util.TaskUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.lang.reflect.Field;
-import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -69,9 +61,9 @@ public class MyQuartzAsyncTask {
             if (null != companyType) {
                 url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
                 url = url.replace("companyType=", "companyType=" + companyType);
-                String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
-                if (StringUtils.isNotEmpty(jsonStr)) {
-                    JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+                String result = HttpUtils.sendGet(url, new AtomicInteger(10));
+                if (StringUtils.isNotEmpty(result)) {
+                    JSONObject jsonObject = JSONObject.parseObject(result);
                     Set<String> keySet = jsonObject.keySet();
                     for (String key : keySet) {
                         Object obj = jsonObject.get(key);
@@ -100,11 +92,11 @@ public class MyQuartzAsyncTask {
                 for (int i = 1; i < 20; i++) {//目前财富通为1-4类
                     url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
                     url = url.replace("companyType=", "companyType=" + String.valueOf(i));
-                    String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
+                    String result = HttpUtils.sendGet(url, new AtomicInteger(10));
                     //调用完接口链接后回退到原始链接
                     url = url.replace("companyType=" + i, "companyType=");
-                    if (StringUtils.isNotEmpty(jsonStr)) {
-                        JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+                    if (StringUtils.isNotEmpty(result)) {
+                        JSONObject jsonObject = JSONObject.parseObject(result);
                         Set<String> keySet = jsonObject.keySet();
                         for (String key : keySet) {
                             Object obj = jsonObject.get(key);
@@ -152,9 +144,9 @@ public class MyQuartzAsyncTask {
     public void invFinanceZyzbTask(InvStock stock, String url, String reportType, AtomicInteger count) {
         try {
             url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
-            String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
-            if (StringUtils.isNotEmpty(jsonStr)) {
-                JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+            String result = HttpUtils.sendGet(url, new AtomicInteger(10));
+            if (StringUtils.isNotEmpty(result)) {
+                JSONObject jsonObject = JSONObject.parseObject(result);
                 Set<String> keySet = jsonObject.keySet();
                 for (String key : keySet) {
                     Object obj = jsonObject.get(key);
@@ -223,9 +215,9 @@ public class MyQuartzAsyncTask {
     public void invFinanceDbfxTask(InvStock stock, String url, AtomicInteger count) {
         try {
             url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
-            String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
-            if (StringUtils.isNotEmpty(jsonStr)) {
-                JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+            String result = HttpUtils.sendGet(url, new AtomicInteger(10));
+            if (StringUtils.isNotEmpty(result)) {
+                JSONObject jsonObject = JSONObject.parseObject(result);
                 Set<String> reportTypes = jsonObject.keySet();
                 for (String reportType : reportTypes) {
                     JSONArray jsonArray = jsonObject.getJSONArray(reportType);
@@ -329,11 +321,11 @@ public class MyQuartzAsyncTask {
                     url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
                     url = url.replace("companyType=", "companyType=" + stock.getStockType());
                     url = url.replace("dates=", "dates=" + datesSb);
-                    String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
+                    String result = HttpUtils.sendGet(url, new AtomicInteger(10));
                     //调用完接口链接后回退到原始链接
                     url = url.replace("dates=" + datesSb, "dates=");
-                    if (StringUtils.isNotEmpty(jsonStr)) {
-                        JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+                    if (StringUtils.isNotEmpty(result)) {
+                        JSONObject jsonObject = JSONObject.parseObject(result);
                         Set<String> keySet = jsonObject.keySet();
                         for (String key : keySet) {
                             Object obj = jsonObject.get(key);
@@ -465,11 +457,11 @@ public class MyQuartzAsyncTask {
                     url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
                     url = url.replace("companyType=", "companyType=" + stock.getStockType());
                     url = url.replace("dates=", "dates=" + datesSb);
-                    String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
+                    String result = HttpUtils.sendGet(url, new AtomicInteger(10));
                     //调用完接口链接后回退到原始链接
                     url = url.replace("dates=" + datesSb, "dates=");
-                    if (StringUtils.isNotEmpty(jsonStr)) {
-                        JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+                    if (StringUtils.isNotEmpty(result)) {
+                        JSONObject jsonObject = JSONObject.parseObject(result);
                         Set<String> keySet = jsonObject.keySet();
                         for (String key : keySet) {
                             Object obj = jsonObject.get(key);
@@ -601,11 +593,11 @@ public class MyQuartzAsyncTask {
                     url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
                     url = url.replace("companyType=", "companyType=" + stock.getStockType());
                     url = url.replace("dates=", "dates=" + datesSb);
-                    String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
+                    String result = HttpUtils.sendGet(url, new AtomicInteger(10));
                     //调用完接口链接后回退到原始链接
                     url = url.replace("dates=" + datesSb, "dates=");
-                    if (StringUtils.isNotEmpty(jsonStr)) {
-                        JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+                    if (StringUtils.isNotEmpty(result)) {
+                        JSONObject jsonObject = JSONObject.parseObject(result);
                         Set<String> keySet = jsonObject.keySet();
                         for (String key : keySet) {
                             Object obj = jsonObject.get(key);
@@ -700,9 +692,9 @@ public class MyQuartzAsyncTask {
         try {
             url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
             url = url.replace("ctype=", "ctype=" + stock.getStockType());
-            String jsonStr = HttpUtils.sendGet(url, new AtomicInteger(10));
-            if (StringUtils.isNotEmpty(jsonStr)) {
-                JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+            String result = HttpUtils.sendGet(url, new AtomicInteger(10));
+            if (StringUtils.isNotEmpty(result)) {
+                JSONObject jsonObject = JSONObject.parseObject(result);
                 Set<String> keySet = jsonObject.keySet();
                 for (String key : keySet) {
                     Object obj = jsonObject.get(key);
@@ -783,106 +775,15 @@ public class MyQuartzAsyncTask {
      */
     @Async("threadPoolTaskExecutor")
     public void getInterfaceKey(InvStock stock, String dataUrl) {
-        try {
-            dataUrl = dataUrl.replace("code=", "code=" + stock.getMarket() + stock.getCode());
-            dataUrl = dataUrl.replace("companyType=", "companyType=" + stock.getStockType());
-            dataUrl = dataUrl.replace("ctype=", "ctype=" + stock.getStockType());
-
-            ZonedDateTime dateTime = ZonedDateTime.now();
-            int year = dateTime.getYear();
-            int month = dateTime.getMonthValue();
-            if (month < 3) {
-                dataUrl = dataUrl.replace("dates=", "dates=" + (year - 1) + "-12-31");
-            }
-            if (month > 3 && month <= 6) {
-                dataUrl = dataUrl.replace("dates=", "dates=" + year + "-3-31");
-            }
-            if (month > 6 && month <= 9) {
-                dataUrl = dataUrl.replace("dates=", "dates=" + year + "-6-30");
-            }
-            if (month > 9 && month <= 12) {
-                dataUrl = dataUrl.replace("dates=", "dates=" + year + "-9-30");
-            }
-
-            String jsonStr = HttpUtils.sendGet(dataUrl, new AtomicInteger(10));
-            if (StringUtils.isNotEmpty(jsonStr)) {
-                JSONObject jsonObject = JSONObject.parseObject(jsonStr);
-                Set<String> keySet = jsonObject.keySet();
-                for (String key : keySet) {
-                    Object obj = jsonObject.get(key);
-                    if (obj instanceof JSONArray) {
-                        JSONArray jsonArray = (JSONArray) obj;
-                        if (!jsonArray.isEmpty()) {
-                            Iterator<Object> iterator = jsonArray.iterator();
-                            if (iterator.hasNext()) {
-                                JSONObject next = (JSONObject) iterator.next();
-                                RyTask.keySet.addAll(next.keySet());
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            log.error(">>>MyQuartzAsyncTask.getInterfaceKey 异常:", e);
-        }
+        TaskUtils.getInterfaceKey(stock, dataUrl);
     }
 
     /**
-     * 多线程下载接口所在的HTML文件
+     * 多线程获取接口字段
      */
     @Async("threadPoolTaskExecutor")
-    public void downInterfaceHtml(InvStock stock, String htmlUrl, String interfaceName, String elementById) {
-        try {
-            htmlUrl = htmlUrl.replace("code=", "code=" + stock.getMarket() + stock.getCode());
-            String result = HttpUtils.sendGet(htmlUrl, new AtomicInteger(10));
-            if (StringUtils.isNotEmpty(result)) {
-                File htmlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-Data/devFile/html/" + interfaceName + "/" + stock.getCode() + ".html");
-                File pafile = htmlFile.getParentFile();
-                // 判断文件夹是否存在
-                if (!pafile.exists()) {
-                    pafile.mkdirs();
-                }
-                // 判断文件是否存在
-                if (!htmlFile.exists()) {
-                    htmlFile.createNewFile();
-                }
-                BufferedWriter bw = new BufferedWriter(new FileWriter(htmlFile));
-
-                Document doc = Jsoup.parse(result);
-                Element tmpl_zyzb = doc.getElementById(elementById);
-
-                bw.write(tmpl_zyzb.toString());
-                bw.flush();
-                bw.close();
-            }
-        } catch (Exception e) {
-            log.error(">>>MyQuartzAsyncTask.downInterfaceHtml 异常:", e);
-        }
+    public void getHtmlKey(InvStock stock, String htmlUrl, List<String> elementIdList) {
+        TaskUtils.getHtmlKey(stock, htmlUrl, elementIdList);
     }
-
-    /**
-     * 多线程获取接口字段描述的SQL集合
-     */
-    @Async("threadPoolTaskExecutor")
-    public void getSqlListWithComment(File file) {
-        List<String> htmlLineList = TaskUtils.readDownloadHtmlFile(file);
-        for (String key : RyTask.keySet) {
-            for (int i = 0; i < htmlLineList.size(); i++) {
-                String htmlKey = htmlLineList.get(i);
-                if (htmlKey.contains("(value." + key + ")")) {
-                    String chinese = StringUtils.getChinese(htmlLineList.get(i - 1));
-                    String sql = "";
-                    if (key.endsWith("_YOY")) {
-                        sql = "`" + key + "` double default null comment '" + chinese + "(环比%)'";
-                    } else {
-                        sql = "`" + key + "` double default null comment '" + chinese + "'";
-                    }
-                    RyTask.sqlSet.add(sql);
-                    break;
-                }
-            }
-        }
-    }
-
 
 }
