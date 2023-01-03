@@ -782,8 +782,8 @@ public class MyQuartzAsyncTask {
      * 多线程获取接口字段
      */
     @Async("threadPoolTaskExecutor")
-    public void getHtmlKey(InvStock stock, String htmlUrl, List<String> elementIdList) {
-        TaskUtils.getHtmlKey(stock, htmlUrl, elementIdList);
+    public void getHtmlKey(InvStock stock, String htmlUrl, String name) {
+        TaskUtils.getHtmlKey(stock, htmlUrl, name);
     }
 
 }

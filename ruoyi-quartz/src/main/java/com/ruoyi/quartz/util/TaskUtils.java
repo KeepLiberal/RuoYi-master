@@ -75,64 +75,71 @@ public class TaskUtils {
                 }
             }
         } catch (Exception e) {
-            log.error(">>>TaskUtils.getInterfaceKey 异常:{}", dataUrl);
+            log.error(">>>TaskUtils.getInterfaceKey 异常:", e);
         }
     }
 
     public static void main(String[] args) {
-        getHtmlKey(new InvStock("000001", "", "sz") , "https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/Index?type=web&code=", Arrays.asList("tmpl_zyzb"));
+        getHtmlKey(new InvStock("000005", "", "sz") , "https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/Index?type=web&code=", "lr");
     }
+
     /**
      * 获取接口字段
      */
-    public static void getHtmlKey(InvStock stock, String htmlUrl, List<String> elementIdList) {
+    public static void getHtmlKey(InvStock stock, String htmlUrl, String name) {
         try {
             htmlUrl = htmlUrl.replace("code=", "code=" + stock.getMarket() + stock.getCode());
             String result = HttpUtils.sendGet(htmlUrl, new AtomicInteger(10));
             if (StringUtils.isNotEmpty(result)) {
                 Document doc = Jsoup.parse(result);
+                Elements scripts = doc.getElementsByTag("script");
 
-                for (String elementById : elementIdList) {
-                    Element element = doc.getElementById(elementById);
+                List<String> elementIdList = new ArrayList<>();
+                for (Element element : scripts){
+                    String elementId = element.id();
+                    if (elementId.contains(name)){
+                        elementIdList.add(elementId);
+                        String replace1 = "<script type=\"text/template\" id=\"" + elementId + "\">";
+                        String replace2 = "</script>";
+                        String elementStr = element.toString().replace(replace1, "").replace(replace2, "");
 
-                    String replace1 = "<script type=\"text/template\" id=\"" + elementById + "\">";
-                    String replace2 = "</script>";
-                    String elementStr = element.toString().replace(replace1, "").replace(replace2, "");
-
-                    Document elementDoc = Jsoup.parse(elementStr);
-                    Elements elementTds = elementDoc.select("td");
-                    for (int i = 0; i < elementTds.size() - 1; i++) {
-                        Element ele = elementTds.get(i);
-                        String eleStr = ele.toString();
-                        if (eleStr.contains("nodata") || eleStr.contains("暂无数据")) {
-                            elementTds.remove(ele);
-                        }
-                    }
-
-                    for (int i = 0; i < elementTds.size() - 2; i += 2) {
-                        Element keyElement = elementTds.get(i + 1);
-                        Element keySpan = keyElement.select("span").get(0);
-                        String keyText = keySpan.text();
-
-                        Element nameElement = elementTds.get(i);
-                        Element nameSpan = nameElement.select("span").get(0);
-                        String nameText = nameSpan.text();
-
-                        String clearKey = cleanKey(keyText);
-                        String sql = "";
-                        if (StringUtils.isNotEmpty(clearKey)) {
-                            sql = "`" + cleanKey(keyText) + "` double default null comment '" + nameText + "',";
-                        } else {
-                            sql = "-- =================" + nameText + "================= --";
+                        Document elementDoc = Jsoup.parse(elementStr);
+                        Elements elementTds = elementDoc.select("td");
+                        for (int i = 0; i < elementTds.size() - 1; i++) {
+                            Element ele = elementTds.get(i);
+                            String eleStr = ele.toString();
+                            if (eleStr.contains("nodata") || eleStr.contains("暂无数据")) {
+                                elementTds.remove(ele);
+                            }
                         }
 
-                        RyTask.keySetOfHtml.add(sql);
-                        //System.out.println(sql);
+                        for (int i = 0; i < elementTds.size() - 2; i += 2) {
+                            Element keyElement = elementTds.get(i + 1);
+                            Element keySpan = keyElement.select("span").get(0);
+                            String keyText = keySpan.text();
+
+                            Element nameElement = elementTds.get(i);
+                            Element nameSpan = nameElement.select("span").get(0);
+                            String nameText = nameSpan.text();
+
+                            String clearKey = cleanKey(keyText);
+                            String sql = "";
+                            if (StringUtils.isNotEmpty(clearKey)) {
+                                sql = "`" + cleanKey(keyText) + "` double default null comment '" + nameText + "',";
+                            } else {
+                                sql = "-- =================" + nameText + "================= --";
+                            }
+
+                            RyTask.keySetOfHtml.add(sql);
+                        }
                     }
+                }
+                if (elementIdList.size()==0){
+                    log.info("htmlUrl:{} name:{} 无匹配项，请检查网页源码修正代码", htmlUrl, name);
                 }
             }
         } catch (Exception e) {
-            log.error(">>>TaskUtils.getHtmlKey 异常:{}", e.getMessage());
+            log.error(">>>TaskUtils.getHtmlKey 异常:", e);
         }
     }
 
@@ -161,7 +168,7 @@ public class TaskUtils {
             bw.flush();
             bw.close();
         } catch (Exception e) {
-            log.error(">>>TaskUtils.writeSqlFile 异常:{}", e.getMessage());
+            log.error(">>>TaskUtils.writeSqlFile 异常:", e);
         }finally {
             if (null!=bw){
                 try {

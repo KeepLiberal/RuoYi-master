@@ -212,7 +212,7 @@ public class RyTask {
     /**
      * 生成接口对应SQL文件
      */
-    public void createSqlFile(String dataUrls, String htmlUrl, String fileName, String elementIds) throws IOException {
+    public void createSqlFile(String dataUrls, String htmlUrl, String name) throws IOException {
         log.info("========生成SQL 任务等待=========");
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========生成SQL 任务开始=========");
@@ -220,21 +220,19 @@ public class RyTask {
         keySetOfInterface.clear();
         keySetOfHtml.clear();
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
-        int i = 0;
         for (InvStock stock : stockList) {
-            i++;
+//            if ("000005".equals(stock.getCode())){
+//                myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv." + htmlUrl), name);
+//            }
             for (String dataUrl : dataUrls.split(";")) {
                 myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + dataUrl));
             }
-            myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv." + htmlUrl), Arrays.asList(elementIds.split(";")));
-            if (i>100){
-                break;
-            }
+            myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv." + htmlUrl), name);
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
 
-        TaskUtils.writeSqlFile(fileName + ".txt", keySetOfInterface);
-        TaskUtils.writeSqlFile(fileName + ".sql", keySetOfHtml);
+        TaskUtils.writeSqlFile(name + ".txt", keySetOfInterface);
+        TaskUtils.writeSqlFile(name + ".sql", keySetOfHtml);
         log.info("========生成SQL 任务完成=========");
     }
 
