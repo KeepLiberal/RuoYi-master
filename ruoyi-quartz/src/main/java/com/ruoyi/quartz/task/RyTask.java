@@ -221,7 +221,10 @@ public class RyTask {
         keyMapOfHtml.clear();
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
         for (InvStock stock : stockList) {
-//            if ("000005".equals(stock.getCode())){
+//            if ("600036".equals(stock.getCode())){
+//                for (String dataUrl : dataUrls.split(";")) {
+//                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + dataUrl));
+//                }
 //                myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv." + htmlUrl), name);
 //            }
             for (String dataUrl : dataUrls.split(";")) {
@@ -233,7 +236,7 @@ public class RyTask {
 
         TaskUtils.writeSqlFile(name + ".txt", keySetOfInterface);
         TaskUtils.writeSqlFile(name + ".sql", keyMapOfHtml);
-        TaskUtils.writeCompareFile(name + ".txt");
+        TaskUtils.writeCompareFile(name + "-compare.txt");
         log.info("========生成SQL 任务完成=========");
     }
 

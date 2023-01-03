@@ -112,24 +112,19 @@ public class TaskUtils {
                         for (int i = 0; i < elementTds.size() - 1; i++) {
                             Element ele = elementTds.get(i);
                             String eleStr = ele.toString();
-                            if (eleStr.contains("nodata") || eleStr.contains("暂无数据")) {
+                            if (eleStr.contains("no-data") || eleStr.contains("nodata") || eleStr.contains("暂无数据")) {
                                 elementTds.remove(ele);
                             }
                         }
 
-                        for (int i = 0; i < elementTds.size() - 2; i += 2) {
-                            Element keyElement = elementTds.get(i + 1);
-                            Element keySpan = keyElement.select("span").get(0);
-                            String keyText = keySpan.text();
-
-                            Element nameElement = elementTds.get(i);
-                            Element nameSpan = nameElement.select("span").get(0);
-                            String nameText = nameSpan.text();
+                        for (int i = 0; i <= elementTds.size() - 2; i = i + 2) {
+                            String nameText = elementTds.get(i).select("span").get(0).text();
+                            String keyText = elementTds.get(i + 1).select("span").get(0).text();
 
                             String clearKey = cleanKey(keyText);
                             String sql = "";
                             if (StringUtils.isNotEmpty(clearKey)) {
-                                sql = "`" + cleanKey(keyText) + "` double default null comment '" + nameText + "',";
+                                sql = "`" + clearKey + "` double default null comment '" + nameText + "',";
                             } else {
                                 sql = "-- =================" + nameText + "================= --";
                             }
@@ -238,13 +233,13 @@ public class TaskUtils {
 
             List<String> interfaceHasNo = new ArrayList<>();
             List<String> htmlHasNo = new ArrayList<>();
-            for (String key : RyTask.keySetOfInterface){
-                if (!RyTask.keyMapOfHtml.containsValue(key)){
+            for (String key : RyTask.keySetOfInterface) {
+                if (!RyTask.keyMapOfHtml.containsValue(key)) {
                     htmlHasNo.add(key);
                 }
             }
-            for (String key : RyTask.keyMapOfHtml.values()){
-                if (!RyTask.keySetOfInterface.contains(key)){
+            for (String key : RyTask.keyMapOfHtml.values()) {
+                if (!RyTask.keySetOfInterface.contains(key)) {
                     interfaceHasNo.add(key);
                 }
             }
