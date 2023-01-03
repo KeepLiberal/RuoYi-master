@@ -17,10 +17,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -137,7 +134,7 @@ public class TaskUtils {
                                 sql = "-- =================" + nameText + "================= --";
                             }
 
-                            RyTask.keySetOfHtml.add(sql);
+                            RyTask.keyMapOfHtml.put(sql, clearKey);
                         }
                     }
                 }
@@ -185,6 +182,104 @@ public class TaskUtils {
             }
         }
     }
+
+    /**
+     * 生成SQL文件
+     */
+    public static void writeSqlFile(String fileName, LinkedHashMap<String, String> keyMapOfHtml) {
+        BufferedWriter bw = null;
+        try {
+            File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/" + fileName);
+            File pafile = sqlFile.getParentFile();
+            // 判断文件夹是否存在
+            if (!pafile.exists()) {
+                pafile.mkdirs();
+            }
+            // 判断文件是否存在
+            if (!sqlFile.exists()) {
+                sqlFile.createNewFile();
+            }
+            // 遍历写入
+            bw = new BufferedWriter(new FileWriter(sqlFile));
+            for (String sql : keyMapOfHtml.keySet()) {
+                bw.write(sql);
+                bw.write(System.getProperty("line.separator"));
+            }
+            bw.flush();
+            bw.close();
+        } catch (Exception e) {
+            log.error(">>>TaskUtils.writeSqlFile 异常:", e);
+        } finally {
+            if (null != bw) {
+                try {
+                    bw.close();
+                } catch (IOException e) {
+                }
+            }
+        }
+    }
+
+    /**
+     * 生成字段对比文件
+     */
+    public static void writeCompareFile(String fileName) {
+        BufferedWriter bw = null;
+        try {
+            File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/" + fileName);
+            File pafile = sqlFile.getParentFile();
+            // 判断文件夹是否存在
+            if (!pafile.exists()) {
+                pafile.mkdirs();
+            }
+            // 判断文件是否存在
+            if (!sqlFile.exists()) {
+                sqlFile.createNewFile();
+            }
+
+            List<String> interfaceHasNo = new ArrayList<>();
+            List<String> htmlHasNo = new ArrayList<>();
+            for (String key : RyTask.keySetOfInterface){
+                if (!RyTask.keyMapOfHtml.containsValue(key)){
+                    htmlHasNo.add(key);
+                }
+            }
+            for (String key : RyTask.keyMapOfHtml.values()){
+                if (!RyTask.keySetOfInterface.contains(key)){
+                    interfaceHasNo.add(key);
+                }
+            }
+
+            // 遍历写入
+            bw = new BufferedWriter(new FileWriter(sqlFile));
+            bw.write("--==============接口包含页面不包含的字段==============");
+            bw.write(System.getProperty("line.separator"));
+            for (String key : htmlHasNo) {
+                bw.write(key);
+                bw.write(System.getProperty("line.separator"));
+            }
+            bw.write(System.getProperty("line.separator"));
+
+            bw.write("--==============页面包含接口不包含的字段==============");
+            bw.write(System.getProperty("line.separator"));
+            for (String key : interfaceHasNo) {
+                bw.write(key);
+                bw.write(System.getProperty("line.separator"));
+            }
+
+            bw.flush();
+            bw.close();
+        } catch (Exception e) {
+            log.error(">>>TaskUtils.writeCompareFile 异常:", e);
+        } finally {
+            if (null != bw) {
+                try {
+                    bw.close();
+                } catch (IOException e) {
+                }
+            }
+        }
+    }
+
 
     /**
      * 清洗HTML

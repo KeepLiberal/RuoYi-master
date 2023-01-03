@@ -46,11 +46,11 @@ public class RyTask {
     /**
      * 存放接口所有字段
      */
-    public static Set<String> keySetOfInterface = new LinkedHashSet<>();
+    public static Set<String> keySetOfInterface = new HashSet<>();
     /**
      * 存放接口所有字段
      */
-    public static Set<String> keySetOfHtml = new LinkedHashSet<>();
+    public static LinkedHashMap<String, String> keyMapOfHtml = new LinkedHashMap<>();
 
 
     ///////////////////////////////////////////////////////个股信息//////////////////////////////////////////////////////
@@ -218,7 +218,7 @@ public class RyTask {
         log.info("========生成SQL 任务开始=========");
 
         keySetOfInterface.clear();
-        keySetOfHtml.clear();
+        keyMapOfHtml.clear();
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
         for (InvStock stock : stockList) {
 //            if ("000005".equals(stock.getCode())){
@@ -232,7 +232,8 @@ public class RyTask {
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
 
         TaskUtils.writeSqlFile(name + ".txt", keySetOfInterface);
-        TaskUtils.writeSqlFile(name + ".sql", keySetOfHtml);
+        TaskUtils.writeSqlFile(name + ".sql", keyMapOfHtml);
+        TaskUtils.writeCompareFile(name);
         log.info("========生成SQL 任务完成=========");
     }
 
