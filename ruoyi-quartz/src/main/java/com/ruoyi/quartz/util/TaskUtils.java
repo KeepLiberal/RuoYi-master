@@ -34,12 +34,16 @@ public class TaskUtils {
      */
     public static void getInterfaceKey(InvStock stock, String dataUrl) {
         try {
-            if (dataUrl.contains("code="))
+            if (dataUrl.contains("code=")) {
                 dataUrl = dataUrl.replace("code=", "code=" + stock.getMarket() + stock.getCode());
-            if (dataUrl.contains("companyType="))
+            }
+            if (dataUrl.contains("companyType=")) {
                 dataUrl = dataUrl.replace("companyType=", "companyType=" + stock.getStockType());
-            if (dataUrl.contains("ctype=")) dataUrl = dataUrl.replace("ctype=", "ctype=" + stock.getStockType());
+            }
             if (dataUrl.contains("ctype=")) {
+                dataUrl = dataUrl.replace("ctype=", "ctype=" + stock.getStockType());
+            }
+            if (dataUrl.contains("dates=")) {
                 ZonedDateTime dateTime = ZonedDateTime.now();
                 int year = dateTime.getYear();
                 int month = dateTime.getMonthValue();
@@ -80,7 +84,7 @@ public class TaskUtils {
     }
 
     public static void main(String[] args) {
-        getHtmlKey(new InvStock("000005", "", "sz") , "https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/Index?type=web&code=", "lr");
+        getHtmlKey(new InvStock("000005", "", "sz"), "https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/Index?type=web&code=", "lr");
     }
 
     /**
@@ -95,9 +99,9 @@ public class TaskUtils {
                 Elements scripts = doc.getElementsByTag("script");
 
                 List<String> elementIdList = new ArrayList<>();
-                for (Element element : scripts){
+                for (Element element : scripts) {
                     String elementId = element.id();
-                    if (elementId.contains(name)){
+                    if (elementId.contains(name)) {
                         elementIdList.add(elementId);
                         String replace1 = "<script type=\"text/template\" id=\"" + elementId + "\">";
                         String replace2 = "</script>";
@@ -134,7 +138,7 @@ public class TaskUtils {
                         }
                     }
                 }
-                if (elementIdList.size()==0){
+                if (elementIdList.size() == 0) {
                     log.info("htmlUrl:{} name:{} 无匹配项，请检查网页源码修正代码", htmlUrl, name);
                 }
             }
@@ -169,8 +173,8 @@ public class TaskUtils {
             bw.close();
         } catch (Exception e) {
             log.error(">>>TaskUtils.writeSqlFile 异常:", e);
-        }finally {
-            if (null!=bw){
+        } finally {
+            if (null != bw) {
                 try {
                     bw.close();
                 } catch (IOException e) {
