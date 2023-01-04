@@ -21,16 +21,16 @@ import com.ruoyi.common.utils.Threads;
 @EnableAsync //项目中使用 @Async的话，必须配合@EnableAsync(通知配置器开启异步)，@EnableAsync加在任何类上都行，只要主启动类能扫描到就行
 public class ThreadPoolConfig {
     // 核心线程池大小
-    private int corePoolSize = 24;
+    private int corePoolSize = 48;
 
     // 最大可创建的线程数
-    private int maxPoolSize = 48;
+    private int maxPoolSize = 96;
 
     // 队列最大长度
-    private int queueCapacity = 50000;
+    private int queueCapacity = 100000;
 
     // 线程池维护线程所允许的空闲时间
-    private int keepAliveSeconds = 300;
+    private int keepAliveSeconds = 60;
 
     @Bean(name = "threadPoolTaskExecutor")
     public ThreadPoolTaskExecutor threadPoolTaskExecutor() {
