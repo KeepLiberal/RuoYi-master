@@ -48,16 +48,16 @@ public class TaskUtils {
                 int year = dateTime.getYear();
                 int month = dateTime.getMonthValue();
                 if (month < 3) {
-                    dataUrl = dataUrl.replace("dates=", "dates=" + (year - 1) + "-12-31");
+                    dataUrl = dataUrl.replace("dates=", "dates=" + (year - 2) + "-12-31");
                 }
                 if (month > 3 && month <= 6) {
-                    dataUrl = dataUrl.replace("dates=", "dates=" + year + "-3-31");
+                    dataUrl = dataUrl.replace("dates=", "dates=" + (year - 1) + "-3-31");
                 }
                 if (month > 6 && month <= 9) {
-                    dataUrl = dataUrl.replace("dates=", "dates=" + year + "-6-30");
+                    dataUrl = dataUrl.replace("dates=", "dates=" + (year - 1) + "-6-30");
                 }
                 if (month > 9 && month <= 12) {
-                    dataUrl = dataUrl.replace("dates=", "dates=" + year + "-9-30");
+                    dataUrl = dataUrl.replace("dates=", "dates=" + (year - 1) + "-9-30");
                 }
             }
             String result = HttpUtils.sendGet(dataUrl, new AtomicInteger(10));
