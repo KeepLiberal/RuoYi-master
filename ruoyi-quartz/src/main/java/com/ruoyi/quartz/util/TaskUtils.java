@@ -184,6 +184,25 @@ public class TaskUtils {
     public static void writeSqlFile(String fileName, LinkedHashMap<String, String> keyMapOfHtml) {
         BufferedWriter bw = null;
         try {
+            Set<String> sqlSet = new LinkedHashSet<>();
+            //字段和对应的同比环比配对
+            Set<String> keySet = keyMapOfHtml.keySet();
+            for (String keyOut : keySet){
+                for (String keyInner : keySet){
+                    if (!keyMapOfHtml.get(keyOut).contains("_YOY") && (keyMapOfHtml.get(keyOut)+"_YOY").equals(keyMapOfHtml.get(keyInner))){
+                        sqlSet.add(keyOut);
+                        sqlSet.add(keyInner);
+                    }
+                    if (StringUtils.isEmpty(keyMapOfHtml.get(keyOut))){
+                        sqlSet.add(keyOut);
+                    }
+                }
+            }
+            //存放没有配对的字段
+            for (String key : keySet){
+                sqlSet.add(key);
+            }
+
             File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/" + fileName);
             File pafile = sqlFile.getParentFile();
             // 判断文件夹是否存在
@@ -196,7 +215,7 @@ public class TaskUtils {
             }
             // 遍历写入
             bw = new BufferedWriter(new FileWriter(sqlFile));
-            for (String sql : keyMapOfHtml.keySet()) {
+            for (String sql : sqlSet) {
                 bw.write(sql);
                 bw.write(System.getProperty("line.separator"));
             }
@@ -282,6 +301,7 @@ public class TaskUtils {
     private static String cleanKey(String str) {
         List<String> replaceList = new ArrayList<>();
         replaceList.add("{");
+        replaceList.add("formatStr");
         replaceList.add("toFixed");
         replaceList.add("formatMoney");
         replaceList.add("formatPercent");
