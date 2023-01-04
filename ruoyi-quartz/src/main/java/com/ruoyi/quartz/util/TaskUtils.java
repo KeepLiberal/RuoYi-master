@@ -83,12 +83,8 @@ public class TaskUtils {
         }
     }
 
-    public static void main(String[] args) {
-        getHtmlKey(new InvStock("000005", "", "sz"), "https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/Index?type=web&code=", "lr");
-    }
-
     /**
-     * 获取接口字段
+     * 获取页面字段
      */
     public static void getHtmlKey(InvStock stock, String htmlUrl, String name) {
         try {
@@ -124,6 +120,12 @@ public class TaskUtils {
                             String clearKey = cleanKey(keyText);
                             String sql = "";
                             if (StringUtils.isNotEmpty(clearKey)) {
+                                if (clearKey.endsWith("_YOY")){
+                                    nameText = nameText + "(同比%)";
+                                }
+                                if (clearKey.endsWith("_QOQ")){
+                                    nameText = nameText + "(单季度环比%)";
+                                }
                                 sql = "`" + clearKey + "` double default null comment '" + nameText + "',";
                             } else {
                                 sql = "-- =================" + nameText + "================= --";
@@ -143,7 +145,7 @@ public class TaskUtils {
     }
 
     /**
-     * 生成SQL文件
+     * 生成TXT文件
      */
     public static void writeSqlFile(String fileName, Set<String> sqlSet) {
         BufferedWriter bw = null;
@@ -188,13 +190,23 @@ public class TaskUtils {
             //字段和对应的同比环比配对
             Set<String> keySet = keyMapOfHtml.keySet();
             for (String keyOut : keySet){
-                for (String keyInner : keySet){
-                    if (!keyMapOfHtml.get(keyOut).contains("_YOY") && (keyMapOfHtml.get(keyOut)+"_YOY").equals(keyMapOfHtml.get(keyInner))){
+                String valueOut = keyMapOfHtml.get(keyOut);
+                if (StringUtils.isEmpty(valueOut)){
+                    sqlSet.add(keyOut);
+                }
+                if (StringUtils.isNotEmpty(valueOut)){
+                    if (!valueOut.endsWith("_YOY") && !valueOut.endsWith("_QOQ")){
                         sqlSet.add(keyOut);
-                        sqlSet.add(keyInner);
-                    }
-                    if (StringUtils.isEmpty(keyMapOfHtml.get(keyOut))){
-                        sqlSet.add(keyOut);
+                        for (String keyInner : keySet){
+                            if ((valueOut+"_YOY").equals(keyMapOfHtml.get(keyInner))){
+                                sqlSet.add(keyInner);
+                            }
+                        }
+                        for (String keyInner : keySet){
+                            if ((valueOut+"_QOQ").equals(keyMapOfHtml.get(keyInner))){
+                                sqlSet.add(keyInner);
+                            }
+                        }
                     }
                 }
             }
@@ -234,7 +246,7 @@ public class TaskUtils {
     }
 
     /**
-     * 生成字段对比文件
+     * 生成字段对比TXT文件
      */
     public static void writeCompareFile(String fileName) {
         BufferedWriter bw = null;
@@ -294,7 +306,6 @@ public class TaskUtils {
         }
     }
 
-
     /**
      * 清洗HTML
      */
@@ -318,5 +329,9 @@ public class TaskUtils {
             str = str.replace(replace, "");
         }
         return str.trim();
+    }
+
+    public static void main(String[] args) {
+        getHtmlKey(new InvStock("000005", "", "sz"), "https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/Index?type=web&code=", "lr");
     }
 }
