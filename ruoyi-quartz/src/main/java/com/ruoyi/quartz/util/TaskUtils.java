@@ -91,14 +91,13 @@ public class TaskUtils {
             htmlUrl = htmlUrl.replace("code=", "code=" + stock.getMarket() + stock.getCode());
             String result = HttpUtils.sendGet(htmlUrl, new AtomicInteger(10));
             if (StringUtils.isNotEmpty(result)) {
-                Document doc = Jsoup.parse(result);
-                Elements scripts = doc.getElementsByTag("script");
-
-                List<String> elementIdList = new ArrayList<>();
+                Document htmlDoc = Jsoup.parse(result);
+                Elements scripts = htmlDoc.getElementsByTag("script");
+                int elementCount = 0;
                 for (Element element : scripts) {
                     String elementId = element.id();
                     if (elementId.contains(name)) {
-                        elementIdList.add(elementId);
+                        elementCount++;
                         String replace1 = "<script type=\"text/template\" id=\"" + elementId + "\">";
                         String replace2 = "</script>";
                         String elementStr = element.toString().replace(replace1, "").replace(replace2, "");
@@ -120,10 +119,10 @@ public class TaskUtils {
                             String clearKey = cleanKey(keyText);
                             String sql = "";
                             if (StringUtils.isNotEmpty(clearKey)) {
-                                if (clearKey.endsWith("_YOY")){
+                                if (clearKey.endsWith("_YOY")) {
                                     nameText = nameText + "(同比%)";
                                 }
-                                if (clearKey.endsWith("_QOQ")){
+                                if (clearKey.endsWith("_QOQ")) {
                                     nameText = nameText + "(单季度环比%)";
                                 }
                                 sql = "`" + clearKey + "` double default null comment '" + nameText + "',";
@@ -135,7 +134,7 @@ public class TaskUtils {
                         }
                     }
                 }
-                if (elementIdList.size() == 0) {
+                if (elementCount == 0) {
                     log.info("htmlUrl:{} name:{} 无匹配项，请检查网页源码修正代码", htmlUrl, name);
                 }
             }
@@ -189,30 +188,26 @@ public class TaskUtils {
             Set<String> sqlSet = new LinkedHashSet<>();
             //字段和对应的同比环比配对
             Set<String> keySet = keyMapOfHtml.keySet();
-            for (String keyOut : keySet){
+            for (String keyOut : keySet) {
                 String valueOut = keyMapOfHtml.get(keyOut);
-                if (StringUtils.isEmpty(valueOut)){
+                if (StringUtils.isEmpty(valueOut)) {
                     sqlSet.add(keyOut);
                 }
-                if (StringUtils.isNotEmpty(valueOut)){
-                    if (!valueOut.endsWith("_YOY") && !valueOut.endsWith("_QOQ")){
+                if (StringUtils.isNotEmpty(valueOut)) {
+                    if (!valueOut.endsWith("_YOY") && !valueOut.endsWith("_QOQ")) {
                         sqlSet.add(keyOut);
-                        for (String keyInner : keySet){
-                            if ((valueOut+"_YOY").equals(keyMapOfHtml.get(keyInner))){
+                        for (String keyInner : keySet) {
+                            if ((valueOut + "_YOY").equals(keyMapOfHtml.get(keyInner))) {
                                 sqlSet.add(keyInner);
                             }
                         }
-                        for (String keyInner : keySet){
-                            if ((valueOut+"_QOQ").equals(keyMapOfHtml.get(keyInner))){
+                        for (String keyInner : keySet) {
+                            if ((valueOut + "_QOQ").equals(keyMapOfHtml.get(keyInner))) {
                                 sqlSet.add(keyInner);
                             }
                         }
                     }
                 }
-            }
-            //存放没有配对的字段
-            for (String key : keySet){
-                sqlSet.add(key);
             }
 
             File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/" + fileName);
