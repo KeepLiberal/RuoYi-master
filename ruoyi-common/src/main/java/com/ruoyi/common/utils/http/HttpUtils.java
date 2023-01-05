@@ -34,29 +34,16 @@ public class HttpUtils {
     /**
      * 向指定 URL 发送GET方法的请求
      *
-     * @param url   发送请求的 URL
-     * @param param 请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
-     * @return 所代表远程资源的响应结果
-     */
-    public static String sendGet(String url, String param, AtomicInteger count) {
-        return sendGet(url, param, Constants.UTF8, count);
-    }
-
-    /**
-     * 向指定 URL 发送GET方法的请求
-     *
      * @param url         发送请求的 URL
-     * @param param       请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
      * @param contentType 编码类型
      * @return 所代表远程资源的响应结果
      */
-    public static String sendGet(String url, String param, String contentType, AtomicInteger count) {
+    public static String sendGet(String url, String contentType, AtomicInteger count) {
         StringBuilder result = new StringBuilder();
         BufferedReader in = null;
         try {
-            String urlNameString = StringUtils.isNotBlank(param) ? url + "?" + param : url;
             //log.info("sendGet - {}", urlNameString);
-            URL realUrl = new URL(urlNameString);
+            URL realUrl = new URL(url);
             URLConnection conn = realUrl.openConnection();
             conn.setRequestProperty("accept", "*/*");
             conn.setRequestProperty("connection", "Keep-Alive");
@@ -74,33 +61,33 @@ public class HttpUtils {
         } catch (ConnectException e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
-                sendGet(url, param, contentType, count);
+                sendGet(url, contentType, count);
             } else {
-                log.error("调用HttpUtils.sendGet ConnectException, url=" + url + ",param=" + param, e);
+                log.error("调用HttpUtils.sendGet ConnectException, url=" + url, e);
             }
         } catch (SocketTimeoutException e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
-                sendGet(url, param, contentType, count);
+                sendGet(url, contentType, count);
             } else {
-                log.error("调用HttpUtils.sendGet SocketTimeoutException, url=" + url + ",param=" + param, e);
+                log.error("调用HttpUtils.sendGet SocketTimeoutException, url=" + url, e);
             }
         } catch (IOException e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
-                sendGet(url, param, contentType, count);
+                sendGet(url, contentType, count);
             } else {
-                log.error("调用HttpUtils.sendGet IOException, url=" + url + ",param=" + param, e);
+                log.error("调用HttpUtils.sendGet IOException, url=" + url, e);
             }
         } catch (Exception e) {
-            log.error("调用HttpsUtil.sendGet Exception, url=" + url + ",param=" + param, e);
+            log.error("调用HttpsUtil.sendGet Exception, url=" + url, e);
         } finally {
             try {
                 if (in != null) {
                     in.close();
                 }
             } catch (Exception ex) {
-                log.error("调用in.close Exception, url=" + url + ",param=" + param, ex);
+                log.error("调用in.close Exception, url=" + url, ex);
             }
         }
         return result.toString();
@@ -145,28 +132,28 @@ public class HttpUtils {
                 count.decrementAndGet();
                 sendGet(url, param, count);
             } else {
-                log.error("调用HttpUtils.sendPost ConnectException, url=" + url + ",param=" + param, e);
+                log.error("调用HttpUtils.sendPost ConnectException, url=" + url, e);
             }
         } catch (SocketTimeoutException e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
                 sendGet(url, param, count);
             } else {
-                log.error("调用HttpUtils.sendPost SocketTimeoutException, url=" + url + ",param=" + param, e);
+                log.error("调用HttpUtils.sendPost SocketTimeoutException, url=" + url, e);
             }
         } catch (IOException e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
                 sendGet(url, param, count);
             } else {
-                log.error("调用HttpUtils.sendPost IOException, url=" + url + ",param=" + param, e);
+                log.error("调用HttpUtils.sendPost IOException, url=" + url, e);
             }
         } catch (Exception e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
                 sendGet(url, param, count);
             } else {
-                log.error("调用HttpsUtil.sendPost Exception, url=" + url + ",param=" + param, e);
+                log.error("调用HttpsUtil.sendPost Exception, url=" + url, e);
             }
         } finally {
             try {
@@ -177,7 +164,7 @@ public class HttpUtils {
                     in.close();
                 }
             } catch (IOException ex) {
-                log.error("调用in.close Exception, url=" + url + ",param=" + param, ex);
+                log.error("调用in.close Exception, url=" + url, ex);
             }
         }
         return result.toString();
@@ -222,28 +209,28 @@ public class HttpUtils {
                 count.decrementAndGet();
                 sendGet(url, param, count);
             } else {
-                log.error("调用HttpUtils.sendSSLPost ConnectException, url=" + url + ",param=" + param, e);
+                log.error("调用HttpUtils.sendSSLPost ConnectException, url=" + url, e);
             }
         } catch (SocketTimeoutException e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
                 sendGet(url, param, count);
             } else {
-                log.error("调用HttpUtils.sendSSLPost SocketTimeoutException, url=" + url + ",param=" + param, e);
+                log.error("调用HttpUtils.sendSSLPost SocketTimeoutException, url=" + url, e);
             }
         } catch (IOException e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
                 sendGet(url, param, count);
             } else {
-                log.error("调用HttpUtils.sendSSLPost IOException, url=" + url + ",param=" + param, e);
+                log.error("调用HttpUtils.sendSSLPost IOException, url=" + url, e);
             }
         } catch (Exception e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
                 sendGet(url, param, count);
             } else {
-                log.error("调用HttpsUtil.sendSSLPost Exception, url=" + url + ",param=" + param, e);
+                log.error("调用HttpsUtil.sendSSLPost Exception, url=" + url, e);
             }
         } finally {
             conn.disconnect();
