@@ -1,0 +1,412 @@
+<script type="text/template" id="tmpl">
+    <div class="section first">
+        <div class="name" id="jbzl">
+            <samp class="icon">
+            </samp>
+            <strong>基本资料</strong>
+        </div>
+        <div class="content">
+            {{if jbzl }}
+            <table id="Table0">
+                <tbody>
+                <tr>
+                    <th class="tips-fieldnameL" width="174">
+                        公司名称
+                    </th>
+                    <td class="tips-dataL" colspan="3">
+                        {{formatStr(jbzl.ORG_NAME)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        英文名称
+                    </th>
+                    <td class="tips-dataL" colspan="3">
+                        {{formatStr(jbzl.ORG_NAME_EN)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL" width="174">
+                        A股代码
+                    </th>
+                    <td class="tips-dataL" width="242">
+                        {{formatStr(jbzl.STR_CODEA)}}
+                    </td>
+                    <th class="tips-fieldnameL" width="174">
+                        A股简称
+                    </th>
+                    <td class="tips-dataL" width="357">
+                        {{formatStr(jbzl.STR_NAMEA)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL" width="174">
+                        A股扩位简称
+                    </th>
+                    <td class="tips-dataL" width="242">
+                        {{formatStr(jbzl.EXPAND_NAME_ABBR)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        曾用名
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.FORMERNAME)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        B股代码
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.STR_CODEB)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        B股简称
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.STR_NAMEB)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        H股代码
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.STR_CODEH)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        H股简称
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.STR_NAMEH)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        证券类别
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.SECURITY_TYPE)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        所属东财行业
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.EM2016)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        上市交易所
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.TRADE_MARKET)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        所属证监会行业
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.INDUSTRYCSRC1)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        总经理
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.PRESIDENT)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        法人代表
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.LEGAL_PERSON)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        董秘
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.SECRETARY)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        董事长
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.CHAIRMAN)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        证券事务代表
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.SECPRESENT)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        独立董事
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.INDEDIRECTORS)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        联系电话
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.ORG_TEL)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        电子信箱
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.ORG_EMAIL)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        传真
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.ORG_FAX)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        公司网址
+                    </th>
+                    <td class="tips-dataL" id="CompanyWebId">
+                        {{formatStr(jbzl.ORG_WEB)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        办公地址
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.ADDRESS)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        注册地址
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.REG_ADDRESS)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        区域
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.PROVINCE)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        邮政编码
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.ADDRESS_POSTCODE)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        注册资本(元)
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatMoney(jbzl.REG_CAPITAL*1e4)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        工商登记
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.REG_NUM)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        雇员人数
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.EMP_NUM)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        管理人员人数
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.TATOLNUMBER)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        律师事务所
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(jbzl.LAW_FIRM)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        会计师事务所
+                    </th>
+                    <td width="357" class="tips-dataL">
+                        {{formatStr(jbzl.ACCOUNTFIRM_NAME)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        公司简介
+                    </th>
+                    <td colspan="3" class="tips-dataL tips-lineheight" width="782">
+                        {{formatStr(jbzl.ORG_PROFILE)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        经营范围
+                    </th>
+                    <td colspan="3" class="tips-dataL tips-lineheight" width="782">
+                        {{formatStr(jbzl.BUSINESS_SCOPE)}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            {{else}}
+            <h1 style="text-align:center;font-size:14px;padding:5px 0;">该公司暂无基本资料</h1>
+            {{/if}}
+        </div>
+    </div>
+    <div class="section">
+        <div class="name" id="fxxg">
+            <samp class="icon">
+            </samp>
+            <strong>发行相关</strong>
+        </div>
+        <div class="content">
+            {{if fxxg}}
+            <table>
+                <tbody>
+                <tr>
+                    <th class="tips-fieldnameL" width="174">
+                        成立日期
+                    </th>
+                    <td class="tips-dataL" width="230">
+                        {{formatDate(fxxg.FOUND_DATE)}}
+                    </td>
+                    <th class="tips-fieldnameL" width="167">
+                        上市日期
+                    </th>
+                    <td class="tips-dataL" width="319">
+                        {{formatDate(fxxg.LISTING_DATE)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        发行市盈率(倍)
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatFixed(fxxg.AFTER_ISSUE_PE)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        网上发行日期
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatDate(fxxg.ONLINE_ISSUE_DATE)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        发行方式
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatStr(fxxg.ISSUE_WAY)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        每股面值(元)
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatFixed(fxxg.PAR_VALUE)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        发行量(股)
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatNumber(fxxg.TOTAL_ISSUE_NUM)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        每股发行价(元)
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatFixed(fxxg.ISSUE_PRICE)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        发行费用(元)
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatMoney(fxxg.DEC_SUMISSUEFEE)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        发行总市值(元)
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatMoney(fxxg.TOTAL_FUNDS)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        募集资金净额(元)
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatMoney(fxxg.NET_RAISE_FUNDS)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        首日开盘价(元)
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatFixed(fxxg.OPEN_PRICE)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        首日收盘价(元)
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatFixed(fxxg.CLOSE_PRICE)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        首日换手率
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatPercent(fxxg.TURNOVERRATE)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        首日最高价(元)
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatFixed(fxxg.HIGH_PRICE)}}
+                    </td>
+                    <th class="tips-fieldnameL">
+                        网下配售中签率
+                    </th>
+                    <td class="tips-dataL">
+                        {{formatPercent(fxxg.OFFLINE_VAP_RATIO)}}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="tips-fieldnameL">
+                        定价中签率
+                    </th>
+                    <td class="tips-dataL" colspan="3">
+                        {{formatPercent(fxxg.ONLINE_ISSUE_LWR)}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            {{else}}
+            <h1 style="text-align:center;font-size:14px;padding:5px 0;">该公司暂无发行相关</h1>
+            {{/if}}
+        </div>
+    </div>
+</script>

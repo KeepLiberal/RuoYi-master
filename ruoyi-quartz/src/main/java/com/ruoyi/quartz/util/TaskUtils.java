@@ -93,6 +93,9 @@ public class TaskUtils {
             String result = HttpUtils.sendGet(htmlUrl, new AtomicInteger(10));
             Document doc = Jsoup.parse(result);
 
+            if ("company".equals(name)) {
+                size = getHtmlKey_company(doc);
+            }
             if ("zyzb".equals(name)) {
                 size = getHtmlKey_zyzb(doc);
             }
@@ -113,11 +116,57 @@ public class TaskUtils {
             }
 
             if (size == 0) {
-                log.error("htmlUrl:{} name:{} 无匹配项，请检查网页源码修正代码", htmlUrl, name);
+                log.error("htmlUrl:{} name:{} 无匹配项，请检查网页源码修正代码", "view-source:"+htmlUrl, name);
             }
         } catch (Exception e) {
             log.error(">>>TaskUtils.getHtmlKey htmlUrl:{} name:{} 异常:{}", htmlUrl, name, e);
         }
+    }
+
+    /**
+     * 获取页面字段-公司概况
+     */
+    private static int getHtmlKey_company(Document doc) {
+        int size = 0;
+        try {
+            Element element = doc.getElementById("tmpl");
+            if (null != element) {
+                size++;
+                String elementStr = element.toString().replace("<script type=\"text/template\" id=\"tmpl\">", "").replace("</script>", "");
+                Elements tbodys = Jsoup.parse(elementStr).select("tbody");
+                Element jbzlTbody = tbodys.get(0);
+                Element fxxgTbody = tbodys.get(1);
+                Elements jbzlTrs = jbzlTbody.select("tr");
+                for (Element tr : jbzlTrs) {
+                    Elements ths = tr.select("th");
+                    Elements tds = tr.select("td");
+                    for (int i=0;i<ths.size();i++){
+                        String text = ths.get(i).text();
+                        String key = tds.get(i).text();
+                        String cleanKey = cleanKey(key);
+                        if (StringUtils.isNotEmpty(cleanKey)) {
+                            RyTask.keyMapOfHtml.put(cleanKey, text);
+                        }
+                    }
+                }
+                Elements fxxgTrs = fxxgTbody.select("tr");
+                for (Element tr : fxxgTrs) {
+                    Elements ths = tr.select("th");
+                    Elements tds = tr.select("td");
+                    for (int i=0;i<ths.size();i++){
+                        String text = ths.get(i).text();
+                        String key = tds.get(i).text();
+                        String cleanKey = cleanKey(key);
+                        if (StringUtils.isNotEmpty(cleanKey)) {
+                            RyTask.keyMapOfHtml.put(cleanKey, text);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error(">>>TaskUtils.getHtmlKey_company 异常:{}", e);
+        }
+        return size;
     }
 
     /**
@@ -145,7 +194,9 @@ public class TaskUtils {
                             key = spans2.get(0).text();
                         }
                         String cleanKey = cleanKey(key);
-                        if (StringUtils.isNotEmpty(cleanKey)) RyTask.keyMapOfHtml.put(cleanKey, text);
+                        if (StringUtils.isNotEmpty(cleanKey)) {
+                            RyTask.keyMapOfHtml.put(cleanKey, text);
+                        }
                     }
                 }
             }
@@ -164,20 +215,25 @@ public class TaskUtils {
             Element element = doc.getElementById("tmpl_dbfx");
             if (null != element) {
                 size++;
-                List<String> divIdlist = new ArrayList<>();
+                List<String> divClasslist = new ArrayList<>();
+                List<String> pClasslist = new ArrayList<>();
                 for (int i = 1; i < 100; i++) {
-                    divIdlist.add("db_" + (i < 10 ? "0" + i : i));
+                    divClasslist.add("db_" + (i < 10 ? "0" + i : i));
+                    pClasslist.add("db_data" + (i < 10 ? "0" + i : i));
                 }
                 String elementStr = element.toString().replace("<script type=\"text/template\" id=\"tmpl_dbfx\">", "").replace("</script>", "");
                 Elements divs = Jsoup.parse(elementStr).select("div");
                 for (Element div : divs) {
-                    String className = div.className();
-                    if (divIdlist.contains(className)) {
-                        String url = "https://emweb.eastmoney.com/PC_HSF10/Content/webImages/"+className.replace("db_", "db_w_")+".jpg";
+                    String divClassName = div.className();
+                    if (divClasslist.contains(divClassName)) {
+                        String url = "https://emweb.eastmoney.com/PC_HSF10/Content/webImages/" + divClassName.replace("db_", "db_w_") + ".jpg";
                         Elements ps = div.select("p");
                         for (Element p : ps) {
+                            String pClassName = p.className();
                             String cleanKey = cleanKey(p.text());
-                            if (StringUtils.isNotEmpty(cleanKey)) RyTask.keyMapOfHtml.put(cleanKey, url);
+                            if (StringUtils.isNotEmpty(cleanKey)) {
+                                RyTask.keyMapOfHtml.put(divClassName + "-" + pClassName + "-" + cleanKey, url);
+                            }
                         }
                     }
                 }
@@ -218,7 +274,9 @@ public class TaskUtils {
                             key = spans2.get(0).text();
                         }
                         String cleanKey = cleanKey(key);
-                        if (StringUtils.isNotEmpty(cleanKey)) RyTask.keyMapOfHtml.put(cleanKey, text);
+                        if (StringUtils.isNotEmpty(cleanKey)) {
+                            RyTask.keyMapOfHtml.put(cleanKey, text);
+                        }
                     }
                 }
             }
@@ -259,7 +317,9 @@ public class TaskUtils {
                             key = spans2.get(0).text();
                         }
                         String cleanKey = cleanKey(key);
-                        if (StringUtils.isNotEmpty(cleanKey)) RyTask.keyMapOfHtml.put(cleanKey, text);
+                        if (StringUtils.isNotEmpty(cleanKey)) {
+                            RyTask.keyMapOfHtml.put(cleanKey, text);
+                        }
                     }
                 }
             }
@@ -300,7 +360,9 @@ public class TaskUtils {
                             key = spans2.get(0).text();
                         }
                         String cleanKey = cleanKey(key);
-                        if (StringUtils.isNotEmpty(cleanKey)) RyTask.keyMapOfHtml.put(cleanKey, text);
+                        if (StringUtils.isNotEmpty(cleanKey)) {
+                            RyTask.keyMapOfHtml.put(cleanKey, text);
+                        }
                     }
                 }
             }
@@ -333,7 +395,9 @@ public class TaskUtils {
                         String text = tr.select("th").get(0).select("span").get(0).text();
                         String key = tds.get(0).select("span").get(0).text();
                         String cleanKey = cleanKey(key);
-                        if (StringUtils.isNotEmpty(cleanKey)) RyTask.keyMapOfHtml.put(cleanKey, text);
+                        if (StringUtils.isNotEmpty(cleanKey)) {
+                            RyTask.keyMapOfHtml.put(cleanKey, text);
+                        }
                     }
                 }
             }
