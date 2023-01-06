@@ -152,16 +152,16 @@ public class RyTask {
 
         log.info("========财务分析-重要指标 任务开始=========");
         for (InvStock stock : stockList) {
-            myQuartzAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-bgq"), "bgq", new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-nd"), "nd", new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-jd"), "jd", new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-ajax-bgq"), "bgq", new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-ajax-nd"), "nd", new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-ajax-jd"), "jd", new AtomicInteger(10));
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========财务分析-重要指标 任务完成=========");
 
         log.info("========财务分析-杜邦分析 任务开始=========");
         for (InvStock stock : stockList) {
-            myQuartzAsyncTask.invFinanceDbfxTask(stock, ev.getProperty("inv.finance-dbfx"), new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceDbfxTask(stock, ev.getProperty("inv.finance-dbfx-ajax"), new AtomicInteger(10));
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========财务分析-杜邦分析 任务完成=========");
@@ -197,9 +197,9 @@ public class RyTask {
 
         log.info("========财务分析-百分比 任务开始=========");
         for (InvStock stock : stockList) {
-            myQuartzAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-bgq"), "bgq", new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-nd"), "nd", new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-jd"), "jd", new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-ajax-bgq"), "bgq", new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-ajax-nd"), "nd", new AtomicInteger(10));
+            myQuartzAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-ajax-jd"), "jd", new AtomicInteger(10));
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========财务分析-百分比 任务完成=========");
@@ -212,32 +212,38 @@ public class RyTask {
     /**
      * 生成接口对应SQL文件
      */
-    public void createSqlFile(String dataUrls, String htmlUrl, String name) throws IOException {
-        log.info("========生成SQL 任务等待=========");
+    public void createSqlFile(String interfaceName, String htmlName) throws IOException {
+        log.info("========生成SQL 任务等待=========interfaceName:{} htmlName:{}", interfaceName, htmlName);
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========生成SQL 任务开始=========");
+        log.info("========生成SQL 任务开始=========interfaceName:{} htmlName:{}", interfaceName, htmlName);
 
         keySetOfInterface.clear();
         keyMapOfHtml.clear();
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
+
+
         for (InvStock stock : stockList) {
-//            if ("600036".equals(stock.getCode())){
-//                for (String dataUrl : dataUrls.split(";")) {
-//                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + dataUrl));
-//                }
-//                myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv." + htmlUrl), name);
-//            }
-            for (String dataUrl : dataUrls.split(";")) {
-                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + dataUrl));
+            if ("000001".equals(stock.getCode())) {
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-ajax"));
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-ajax-bgq"));
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-ajax-nd"));
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-ajax-jd"));
+
+                myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv." + htmlName + "-web"), interfaceName);
             }
-            myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv." + htmlUrl), name);
+//            myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName));
+//            myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-bgq"));
+//            myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-nd"));
+//            myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-jd"));
+//
+//            myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv." + htmlName + "-web"), interfaceName);
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
 
-        TaskUtils.writeSqlFile(name + ".txt", keySetOfInterface);
-        TaskUtils.writeSqlFile(name + ".sql", keyMapOfHtml);
-        TaskUtils.writeCompareFile(name + "-compare.txt");
-        log.info("========生成SQL 任务完成=========");
+        TaskUtils.writeSqlFile(interfaceName + ".txt", keySetOfInterface);
+        TaskUtils.writeSqlFile(interfaceName + ".sql", keyMapOfHtml);
+        TaskUtils.writeCompareFile(interfaceName + "-compare.txt");
+        log.info("========生成SQL 任务完成=========interfaceName:{} htmlName:{}", interfaceName, htmlName);
     }
 
     ///////////////////////////////////////////////////////示例代码//////////////////////////////////////////////////////

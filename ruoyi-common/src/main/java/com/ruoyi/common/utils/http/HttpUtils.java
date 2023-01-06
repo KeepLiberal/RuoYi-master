@@ -1,7 +1,5 @@
 package com.ruoyi.common.utils.http;
 
-import com.ruoyi.common.constant.Constants;
-import com.ruoyi.common.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +26,7 @@ public class HttpUtils {
      * @return 所代表远程资源的响应结果
      */
     public static String sendGet(String url, AtomicInteger count) {
-        return sendGet(url, StringUtils.EMPTY, count);
+        return sendGet(url, StandardCharsets.UTF_8.name(), count);
     }
 
     /**

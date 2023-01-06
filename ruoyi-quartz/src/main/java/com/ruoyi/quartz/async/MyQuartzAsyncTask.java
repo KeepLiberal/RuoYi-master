@@ -775,7 +775,7 @@ public class MyQuartzAsyncTask {
      */
     @Async("threadPoolTaskExecutor")
     public void getInterfaceKey(InvStock stock, String dataUrl) {
-        TaskUtils.getInterfaceKey(stock, dataUrl);
+        if (StringUtils.isNotEmpty(dataUrl)) TaskUtils.getInterfaceKey(stock, dataUrl);
     }
 
     /**
@@ -783,7 +783,7 @@ public class MyQuartzAsyncTask {
      */
     @Async("threadPoolTaskExecutor")
     public void getHtmlKey(InvStock stock, String htmlUrl, String name) {
-        TaskUtils.getHtmlKey(stock, htmlUrl, name);
+        if (StringUtils.isNotEmpty(htmlUrl)) TaskUtils.getHtmlKey(stock, htmlUrl, name);
     }
 
 }
