@@ -134,33 +134,19 @@ public class TaskUtils {
                 size++;
                 String elementStr = element.toString().replace("<script type=\"text/template\" id=\"tmpl\">", "").replace("</script>", "");
                 Elements tbodys = Jsoup.parse(elementStr).select("tbody");
-                Element jbzlTbody = tbodys.get(0);
-                Element fxxgTbody = tbodys.get(1);
-                Elements jbzlTrs = jbzlTbody.select("tr");
-                for (Element tr : jbzlTrs) {
-                    Elements ths = tr.select("th");
-                    Elements tds = tr.select("td");
-                    for (int i = 0; i < ths.size(); i++) {
-                        String text = ths.get(i).text();
-                        String key = tds.get(i).text();
-                        String cleanKey = cleanKey(key);
-                        if (StringUtils.isNotEmpty(cleanKey)) {
-                            RyTask.keySetOfHtml.add(cleanKey);
-                            RyTask.sqlMapOfHtml.put(cleanKey, getSql(key, text));
-                        }
-                    }
-                }
-                Elements fxxgTrs = fxxgTbody.select("tr");
-                for (Element tr : fxxgTrs) {
-                    Elements ths = tr.select("th");
-                    Elements tds = tr.select("td");
-                    for (int i = 0; i < ths.size(); i++) {
-                        String text = ths.get(i).text();
-                        String key = tds.get(i).text();
-                        String cleanKey = cleanKey(key);
-                        if (StringUtils.isNotEmpty(cleanKey)) {
-                            RyTask.keySetOfHtml.add(cleanKey);
-                            RyTask.sqlMapOfHtml.put(cleanKey, getSql(key, text));
+                for (Element tbody : tbodys) {
+                    Elements jbzlTrs = tbody.select("tr");
+                    for (Element tr : jbzlTrs) {
+                        Elements ths = tr.select("th");
+                        Elements tds = tr.select("td");
+                        for (int i = 0; i < ths.size(); i++) {
+                            String text = ths.get(i).text();
+                            String key = tds.get(i).text();
+                            String cleanKey = cleanKey(key);
+                            if (StringUtils.isNotEmpty(cleanKey)) {
+                                RyTask.keySetOfHtml.add(cleanKey);
+                                RyTask.sqlMapOfHtml.put(cleanKey, getSql(key, text));
+                            }
                         }
                     }
                 }
@@ -578,31 +564,24 @@ public class TaskUtils {
         if (StringUtils.isEmpty(str)) return null;
 
         List<String> replaceList = new ArrayList<>();
-        replaceList.add("{");
-        replaceList.add("formatStr");
-        replaceList.add("toFixed");
-        replaceList.add("formatFixed");
-        replaceList.add("formatMoney");
-        replaceList.add("formatPercent");
-        replaceList.add("formatNumber");
-        replaceList.add("formatDate");
+        replaceList.add("{{formatStr(");
+        replaceList.add("{{toFixed(");
+        replaceList.add("{{formatFixed(");
+        replaceList.add("{{formatMoney(");
+        replaceList.add("{{formatPercent(");
+        replaceList.add("{{formatNumber(");
+        replaceList.add("{{formatDate(");
+        replaceList.add(")}}");
         replaceList.add("value.");
         replaceList.add("jbzl.");
         replaceList.add("fxxg.");
-        replaceList.add("(");
+        replaceList.add("1e4");
         replaceList.add(",");
         replaceList.add("'");
-        replaceList.add("%");
-        replaceList.add("&ensp;");
         replaceList.add("1");
         replaceList.add("2");
         replaceList.add("3");
         replaceList.add("4");
-        replaceList.add(")");
-        replaceList.add("}");
-        replaceList.add("次");
-        replaceList.add("天");
-        replaceList.add("元");
 
         for (String replace : replaceList) {
             str = str.replace(replace, "");

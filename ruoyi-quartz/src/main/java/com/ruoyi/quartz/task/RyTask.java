@@ -228,14 +228,14 @@ public class RyTask {
 
 
         for (InvStock stock : stockList) {
-            if ("000001".equals(stock.getCode())) {
+//            if ("000001".equals(stock.getCode())) {
                 myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-ajax"));
                 myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-ajax-bgq"));
                 myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-ajax-nd"));
                 myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-ajax-jd"));
 
                 myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv." + htmlName + "-web"), interfaceName);
-            }
+//            }
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
 
