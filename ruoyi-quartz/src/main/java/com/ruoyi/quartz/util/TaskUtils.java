@@ -173,10 +173,11 @@ public class TaskUtils {
                 for (Element div : divs) {
                     String className = div.className();
                     if (divIdlist.contains(className)) {
+                        String url = "https://emweb.eastmoney.com/PC_HSF10/Content/webImages/"+className.replace("db_", "db_w_")+".jpg";
                         Elements ps = div.select("p");
                         for (Element p : ps) {
                             String cleanKey = cleanKey(p.text());
-                            if (StringUtils.isNotEmpty(cleanKey)) RyTask.keyMapOfHtml.put(cleanKey, className);
+                            if (StringUtils.isNotEmpty(cleanKey)) RyTask.keyMapOfHtml.put(cleanKey, url);
                         }
                     }
                 }
@@ -500,7 +501,7 @@ public class TaskUtils {
     }
 
     /**
-     * 清洗HTML
+     * 清洗KEY
      */
     private static String cleanKey(String str) {
         if (StringUtils.isEmpty(str)) return null;
