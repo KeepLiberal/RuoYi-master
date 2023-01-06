@@ -116,7 +116,7 @@ public class TaskUtils {
             }
 
             if (size == 0) {
-                log.error("htmlUrl:{} name:{} 无匹配项，请检查网页源码修正代码", "view-source:"+htmlUrl, name);
+                log.error("htmlUrl:{} name:{} 无匹配项，请检查网页源码修正代码", "view-source:" + htmlUrl, name);
             }
         } catch (Exception e) {
             log.error(">>>TaskUtils.getHtmlKey htmlUrl:{} name:{} 异常:{}", htmlUrl, name, e);
@@ -140,12 +140,13 @@ public class TaskUtils {
                 for (Element tr : jbzlTrs) {
                     Elements ths = tr.select("th");
                     Elements tds = tr.select("td");
-                    for (int i=0;i<ths.size();i++){
+                    for (int i = 0; i < ths.size(); i++) {
                         String text = ths.get(i).text();
                         String key = tds.get(i).text();
                         String cleanKey = cleanKey(key);
                         if (StringUtils.isNotEmpty(cleanKey)) {
-                            RyTask.keyMapOfHtml.put(cleanKey, text);
+                            RyTask.keySetOfHtml.add(cleanKey);
+                            RyTask.sqlMapOfHtml.put(cleanKey, getSql(key, text));
                         }
                     }
                 }
@@ -153,12 +154,13 @@ public class TaskUtils {
                 for (Element tr : fxxgTrs) {
                     Elements ths = tr.select("th");
                     Elements tds = tr.select("td");
-                    for (int i=0;i<ths.size();i++){
+                    for (int i = 0; i < ths.size(); i++) {
                         String text = ths.get(i).text();
                         String key = tds.get(i).text();
                         String cleanKey = cleanKey(key);
                         if (StringUtils.isNotEmpty(cleanKey)) {
-                            RyTask.keyMapOfHtml.put(cleanKey, text);
+                            RyTask.keySetOfHtml.add(cleanKey);
+                            RyTask.sqlMapOfHtml.put(cleanKey, getSql(key, text));
                         }
                     }
                 }
@@ -195,7 +197,8 @@ public class TaskUtils {
                         }
                         String cleanKey = cleanKey(key);
                         if (StringUtils.isNotEmpty(cleanKey)) {
-                            RyTask.keyMapOfHtml.put(cleanKey, text);
+                            RyTask.keySetOfHtml.add(cleanKey);
+                            RyTask.sqlMapOfHtml.put(cleanKey, getSql(key, text));
                         }
                     }
                 }
@@ -232,7 +235,8 @@ public class TaskUtils {
                             String pClassName = p.className();
                             String cleanKey = cleanKey(p.text());
                             if (StringUtils.isNotEmpty(cleanKey)) {
-                                RyTask.keyMapOfHtml.put(divClassName + "-" + pClassName + "-" + cleanKey, url);
+                                RyTask.keySetOfHtml.add(cleanKey);
+                                RyTask.sqlMapOfHtml.put(divClassName + "-" + pClassName + "-" + cleanKey, url);
                             }
                         }
                     }
@@ -275,7 +279,8 @@ public class TaskUtils {
                         }
                         String cleanKey = cleanKey(key);
                         if (StringUtils.isNotEmpty(cleanKey)) {
-                            RyTask.keyMapOfHtml.put(cleanKey, text);
+                            RyTask.keySetOfHtml.add(cleanKey);
+                            RyTask.sqlMapOfHtml.put(cleanKey, getSql(key, text));
                         }
                     }
                 }
@@ -318,7 +323,8 @@ public class TaskUtils {
                         }
                         String cleanKey = cleanKey(key);
                         if (StringUtils.isNotEmpty(cleanKey)) {
-                            RyTask.keyMapOfHtml.put(cleanKey, text);
+                            RyTask.keySetOfHtml.add(cleanKey);
+                            RyTask.sqlMapOfHtml.put(cleanKey, getSql(key, text));
                         }
                     }
                 }
@@ -361,7 +367,8 @@ public class TaskUtils {
                         }
                         String cleanKey = cleanKey(key);
                         if (StringUtils.isNotEmpty(cleanKey)) {
-                            RyTask.keyMapOfHtml.put(cleanKey, text);
+                            RyTask.keySetOfHtml.add(cleanKey);
+                            RyTask.sqlMapOfHtml.put(cleanKey, getSql(key, text));
                         }
                     }
                 }
@@ -396,7 +403,8 @@ public class TaskUtils {
                         String key = tds.get(0).select("span").get(0).text();
                         String cleanKey = cleanKey(key);
                         if (StringUtils.isNotEmpty(cleanKey)) {
-                            RyTask.keyMapOfHtml.put(cleanKey, text);
+                            RyTask.keySetOfHtml.add(cleanKey);
+                            RyTask.sqlMapOfHtml.put(cleanKey, getSql(key, text));
                         }
                     }
                 }
@@ -411,9 +419,9 @@ public class TaskUtils {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * 生成TXT文件
+     * 生成接口字段的TXT文件
      */
-    public static void writeSqlFile(String fileName, Set<String> sqlSet) {
+    public static void writeKeysOfInterface(String fileName) {
         BufferedWriter bw = null;
         try {
             File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/" + fileName);
@@ -428,14 +436,14 @@ public class TaskUtils {
             }
             // 遍历写入
             bw = new BufferedWriter(new FileWriter(sqlFile));
-            for (String sql : sqlSet) {
+            for (String sql : RyTask.keySetOfInterface) {
                 bw.write(sql);
                 bw.write(System.getProperty("line.separator"));
             }
             bw.flush();
             bw.close();
         } catch (Exception e) {
-            log.error(">>>TaskUtils.writeSqlFile 异常:{}", e);
+            log.error(">>>TaskUtils.writeKeysOfInterface 异常:{}", e);
         } finally {
             if (null != bw) {
                 try {
@@ -447,25 +455,25 @@ public class TaskUtils {
     }
 
     /**
-     * 生成SQL文件
+     * 生成页面字段生成的SQL文件
      */
-    public static void writeSqlFile(String fileName, LinkedHashMap<String, String> keyMapOfHtml) {
+    public static void writeSqlFileOfHtml(String fileName) {
         BufferedWriter bw = null;
         try {
             LinkedHashMap<String, String> sqlLinkedHashMap = new LinkedHashMap<>();
             //字段和对应的同比环比配对
-            Set<String> keyMapOfHtmlKeySet = keyMapOfHtml.keySet();
+            Set<String> keyMapOfHtmlKeySet = RyTask.sqlMapOfHtml.keySet();
             for (String outKey : keyMapOfHtmlKeySet) {
                 if (!outKey.endsWith("_YOY") && !outKey.endsWith("_QOQ")) {
-                    sqlLinkedHashMap.put(outKey, keyMapOfHtml.get(outKey));
+                    sqlLinkedHashMap.put(outKey, RyTask.sqlMapOfHtml.get(outKey));
                     for (String innerKey : keyMapOfHtmlKeySet) {
                         if ((outKey + "_YOY").equals(innerKey)) {
-                            sqlLinkedHashMap.put(innerKey, keyMapOfHtml.get(innerKey) + "(同比%)");
+                            sqlLinkedHashMap.put(innerKey, RyTask.sqlMapOfHtml.get(innerKey));
                         }
                     }
                     for (String innerKey : keyMapOfHtmlKeySet) {
                         if ((outKey + "_QOQ").equals(innerKey)) {
-                            sqlLinkedHashMap.put(innerKey, keyMapOfHtml.get(innerKey) + "(单季度环比%)");
+                            sqlLinkedHashMap.put(innerKey, RyTask.sqlMapOfHtml.get(innerKey));
                         }
                     }
                 }
@@ -483,16 +491,14 @@ public class TaskUtils {
             }
             // 遍历写入
             bw = new BufferedWriter(new FileWriter(sqlFile));
-            Set<String> keySet = sqlLinkedHashMap.keySet();
-            for (String key : keySet) {
-                String sql = key + " double default null comment '" + sqlLinkedHashMap.get(key) + "',";
-                bw.write(sql);
+            for (String key : sqlLinkedHashMap.keySet()) {
+                bw.write(sqlLinkedHashMap.get(key));
                 bw.write(System.getProperty("line.separator"));
             }
             bw.flush();
             bw.close();
         } catch (Exception e) {
-            log.error(">>>TaskUtils.writeSqlFile 异常:{}", e);
+            log.error(">>>TaskUtils.writeSqlFileOfHtml 异常:{}", e);
         } finally {
             if (null != bw) {
                 try {
@@ -504,9 +510,9 @@ public class TaskUtils {
     }
 
     /**
-     * 生成字段对比TXT文件
+     * 生成接口字段和页面字段对比TXT文件
      */
-    public static void writeCompareFile(String fileName) {
+    public static void writeCompareKeyFile(String fileName) {
         BufferedWriter bw = null;
         try {
             File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/" + fileName);
@@ -522,12 +528,13 @@ public class TaskUtils {
 
             List<String> interfaceHasNo = new ArrayList<>();
             List<String> htmlHasNo = new ArrayList<>();
+
             for (String key : RyTask.keySetOfInterface) {
-                if (!RyTask.keyMapOfHtml.containsKey(key)) {
+                if (!RyTask.keySetOfHtml.contains(key)) {
                     htmlHasNo.add(key);
                 }
             }
-            for (String key : RyTask.keyMapOfHtml.keySet()) {
+            for (String key : RyTask.keySetOfHtml) {
                 if (!RyTask.keySetOfInterface.contains(key)) {
                     interfaceHasNo.add(key);
                 }
@@ -553,7 +560,7 @@ public class TaskUtils {
             bw.flush();
             bw.close();
         } catch (Exception e) {
-            log.error(">>>TaskUtils.writeCompareFile 异常:{}", e);
+            log.error(">>>TaskUtils.writeCompareKeyFile 异常:{}", e);
         } finally {
             if (null != bw) {
                 try {
@@ -574,11 +581,15 @@ public class TaskUtils {
         replaceList.add("{");
         replaceList.add("formatStr");
         replaceList.add("toFixed");
+        replaceList.add("formatFixed");
         replaceList.add("formatMoney");
         replaceList.add("formatPercent");
+        replaceList.add("formatNumber");
+        replaceList.add("formatDate");
+        replaceList.add("value.");
+        replaceList.add("jbzl.");
+        replaceList.add("fxxg.");
         replaceList.add("(");
-        replaceList.add("value");
-        replaceList.add(".");
         replaceList.add(",");
         replaceList.add("'");
         replaceList.add("%");
@@ -597,6 +608,33 @@ public class TaskUtils {
             str = str.replace(replace, "");
         }
         return str.trim();
+    }
+
+    /**
+     * 获取sql
+     */
+    private static String getSql(String key, String text) {
+        if (StringUtils.isEmpty(key)) return null;
+
+        String cleanKey = cleanKey(key);
+        if (cleanKey.endsWith("_YOY")) {
+            text = text + "(同比%)";
+        }
+        if (cleanKey.endsWith("_QOQ")) {
+            text = text + "(单季度环比%)";
+        }
+
+        if (key.contains("formatStr")) {
+            text = "varchar(10) default null comment '" + text + "',";
+        }
+        if (key.contains("formatDate")) {
+            text = "datetime default null comment '" + text + "',";
+        }
+        if (key.contains("toFixed") || key.contains("formatFixed") || key.contains("formatMoney") || key.contains("formatPercent") || key.contains("formatNumber") || key.contains("formatPercent")) {
+            text = "double default null comment '" + text + "',";
+        }
+
+        return cleanKey + " " + text;
     }
 
     public static void main(String[] args) {

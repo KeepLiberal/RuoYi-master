@@ -50,7 +50,11 @@ public class RyTask {
     /**
      * 存放接口所有字段
      */
-    public static LinkedHashMap<String, String> keyMapOfHtml = new LinkedHashMap<>();
+    public static Set<String> keySetOfHtml = new HashSet<>();
+    /**
+     * 存放sql
+     */
+    public static LinkedHashMap<String, String> sqlMapOfHtml = new LinkedHashMap<>();
 
 
     ///////////////////////////////////////////////////////个股信息//////////////////////////////////////////////////////
@@ -218,25 +222,26 @@ public class RyTask {
         log.info("========生成SQL 任务开始=========interfaceName:{} htmlName:{}", interfaceName, htmlName);
 
         keySetOfInterface.clear();
-        keyMapOfHtml.clear();
+        keySetOfHtml.clear();
+        sqlMapOfHtml.clear();
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
 
 
         for (InvStock stock : stockList) {
-//            if ("000001".equals(stock.getCode())) {
+            if ("000001".equals(stock.getCode())) {
                 myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-ajax"));
                 myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-ajax-bgq"));
                 myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-ajax-nd"));
                 myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-ajax-jd"));
 
                 myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv." + htmlName + "-web"), interfaceName);
-//            }
+            }
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
 
-        TaskUtils.writeSqlFile(interfaceName + ".txt", keySetOfInterface);
-        TaskUtils.writeSqlFile(interfaceName + ".sql", keyMapOfHtml);
-        TaskUtils.writeCompareFile(interfaceName + "-compare.txt");
+        TaskUtils.writeKeysOfInterface(htmlName + "-" + interfaceName + ".txt");
+        TaskUtils.writeSqlFileOfHtml(htmlName + "-" + interfaceName + ".sql");
+        TaskUtils.writeCompareKeyFile(htmlName + "-" + interfaceName + "-compare.txt");
         log.info("========生成SQL 任务完成=========interfaceName:{} htmlName:{}", interfaceName, htmlName);
     }
 

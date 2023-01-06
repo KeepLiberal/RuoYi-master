@@ -7,7 +7,7 @@ inv:
 
   #########################################################公司概况 开始##################################################
   company-web: https://emweb.eastmoney.com/PC_HSF10/CompanySurvey/Index?type=web&code=
-  company-ajax: https://emweb.eastmoney.com/PC_HSF10/CompanySurvey/PageAjax?code=
+  company-company-ajax: https://emweb.eastmoney.com/PC_HSF10/CompanySurvey/PageAjax?code=
   #########################################################公司概况 结束##################################################
 
 
