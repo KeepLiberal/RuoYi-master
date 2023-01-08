@@ -565,7 +565,7 @@ public class TaskUtils {
 
         List<String> replaceList = Arrays.asList("{{formatStr(", "{{toFixed(", "{{formatFixed(", "{{formatMoney(",
                 "{{formatMoney(", "{{formatPercent(", "{{formatNumber(", "{{formatDate(", ",1)}}",
-                ",2)}}", ",3)}}", ",4)}}", ")}}", "value.", "jbzl.", "fxxg.", "*1e4", "''");
+                ",2)}}", ",3)}}", ",4)}}", ")}}", "value.", "jbzl.", "fxxg.", "*1e4", "&ensp;", "''");
 
         for (String replace : replaceList) {
             str = str.replace(replace, "");

@@ -216,10 +216,10 @@ public class RyTask {
     /**
      * 生成接口对应SQL文件
      */
-    public void createSqlFile(String interfaceName, String htmlName) throws IOException {
-        log.info("========生成SQL 任务等待=========interfaceName:{} htmlName:{}", interfaceName, htmlName);
+    public void createSqlFile(String interfaceName, String htmlName) {
+        log.info("========生成SQL interfaceName:{} htmlName:{} 任务等待=========", interfaceName, htmlName);
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========生成SQL 任务开始=========interfaceName:{} htmlName:{}", interfaceName, htmlName);
+        log.info("========生成SQL interfaceName:{} htmlName:{} 任务开始=========", interfaceName, htmlName);
 
         keySetOfInterface.clear();
         keySetOfHtml.clear();
@@ -242,7 +242,7 @@ public class RyTask {
         TaskUtils.writeKeysOfInterface(htmlName + "-" + interfaceName + ".txt");
         TaskUtils.writeSqlFileOfHtml(htmlName + "-" + interfaceName + ".sql");
         TaskUtils.writeCompareKeyFile(htmlName + "-" + interfaceName + "-compare.txt");
-        log.info("========生成SQL 任务完成=========interfaceName:{} htmlName:{}", interfaceName, htmlName);
+        log.info("========生成SQL interfaceName:{} htmlName:{} 任务完成=========", interfaceName, htmlName);
     }
 
     ///////////////////////////////////////////////////////示例代码//////////////////////////////////////////////////////
