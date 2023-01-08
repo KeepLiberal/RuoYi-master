@@ -52,6 +52,7 @@ public class MyQuartzAsyncTask {
      */
     @Async("threadPoolTaskExecutor")
     public void invFinanceReportDateTask(InvStock stock, String url, String financeType, String reportType, AtomicInteger count) {
+        String urlStr = url;
         try {
             /*
             1.如果公司类型为空，先初始化公司类型
@@ -130,9 +131,9 @@ public class MyQuartzAsyncTask {
         } catch (Exception e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
-                invFinanceReportDateTask(stock, url, financeType, reportType, count);
+                invFinanceReportDateTask(stock, urlStr, financeType, reportType, count);
             } else {
-                log.error(">>>MyQuartzAsyncTask.invFinanceReportDateTask(" + url + ")异常:", e);
+                log.error(">>>MyQuartzAsyncTask.invFinanceReportDateTask(" + urlStr + ")异常:", e);
             }
         }
     }
@@ -142,6 +143,7 @@ public class MyQuartzAsyncTask {
      */
     @Async("threadPoolTaskExecutor")
     public void invFinanceZyzbTask(InvStock stock, String url, String reportType, AtomicInteger count) {
+        String urlStr = url;
         try {
             url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
             String result = HttpUtils.sendGet(url, new AtomicInteger(10));
@@ -201,9 +203,9 @@ public class MyQuartzAsyncTask {
         } catch (Exception e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
-                invFinanceZyzbTask(stock, url, reportType, count);
+                invFinanceZyzbTask(stock, urlStr, reportType, count);
             } else {
-                log.error(">>>MyQuartzAsyncTask.invFinanceZyzbTask(" + url + ")异常:", e);
+                log.error(">>>MyQuartzAsyncTask.invFinanceZyzbTask(" + urlStr + ")异常:", e);
             }
         }
     }
@@ -213,6 +215,7 @@ public class MyQuartzAsyncTask {
      */
     @Async("threadPoolTaskExecutor")
     public void invFinanceDbfxTask(InvStock stock, String url, AtomicInteger count) {
+        String urlStr = url;
         try {
             url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
             String result = HttpUtils.sendGet(url, new AtomicInteger(10));
@@ -269,9 +272,9 @@ public class MyQuartzAsyncTask {
         } catch (Exception e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
-                invFinanceDbfxTask(stock, url, count);
+                invFinanceDbfxTask(stock, urlStr, count);
             } else {
-                log.error(">>>MyQuartzAsyncTask.invFinanceDbfxTask(" + url + ")异常:", e);
+                log.error(">>>MyQuartzAsyncTask.invFinanceDbfxTask(" + urlStr + ")异常:", e);
             }
         }
     }
@@ -281,6 +284,7 @@ public class MyQuartzAsyncTask {
      */
     @Async("threadPoolTaskExecutor")
     public void invFinanceZcfzTask(InvStock stock, String url, String financeType, String reportType, List<SysDictData> dictDatas, AtomicInteger count) {
+        String urlStr = url;
         try {
             /*
             1.最近的5期进行数据同步，如果和数据库一致则跳过，不一致则更新
@@ -405,9 +409,9 @@ public class MyQuartzAsyncTask {
         } catch (Exception e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
-                invFinanceZcfzTask(stock, url, financeType, reportType, dictDatas, count);
+                invFinanceZcfzTask(stock, urlStr, financeType, reportType, dictDatas, count);
             } else {
-                log.error(">>>MyQuartzAsyncTask.invFinanceZcfzTask(" + url + ")异常:", e);
+                log.error(">>>MyQuartzAsyncTask.invFinanceZcfzTask(" + urlStr + ")异常:", e);
             }
         }
     }
@@ -417,6 +421,7 @@ public class MyQuartzAsyncTask {
      */
     @Async("threadPoolTaskExecutor")
     public void invFinanceLrTask(InvStock stock, String url, String financeType, String reportType, List<SysDictData> dictDatas, AtomicInteger count) {
+        String urlStr = url;
         try {
             /*
             1.最近的5期进行数据同步，如果和数据库一致则跳过，不一致则更新
@@ -541,9 +546,9 @@ public class MyQuartzAsyncTask {
         } catch (Exception e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
-                invFinanceLrTask(stock, url, financeType, reportType, dictDatas, count);
+                invFinanceLrTask(stock, urlStr, financeType, reportType, dictDatas, count);
             } else {
-                log.error(">>>MyQuartzAsyncTask.invFinanceLrTask(" + url + ")异常:", e);
+                log.error(">>>MyQuartzAsyncTask.invFinanceLrTask(" + urlStr + ")异常:", e);
             }
         }
     }
@@ -553,6 +558,7 @@ public class MyQuartzAsyncTask {
      */
     @Async("threadPoolTaskExecutor")
     public void invFinanceXjllTask(InvStock stock, String url, String financeType, String reportType, List<SysDictData> dictDatas, AtomicInteger count) {
+        String urlStr = url;
         try {
             /*
             1.最近的5期进行数据同步，如果和数据库一致则跳过，不一致则更新
@@ -677,9 +683,9 @@ public class MyQuartzAsyncTask {
         } catch (Exception e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
-                invFinanceXjllTask(stock, url, financeType, reportType, dictDatas, count);
+                invFinanceXjllTask(stock, urlStr, financeType, reportType, dictDatas, count);
             } else {
-                log.error(">>>MyQuartzAsyncTask.invFinanceXjllTask(" + url + ")异常:", e);
+                log.error(">>>MyQuartzAsyncTask.invFinanceXjllTask(" + urlStr + ")异常:", e);
             }
         }
     }
@@ -689,6 +695,7 @@ public class MyQuartzAsyncTask {
      */
     @Async("threadPoolTaskExecutor")
     public void invFinanceBfbTask(InvStock stock, String url, String reportType, AtomicInteger count) {
+        String urlStr = url;
         try {
             url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
             url = url.replace("ctype=", "ctype=" + stock.getStockType());
@@ -761,9 +768,9 @@ public class MyQuartzAsyncTask {
         } catch (Exception e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
-                invFinanceBfbTask(stock, url, reportType, count);
+                invFinanceBfbTask(stock, urlStr, reportType, count);
             } else {
-                log.error(">>>MyQuartzAsyncTask.invFinanceBfbTask(" + url + ")异常:", e);
+                log.error(">>>MyQuartzAsyncTask.invFinanceBfbTask(" + urlStr + ")异常:", e);
             }
         }
     }

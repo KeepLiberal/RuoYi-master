@@ -563,25 +563,9 @@ public class TaskUtils {
     private static String cleanKey(String str) {
         if (StringUtils.isEmpty(str)) return null;
 
-        List<String> replaceList = new ArrayList<>();
-        replaceList.add("{{formatStr(");
-        replaceList.add("{{toFixed(");
-        replaceList.add("{{formatFixed(");
-        replaceList.add("{{formatMoney(");
-        replaceList.add("{{formatPercent(");
-        replaceList.add("{{formatNumber(");
-        replaceList.add("{{formatDate(");
-        replaceList.add(")}}");
-        replaceList.add("value.");
-        replaceList.add("jbzl.");
-        replaceList.add("fxxg.");
-        replaceList.add("1e4");
-        replaceList.add(",");
-        replaceList.add("'");
-        replaceList.add("1");
-        replaceList.add("2");
-        replaceList.add("3");
-        replaceList.add("4");
+        List<String> replaceList = Arrays.asList("{{formatStr(", "{{toFixed(", "{{formatFixed(", "{{formatMoney(",
+                "{{formatMoney(", "{{formatPercent(", "{{formatNumber(", "{{formatDate(", ",1)}}",
+                ",2)}}", ",3)}}", ",4)}}", ")}}", "value.", "jbzl.", "fxxg.", "*1e4", "''");
 
         for (String replace : replaceList) {
             str = str.replace(replace, "");
