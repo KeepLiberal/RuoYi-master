@@ -85,7 +85,6 @@ public class HttpUtils {
                     in.close();
                 }
             } catch (Exception ex) {
-                log.error("调用in.close Exception, url=" + url, ex);
             }
         }
         return result.toString();
@@ -154,15 +153,14 @@ public class HttpUtils {
                 log.error("调用HttpsUtil.sendPost Exception, url=" + url, e);
             }
         } finally {
-            try {
-                if (out != null) {
-                    out.close();
-                }
-                if (in != null) {
+            if (out != null) {
+                out.close();
+            }
+            if (in != null) {
+                try {
                     in.close();
+                } catch (IOException e) {
                 }
-            } catch (IOException ex) {
-                log.error("调用in.close Exception, url=" + url, ex);
             }
         }
         return result.toString();
@@ -236,7 +234,6 @@ public class HttpUtils {
                 try {
                     br.close();
                 } catch (IOException e) {
-                    log.error("br.close Exception, url=" + url, e);
                 }
             }
         }
@@ -244,60 +241,67 @@ public class HttpUtils {
     }
 
 
-    //*************************************文件下载*********************************************
-    public static void downLoadFile(String url, HttpServletResponse response) {
-
-        InputStream is = null;
-        OutputStream os = null;
-        HttpURLConnection conn = null;
+    /**
+     * 向指定 URL 发送GET方法的请求
+     *
+     * @param url      发送请求的 URL
+     * @param filePath 文件路径
+     * @return 所代表远程资源的响应结果
+     */
+    public static void downloadFile(String url, String filePath, AtomicInteger count) {
+        InputStream in = null;
+        FileOutputStream out = null;
         try {
-            log.info("下载url为：" + url);
-            conn = (HttpURLConnection) new URL(url).openConnection();
-            conn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9");
-            conn.setRequestProperty("Content-Type", "application/x-download;charset=utf-8");
-            conn.setRequestMethod("GET");
+            URL realUrl = new URL(url);
+            URLConnection conn = realUrl.openConnection();
+            conn.setRequestProperty("accept", "*/*");
+            conn.setRequestProperty("connection", "Keep-Alive");
+            conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
             conn.setConnectTimeout(60000);
             conn.setReadTimeout(60000);
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            conn.setUseCaches(false);
-            HttpURLConnection.setFollowRedirects(false);
             conn.connect();
+            in = conn.getInputStream();
 
-
-            int resCode = conn.getResponseCode();
-            if (resCode == 200) {
-                is = conn.getInputStream();
-                String fileName = URLEncoder.encode("1000.xls", "UTF-8");
-                //设置HTTP响应头
-                response.addHeader("Content-Disposition", "attachment;filename=\"" + fileName + "\"");//下载文件的名称
-                response.setContentType("application/x-download");//告知浏览器下载文件，而不是直接打开，浏览器默认为打开
-                byte[] b = new byte[1024];
-                int len;
-                while ((len = is.read(b)) > 0) {
-                    response.getOutputStream().write(b, 0, len);
-                }
-                response.getOutputStream().close();
+            out = new FileOutputStream(filePath);
+            int length = 0;
+            while ((length = in.read()) != -1) {
+                out.write(length);
+            }
+        } catch (ConnectException e) {
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                downloadFile(url, filePath, count);
+            } else {
+                log.error("调用HttpUtils.downloadFile ConnectException, url=" + url, e);
+            }
+        } catch (SocketTimeoutException e) {
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                downloadFile(url, filePath, count);
+            } else {
+                log.error("调用HttpUtils.downloadFile SocketTimeoutException, url=" + url, e);
+            }
+        } catch (IOException e) {
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                downloadFile(url, filePath, count);
+            } else {
+                log.error("调用HttpUtils.downloadFile IOException, url=" + url, e);
             }
         } catch (Exception e) {
-            log.error("调用HttpsUtil.downLoadFile Exception, url=" + url, e);
+            log.error("调用HttpsUtil.downloadFile Exception, url=" + url, e);
         } finally {
-            if (conn != null) {
-                conn.disconnect();
-            }
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    log.error("调用in.close Exception, url=" + url, e);
+            try {
+                if (in != null) {
+                    in.close();
                 }
+            } catch (Exception e) {
             }
-            if (os != null) {
-                try {
-                    os.close();
-                } catch (IOException e) {
-                    log.error("os.close Exception, url=" + url, e);
+            try {
+                if (out != null) {
+                    out.close();
                 }
+            } catch (Exception e) {
             }
         }
     }

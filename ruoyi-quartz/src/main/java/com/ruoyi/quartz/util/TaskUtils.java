@@ -219,10 +219,11 @@ public class TaskUtils {
                         Elements ps = div.select("p");
                         for (Element p : ps) {
                             String pClassName = p.className();
-                            String cleanKey = cleanKey(p.text());
+                            String key = p.text();
+                            String cleanKey = cleanKey(key);
                             if (StringUtils.isNotEmpty(cleanKey)) {
                                 RyTask.keySetOfHtml.add(cleanKey);
-                                RyTask.sqlMapOfHtml.put(divClassName + "-" + pClassName + "-" + cleanKey, url);
+                                RyTask.sqlMapOfHtml.put(cleanKey, getSql(key, divClassName + "-" + pClassName+"-"+url));
                             }
                         }
                     }
@@ -407,14 +408,14 @@ public class TaskUtils {
     /**
      * 生成接口字段的TXT文件
      */
-    public static void writeKeysOfInterface(String htmlName, String fileName) {
+    public static void writeKeysOfInterface(String fileName) {
         BufferedWriter bw = null;
         try {
-            File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/"+htmlName+"/" + fileName);
-            File pafile = sqlFile.getParentFile();
+            File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/" + fileName);
+            File paFile = sqlFile.getParentFile();
             // 判断文件夹是否存在
-            if (!pafile.exists()) {
-                pafile.mkdirs();
+            if (!paFile.exists()) {
+                paFile.mkdirs();
             }
             // 判断文件是否存在
             if (!sqlFile.exists()) {
@@ -443,13 +444,19 @@ public class TaskUtils {
     /**
      * 生成页面字段生成的SQL文件
      */
-    public static void writeSqlFileOfHtml(String htmlName, String fileName) {
+    public static void writeSqlFileOfHtml(String fileName) {
         BufferedWriter bw = null;
         try {
             LinkedHashMap<String, String> sqlLinkedHashMap = new LinkedHashMap<>();
+            Set<String> imageSet = new HashSet<>();
             //字段和对应的同比环比配对
             Set<String> keyMapOfHtmlKeySet = RyTask.sqlMapOfHtml.keySet();
             for (String outKey : keyMapOfHtmlKeySet) {
+                String value = RyTask.sqlMapOfHtml.get(outKey);
+                if (value.contains("https")) {
+                    String imageUrl = value.substring(value.indexOf("https"),value.length()-2);
+                    imageSet.add(imageUrl);
+                }
                 if (!outKey.endsWith("_YOY") && !outKey.endsWith("_QOQ")) {
                     sqlLinkedHashMap.put(outKey, RyTask.sqlMapOfHtml.get(outKey));
                     for (String innerKey : keyMapOfHtmlKeySet) {
@@ -465,11 +472,11 @@ public class TaskUtils {
                 }
             }
 
-            File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/"+htmlName+"/" + fileName);
-            File pafile = sqlFile.getParentFile();
+            File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/" + fileName);
+            File paFile = sqlFile.getParentFile();
             // 判断文件夹是否存在
-            if (!pafile.exists()) {
-                pafile.mkdirs();
+            if (!paFile.exists()) {
+                paFile.mkdirs();
             }
             // 判断文件是否存在
             if (!sqlFile.exists()) {
@@ -483,6 +490,10 @@ public class TaskUtils {
             }
             bw.flush();
             bw.close();
+
+            for (String imageUrl : imageSet) {
+                HttpUtils.downloadFile(imageUrl, "/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/" + imageUrl.substring(imageUrl.indexOf("db_w_")), new AtomicInteger(10));
+            }
         } catch (Exception e) {
             log.error(">>>TaskUtils.writeSqlFileOfHtml 异常:{}", e);
         } finally {
@@ -498,14 +509,14 @@ public class TaskUtils {
     /**
      * 生成接口字段和页面字段对比TXT文件
      */
-    public static void writeCompareKeyFile(String htmlName, String fileName) {
+    public static void writeCompareKeyFile(String fileName) {
         BufferedWriter bw = null;
         try {
-            File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/"+htmlName+"/" + fileName);
-            File pafile = sqlFile.getParentFile();
+            File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/" + fileName);
+            File paFile = sqlFile.getParentFile();
             // 判断文件夹是否存在
-            if (!pafile.exists()) {
-                pafile.mkdirs();
+            if (!paFile.exists()) {
+                paFile.mkdirs();
             }
             // 判断文件是否存在
             if (!sqlFile.exists()) {
@@ -564,8 +575,8 @@ public class TaskUtils {
         if (StringUtils.isEmpty(str)) return null;
 
         List<String> replaceList = Arrays.asList("{{formatStr(", "{{toFixed(", "{{formatFixed(", "{{formatMoney(",
-                "{{formatMoney(", "{{formatPercent(", "{{formatNumber(", "{{formatDate(", ",1)}}",
-                ",2)}}", ",3)}}", ",4)}}", ")}}", "value.", "jbzl.", "fxxg.", "*1e4", "&ensp;", "''");
+                "{{formatMoney(", "{{formatPercent(", "{{formatNumber(", "{{formatDate(",
+                ", 4)}}", ", '%')}}", ", '')}}", ")}}", "value.", "jbzl.", "fxxg.", "*1e4", "&ensp;", ", '次'");
 
         for (String replace : replaceList) {
             str = str.replace(replace, "");

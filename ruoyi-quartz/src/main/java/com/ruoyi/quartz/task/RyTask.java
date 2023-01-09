@@ -216,10 +216,10 @@ public class RyTask {
     /**
      * 生成接口对应SQL文件
      */
-    public void createSqlFile(String htmlName, String interfaceName) {
-        log.info("========生成SQL interfaceName:{} htmlName:{} 任务等待=========", interfaceName, htmlName);
+    public void createSqlFile(String interfaceName) {
+        log.info("========生成SQL interfaceName:{} 任务等待=========", interfaceName);
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========生成SQL interfaceName:{} htmlName:{} 任务开始=========", interfaceName, htmlName);
+        log.info("========生成SQL interfaceName:{} 任务开始=========", interfaceName);
 
         keySetOfInterface.clear();
         keySetOfHtml.clear();
@@ -228,20 +228,51 @@ public class RyTask {
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
         for (InvStock stock : stockList) {
 //            if ("000001".equals(stock.getCode())) {
-                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-ajax"));
-                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-ajax-bgq"));
-                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-ajax-nd"));
-                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-ajax-jd"));
-
-                myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv." + htmlName + "-web"), interfaceName);
+                if ("company".equals(interfaceName)) {
+                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.company-company-ajax"));
+                    myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.company-web"), interfaceName);
+                }
+                if ("zyzb".equals(interfaceName)) {
+                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-zyzb-ajax-bgq"));
+                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-zyzb-ajax-nd"));
+                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-zyzb-ajax-jd"));
+                    myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.finance-web"), interfaceName);
+                }
+                if ("dbfx".equals(interfaceName)) {
+                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-dbfx-ajax"));
+                    myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.finance-web"), interfaceName);
+                }
+                if ("zcfz".equals(interfaceName)) {
+                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-zcfz-ajax-bgq"));
+                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-zcfz-ajax-nd"));
+                    myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.finance-web"), interfaceName);
+                }
+                if ("lr".equals(interfaceName)) {
+                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-lr-ajax-bgq"));
+                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-lr-ajax-nd"));
+                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-lr-ajax-jd"));
+                    myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.finance-web"), interfaceName);
+                }
+                if ("xjll".equals(interfaceName)) {
+                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-xjll-ajax-bgq"));
+                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-xjll-ajax-nd"));
+                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-xjll-ajax-jd"));
+                    myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.finance-web"), interfaceName);
+                }
+                if ("bfb".equals(interfaceName)) {
+                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-bfb-ajax-bgq"));
+                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-bfb-ajax-nd"));
+                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-bfb-ajax-jd"));
+                    myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.finance-web"), interfaceName);
+                }
 //            }
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
 
-        TaskUtils.writeKeysOfInterface(htmlName, interfaceName + ".txt");
-        TaskUtils.writeSqlFileOfHtml(htmlName,interfaceName + ".sql");
-        TaskUtils.writeCompareKeyFile(htmlName, interfaceName + "-compare.txt");
-        log.info("========生成SQL interfaceName:{} htmlName:{} 任务完成=========", interfaceName, htmlName);
+        TaskUtils.writeKeysOfInterface(interfaceName + ".txt");
+        TaskUtils.writeSqlFileOfHtml(interfaceName + ".sql");
+        TaskUtils.writeCompareKeyFile(interfaceName + "-compare.txt");
+        log.info("========生成SQL interfaceName:{} 任务完成=========", interfaceName);
     }
 
     ///////////////////////////////////////////////////////示例代码//////////////////////////////////////////////////////
