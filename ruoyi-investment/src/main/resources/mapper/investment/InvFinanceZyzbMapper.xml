@@ -9,82 +9,82 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="securityCode"    column="security_code"    />
         <result property="reportType"    column="report_type"    />
         <result property="reportDate"    column="report_date"    />
-        <result property="perCapitalReserve"    column="per_capital_reserve"    />
-        <result property="perNetcash"    column="per_netcash"    />
-        <result property="perUnassignProfit"    column="per_unassign_profit"    />
-        <result property="yszkyysr"    column="yszkyysr"    />
-        <result property="rzrqywfxzb"    column="rzrqywfxzb"    />
-        <result property="zygdsylzqjzb"    column="zygdsylzqjzb"    />
-        <result property="totaldeposits"    column="totaldeposits"    />
-        <result property="xsjll"    column="xsjll"    />
-        <result property="mlr"    column="mlr"    />
-        <result property="netProfitRatio"    column="net_profit_ratio"    />
-        <result property="kcfjcxsyjlr"    column="kcfjcxsyjlr"    />
-        <result property="earnedPremium"    column="earned_premium"    />
-        <result property="jzbjzc"    column="jzbjzc"    />
-        <result property="zzczzts"    column="zzczzts"    />
-        <result property="mgwfplr"    column="mgwfplr"    />
-        <result property="taxrate"    column="taxrate"    />
-        <result property="yszkzzl"    column="yszkzzl"    />
-        <result property="cqbl"    column="cqbl"    />
-        <result property="zygpgmjzc"    column="zygpgmjzc"    />
-        <result property="kfjlrgdhbzc"    column="kfjlrgdhbzc"    />
-        <result property="ltdrr"    column="ltdrr"    />
-        <result property="solvencyAr"    column="solvency_ar"    />
         <result property="epsjb"    column="epsjb"    />
+        <result property="epskcjb"    column="epskcjb"    />
+        <result property="epsxs"    column="epsxs"    />
+        <result property="bps"    column="bps"    />
+        <result property="mgzbgj"    column="mgzbgj"    />
+        <result property="mgwfplr"    column="mgwfplr"    />
+        <result property="mgjyxjje"    column="mgjyxjje"    />
+        <result property="totaloperatereve"    column="totaloperatereve"    />
+        <result property="mlr"    column="mlr"    />
+        <result property="parentnetprofit"    column="parentnetprofit"    />
+        <result property="kcfjcxsyjlr"    column="kcfjcxsyjlr"    />
+        <result property="totaloperaterevetz"    column="totaloperaterevetz"    />
+        <result property="parentnetprofittz"    column="parentnetprofittz"    />
+        <result property="kcfjcxsyjlrtz"    column="kcfjcxsyjlrtz"    />
+        <result property="yyzsrgdhbzc"    column="yyzsrgdhbzc"    />
+        <result property="netprofitrphbzc"    column="netprofitrphbzc"    />
+        <result property="kfjlrgdhbzc"    column="kfjlrgdhbzc"    />
+        <result property="roejq"    column="roejq"    />
+        <result property="roekcjq"    column="roekcjq"    />
+        <result property="zzcjll"    column="zzcjll"    />
+        <result property="xsmll"    column="xsmll"    />
+        <result property="xsjll"    column="xsjll"    />
+        <result property="yszkyysr"    column="yszkyysr"    />
+        <result property="xsjxlyysr"    column="xsjxlyysr"    />
+        <result property="jyxjlyysr"    column="jyxjlyysr"    />
+        <result property="taxrate"    column="taxrate"    />
+        <result property="ld"    column="ld"    />
+        <result property="sd"    column="sd"    />
+        <result property="xjllb"    column="xjllb"    />
+        <result property="zcfzl"    column="zcfzl"    />
+        <result property="qycs"    column="qycs"    />
+        <result property="cqbl"    column="cqbl"    />
+        <result property="zzczzts"    column="zzczzts"    />
+        <result property="chzzts"    column="chzzts"    />
+        <result property="yszkzzts"    column="yszkzzts"    />
+        <result property="toazzl"    column="toazzl"    />
+        <result property="chzzl"    column="chzzl"    />
+        <result property="yszkzzl"    column="yszkzzl"    />
+        <result property="totaldeposits"    column="totaldeposits"    />
+        <result property="grossloans"    column="grossloans"    />
+        <result property="ltdrr"    column="ltdrr"    />
+        <result property="newcapitalader"    column="newcapitalader"    />
+        <result property="hxyjbczl"    column="hxyjbczl"    />
+        <result property="nonperloan"    column="nonperloan"    />
+        <result property="bldkbbl"    column="bldkbbl"    />
+        <result property="nzbje"    column="nzbje"    />
+        <result property="totalRoi"    column="total_roi"    />
+        <result property="netRoi"    column="net_roi"    />
+        <result property="earnedPremium"    column="earned_premium"    />
+        <result property="compensateExpense"    column="compensate_expense"    />
+        <result property="surrenderRateLife"    column="surrender_rate_life"    />
+        <result property="solvencyAr"    column="solvency_ar"    />
+        <result property="jzb"    column="jzb"    />
+        <result property="jzc"    column="jzc"    />
+        <result property="jzbjzc"    column="jzbjzc"    />
+        <result property="zygpgmjzc"    column="zygpgmjzc"    />
+        <result property="zygdsylzqjzb"    column="zygdsylzqjzb"    />
+        <result property="yyfxzb"    column="yyfxzb"    />
         <result property="jjywfxzb"    column="jjywfxzb"    />
         <result property="zqzyywfxzb"    column="zqzyywfxzb"    />
-        <result property="roekcjq"    column="roekcjq"    />
-        <result property="surrenderRateLife"    column="surrender_rate_life"    />
-        <result property="yyzsrgdhbzc"    column="yyzsrgdhbzc"    />
-        <result property="zcfzl"    column="zcfzl"    />
-        <result property="jyxjlyysr"    column="jyxjlyysr"    />
-        <result property="qycs"    column="qycs"    />
-        <result property="zzcjll"    column="zzcjll"    />
-        <result property="bps"    column="bps"    />
-        <result property="nzbje"    column="nzbje"    />
-        <result property="roejq"    column="roejq"    />
-        <result property="yszkzzts"    column="yszkzzts"    />
-        <result property="xsmll"    column="xsmll"    />
-        <result property="kcfjcxsyjlrtz"    column="kcfjcxsyjlrtz"    />
-        <result property="totaloperatereve"    column="totaloperatereve"    />
-        <result property="grossProfit"    column="gross_profit"    />
-        <result property="sd"    column="sd"    />
-        <result property="chzzts"    column="chzzts"    />
-        <result property="mgzbgj"    column="mgzbgj"    />
-        <result property="parentnetprofit"    column="parentnetprofit"    />
-        <result property="nonperloan"    column="nonperloan"    />
-        <result property="totalRoi"    column="total_roi"    />
         <result property="zqcxywfxzb"    column="zqcxywfxzb"    />
-        <result property="chzzl"    column="chzzl"    />
-        <result property="netRoi"    column="net_roi"    />
-        <result property="grossloans"    column="grossloans"    />
-        <result property="epskcjb"    column="epskcjb"    />
-        <result property="netprofitrphbzc"    column="netprofitrphbzc"    />
-        <result property="hxyjbczl"    column="hxyjbczl"    />
-        <result property="parentnetprofittz"    column="parentnetprofittz"    />
+        <result property="rzrqywfxzb"    column="rzrqywfxzb"    />
+        <result property="perCapitalReserve"    column="per_capital_reserve"    />
+        <result property="perUnassignProfit"    column="per_unassign_profit"    />
+        <result property="perNetcash"    column="per_netcash"    />
+        <result property="grossProfit"    column="gross_profit"    />
         <result property="deduParentProfit"    column="dedu_parent_profit"    />
-        <result property="toazzl"    column="toazzl"    />
-        <result property="totaloperaterevetz"    column="totaloperaterevetz"    />
-        <result property="epsxs"    column="epsxs"    />
-        <result property="compensateExpense"    column="compensate_expense"    />
-        <result property="jzc"    column="jzc"    />
-        <result property="jzb"    column="jzb"    />
-        <result property="bldkbbl"    column="bldkbbl"    />
-        <result property="ld"    column="ld"    />
-        <result property="newcapitalader"    column="newcapitalader"    />
-        <result property="xsjxlyysr"    column="xsjxlyysr"    />
-        <result property="mgjyxjje"    column="mgjyxjje"    />
-        <result property="yyfxzb"    column="yyfxzb"    />
-        <result property="xjllb"    column="xjllb"    />
-        <result property="epsjbtz"    column="epsjbtz"    />
         <result property="dpnpYoyRatio"    column="dpnp_yoy_ratio"    />
         <result property="roeDiluted"    column="roe_diluted"    />
         <result property="jroa"    column="jroa"    />
+        <result property="grossProfitRatio"    column="gross_profit_ratio"    />
+        <result property="netProfitRatio"    column="net_profit_ratio"    />
     </resultMap>
 
     <sql id="selectInvFinanceZyzbVo">
-        select id, security_code, report_type, report_date, per_capital_reserve, per_netcash, per_unassign_profit, yszkyysr, rzrqywfxzb, zygdsylzqjzb, totaldeposits, xsjll, mlr, net_profit_ratio, kcfjcxsyjlr, earned_premium, jzbjzc, zzczzts, mgwfplr, taxrate, yszkzzl, cqbl, zygpgmjzc, kfjlrgdhbzc, ltdrr, solvency_ar, epsjb, jjywfxzb, zqzyywfxzb, roekcjq, surrender_rate_life, yyzsrgdhbzc, zcfzl, jyxjlyysr, qycs, zzcjll, bps, nzbje, roejq, yszkzzts, xsmll, kcfjcxsyjlrtz, totaloperatereve, gross_profit, sd, chzzts, mgzbgj, parentnetprofit, nonperloan, total_roi, zqcxywfxzb, chzzl, net_roi, grossloans, epskcjb, netprofitrphbzc, hxyjbczl, parentnetprofittz, dedu_parent_profit, toazzl, totaloperaterevetz, epsxs, compensate_expense, jzc, jzb, bldkbbl, ld, newcapitalader, xsjxlyysr, mgjyxjje, yyfxzb, xjllb, epsjbtz, dpnp_yoy_ratio, roe_diluted, jroa from inv_finance_zyzb
+        select id, security_code, report_type, report_date, epsjb, epskcjb, epsxs, bps, mgzbgj, mgwfplr, mgjyxjje, totaloperatereve, mlr, parentnetprofit, kcfjcxsyjlr, totaloperaterevetz, parentnetprofittz, kcfjcxsyjlrtz, yyzsrgdhbzc, netprofitrphbzc, kfjlrgdhbzc, roejq, roekcjq, zzcjll, xsmll, xsjll, yszkyysr, xsjxlyysr, jyxjlyysr, taxrate, ld, sd, xjllb, zcfzl, qycs, cqbl, zzczzts, chzzts, yszkzzts, toazzl, chzzl, yszkzzl, totaldeposits, grossloans, ltdrr, newcapitalader, hxyjbczl, nonperloan, bldkbbl, nzbje, total_roi, net_roi, earned_premium, compensate_expense, surrender_rate_life, solvency_ar, jzb, jzc, jzbjzc, zygpgmjzc, zygdsylzqjzb, yyfxzb, jjywfxzb, zqzyywfxzb, zqcxywfxzb, rzrqywfxzb, per_capital_reserve, per_unassign_profit, per_netcash, gross_profit, dedu_parent_profit, dpnp_yoy_ratio, roe_diluted, jroa, gross_profit_ratio, net_profit_ratio from inv_finance_zyzb
     </sql>
 
     <select id="selectInvFinanceZyzbList" parameterType="InvFinanceZyzb" resultMap="InvFinanceZyzbResult">
@@ -93,78 +93,78 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="securityCode != null  and securityCode != ''"> and security_code = #{securityCode}</if>
             <if test="reportType != null  and reportType != ''"> and report_type = #{reportType}</if>
             <if test="reportDate != null "> and report_date = #{reportDate}</if>
-            <if test="perCapitalReserve != null "> and per_capital_reserve = #{perCapitalReserve}</if>
-            <if test="perNetcash != null "> and per_netcash = #{perNetcash}</if>
-            <if test="perUnassignProfit != null "> and per_unassign_profit = #{perUnassignProfit}</if>
-            <if test="yszkyysr != null "> and yszkyysr = #{yszkyysr}</if>
-            <if test="rzrqywfxzb != null "> and rzrqywfxzb = #{rzrqywfxzb}</if>
-            <if test="zygdsylzqjzb != null "> and zygdsylzqjzb = #{zygdsylzqjzb}</if>
-            <if test="totaldeposits != null "> and totaldeposits = #{totaldeposits}</if>
-            <if test="xsjll != null "> and xsjll = #{xsjll}</if>
-            <if test="mlr != null "> and mlr = #{mlr}</if>
-            <if test="netProfitRatio != null "> and net_profit_ratio = #{netProfitRatio}</if>
-            <if test="kcfjcxsyjlr != null "> and kcfjcxsyjlr = #{kcfjcxsyjlr}</if>
-            <if test="earnedPremium != null "> and earned_premium = #{earnedPremium}</if>
-            <if test="jzbjzc != null "> and jzbjzc = #{jzbjzc}</if>
-            <if test="zzczzts != null "> and zzczzts = #{zzczzts}</if>
-            <if test="mgwfplr != null "> and mgwfplr = #{mgwfplr}</if>
-            <if test="taxrate != null "> and taxrate = #{taxrate}</if>
-            <if test="yszkzzl != null "> and yszkzzl = #{yszkzzl}</if>
-            <if test="cqbl != null "> and cqbl = #{cqbl}</if>
-            <if test="zygpgmjzc != null "> and zygpgmjzc = #{zygpgmjzc}</if>
-            <if test="kfjlrgdhbzc != null "> and kfjlrgdhbzc = #{kfjlrgdhbzc}</if>
-            <if test="ltdrr != null "> and ltdrr = #{ltdrr}</if>
-            <if test="solvencyAr != null "> and solvency_ar = #{solvencyAr}</if>
             <if test="epsjb != null "> and epsjb = #{epsjb}</if>
+            <if test="epskcjb != null "> and epskcjb = #{epskcjb}</if>
+            <if test="epsxs != null "> and epsxs = #{epsxs}</if>
+            <if test="bps != null "> and bps = #{bps}</if>
+            <if test="mgzbgj != null "> and mgzbgj = #{mgzbgj}</if>
+            <if test="mgwfplr != null "> and mgwfplr = #{mgwfplr}</if>
+            <if test="mgjyxjje != null "> and mgjyxjje = #{mgjyxjje}</if>
+            <if test="totaloperatereve != null "> and totaloperatereve = #{totaloperatereve}</if>
+            <if test="mlr != null "> and mlr = #{mlr}</if>
+            <if test="parentnetprofit != null "> and parentnetprofit = #{parentnetprofit}</if>
+            <if test="kcfjcxsyjlr != null "> and kcfjcxsyjlr = #{kcfjcxsyjlr}</if>
+            <if test="totaloperaterevetz != null "> and totaloperaterevetz = #{totaloperaterevetz}</if>
+            <if test="parentnetprofittz != null "> and parentnetprofittz = #{parentnetprofittz}</if>
+            <if test="kcfjcxsyjlrtz != null "> and kcfjcxsyjlrtz = #{kcfjcxsyjlrtz}</if>
+            <if test="yyzsrgdhbzc != null "> and yyzsrgdhbzc = #{yyzsrgdhbzc}</if>
+            <if test="netprofitrphbzc != null "> and netprofitrphbzc = #{netprofitrphbzc}</if>
+            <if test="kfjlrgdhbzc != null "> and kfjlrgdhbzc = #{kfjlrgdhbzc}</if>
+            <if test="roejq != null "> and roejq = #{roejq}</if>
+            <if test="roekcjq != null "> and roekcjq = #{roekcjq}</if>
+            <if test="zzcjll != null "> and zzcjll = #{zzcjll}</if>
+            <if test="xsmll != null "> and xsmll = #{xsmll}</if>
+            <if test="xsjll != null "> and xsjll = #{xsjll}</if>
+            <if test="yszkyysr != null "> and yszkyysr = #{yszkyysr}</if>
+            <if test="xsjxlyysr != null "> and xsjxlyysr = #{xsjxlyysr}</if>
+            <if test="jyxjlyysr != null "> and jyxjlyysr = #{jyxjlyysr}</if>
+            <if test="taxrate != null "> and taxrate = #{taxrate}</if>
+            <if test="ld != null "> and ld = #{ld}</if>
+            <if test="sd != null "> and sd = #{sd}</if>
+            <if test="xjllb != null "> and xjllb = #{xjllb}</if>
+            <if test="zcfzl != null "> and zcfzl = #{zcfzl}</if>
+            <if test="qycs != null "> and qycs = #{qycs}</if>
+            <if test="cqbl != null "> and cqbl = #{cqbl}</if>
+            <if test="zzczzts != null "> and zzczzts = #{zzczzts}</if>
+            <if test="chzzts != null "> and chzzts = #{chzzts}</if>
+            <if test="yszkzzts != null "> and yszkzzts = #{yszkzzts}</if>
+            <if test="toazzl != null "> and toazzl = #{toazzl}</if>
+            <if test="chzzl != null "> and chzzl = #{chzzl}</if>
+            <if test="yszkzzl != null "> and yszkzzl = #{yszkzzl}</if>
+            <if test="totaldeposits != null "> and totaldeposits = #{totaldeposits}</if>
+            <if test="grossloans != null "> and grossloans = #{grossloans}</if>
+            <if test="ltdrr != null "> and ltdrr = #{ltdrr}</if>
+            <if test="newcapitalader != null "> and newcapitalader = #{newcapitalader}</if>
+            <if test="hxyjbczl != null "> and hxyjbczl = #{hxyjbczl}</if>
+            <if test="nonperloan != null "> and nonperloan = #{nonperloan}</if>
+            <if test="bldkbbl != null "> and bldkbbl = #{bldkbbl}</if>
+            <if test="nzbje != null "> and nzbje = #{nzbje}</if>
+            <if test="totalRoi != null "> and total_roi = #{totalRoi}</if>
+            <if test="netRoi != null "> and net_roi = #{netRoi}</if>
+            <if test="earnedPremium != null "> and earned_premium = #{earnedPremium}</if>
+            <if test="compensateExpense != null "> and compensate_expense = #{compensateExpense}</if>
+            <if test="surrenderRateLife != null "> and surrender_rate_life = #{surrenderRateLife}</if>
+            <if test="solvencyAr != null "> and solvency_ar = #{solvencyAr}</if>
+            <if test="jzb != null "> and jzb = #{jzb}</if>
+            <if test="jzc != null "> and jzc = #{jzc}</if>
+            <if test="jzbjzc != null "> and jzbjzc = #{jzbjzc}</if>
+            <if test="zygpgmjzc != null "> and zygpgmjzc = #{zygpgmjzc}</if>
+            <if test="zygdsylzqjzb != null "> and zygdsylzqjzb = #{zygdsylzqjzb}</if>
+            <if test="yyfxzb != null "> and yyfxzb = #{yyfxzb}</if>
             <if test="jjywfxzb != null "> and jjywfxzb = #{jjywfxzb}</if>
             <if test="zqzyywfxzb != null "> and zqzyywfxzb = #{zqzyywfxzb}</if>
-            <if test="roekcjq != null "> and roekcjq = #{roekcjq}</if>
-            <if test="surrenderRateLife != null "> and surrender_rate_life = #{surrenderRateLife}</if>
-            <if test="yyzsrgdhbzc != null "> and yyzsrgdhbzc = #{yyzsrgdhbzc}</if>
-            <if test="zcfzl != null "> and zcfzl = #{zcfzl}</if>
-            <if test="jyxjlyysr != null "> and jyxjlyysr = #{jyxjlyysr}</if>
-            <if test="qycs != null "> and qycs = #{qycs}</if>
-            <if test="zzcjll != null "> and zzcjll = #{zzcjll}</if>
-            <if test="bps != null "> and bps = #{bps}</if>
-            <if test="nzbje != null "> and nzbje = #{nzbje}</if>
-            <if test="roejq != null "> and roejq = #{roejq}</if>
-            <if test="yszkzzts != null "> and yszkzzts = #{yszkzzts}</if>
-            <if test="xsmll != null "> and xsmll = #{xsmll}</if>
-            <if test="kcfjcxsyjlrtz != null "> and kcfjcxsyjlrtz = #{kcfjcxsyjlrtz}</if>
-            <if test="totaloperatereve != null "> and totaloperatereve = #{totaloperatereve}</if>
-            <if test="grossProfit != null "> and gross_profit = #{grossProfit}</if>
-            <if test="sd != null "> and sd = #{sd}</if>
-            <if test="chzzts != null "> and chzzts = #{chzzts}</if>
-            <if test="mgzbgj != null "> and mgzbgj = #{mgzbgj}</if>
-            <if test="parentnetprofit != null "> and parentnetprofit = #{parentnetprofit}</if>
-            <if test="nonperloan != null "> and nonperloan = #{nonperloan}</if>
-            <if test="totalRoi != null "> and total_roi = #{totalRoi}</if>
             <if test="zqcxywfxzb != null "> and zqcxywfxzb = #{zqcxywfxzb}</if>
-            <if test="chzzl != null "> and chzzl = #{chzzl}</if>
-            <if test="netRoi != null "> and net_roi = #{netRoi}</if>
-            <if test="grossloans != null "> and grossloans = #{grossloans}</if>
-            <if test="epskcjb != null "> and epskcjb = #{epskcjb}</if>
-            <if test="netprofitrphbzc != null "> and netprofitrphbzc = #{netprofitrphbzc}</if>
-            <if test="hxyjbczl != null "> and hxyjbczl = #{hxyjbczl}</if>
-            <if test="parentnetprofittz != null "> and parentnetprofittz = #{parentnetprofittz}</if>
+            <if test="rzrqywfxzb != null "> and rzrqywfxzb = #{rzrqywfxzb}</if>
+            <if test="perCapitalReserve != null "> and per_capital_reserve = #{perCapitalReserve}</if>
+            <if test="perUnassignProfit != null "> and per_unassign_profit = #{perUnassignProfit}</if>
+            <if test="perNetcash != null "> and per_netcash = #{perNetcash}</if>
+            <if test="grossProfit != null "> and gross_profit = #{grossProfit}</if>
             <if test="deduParentProfit != null "> and dedu_parent_profit = #{deduParentProfit}</if>
-            <if test="toazzl != null "> and toazzl = #{toazzl}</if>
-            <if test="totaloperaterevetz != null "> and totaloperaterevetz = #{totaloperaterevetz}</if>
-            <if test="epsxs != null "> and epsxs = #{epsxs}</if>
-            <if test="compensateExpense != null "> and compensate_expense = #{compensateExpense}</if>
-            <if test="jzc != null "> and jzc = #{jzc}</if>
-            <if test="jzb != null "> and jzb = #{jzb}</if>
-            <if test="bldkbbl != null "> and bldkbbl = #{bldkbbl}</if>
-            <if test="ld != null "> and ld = #{ld}</if>
-            <if test="newcapitalader != null "> and newcapitalader = #{newcapitalader}</if>
-            <if test="xsjxlyysr != null "> and xsjxlyysr = #{xsjxlyysr}</if>
-            <if test="mgjyxjje != null "> and mgjyxjje = #{mgjyxjje}</if>
-            <if test="yyfxzb != null "> and yyfxzb = #{yyfxzb}</if>
-            <if test="xjllb != null "> and xjllb = #{xjllb}</if>
-            <if test="epsjbtz != null "> and epsjbtz = #{epsjbtz}</if>
             <if test="dpnpYoyRatio != null "> and dpnp_yoy_ratio = #{dpnpYoyRatio}</if>
             <if test="roeDiluted != null "> and roe_diluted = #{roeDiluted}</if>
             <if test="jroa != null "> and jroa = #{jroa}</if>
+            <if test="grossProfitRatio != null "> and gross_profit_ratio = #{grossProfitRatio}</if>
+            <if test="netProfitRatio != null "> and net_profit_ratio = #{netProfitRatio}</if>
         </where>
     </select>
     
@@ -179,155 +179,155 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="securityCode != null and securityCode != ''">security_code,</if>
             <if test="reportType != null and reportType != ''">report_type,</if>
             <if test="reportDate != null">report_date,</if>
-            <if test="perCapitalReserve != null">per_capital_reserve,</if>
-            <if test="perNetcash != null">per_netcash,</if>
-            <if test="perUnassignProfit != null">per_unassign_profit,</if>
-            <if test="yszkyysr != null">yszkyysr,</if>
-            <if test="rzrqywfxzb != null">rzrqywfxzb,</if>
-            <if test="zygdsylzqjzb != null">zygdsylzqjzb,</if>
-            <if test="totaldeposits != null">totaldeposits,</if>
-            <if test="xsjll != null">xsjll,</if>
-            <if test="mlr != null">mlr,</if>
-            <if test="netProfitRatio != null">net_profit_ratio,</if>
-            <if test="kcfjcxsyjlr != null">kcfjcxsyjlr,</if>
-            <if test="earnedPremium != null">earned_premium,</if>
-            <if test="jzbjzc != null">jzbjzc,</if>
-            <if test="zzczzts != null">zzczzts,</if>
-            <if test="mgwfplr != null">mgwfplr,</if>
-            <if test="taxrate != null">taxrate,</if>
-            <if test="yszkzzl != null">yszkzzl,</if>
-            <if test="cqbl != null">cqbl,</if>
-            <if test="zygpgmjzc != null">zygpgmjzc,</if>
-            <if test="kfjlrgdhbzc != null">kfjlrgdhbzc,</if>
-            <if test="ltdrr != null">ltdrr,</if>
-            <if test="solvencyAr != null">solvency_ar,</if>
             <if test="epsjb != null">epsjb,</if>
+            <if test="epskcjb != null">epskcjb,</if>
+            <if test="epsxs != null">epsxs,</if>
+            <if test="bps != null">bps,</if>
+            <if test="mgzbgj != null">mgzbgj,</if>
+            <if test="mgwfplr != null">mgwfplr,</if>
+            <if test="mgjyxjje != null">mgjyxjje,</if>
+            <if test="totaloperatereve != null">totaloperatereve,</if>
+            <if test="mlr != null">mlr,</if>
+            <if test="parentnetprofit != null">parentnetprofit,</if>
+            <if test="kcfjcxsyjlr != null">kcfjcxsyjlr,</if>
+            <if test="totaloperaterevetz != null">totaloperaterevetz,</if>
+            <if test="parentnetprofittz != null">parentnetprofittz,</if>
+            <if test="kcfjcxsyjlrtz != null">kcfjcxsyjlrtz,</if>
+            <if test="yyzsrgdhbzc != null">yyzsrgdhbzc,</if>
+            <if test="netprofitrphbzc != null">netprofitrphbzc,</if>
+            <if test="kfjlrgdhbzc != null">kfjlrgdhbzc,</if>
+            <if test="roejq != null">roejq,</if>
+            <if test="roekcjq != null">roekcjq,</if>
+            <if test="zzcjll != null">zzcjll,</if>
+            <if test="xsmll != null">xsmll,</if>
+            <if test="xsjll != null">xsjll,</if>
+            <if test="yszkyysr != null">yszkyysr,</if>
+            <if test="xsjxlyysr != null">xsjxlyysr,</if>
+            <if test="jyxjlyysr != null">jyxjlyysr,</if>
+            <if test="taxrate != null">taxrate,</if>
+            <if test="ld != null">ld,</if>
+            <if test="sd != null">sd,</if>
+            <if test="xjllb != null">xjllb,</if>
+            <if test="zcfzl != null">zcfzl,</if>
+            <if test="qycs != null">qycs,</if>
+            <if test="cqbl != null">cqbl,</if>
+            <if test="zzczzts != null">zzczzts,</if>
+            <if test="chzzts != null">chzzts,</if>
+            <if test="yszkzzts != null">yszkzzts,</if>
+            <if test="toazzl != null">toazzl,</if>
+            <if test="chzzl != null">chzzl,</if>
+            <if test="yszkzzl != null">yszkzzl,</if>
+            <if test="totaldeposits != null">totaldeposits,</if>
+            <if test="grossloans != null">grossloans,</if>
+            <if test="ltdrr != null">ltdrr,</if>
+            <if test="newcapitalader != null">newcapitalader,</if>
+            <if test="hxyjbczl != null">hxyjbczl,</if>
+            <if test="nonperloan != null">nonperloan,</if>
+            <if test="bldkbbl != null">bldkbbl,</if>
+            <if test="nzbje != null">nzbje,</if>
+            <if test="totalRoi != null">total_roi,</if>
+            <if test="netRoi != null">net_roi,</if>
+            <if test="earnedPremium != null">earned_premium,</if>
+            <if test="compensateExpense != null">compensate_expense,</if>
+            <if test="surrenderRateLife != null">surrender_rate_life,</if>
+            <if test="solvencyAr != null">solvency_ar,</if>
+            <if test="jzb != null">jzb,</if>
+            <if test="jzc != null">jzc,</if>
+            <if test="jzbjzc != null">jzbjzc,</if>
+            <if test="zygpgmjzc != null">zygpgmjzc,</if>
+            <if test="zygdsylzqjzb != null">zygdsylzqjzb,</if>
+            <if test="yyfxzb != null">yyfxzb,</if>
             <if test="jjywfxzb != null">jjywfxzb,</if>
             <if test="zqzyywfxzb != null">zqzyywfxzb,</if>
-            <if test="roekcjq != null">roekcjq,</if>
-            <if test="surrenderRateLife != null">surrender_rate_life,</if>
-            <if test="yyzsrgdhbzc != null">yyzsrgdhbzc,</if>
-            <if test="zcfzl != null">zcfzl,</if>
-            <if test="jyxjlyysr != null">jyxjlyysr,</if>
-            <if test="qycs != null">qycs,</if>
-            <if test="zzcjll != null">zzcjll,</if>
-            <if test="bps != null">bps,</if>
-            <if test="nzbje != null">nzbje,</if>
-            <if test="roejq != null">roejq,</if>
-            <if test="yszkzzts != null">yszkzzts,</if>
-            <if test="xsmll != null">xsmll,</if>
-            <if test="kcfjcxsyjlrtz != null">kcfjcxsyjlrtz,</if>
-            <if test="totaloperatereve != null">totaloperatereve,</if>
-            <if test="grossProfit != null">gross_profit,</if>
-            <if test="sd != null">sd,</if>
-            <if test="chzzts != null">chzzts,</if>
-            <if test="mgzbgj != null">mgzbgj,</if>
-            <if test="parentnetprofit != null">parentnetprofit,</if>
-            <if test="nonperloan != null">nonperloan,</if>
-            <if test="totalRoi != null">total_roi,</if>
             <if test="zqcxywfxzb != null">zqcxywfxzb,</if>
-            <if test="chzzl != null">chzzl,</if>
-            <if test="netRoi != null">net_roi,</if>
-            <if test="grossloans != null">grossloans,</if>
-            <if test="epskcjb != null">epskcjb,</if>
-            <if test="netprofitrphbzc != null">netprofitrphbzc,</if>
-            <if test="hxyjbczl != null">hxyjbczl,</if>
-            <if test="parentnetprofittz != null">parentnetprofittz,</if>
+            <if test="rzrqywfxzb != null">rzrqywfxzb,</if>
+            <if test="perCapitalReserve != null">per_capital_reserve,</if>
+            <if test="perUnassignProfit != null">per_unassign_profit,</if>
+            <if test="perNetcash != null">per_netcash,</if>
+            <if test="grossProfit != null">gross_profit,</if>
             <if test="deduParentProfit != null">dedu_parent_profit,</if>
-            <if test="toazzl != null">toazzl,</if>
-            <if test="totaloperaterevetz != null">totaloperaterevetz,</if>
-            <if test="epsxs != null">epsxs,</if>
-            <if test="compensateExpense != null">compensate_expense,</if>
-            <if test="jzc != null">jzc,</if>
-            <if test="jzb != null">jzb,</if>
-            <if test="bldkbbl != null">bldkbbl,</if>
-            <if test="ld != null">ld,</if>
-            <if test="newcapitalader != null">newcapitalader,</if>
-            <if test="xsjxlyysr != null">xsjxlyysr,</if>
-            <if test="mgjyxjje != null">mgjyxjje,</if>
-            <if test="yyfxzb != null">yyfxzb,</if>
-            <if test="xjllb != null">xjllb,</if>
-            <if test="epsjbtz != null">epsjbtz,</if>
             <if test="dpnpYoyRatio != null">dpnp_yoy_ratio,</if>
             <if test="roeDiluted != null">roe_diluted,</if>
             <if test="jroa != null">jroa,</if>
+            <if test="grossProfitRatio != null">gross_profit_ratio,</if>
+            <if test="netProfitRatio != null">net_profit_ratio,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="securityCode != null and securityCode != ''">#{securityCode},</if>
             <if test="reportType != null and reportType != ''">#{reportType},</if>
             <if test="reportDate != null">#{reportDate},</if>
-            <if test="perCapitalReserve != null">#{perCapitalReserve},</if>
-            <if test="perNetcash != null">#{perNetcash},</if>
-            <if test="perUnassignProfit != null">#{perUnassignProfit},</if>
-            <if test="yszkyysr != null">#{yszkyysr},</if>
-            <if test="rzrqywfxzb != null">#{rzrqywfxzb},</if>
-            <if test="zygdsylzqjzb != null">#{zygdsylzqjzb},</if>
-            <if test="totaldeposits != null">#{totaldeposits},</if>
-            <if test="xsjll != null">#{xsjll},</if>
-            <if test="mlr != null">#{mlr},</if>
-            <if test="netProfitRatio != null">#{netProfitRatio},</if>
-            <if test="kcfjcxsyjlr != null">#{kcfjcxsyjlr},</if>
-            <if test="earnedPremium != null">#{earnedPremium},</if>
-            <if test="jzbjzc != null">#{jzbjzc},</if>
-            <if test="zzczzts != null">#{zzczzts},</if>
-            <if test="mgwfplr != null">#{mgwfplr},</if>
-            <if test="taxrate != null">#{taxrate},</if>
-            <if test="yszkzzl != null">#{yszkzzl},</if>
-            <if test="cqbl != null">#{cqbl},</if>
-            <if test="zygpgmjzc != null">#{zygpgmjzc},</if>
-            <if test="kfjlrgdhbzc != null">#{kfjlrgdhbzc},</if>
-            <if test="ltdrr != null">#{ltdrr},</if>
-            <if test="solvencyAr != null">#{solvencyAr},</if>
             <if test="epsjb != null">#{epsjb},</if>
+            <if test="epskcjb != null">#{epskcjb},</if>
+            <if test="epsxs != null">#{epsxs},</if>
+            <if test="bps != null">#{bps},</if>
+            <if test="mgzbgj != null">#{mgzbgj},</if>
+            <if test="mgwfplr != null">#{mgwfplr},</if>
+            <if test="mgjyxjje != null">#{mgjyxjje},</if>
+            <if test="totaloperatereve != null">#{totaloperatereve},</if>
+            <if test="mlr != null">#{mlr},</if>
+            <if test="parentnetprofit != null">#{parentnetprofit},</if>
+            <if test="kcfjcxsyjlr != null">#{kcfjcxsyjlr},</if>
+            <if test="totaloperaterevetz != null">#{totaloperaterevetz},</if>
+            <if test="parentnetprofittz != null">#{parentnetprofittz},</if>
+            <if test="kcfjcxsyjlrtz != null">#{kcfjcxsyjlrtz},</if>
+            <if test="yyzsrgdhbzc != null">#{yyzsrgdhbzc},</if>
+            <if test="netprofitrphbzc != null">#{netprofitrphbzc},</if>
+            <if test="kfjlrgdhbzc != null">#{kfjlrgdhbzc},</if>
+            <if test="roejq != null">#{roejq},</if>
+            <if test="roekcjq != null">#{roekcjq},</if>
+            <if test="zzcjll != null">#{zzcjll},</if>
+            <if test="xsmll != null">#{xsmll},</if>
+            <if test="xsjll != null">#{xsjll},</if>
+            <if test="yszkyysr != null">#{yszkyysr},</if>
+            <if test="xsjxlyysr != null">#{xsjxlyysr},</if>
+            <if test="jyxjlyysr != null">#{jyxjlyysr},</if>
+            <if test="taxrate != null">#{taxrate},</if>
+            <if test="ld != null">#{ld},</if>
+            <if test="sd != null">#{sd},</if>
+            <if test="xjllb != null">#{xjllb},</if>
+            <if test="zcfzl != null">#{zcfzl},</if>
+            <if test="qycs != null">#{qycs},</if>
+            <if test="cqbl != null">#{cqbl},</if>
+            <if test="zzczzts != null">#{zzczzts},</if>
+            <if test="chzzts != null">#{chzzts},</if>
+            <if test="yszkzzts != null">#{yszkzzts},</if>
+            <if test="toazzl != null">#{toazzl},</if>
+            <if test="chzzl != null">#{chzzl},</if>
+            <if test="yszkzzl != null">#{yszkzzl},</if>
+            <if test="totaldeposits != null">#{totaldeposits},</if>
+            <if test="grossloans != null">#{grossloans},</if>
+            <if test="ltdrr != null">#{ltdrr},</if>
+            <if test="newcapitalader != null">#{newcapitalader},</if>
+            <if test="hxyjbczl != null">#{hxyjbczl},</if>
+            <if test="nonperloan != null">#{nonperloan},</if>
+            <if test="bldkbbl != null">#{bldkbbl},</if>
+            <if test="nzbje != null">#{nzbje},</if>
+            <if test="totalRoi != null">#{totalRoi},</if>
+            <if test="netRoi != null">#{netRoi},</if>
+            <if test="earnedPremium != null">#{earnedPremium},</if>
+            <if test="compensateExpense != null">#{compensateExpense},</if>
+            <if test="surrenderRateLife != null">#{surrenderRateLife},</if>
+            <if test="solvencyAr != null">#{solvencyAr},</if>
+            <if test="jzb != null">#{jzb},</if>
+            <if test="jzc != null">#{jzc},</if>
+            <if test="jzbjzc != null">#{jzbjzc},</if>
+            <if test="zygpgmjzc != null">#{zygpgmjzc},</if>
+            <if test="zygdsylzqjzb != null">#{zygdsylzqjzb},</if>
+            <if test="yyfxzb != null">#{yyfxzb},</if>
             <if test="jjywfxzb != null">#{jjywfxzb},</if>
             <if test="zqzyywfxzb != null">#{zqzyywfxzb},</if>
-            <if test="roekcjq != null">#{roekcjq},</if>
-            <if test="surrenderRateLife != null">#{surrenderRateLife},</if>
-            <if test="yyzsrgdhbzc != null">#{yyzsrgdhbzc},</if>
-            <if test="zcfzl != null">#{zcfzl},</if>
-            <if test="jyxjlyysr != null">#{jyxjlyysr},</if>
-            <if test="qycs != null">#{qycs},</if>
-            <if test="zzcjll != null">#{zzcjll},</if>
-            <if test="bps != null">#{bps},</if>
-            <if test="nzbje != null">#{nzbje},</if>
-            <if test="roejq != null">#{roejq},</if>
-            <if test="yszkzzts != null">#{yszkzzts},</if>
-            <if test="xsmll != null">#{xsmll},</if>
-            <if test="kcfjcxsyjlrtz != null">#{kcfjcxsyjlrtz},</if>
-            <if test="totaloperatereve != null">#{totaloperatereve},</if>
-            <if test="grossProfit != null">#{grossProfit},</if>
-            <if test="sd != null">#{sd},</if>
-            <if test="chzzts != null">#{chzzts},</if>
-            <if test="mgzbgj != null">#{mgzbgj},</if>
-            <if test="parentnetprofit != null">#{parentnetprofit},</if>
-            <if test="nonperloan != null">#{nonperloan},</if>
-            <if test="totalRoi != null">#{totalRoi},</if>
             <if test="zqcxywfxzb != null">#{zqcxywfxzb},</if>
-            <if test="chzzl != null">#{chzzl},</if>
-            <if test="netRoi != null">#{netRoi},</if>
-            <if test="grossloans != null">#{grossloans},</if>
-            <if test="epskcjb != null">#{epskcjb},</if>
-            <if test="netprofitrphbzc != null">#{netprofitrphbzc},</if>
-            <if test="hxyjbczl != null">#{hxyjbczl},</if>
-            <if test="parentnetprofittz != null">#{parentnetprofittz},</if>
+            <if test="rzrqywfxzb != null">#{rzrqywfxzb},</if>
+            <if test="perCapitalReserve != null">#{perCapitalReserve},</if>
+            <if test="perUnassignProfit != null">#{perUnassignProfit},</if>
+            <if test="perNetcash != null">#{perNetcash},</if>
+            <if test="grossProfit != null">#{grossProfit},</if>
             <if test="deduParentProfit != null">#{deduParentProfit},</if>
-            <if test="toazzl != null">#{toazzl},</if>
-            <if test="totaloperaterevetz != null">#{totaloperaterevetz},</if>
-            <if test="epsxs != null">#{epsxs},</if>
-            <if test="compensateExpense != null">#{compensateExpense},</if>
-            <if test="jzc != null">#{jzc},</if>
-            <if test="jzb != null">#{jzb},</if>
-            <if test="bldkbbl != null">#{bldkbbl},</if>
-            <if test="ld != null">#{ld},</if>
-            <if test="newcapitalader != null">#{newcapitalader},</if>
-            <if test="xsjxlyysr != null">#{xsjxlyysr},</if>
-            <if test="mgjyxjje != null">#{mgjyxjje},</if>
-            <if test="yyfxzb != null">#{yyfxzb},</if>
-            <if test="xjllb != null">#{xjllb},</if>
-            <if test="epsjbtz != null">#{epsjbtz},</if>
             <if test="dpnpYoyRatio != null">#{dpnpYoyRatio},</if>
             <if test="roeDiluted != null">#{roeDiluted},</if>
             <if test="jroa != null">#{jroa},</if>
+            <if test="grossProfitRatio != null">#{grossProfitRatio},</if>
+            <if test="netProfitRatio != null">#{netProfitRatio},</if>
          </trim>
     </insert>
 
@@ -337,78 +337,78 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="securityCode != null and securityCode != ''">security_code = #{securityCode},</if>
             <if test="reportType != null and reportType != ''">report_type = #{reportType},</if>
             <if test="reportDate != null">report_date = #{reportDate},</if>
-            <if test="perCapitalReserve != null">per_capital_reserve = #{perCapitalReserve},</if>
-            <if test="perNetcash != null">per_netcash = #{perNetcash},</if>
-            <if test="perUnassignProfit != null">per_unassign_profit = #{perUnassignProfit},</if>
-            <if test="yszkyysr != null">yszkyysr = #{yszkyysr},</if>
-            <if test="rzrqywfxzb != null">rzrqywfxzb = #{rzrqywfxzb},</if>
-            <if test="zygdsylzqjzb != null">zygdsylzqjzb = #{zygdsylzqjzb},</if>
-            <if test="totaldeposits != null">totaldeposits = #{totaldeposits},</if>
-            <if test="xsjll != null">xsjll = #{xsjll},</if>
-            <if test="mlr != null">mlr = #{mlr},</if>
-            <if test="netProfitRatio != null">net_profit_ratio = #{netProfitRatio},</if>
-            <if test="kcfjcxsyjlr != null">kcfjcxsyjlr = #{kcfjcxsyjlr},</if>
-            <if test="earnedPremium != null">earned_premium = #{earnedPremium},</if>
-            <if test="jzbjzc != null">jzbjzc = #{jzbjzc},</if>
-            <if test="zzczzts != null">zzczzts = #{zzczzts},</if>
-            <if test="mgwfplr != null">mgwfplr = #{mgwfplr},</if>
-            <if test="taxrate != null">taxrate = #{taxrate},</if>
-            <if test="yszkzzl != null">yszkzzl = #{yszkzzl},</if>
-            <if test="cqbl != null">cqbl = #{cqbl},</if>
-            <if test="zygpgmjzc != null">zygpgmjzc = #{zygpgmjzc},</if>
-            <if test="kfjlrgdhbzc != null">kfjlrgdhbzc = #{kfjlrgdhbzc},</if>
-            <if test="ltdrr != null">ltdrr = #{ltdrr},</if>
-            <if test="solvencyAr != null">solvency_ar = #{solvencyAr},</if>
             <if test="epsjb != null">epsjb = #{epsjb},</if>
+            <if test="epskcjb != null">epskcjb = #{epskcjb},</if>
+            <if test="epsxs != null">epsxs = #{epsxs},</if>
+            <if test="bps != null">bps = #{bps},</if>
+            <if test="mgzbgj != null">mgzbgj = #{mgzbgj},</if>
+            <if test="mgwfplr != null">mgwfplr = #{mgwfplr},</if>
+            <if test="mgjyxjje != null">mgjyxjje = #{mgjyxjje},</if>
+            <if test="totaloperatereve != null">totaloperatereve = #{totaloperatereve},</if>
+            <if test="mlr != null">mlr = #{mlr},</if>
+            <if test="parentnetprofit != null">parentnetprofit = #{parentnetprofit},</if>
+            <if test="kcfjcxsyjlr != null">kcfjcxsyjlr = #{kcfjcxsyjlr},</if>
+            <if test="totaloperaterevetz != null">totaloperaterevetz = #{totaloperaterevetz},</if>
+            <if test="parentnetprofittz != null">parentnetprofittz = #{parentnetprofittz},</if>
+            <if test="kcfjcxsyjlrtz != null">kcfjcxsyjlrtz = #{kcfjcxsyjlrtz},</if>
+            <if test="yyzsrgdhbzc != null">yyzsrgdhbzc = #{yyzsrgdhbzc},</if>
+            <if test="netprofitrphbzc != null">netprofitrphbzc = #{netprofitrphbzc},</if>
+            <if test="kfjlrgdhbzc != null">kfjlrgdhbzc = #{kfjlrgdhbzc},</if>
+            <if test="roejq != null">roejq = #{roejq},</if>
+            <if test="roekcjq != null">roekcjq = #{roekcjq},</if>
+            <if test="zzcjll != null">zzcjll = #{zzcjll},</if>
+            <if test="xsmll != null">xsmll = #{xsmll},</if>
+            <if test="xsjll != null">xsjll = #{xsjll},</if>
+            <if test="yszkyysr != null">yszkyysr = #{yszkyysr},</if>
+            <if test="xsjxlyysr != null">xsjxlyysr = #{xsjxlyysr},</if>
+            <if test="jyxjlyysr != null">jyxjlyysr = #{jyxjlyysr},</if>
+            <if test="taxrate != null">taxrate = #{taxrate},</if>
+            <if test="ld != null">ld = #{ld},</if>
+            <if test="sd != null">sd = #{sd},</if>
+            <if test="xjllb != null">xjllb = #{xjllb},</if>
+            <if test="zcfzl != null">zcfzl = #{zcfzl},</if>
+            <if test="qycs != null">qycs = #{qycs},</if>
+            <if test="cqbl != null">cqbl = #{cqbl},</if>
+            <if test="zzczzts != null">zzczzts = #{zzczzts},</if>
+            <if test="chzzts != null">chzzts = #{chzzts},</if>
+            <if test="yszkzzts != null">yszkzzts = #{yszkzzts},</if>
+            <if test="toazzl != null">toazzl = #{toazzl},</if>
+            <if test="chzzl != null">chzzl = #{chzzl},</if>
+            <if test="yszkzzl != null">yszkzzl = #{yszkzzl},</if>
+            <if test="totaldeposits != null">totaldeposits = #{totaldeposits},</if>
+            <if test="grossloans != null">grossloans = #{grossloans},</if>
+            <if test="ltdrr != null">ltdrr = #{ltdrr},</if>
+            <if test="newcapitalader != null">newcapitalader = #{newcapitalader},</if>
+            <if test="hxyjbczl != null">hxyjbczl = #{hxyjbczl},</if>
+            <if test="nonperloan != null">nonperloan = #{nonperloan},</if>
+            <if test="bldkbbl != null">bldkbbl = #{bldkbbl},</if>
+            <if test="nzbje != null">nzbje = #{nzbje},</if>
+            <if test="totalRoi != null">total_roi = #{totalRoi},</if>
+            <if test="netRoi != null">net_roi = #{netRoi},</if>
+            <if test="earnedPremium != null">earned_premium = #{earnedPremium},</if>
+            <if test="compensateExpense != null">compensate_expense = #{compensateExpense},</if>
+            <if test="surrenderRateLife != null">surrender_rate_life = #{surrenderRateLife},</if>
+            <if test="solvencyAr != null">solvency_ar = #{solvencyAr},</if>
+            <if test="jzb != null">jzb = #{jzb},</if>
+            <if test="jzc != null">jzc = #{jzc},</if>
+            <if test="jzbjzc != null">jzbjzc = #{jzbjzc},</if>
+            <if test="zygpgmjzc != null">zygpgmjzc = #{zygpgmjzc},</if>
+            <if test="zygdsylzqjzb != null">zygdsylzqjzb = #{zygdsylzqjzb},</if>
+            <if test="yyfxzb != null">yyfxzb = #{yyfxzb},</if>
             <if test="jjywfxzb != null">jjywfxzb = #{jjywfxzb},</if>
             <if test="zqzyywfxzb != null">zqzyywfxzb = #{zqzyywfxzb},</if>
-            <if test="roekcjq != null">roekcjq = #{roekcjq},</if>
-            <if test="surrenderRateLife != null">surrender_rate_life = #{surrenderRateLife},</if>
-            <if test="yyzsrgdhbzc != null">yyzsrgdhbzc = #{yyzsrgdhbzc},</if>
-            <if test="zcfzl != null">zcfzl = #{zcfzl},</if>
-            <if test="jyxjlyysr != null">jyxjlyysr = #{jyxjlyysr},</if>
-            <if test="qycs != null">qycs = #{qycs},</if>
-            <if test="zzcjll != null">zzcjll = #{zzcjll},</if>
-            <if test="bps != null">bps = #{bps},</if>
-            <if test="nzbje != null">nzbje = #{nzbje},</if>
-            <if test="roejq != null">roejq = #{roejq},</if>
-            <if test="yszkzzts != null">yszkzzts = #{yszkzzts},</if>
-            <if test="xsmll != null">xsmll = #{xsmll},</if>
-            <if test="kcfjcxsyjlrtz != null">kcfjcxsyjlrtz = #{kcfjcxsyjlrtz},</if>
-            <if test="totaloperatereve != null">totaloperatereve = #{totaloperatereve},</if>
-            <if test="grossProfit != null">gross_profit = #{grossProfit},</if>
-            <if test="sd != null">sd = #{sd},</if>
-            <if test="chzzts != null">chzzts = #{chzzts},</if>
-            <if test="mgzbgj != null">mgzbgj = #{mgzbgj},</if>
-            <if test="parentnetprofit != null">parentnetprofit = #{parentnetprofit},</if>
-            <if test="nonperloan != null">nonperloan = #{nonperloan},</if>
-            <if test="totalRoi != null">total_roi = #{totalRoi},</if>
             <if test="zqcxywfxzb != null">zqcxywfxzb = #{zqcxywfxzb},</if>
-            <if test="chzzl != null">chzzl = #{chzzl},</if>
-            <if test="netRoi != null">net_roi = #{netRoi},</if>
-            <if test="grossloans != null">grossloans = #{grossloans},</if>
-            <if test="epskcjb != null">epskcjb = #{epskcjb},</if>
-            <if test="netprofitrphbzc != null">netprofitrphbzc = #{netprofitrphbzc},</if>
-            <if test="hxyjbczl != null">hxyjbczl = #{hxyjbczl},</if>
-            <if test="parentnetprofittz != null">parentnetprofittz = #{parentnetprofittz},</if>
+            <if test="rzrqywfxzb != null">rzrqywfxzb = #{rzrqywfxzb},</if>
+            <if test="perCapitalReserve != null">per_capital_reserve = #{perCapitalReserve},</if>
+            <if test="perUnassignProfit != null">per_unassign_profit = #{perUnassignProfit},</if>
+            <if test="perNetcash != null">per_netcash = #{perNetcash},</if>
+            <if test="grossProfit != null">gross_profit = #{grossProfit},</if>
             <if test="deduParentProfit != null">dedu_parent_profit = #{deduParentProfit},</if>
-            <if test="toazzl != null">toazzl = #{toazzl},</if>
-            <if test="totaloperaterevetz != null">totaloperaterevetz = #{totaloperaterevetz},</if>
-            <if test="epsxs != null">epsxs = #{epsxs},</if>
-            <if test="compensateExpense != null">compensate_expense = #{compensateExpense},</if>
-            <if test="jzc != null">jzc = #{jzc},</if>
-            <if test="jzb != null">jzb = #{jzb},</if>
-            <if test="bldkbbl != null">bldkbbl = #{bldkbbl},</if>
-            <if test="ld != null">ld = #{ld},</if>
-            <if test="newcapitalader != null">newcapitalader = #{newcapitalader},</if>
-            <if test="xsjxlyysr != null">xsjxlyysr = #{xsjxlyysr},</if>
-            <if test="mgjyxjje != null">mgjyxjje = #{mgjyxjje},</if>
-            <if test="yyfxzb != null">yyfxzb = #{yyfxzb},</if>
-            <if test="xjllb != null">xjllb = #{xjllb},</if>
-            <if test="epsjbtz != null">epsjbtz = #{epsjbtz},</if>
             <if test="dpnpYoyRatio != null">dpnp_yoy_ratio = #{dpnpYoyRatio},</if>
             <if test="roeDiluted != null">roe_diluted = #{roeDiluted},</if>
             <if test="jroa != null">jroa = #{jroa},</if>
+            <if test="grossProfitRatio != null">gross_profit_ratio = #{grossProfitRatio},</if>
+            <if test="netProfitRatio != null">net_profit_ratio = #{netProfitRatio},</if>
         </trim>
         where id = #{id}
     </update>

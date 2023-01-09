@@ -1,7 +1,7 @@
 package com.ruoyi.investment.service.impl;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import com.ruoyi.investment.mapper.InvFinanceZyzbMapper;
 import com.ruoyi.investment.domain.InvFinanceZyzb;
@@ -12,12 +12,11 @@ import com.ruoyi.common.core.text.Convert;
  * 财务分析-重要指标Service业务层处理
  * 
  * @author yangwenyang
- * @date 2022-10-15
+ * @date 2023-01-09
  */
 @Service
-public class InvFinanceZyzbServiceImpl implements IInvFinanceZyzbService 
-{
-    @Autowired
+public class InvFinanceZyzbServiceImpl implements IInvFinanceZyzbService {
+    @Resource
     private InvFinanceZyzbMapper invFinanceZyzbMapper;
 
     /**
@@ -27,8 +26,7 @@ public class InvFinanceZyzbServiceImpl implements IInvFinanceZyzbService
      * @return 财务分析-重要指标
      */
     @Override
-    public InvFinanceZyzb selectInvFinanceZyzbById(Long id)
-    {
+    public InvFinanceZyzb selectInvFinanceZyzbById(Long id) {
         return invFinanceZyzbMapper.selectInvFinanceZyzbById(id);
     }
 
@@ -39,8 +37,7 @@ public class InvFinanceZyzbServiceImpl implements IInvFinanceZyzbService
      * @return 财务分析-重要指标
      */
     @Override
-    public List<InvFinanceZyzb> selectInvFinanceZyzbList(InvFinanceZyzb invFinanceZyzb)
-    {
+    public List<InvFinanceZyzb> selectInvFinanceZyzbList(InvFinanceZyzb invFinanceZyzb) {
         return invFinanceZyzbMapper.selectInvFinanceZyzbList(invFinanceZyzb);
     }
 
@@ -51,8 +48,7 @@ public class InvFinanceZyzbServiceImpl implements IInvFinanceZyzbService
      * @return 结果
      */
     @Override
-    public int insertInvFinanceZyzb(InvFinanceZyzb invFinanceZyzb)
-    {
+    public int insertInvFinanceZyzb(InvFinanceZyzb invFinanceZyzb) {
         return invFinanceZyzbMapper.insertInvFinanceZyzb(invFinanceZyzb);
     }
 
@@ -63,8 +59,7 @@ public class InvFinanceZyzbServiceImpl implements IInvFinanceZyzbService
      * @return 结果
      */
     @Override
-    public int updateInvFinanceZyzb(InvFinanceZyzb invFinanceZyzb)
-    {
+    public int updateInvFinanceZyzb(InvFinanceZyzb invFinanceZyzb) {
         return invFinanceZyzbMapper.updateInvFinanceZyzb(invFinanceZyzb);
     }
 
@@ -75,8 +70,7 @@ public class InvFinanceZyzbServiceImpl implements IInvFinanceZyzbService
      * @return 结果
      */
     @Override
-    public int deleteInvFinanceZyzbByIds(String ids)
-    {
+    public int deleteInvFinanceZyzbByIds(String ids) {
         return invFinanceZyzbMapper.deleteInvFinanceZyzbByIds(Convert.toStrArray(ids));
     }
 
@@ -87,8 +81,7 @@ public class InvFinanceZyzbServiceImpl implements IInvFinanceZyzbService
      * @return 结果
      */
     @Override
-    public int deleteInvFinanceZyzbById(Long id)
-    {
+    public int deleteInvFinanceZyzbById(Long id) {
         return invFinanceZyzbMapper.deleteInvFinanceZyzbById(id);
     }
 }

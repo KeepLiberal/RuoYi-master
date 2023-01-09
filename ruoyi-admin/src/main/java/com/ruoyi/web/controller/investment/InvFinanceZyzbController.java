@@ -23,12 +23,11 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 财务分析-重要指标Controller
  * 
  * @author yangwenyang
- * @date 2022-10-15
+ * @date 2023-01-09
  */
 @Controller
 @RequestMapping("/investment/invFinanceZyzb")
-public class InvFinanceZyzbController extends BaseController
-{
+public class InvFinanceZyzbController extends BaseController {
     private String prefix = "investment/invFinanceZyzb";
 
     @Autowired
@@ -47,8 +46,7 @@ public class InvFinanceZyzbController extends BaseController
     @RequiresPermissions("investment:invFinanceZyzb:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(InvFinanceZyzb invFinanceZyzb)
-    {
+    public TableDataInfo list(InvFinanceZyzb invFinanceZyzb) {
         startPage();
         List<InvFinanceZyzb> list = invFinanceZyzbService.selectInvFinanceZyzbList(invFinanceZyzb);
         return getDataTable(list);
@@ -61,8 +59,7 @@ public class InvFinanceZyzbController extends BaseController
     @Log(title = "财务分析-重要指标", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(InvFinanceZyzb invFinanceZyzb)
-    {
+    public AjaxResult export(InvFinanceZyzb invFinanceZyzb) {
         List<InvFinanceZyzb> list = invFinanceZyzbService.selectInvFinanceZyzbList(invFinanceZyzb);
         ExcelUtil<InvFinanceZyzb> util = new ExcelUtil<InvFinanceZyzb>(InvFinanceZyzb.class);
         return util.exportExcel(list, "财务分析-重要指标数据");
@@ -84,8 +81,7 @@ public class InvFinanceZyzbController extends BaseController
     @Log(title = "财务分析-重要指标", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(InvFinanceZyzb invFinanceZyzb)
-    {
+    public AjaxResult addSave(InvFinanceZyzb invFinanceZyzb) {
         return toAjax(invFinanceZyzbService.insertInvFinanceZyzb(invFinanceZyzb));
     }
 
@@ -94,8 +90,7 @@ public class InvFinanceZyzbController extends BaseController
      */
     @RequiresPermissions("investment:invFinanceZyzb:edit")
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, ModelMap mmap)
-    {
+    public String edit(@PathVariable("id") Long id, ModelMap mmap) {
         InvFinanceZyzb invFinanceZyzb = invFinanceZyzbService.selectInvFinanceZyzbById(id);
         mmap.put("invFinanceZyzb", invFinanceZyzb);
         return prefix + "/edit";
@@ -108,8 +103,7 @@ public class InvFinanceZyzbController extends BaseController
     @Log(title = "财务分析-重要指标", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(InvFinanceZyzb invFinanceZyzb)
-    {
+    public AjaxResult editSave(InvFinanceZyzb invFinanceZyzb) {
         return toAjax(invFinanceZyzbService.updateInvFinanceZyzb(invFinanceZyzb));
     }
 
@@ -120,8 +114,7 @@ public class InvFinanceZyzbController extends BaseController
     @Log(title = "财务分析-重要指标", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
-    {
+    public AjaxResult remove(String ids) {
         return toAjax(invFinanceZyzbService.deleteInvFinanceZyzbByIds(ids));
     }
 }

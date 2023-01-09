@@ -7,10 +7,9 @@ import com.ruoyi.investment.domain.InvFinanceZyzb;
  * 财务分析-重要指标Service接口
  * 
  * @author yangwenyang
- * @date 2022-10-15
+ * @date 2023-01-09
  */
-public interface IInvFinanceZyzbService 
-{
+public interface IInvFinanceZyzbService {
     /**
      * 查询财务分析-重要指标
      * 
