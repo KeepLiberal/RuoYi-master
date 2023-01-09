@@ -1,6 +1,8 @@
 package com.ruoyi.investment.domain;
 
 import java.util.Date;
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -555,6 +557,19 @@ public class InvFinanceZyzb extends BaseEntity{
     public InvFinanceZyzb(String securityCode, String reportType) {
         this.securityCode = securityCode;
         this.reportType = reportType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof InvFinanceZyzb)) return false;
+        InvFinanceZyzb that = (InvFinanceZyzb) o;
+        return Objects.equals(securityCode, that.securityCode) && Objects.equals(reportType, that.reportType) && Objects.equals(reportDate, that.reportDate) && Objects.equals(epsjb, that.epsjb) && Objects.equals(epskcjb, that.epskcjb) && Objects.equals(epsxs, that.epsxs) && Objects.equals(bps, that.bps) && Objects.equals(mgzbgj, that.mgzbgj) && Objects.equals(mgwfplr, that.mgwfplr) && Objects.equals(mgjyxjje, that.mgjyxjje) && Objects.equals(totaloperatereve, that.totaloperatereve) && Objects.equals(mlr, that.mlr) && Objects.equals(parentnetprofit, that.parentnetprofit) && Objects.equals(kcfjcxsyjlr, that.kcfjcxsyjlr) && Objects.equals(totaloperaterevetz, that.totaloperaterevetz) && Objects.equals(parentnetprofittz, that.parentnetprofittz) && Objects.equals(kcfjcxsyjlrtz, that.kcfjcxsyjlrtz) && Objects.equals(yyzsrgdhbzc, that.yyzsrgdhbzc) && Objects.equals(netprofitrphbzc, that.netprofitrphbzc) && Objects.equals(kfjlrgdhbzc, that.kfjlrgdhbzc) && Objects.equals(roejq, that.roejq) && Objects.equals(roekcjq, that.roekcjq) && Objects.equals(zzcjll, that.zzcjll) && Objects.equals(xsmll, that.xsmll) && Objects.equals(xsjll, that.xsjll) && Objects.equals(yszkyysr, that.yszkyysr) && Objects.equals(xsjxlyysr, that.xsjxlyysr) && Objects.equals(jyxjlyysr, that.jyxjlyysr) && Objects.equals(taxrate, that.taxrate) && Objects.equals(ld, that.ld) && Objects.equals(sd, that.sd) && Objects.equals(xjllb, that.xjllb) && Objects.equals(zcfzl, that.zcfzl) && Objects.equals(qycs, that.qycs) && Objects.equals(cqbl, that.cqbl) && Objects.equals(zzczzts, that.zzczzts) && Objects.equals(chzzts, that.chzzts) && Objects.equals(yszkzzts, that.yszkzzts) && Objects.equals(toazzl, that.toazzl) && Objects.equals(chzzl, that.chzzl) && Objects.equals(yszkzzl, that.yszkzzl) && Objects.equals(totaldeposits, that.totaldeposits) && Objects.equals(grossloans, that.grossloans) && Objects.equals(ltdrr, that.ltdrr) && Objects.equals(newcapitalader, that.newcapitalader) && Objects.equals(hxyjbczl, that.hxyjbczl) && Objects.equals(nonperloan, that.nonperloan) && Objects.equals(bldkbbl, that.bldkbbl) && Objects.equals(nzbje, that.nzbje) && Objects.equals(totalRoi, that.totalRoi) && Objects.equals(netRoi, that.netRoi) && Objects.equals(earnedPremium, that.earnedPremium) && Objects.equals(compensateExpense, that.compensateExpense) && Objects.equals(surrenderRateLife, that.surrenderRateLife) && Objects.equals(solvencyAr, that.solvencyAr) && Objects.equals(jzb, that.jzb) && Objects.equals(jzc, that.jzc) && Objects.equals(jzbjzc, that.jzbjzc) && Objects.equals(zygpgmjzc, that.zygpgmjzc) && Objects.equals(zygdsylzqjzb, that.zygdsylzqjzb) && Objects.equals(yyfxzb, that.yyfxzb) && Objects.equals(jjywfxzb, that.jjywfxzb) && Objects.equals(zqzyywfxzb, that.zqzyywfxzb) && Objects.equals(zqcxywfxzb, that.zqcxywfxzb) && Objects.equals(rzrqywfxzb, that.rzrqywfxzb) && Objects.equals(perCapitalReserve, that.perCapitalReserve) && Objects.equals(perUnassignProfit, that.perUnassignProfit) && Objects.equals(perNetcash, that.perNetcash) && Objects.equals(grossProfit, that.grossProfit) && Objects.equals(deduParentProfit, that.deduParentProfit) && Objects.equals(dpnpYoyRatio, that.dpnpYoyRatio) && Objects.equals(roeDiluted, that.roeDiluted) && Objects.equals(jroa, that.jroa) && Objects.equals(grossProfitRatio, that.grossProfitRatio) && Objects.equals(netProfitRatio, that.netProfitRatio);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(securityCode, reportType, reportDate, epsjb, epskcjb, epsxs, bps, mgzbgj, mgwfplr, mgjyxjje, totaloperatereve, mlr, parentnetprofit, kcfjcxsyjlr, totaloperaterevetz, parentnetprofittz, kcfjcxsyjlrtz, yyzsrgdhbzc, netprofitrphbzc, kfjlrgdhbzc, roejq, roekcjq, zzcjll, xsmll, xsjll, yszkyysr, xsjxlyysr, jyxjlyysr, taxrate, ld, sd, xjllb, zcfzl, qycs, cqbl, zzczzts, chzzts, yszkzzts, toazzl, chzzl, yszkzzl, totaldeposits, grossloans, ltdrr, newcapitalader, hxyjbczl, nonperloan, bldkbbl, nzbje, totalRoi, netRoi, earnedPremium, compensateExpense, surrenderRateLife, solvencyAr, jzb, jzc, jzbjzc, zygpgmjzc, zygdsylzqjzb, yyfxzb, jjywfxzb, zqzyywfxzb, zqcxywfxzb, rzrqywfxzb, perCapitalReserve, perUnassignProfit, perNetcash, grossProfit, deduParentProfit, dpnpYoyRatio, roeDiluted, jroa, grossProfitRatio, netProfitRatio);
     }
 
     @Override
