@@ -407,10 +407,10 @@ public class TaskUtils {
     /**
      * 生成接口字段的TXT文件
      */
-    public static void writeKeysOfInterface(String fileName) {
+    public static void writeKeysOfInterface(String htmlName, String fileName) {
         BufferedWriter bw = null;
         try {
-            File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/" + fileName);
+            File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/"+htmlName+"/" + fileName);
             File pafile = sqlFile.getParentFile();
             // 判断文件夹是否存在
             if (!pafile.exists()) {
@@ -443,7 +443,7 @@ public class TaskUtils {
     /**
      * 生成页面字段生成的SQL文件
      */
-    public static void writeSqlFileOfHtml(String fileName) {
+    public static void writeSqlFileOfHtml(String htmlName, String fileName) {
         BufferedWriter bw = null;
         try {
             LinkedHashMap<String, String> sqlLinkedHashMap = new LinkedHashMap<>();
@@ -465,7 +465,7 @@ public class TaskUtils {
                 }
             }
 
-            File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/" + fileName);
+            File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/"+htmlName+"/" + fileName);
             File pafile = sqlFile.getParentFile();
             // 判断文件夹是否存在
             if (!pafile.exists()) {
@@ -498,10 +498,10 @@ public class TaskUtils {
     /**
      * 生成接口字段和页面字段对比TXT文件
      */
-    public static void writeCompareKeyFile(String fileName) {
+    public static void writeCompareKeyFile(String htmlName, String fileName) {
         BufferedWriter bw = null;
         try {
-            File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/" + fileName);
+            File sqlFile = new File("/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/"+htmlName+"/" + fileName);
             File pafile = sqlFile.getParentFile();
             // 判断文件夹是否存在
             if (!pafile.exists()) {
@@ -574,10 +574,26 @@ public class TaskUtils {
     }
 
     /**
+     * 清洗描述
+     */
+    private static String cleanText(String str) {
+        if (StringUtils.isEmpty(str)) return null;
+
+        List<String> replaceList = Arrays.asList("&ensp;");
+
+        for (String replace : replaceList) {
+            str = str.replace(replace, "");
+        }
+        return str.trim();
+    }
+
+    /**
      * 获取sql
      */
     private static String getSql(String key, String text) {
         if (StringUtils.isEmpty(key)) return null;
+
+        text = cleanText(text);
 
         String cleanKey = cleanKey(key);
         if (cleanKey.endsWith("_YOY")) {

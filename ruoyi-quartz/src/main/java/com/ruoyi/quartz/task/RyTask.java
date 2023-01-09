@@ -216,7 +216,7 @@ public class RyTask {
     /**
      * 生成接口对应SQL文件
      */
-    public void createSqlFile(String interfaceName, String htmlName) {
+    public void createSqlFile(String htmlName, String interfaceName) {
         log.info("========生成SQL interfaceName:{} htmlName:{} 任务等待=========", interfaceName, htmlName);
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========生成SQL interfaceName:{} htmlName:{} 任务开始=========", interfaceName, htmlName);
@@ -224,9 +224,8 @@ public class RyTask {
         keySetOfInterface.clear();
         keySetOfHtml.clear();
         sqlMapOfHtml.clear();
+
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
-
-
         for (InvStock stock : stockList) {
 //            if ("000001".equals(stock.getCode())) {
                 myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv." + htmlName + "-" + interfaceName + "-ajax"));
@@ -239,9 +238,9 @@ public class RyTask {
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
 
-        TaskUtils.writeKeysOfInterface(htmlName + "-" + interfaceName + ".txt");
-        TaskUtils.writeSqlFileOfHtml(htmlName + "-" + interfaceName + ".sql");
-        TaskUtils.writeCompareKeyFile(htmlName + "-" + interfaceName + "-compare.txt");
+        TaskUtils.writeKeysOfInterface(htmlName, interfaceName + ".txt");
+        TaskUtils.writeSqlFileOfHtml(htmlName,interfaceName + ".sql");
+        TaskUtils.writeCompareKeyFile(htmlName, interfaceName + "-compare.txt");
         log.info("========生成SQL interfaceName:{} htmlName:{} 任务完成=========", interfaceName, htmlName);
     }
 
