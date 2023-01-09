@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改公司概况')" />
+    <th:block th:include="include :: datetimepicker-css" />
+    <th:block th:include="include :: bootstrap-fileinput-css"/>
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-invCompany-edit" th:object="${invCompany}">
+            <input name="code" th:field="*{code}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">公司名称：</label>
+                <div class="col-sm-8">
+                    <input name="orgName" th:field="*{orgName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">英文名称：</label>
+                <div class="col-sm-8">
+                    <input name="orgNameEn" th:field="*{orgNameEn}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">A股代码：</label>
+                <div class="col-sm-8">
+                    <input name="strCodea" th:field="*{strCodea}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">A股简称：</label>
+                <div class="col-sm-8">
+                    <input name="strNamea" th:field="*{strNamea}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">A股扩位简称：</label>
+                <div class="col-sm-8">
+                    <input name="expandNameAbbr" th:field="*{expandNameAbbr}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">曾用名：</label>
+                <div class="col-sm-8">
+                    <textarea name="formername" class="form-control">[[*{formername}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">B股代码：</label>
+                <div class="col-sm-8">
+                    <input name="strCodeb" th:field="*{strCodeb}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">B股简称：</label>
+                <div class="col-sm-8">
+                    <input name="strNameb" th:field="*{strNameb}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">H股代码：</label>
+                <div class="col-sm-8">
+                    <input name="strCodeh" th:field="*{strCodeh}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">H股简称：</label>
+                <div class="col-sm-8">
+                    <input name="strNameh" th:field="*{strNameh}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">所属东财行业：</label>
+                <div class="col-sm-8">
+                    <input name="em2016" th:field="*{em2016}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">上市交易所：</label>
+                <div class="col-sm-8">
+                    <input name="tradeMarket" th:field="*{tradeMarket}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">所属证监会行业：</label>
+                <div class="col-sm-8">
+                    <input name="industrycsrc1" th:field="*{industrycsrc1}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">总经理：</label>
+                <div class="col-sm-8">
+                    <input name="president" th:field="*{president}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">法人代表：</label>
+                <div class="col-sm-8">
+                    <input name="legalPerson" th:field="*{legalPerson}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">董秘：</label>
+                <div class="col-sm-8">
+                    <input name="secretary" th:field="*{secretary}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">董事长：</label>
+                <div class="col-sm-8">
+                    <input name="chairman" th:field="*{chairman}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">证券事务代表：</label>
+                <div class="col-sm-8">
+                    <input name="secpresent" th:field="*{secpresent}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">独立董事：</label>
+                <div class="col-sm-8">
+                    <textarea name="indedirectors" class="form-control">[[*{indedirectors}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">联系电话：</label>
+                <div class="col-sm-8">
+                    <input name="orgTel" th:field="*{orgTel}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电子信箱：</label>
+                <div class="col-sm-8">
+                    <input name="orgEmail" th:field="*{orgEmail}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">传真：</label>
+                <div class="col-sm-8">
+                    <input name="orgFax" th:field="*{orgFax}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">公司网址：</label>
+                <div class="col-sm-8">
+                    <input name="orgWeb" th:field="*{orgWeb}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">办公地址：</label>
+                <div class="col-sm-8">
+                    <input name="address" th:field="*{address}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">注册地址：</label>
+                <div class="col-sm-8">
+                    <input name="regAddress" th:field="*{regAddress}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">区域：</label>
+                <div class="col-sm-8">
+                    <input name="province" th:field="*{province}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">邮政编码：</label>
+                <div class="col-sm-8">
+                    <input name="addressPostcode" th:field="*{addressPostcode}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">注册资本(元)：</label>
+                <div class="col-sm-8">
+                    <input name="regCapital" th:field="*{regCapital}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">工商登记：</label>
+                <div class="col-sm-8">
+                    <input name="regNum" th:field="*{regNum}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">雇员人数：</label>
+                <div class="col-sm-8">
+                    <input name="empNum" th:field="*{empNum}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">管理人员人数：</label>
+                <div class="col-sm-8">
+                    <input name="tatolnumber" th:field="*{tatolnumber}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">律师事务所：</label>
+                <div class="col-sm-8">
+                    <input name="lawFirm" th:field="*{lawFirm}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">会计师事务所：</label>
+                <div class="col-sm-8">
+                    <input name="accountfirmName" th:field="*{accountfirmName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">公司简介：</label>
+                <div class="col-sm-8">
+                    <input type="hidden" name="orgProfile" th:field="*{orgProfile}">
+                    <div class="file-loading">
+                        <input class="form-control file-upload" id="orgProfile" name="file" type="file">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">经营范围：</label>
+                <div class="col-sm-8">
+                    <input name="businessScope" th:field="*{businessScope}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">成立日期：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="foundDate" th:value="${#dates.format(invCompany.foundDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">上市日期：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="listingDate" th:value="${#dates.format(invCompany.listingDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行市盈率(倍)：</label>
+                <div class="col-sm-8">
+                    <input name="afterIssuePe" th:field="*{afterIssuePe}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">网上发行日期：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="onlineIssueDate" th:value="${#dates.format(invCompany.onlineIssueDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行方式：</label>
+                <div class="col-sm-8">
+                    <input name="issueWay" th:field="*{issueWay}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">每股面值(元)：</label>
+                <div class="col-sm-8">
+                    <input name="parValue" th:field="*{parValue}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行量(股)：</label>
+                <div class="col-sm-8">
+                    <input name="totalIssueNum" th:field="*{totalIssueNum}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">每股发行价(元)：</label>
+                <div class="col-sm-8">
+                    <input name="issuePrice" th:field="*{issuePrice}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行费用(元)：</label>
+                <div class="col-sm-8">
+                    <input name="decSumissuefee" th:field="*{decSumissuefee}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发行总市值(元)：</label>
+                <div class="col-sm-8">
+                    <input name="totalFunds" th:field="*{totalFunds}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">募集资金净额(元)：</label>
+                <div class="col-sm-8">
+                    <input name="netRaiseFunds" th:field="*{netRaiseFunds}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">首日开盘价(元)：</label>
+                <div class="col-sm-8">
+                    <input name="openPrice" th:field="*{openPrice}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">首日收盘价(元)：</label>
+                <div class="col-sm-8">
+                    <input name="closePrice" th:field="*{closePrice}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">首日换手率：</label>
+                <div class="col-sm-8">
+                    <input name="turnoverrate" th:field="*{turnoverrate}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">首日最高价(元)：</label>
+                <div class="col-sm-8">
+                    <input name="highPrice" th:field="*{highPrice}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">网下配售中签率：</label>
+                <div class="col-sm-8">
+                    <input name="offlineVapRatio" th:field="*{offlineVapRatio}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">定价中签率：</label>
+                <div class="col-sm-8">
+                    <input name="onlineIssueLwr" th:field="*{onlineIssueLwr}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <th:block th:include="include :: bootstrap-fileinput-js"/>
+    <script th:inline="javascript">
+        var prefix = ctx + "investment/invCompany";
+        $("#form-invCompany-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-invCompany-edit').serialize());
+            }
+        }
+
+        $("input[name='foundDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='listingDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='onlineIssueDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $(".file-upload").each(function (i) {
+            var val = $("input[name='" + this.id + "']").val()
+            $(this).fileinput({
+                'uploadUrl': ctx + 'common/upload',
+                initialPreviewAsData: true,
+                initialPreview: [val],
+                maxFileCount: 1,
+                autoReplace: true
+            }).on('fileuploaded', function (event, data, previewId, index) {
+                $("input[name='" + event.currentTarget.id + "']").val(data.response.url)
+            }).on('fileremoved', function (event, id, index) {
+                $("input[name='" + event.currentTarget.id + "']").val('')
+            })
+            $(this).fileinput('_initFileActions');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('公司概况列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>A股代码：</label>
+                                <input type="text" name="strCodea"/>
+                            </li>
+                            <li>
+                                <label>A股简称：</label>
+                                <input type="text" name="strNamea"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="investment:invCompany:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="investment:invCompany:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="investment:invCompany:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="investment:invCompany:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('investment:invCompany:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('investment:invCompany:remove')}]];
+        var prefix = ctx + "investment/invCompany";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "公司概况",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'code',
+                    title: '股票代码',
+                    visible: false
+                },
+                {
+                    field: 'orgName',
+                    title: '公司名称'
+                },
+                {
+                    field: 'orgNameEn',
+                    title: '英文名称'
+                },
+                {
+                    field: 'strCodea',
+                    title: 'A股代码'
+                },
+                {
+                    field: 'strNamea',
+                    title: 'A股简称'
+                },
+                {
+                    field: 'expandNameAbbr',
+                    title: 'A股扩位简称'
+                },
+                {
+                    field: 'formername',
+                    title: '曾用名'
+                },
+                {
+                    field: 'strCodeb',
+                    title: 'B股代码'
+                },
+                {
+                    field: 'strNameb',
+                    title: 'B股简称'
+                },
+                {
+                    field: 'strCodeh',
+                    title: 'H股代码'
+                },
+                {
+                    field: 'strNameh',
+                    title: 'H股简称'
+                },
+                {
+                    field: 'securityType',
+                    title: '证券类别'
+                },
+                {
+                    field: 'em2016',
+                    title: '所属东财行业'
+                },
+                {
+                    field: 'tradeMarket',
+                    title: '上市交易所'
+                },
+                {
+                    field: 'industrycsrc1',
+                    title: '所属证监会行业'
+                },
+                {
+                    field: 'president',
+                    title: '总经理'
+                },
+                {
+                    field: 'legalPerson',
+                    title: '法人代表'
+                },
+                {
+                    field: 'secretary',
+                    title: '董秘'
+                },
+                {
+                    field: 'chairman',
+                    title: '董事长'
+                },
+                {
+                    field: 'secpresent',
+                    title: '证券事务代表'
+                },
+                {
+                    field: 'indedirectors',
+                    title: '独立董事'
+                },
+                {
+                    field: 'orgTel',
+                    title: '联系电话'
+                },
+                {
+                    field: 'orgEmail',
+                    title: '电子信箱'
+                },
+                {
+                    field: 'orgFax',
+                    title: '传真'
+                },
+                {
+                    field: 'orgWeb',
+                    title: '公司网址'
+                },
+                {
+                    field: 'address',
+                    title: '办公地址'
+                },
+                {
+                    field: 'regAddress',
+                    title: '注册地址'
+                },
+                {
+                    field: 'province',
+                    title: '区域'
+                },
+                {
+                    field: 'addressPostcode',
+                    title: '邮政编码'
+                },
+                {
+                    field: 'regCapital',
+                    title: '注册资本(元)'
+                },
+                {
+                    field: 'regNum',
+                    title: '工商登记'
+                },
+                {
+                    field: 'empNum',
+                    title: '雇员人数'
+                },
+                {
+                    field: 'tatolnumber',
+                    title: '管理人员人数'
+                },
+                {
+                    field: 'lawFirm',
+                    title: '律师事务所'
+                },
+                {
+                    field: 'accountfirmName',
+                    title: '会计师事务所'
+                },
+                {
+                    field: 'orgProfile',
+                    title: '公司简介'
+                },
+                {
+                    field: 'businessScope',
+                    title: '经营范围'
+                },
+                {
+                    field: 'foundDate',
+                    title: '成立日期'
+                },
+                {
+                    field: 'listingDate',
+                    title: '上市日期'
+                },
+                {
+                    field: 'afterIssuePe',
+                    title: '发行市盈率(倍)'
+                },
+                {
+                    field: 'onlineIssueDate',
+                    title: '网上发行日期'
+                },
+                {
+                    field: 'issueWay',
+                    title: '发行方式'
+                },
+                {
+                    field: 'parValue',
+                    title: '每股面值(元)'
+                },
+                {
+                    field: 'totalIssueNum',
+                    title: '发行量(股)'
+                },
+                {
+                    field: 'issuePrice',
+                    title: '每股发行价(元)'
+                },
+                {
+                    field: 'decSumissuefee',
+                    title: '发行费用(元)'
+                },
+                {
+                    field: 'totalFunds',
+                    title: '发行总市值(元)'
+                },
+                {
+                    field: 'netRaiseFunds',
+                    title: '募集资金净额(元)'
+                },
+                {
+                    field: 'openPrice',
+                    title: '首日开盘价(元)'
+                },
+                {
+                    field: 'closePrice',
+                    title: '首日收盘价(元)'
+                },
+                {
+                    field: 'turnoverrate',
+                    title: '首日换手率'
+                },
+                {
+                    field: 'highPrice',
+                    title: '首日最高价(元)'
+                },
+                {
+                    field: 'offlineVapRatio',
+                    title: '网下配售中签率'
+                },
+                {
+                    field: 'onlineIssueLwr',
+                    title: '定价中签率'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.code + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.code + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>
