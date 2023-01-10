@@ -1,6 +1,8 @@
 package com.ruoyi.investment.domain;
 
 import java.util.Date;
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -396,6 +398,26 @@ public class InvCompany extends BaseEntity{
     public void setOnlineIssueLwr(Double onlineIssueLwr){this.onlineIssueLwr = onlineIssueLwr;}
     public Double getOnlineIssueLwr(){return onlineIssueLwr;}
 
+    public InvCompany() {
+        super();
+    }
+
+    public InvCompany(String code) {
+        this.code = code;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof InvCompany)) return false;
+        InvCompany that = (InvCompany) o;
+        return Objects.equals(code, that.code) && Objects.equals(orgName, that.orgName) && Objects.equals(orgNameEn, that.orgNameEn) && Objects.equals(strCodea, that.strCodea) && Objects.equals(strNamea, that.strNamea) && Objects.equals(expandNameAbbr, that.expandNameAbbr) && Objects.equals(formername, that.formername) && Objects.equals(strCodeb, that.strCodeb) && Objects.equals(strNameb, that.strNameb) && Objects.equals(strCodeh, that.strCodeh) && Objects.equals(strNameh, that.strNameh) && Objects.equals(securityType, that.securityType) && Objects.equals(em2016, that.em2016) && Objects.equals(tradeMarket, that.tradeMarket) && Objects.equals(industrycsrc1, that.industrycsrc1) && Objects.equals(president, that.president) && Objects.equals(legalPerson, that.legalPerson) && Objects.equals(secretary, that.secretary) && Objects.equals(chairman, that.chairman) && Objects.equals(secpresent, that.secpresent) && Objects.equals(indedirectors, that.indedirectors) && Objects.equals(orgTel, that.orgTel) && Objects.equals(orgEmail, that.orgEmail) && Objects.equals(orgFax, that.orgFax) && Objects.equals(orgWeb, that.orgWeb) && Objects.equals(address, that.address) && Objects.equals(regAddress, that.regAddress) && Objects.equals(province, that.province) && Objects.equals(addressPostcode, that.addressPostcode) && Objects.equals(regCapital, that.regCapital) && Objects.equals(regNum, that.regNum) && Objects.equals(empNum, that.empNum) && Objects.equals(tatolnumber, that.tatolnumber) && Objects.equals(lawFirm, that.lawFirm) && Objects.equals(accountfirmName, that.accountfirmName) && Objects.equals(orgProfile, that.orgProfile) && Objects.equals(businessScope, that.businessScope) && Objects.equals(foundDate, that.foundDate) && Objects.equals(listingDate, that.listingDate) && Objects.equals(afterIssuePe, that.afterIssuePe) && Objects.equals(onlineIssueDate, that.onlineIssueDate) && Objects.equals(issueWay, that.issueWay) && Objects.equals(parValue, that.parValue) && Objects.equals(totalIssueNum, that.totalIssueNum) && Objects.equals(issuePrice, that.issuePrice) && Objects.equals(decSumissuefee, that.decSumissuefee) && Objects.equals(totalFunds, that.totalFunds) && Objects.equals(netRaiseFunds, that.netRaiseFunds) && Objects.equals(openPrice, that.openPrice) && Objects.equals(closePrice, that.closePrice) && Objects.equals(turnoverrate, that.turnoverrate) && Objects.equals(highPrice, that.highPrice) && Objects.equals(offlineVapRatio, that.offlineVapRatio) && Objects.equals(onlineIssueLwr, that.onlineIssueLwr);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, orgName, orgNameEn, strCodea, strNamea, expandNameAbbr, formername, strCodeb, strNameb, strCodeh, strNameh, securityType, em2016, tradeMarket, industrycsrc1, president, legalPerson, secretary, chairman, secpresent, indedirectors, orgTel, orgEmail, orgFax, orgWeb, address, regAddress, province, addressPostcode, regCapital, regNum, empNum, tatolnumber, lawFirm, accountfirmName, orgProfile, businessScope, foundDate, listingDate, afterIssuePe, onlineIssueDate, issueWay, parValue, totalIssueNum, issuePrice, decSumissuefee, totalFunds, netRaiseFunds, openPrice, closePrice, turnoverrate, highPrice, offlineVapRatio, onlineIssueLwr);
+    }
 
     @Override
     public String toString() {

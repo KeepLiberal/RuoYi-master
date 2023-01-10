@@ -32,6 +32,8 @@ public class MyQuartzAsyncTask {
     @Resource
     private InvStockMapper invStockMapper;
     @Resource
+    private InvCompanyMapper invCompanyMapper;
+    @Resource
     private InvFinanceReportDateMapper invFinanceReportDateMapper;
     @Resource
     private InvFinanceZyzbMapper invFinanceZyzbMapper;
@@ -46,6 +48,72 @@ public class MyQuartzAsyncTask {
     @Resource
     private InvFinanceBfbMapper invFinanceBfbMapper;
 
+    /**
+     * 异步执行 公司概况 任务
+     */
+    @Async("threadPoolTaskExecutor")
+    public void invCompanyTask(InvStock stock, String url, AtomicInteger count) {
+        String urlStr = url;
+        try {
+            url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
+            String result = HttpUtils.sendGet(url, new AtomicInteger(10));
+            if (StringUtils.isNotEmpty(result)) {
+                JSONObject jsonObject = JSONObject.parseObject(result);
+                Set<String> keySetOut = jsonObject.keySet();
+                Map<String, String> map = new HashMap<>();
+                for (String keyOut : keySetOut) {
+                    Object obj = jsonObject.get(keyOut);
+                    if (obj instanceof JSONArray) {
+                        JSONArray jsonArray = (JSONArray) obj;
+                        Iterator<Object> iterator = jsonArray.iterator();
+                        while (iterator.hasNext()) {
+                            JSONObject next = (JSONObject) iterator.next();
+                            Set<String> keySetInner = next.keySet();
+                            for (String keyInner : keySetInner) {
+                                map.put(keyInner, (String) next.get(keyInner));
+                            }
+                        }
+                    }
+                }
+
+                InvCompany invCompany = new InvCompany(stock.getCode());
+                Class<? extends InvCompany> invCompanyClass = invCompany.getClass();
+                Field[] declaredFields = invCompanyClass.getDeclaredFields();
+                for (Field field : declaredFields) {
+                    field.setAccessible(true);
+                    String genericType = field.getGenericType().toString();
+                    String fieldName = field.getName();
+                    String valueString = map.get(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
+                    if ("class java.lang.Double".equals(genericType)) {
+                        Double value = NumFormatUtil.toDouble(valueString);
+                        field.set(invCompany, value);
+                    }
+                    if ("class java.util.Date".equals(genericType)) {
+                        Date value = DateUtils.parseDate(valueString);
+                        field.set(invCompany, value);
+                    }
+                    if ("class java.lang.String".equals(genericType)) {
+                        field.set(invCompany, valueString);
+                    }
+                }
+                InvCompany compare = invCompanyMapper.selectInvCompanyByCode(stock.getCode());
+                if (null == compare) {
+                    invCompanyMapper.insertInvCompany(invCompany);
+                } else {
+                    if (!invCompany.equals(compare)) {
+                        invCompanyMapper.updateInvCompany(invCompany);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                invCompanyTask(stock, urlStr, count);
+            } else {
+                log.error(">>>MyQuartzAsyncTask.invCompanyTask(" + urlStr + ")异常:", e);
+            }
+        }
+    }
 
     /**
      * 异步执行 财务分析-报告日期 任务

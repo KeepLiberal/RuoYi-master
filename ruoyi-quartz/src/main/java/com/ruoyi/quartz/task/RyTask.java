@@ -130,13 +130,21 @@ public class RyTask {
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("================财务分析任务 开始=================");
 
-        log.info("========沪深A股基础数据初始化 任务开始=========");
+        log.info("========沪深A股-基础数据 任务开始=========");
         //沪深A股基础数据抓取任务
         invStockTask();
-        log.info("========沪深A股基础数据初始化 任务完成=========");
+        log.info("========沪深A股-基础数据 任务完成=========");
 
         //获取所有未退市股
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
+
+        log.info("========沪深A股-公司概况 任务开始=========");
+        for (InvStock stock : stockList) {
+            myQuartzAsyncTask.invCompanyTask(stock, ev.getProperty("inv.company-company-ajax"), new AtomicInteger(10));
+        }
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        log.info("========沪深A股-公司概况 任务完成=========");
+
 
         log.info("========财务分析-报告日期 任务开始=========");
         for (InvStock stock : stockList) {

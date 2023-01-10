@@ -67,7 +67,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectInvCompanyList" parameterType="InvCompany" resultMap="InvCompanyResult">
         <include refid="selectInvCompanyVo"/>
-        <where>  
+        <where>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
             <if test="orgName != null  and orgName != ''"> and org_name like concat('%', #{orgName}, '%')</if>
             <if test="orgNameEn != null  and orgNameEn != ''"> and org_name_en like concat('%', #{orgNameEn}, '%')</if>
             <if test="strCodea != null  and strCodea != ''"> and str_codea = #{strCodea}</if>
