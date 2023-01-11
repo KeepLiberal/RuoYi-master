@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.investment.mapper.InvIndustryEmMapper">
+    
+    <resultMap type="InvIndustryEm" id="InvIndustryEmResult">
+        <result property="id"    column="id"    />
+        <result property="pid"    column="pid"    />
+        <result property="shortname"    column="shortname"    />
+        <result property="name"    column="name"    />
+        <result property="mergename"    column="mergename"    />
+        <result property="level"    column="level"    />
+        <result property="pinyin"    column="pinyin"    />
+        <result property="first"    column="first"    />
+    </resultMap>
+
+    <sql id="selectInvIndustryEmVo">
+        select id, pid, shortname, name, mergename, level, pinyin, first from inv_industry_em
+    </sql>
+
+    <select id="selectInvIndustryEmList" parameterType="InvIndustryEm" resultMap="InvIndustryEmResult">
+        <include refid="selectInvIndustryEmVo"/>
+        <where>  
+            <if test="pid != null "> and pid = #{pid}</if>
+            <if test="shortname != null  and shortname != ''"> and shortname like concat('%', #{shortname}, '%')</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="mergename != null  and mergename != ''"> and mergename like concat('%', #{mergename}, '%')</if>
+            <if test="level != null "> and level = #{level}</if>
+            <if test="pinyin != null  and pinyin != ''"> and pinyin = #{pinyin}</if>
+            <if test="first != null  and first != ''"> and first = #{first}</if>
+        </where>
+    </select>
+    
+    <select id="selectInvIndustryEmById" parameterType="Long" resultMap="InvIndustryEmResult">
+        <include refid="selectInvIndustryEmVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInvIndustryEm" parameterType="InvIndustryEm" useGeneratedKeys="true" keyProperty="id">
+        insert into inv_industry_em
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pid != null">pid,</if>
+            <if test="shortname != null">shortname,</if>
+            <if test="name != null">name,</if>
+            <if test="mergename != null">mergename,</if>
+            <if test="level != null">level,</if>
+            <if test="pinyin != null">pinyin,</if>
+            <if test="first != null">first,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pid != null">#{pid},</if>
+            <if test="shortname != null">#{shortname},</if>
+            <if test="name != null">#{name},</if>
+            <if test="mergename != null">#{mergename},</if>
+            <if test="level != null">#{level},</if>
+            <if test="pinyin != null">#{pinyin},</if>
+            <if test="first != null">#{first},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInvIndustryEm" parameterType="InvIndustryEm">
+        update inv_industry_em
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pid != null">pid = #{pid},</if>
+            <if test="shortname != null">shortname = #{shortname},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="mergename != null">mergename = #{mergename},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="pinyin != null">pinyin = #{pinyin},</if>
+            <if test="first != null">first = #{first},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInvIndustryEmById" parameterType="Long">
+        delete from inv_industry_em where id = #{id}
+    </delete>
+
+    <delete id="deleteInvIndustryEmByIds" parameterType="String">
+        delete from inv_industry_em where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

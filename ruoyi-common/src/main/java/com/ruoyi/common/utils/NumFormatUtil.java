@@ -15,7 +15,7 @@ public class NumFormatUtil {
     public static Integer toInteger(String strNum) {
         String reg = "[^\u4e00-\u9fa5]";// 中文正则
         Integer result = null;
-        if(null==strNum || "".equals(strNum)){
+        if(StringUtils.isEmpty(strNum) || "null".equals(strNum) || "-".equals(strNum) || "--".equals(strNum)){
             return result;
         }
         try {
@@ -56,7 +56,7 @@ public class NumFormatUtil {
     public static Double toDouble(String strNum) {
         String reg = "[^\u4e00-\u9fa5]";// 中文正则
         Double result = null;
-        if(null==strNum || "".equals(strNum) || "-".equals(strNum) || "--".equals(strNum)){
+        if(StringUtils.isEmpty(strNum) || "null".equals(strNum) || "-".equals(strNum) || "--".equals(strNum)){
             return result;
         }
         try {

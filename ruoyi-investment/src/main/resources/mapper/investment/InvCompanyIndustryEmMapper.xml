@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.investment.mapper.InvCompanyIndustryEmMapper">
+    
+    <resultMap type="InvCompanyIndustryEm" id="InvCompanyIndustryEmResult">
+        <result property="id"    column="id"    />
+        <result property="code"    column="code"    />
+        <result property="em1"    column="em1"    />
+        <result property="em2"    column="em2"    />
+        <result property="em3"    column="em3"    />
+        <result property="em4"    column="em4"    />
+    </resultMap>
+
+    <sql id="selectInvCompanyIndustryEmVo">
+        select id, code, em1, em2, em3, em4 from inv_company_industry_em
+    </sql>
+
+    <select id="selectInvCompanyIndustryEmList" parameterType="InvCompanyIndustryEm" resultMap="InvCompanyIndustryEmResult">
+        <include refid="selectInvCompanyIndustryEmVo"/>
+        <where>  
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="em1 != null  and em1 != ''"> and em1 = #{em1}</if>
+            <if test="em2 != null  and em2 != ''"> and em2 = #{em2}</if>
+            <if test="em3 != null  and em3 != ''"> and em3 = #{em3}</if>
+            <if test="em4 != null  and em4 != ''"> and em4 = #{em4}</if>
+        </where>
+    </select>
+    
+    <select id="selectInvCompanyIndustryEmById" parameterType="Long" resultMap="InvCompanyIndustryEmResult">
+        <include refid="selectInvCompanyIndustryEmVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInvCompanyIndustryEm" parameterType="InvCompanyIndustryEm" useGeneratedKeys="true" keyProperty="id">
+        insert into inv_company_industry_em
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">code,</if>
+            <if test="em1 != null and em1 != ''">em1,</if>
+            <if test="em2 != null">em2,</if>
+            <if test="em3 != null">em3,</if>
+            <if test="em4 != null">em4,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">#{code},</if>
+            <if test="em1 != null and em1 != ''">#{em1},</if>
+            <if test="em2 != null">#{em2},</if>
+            <if test="em3 != null">#{em3},</if>
+            <if test="em4 != null">#{em4},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInvCompanyIndustryEm" parameterType="InvCompanyIndustryEm">
+        update inv_company_industry_em
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null and code != ''">code = #{code},</if>
+            <if test="em1 != null and em1 != ''">em1 = #{em1},</if>
+            <if test="em2 != null">em2 = #{em2},</if>
+            <if test="em3 != null">em3 = #{em3},</if>
+            <if test="em4 != null">em4 = #{em4},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInvCompanyIndustryEmById" parameterType="Long">
+        delete from inv_company_industry_em where id = #{id}
+    </delete>
+
+    <delete id="deleteInvCompanyIndustryEmByIds" parameterType="String">
+        delete from inv_company_industry_em where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

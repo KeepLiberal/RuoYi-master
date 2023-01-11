@@ -3,22 +3,27 @@
 <head>
     <th:block th:include="include :: header('修改公司概况')" />
     <th:block th:include="include :: datetimepicker-css" />
-    <th:block th:include="include :: bootstrap-fileinput-css"/>
+    <th:block th:include="include :: summernote-css" />
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-invCompany-edit" th:object="${invCompany}">
-            <input name="code" th:field="*{code}" type="hidden">
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">公司名称：</label>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">股票代码：</label>
                 <div class="col-sm-8">
-                    <input name="orgName" th:field="*{orgName}" class="form-control" type="text">
+                    <textarea name="code" class="form-control">[[*{code}]]</textarea>
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
+                <label class="col-sm-3 control-label">公司名称：</label>
+                <div class="col-sm-8">
+                    <textarea name="orgName" class="form-control">[[*{orgName}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-3 control-label">英文名称：</label>
                 <div class="col-sm-8">
-                    <input name="orgNameEn" th:field="*{orgNameEn}" class="form-control" type="text">
+                    <textarea name="orgNameEn" class="form-control">[[*{orgNameEn}]]</textarea>
                 </div>
             </div>
             <div class="form-group">    
@@ -69,10 +74,10 @@
                     <input name="strNameh" th:field="*{strNameh}" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">所属东财行业：</label>
                 <div class="col-sm-8">
-                    <input name="em2016" th:field="*{em2016}" class="form-control" type="text">
+                    <textarea name="em2016" class="form-control">[[*{em2016}]]</textarea>
                 </div>
             </div>
             <div class="form-group">    
@@ -81,10 +86,10 @@
                     <input name="tradeMarket" th:field="*{tradeMarket}" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">所属证监会行业：</label>
                 <div class="col-sm-8">
-                    <input name="industrycsrc1" th:field="*{industrycsrc1}" class="form-control" type="text">
+                    <textarea name="industrycsrc1" class="form-control">[[*{industrycsrc1}]]</textarea>
                 </div>
             </div>
             <div class="form-group">    
@@ -123,40 +128,40 @@
                     <textarea name="indedirectors" class="form-control">[[*{indedirectors}]]</textarea>
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">联系电话：</label>
                 <div class="col-sm-8">
-                    <input name="orgTel" th:field="*{orgTel}" class="form-control" type="text">
+                    <textarea name="orgTel" class="form-control">[[*{orgTel}]]</textarea>
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">电子信箱：</label>
                 <div class="col-sm-8">
-                    <input name="orgEmail" th:field="*{orgEmail}" class="form-control" type="text">
+                    <textarea name="orgEmail" class="form-control">[[*{orgEmail}]]</textarea>
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">传真：</label>
                 <div class="col-sm-8">
-                    <input name="orgFax" th:field="*{orgFax}" class="form-control" type="text">
+                    <textarea name="orgFax" class="form-control">[[*{orgFax}]]</textarea>
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">公司网址：</label>
                 <div class="col-sm-8">
-                    <input name="orgWeb" th:field="*{orgWeb}" class="form-control" type="text">
+                    <textarea name="orgWeb" class="form-control">[[*{orgWeb}]]</textarea>
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">办公地址：</label>
                 <div class="col-sm-8">
-                    <input name="address" th:field="*{address}" class="form-control" type="text">
+                    <textarea name="address" class="form-control">[[*{address}]]</textarea>
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">注册地址：</label>
                 <div class="col-sm-8">
-                    <input name="regAddress" th:field="*{regAddress}" class="form-control" type="text">
+                    <textarea name="regAddress" class="form-control">[[*{regAddress}]]</textarea>
                 </div>
             </div>
             <div class="form-group">    
@@ -195,31 +200,30 @@
                     <input name="tatolnumber" th:field="*{tatolnumber}" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">律师事务所：</label>
                 <div class="col-sm-8">
-                    <input name="lawFirm" th:field="*{lawFirm}" class="form-control" type="text">
+                    <textarea name="lawFirm" class="form-control">[[*{lawFirm}]]</textarea>
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">会计师事务所：</label>
                 <div class="col-sm-8">
-                    <input name="accountfirmName" th:field="*{accountfirmName}" class="form-control" type="text">
+                    <textarea name="accountfirmName" class="form-control">[[*{accountfirmName}]]</textarea>
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">公司简介：</label>
                 <div class="col-sm-8">
-                    <input type="hidden" name="orgProfile" th:field="*{orgProfile}">
-                    <div class="file-loading">
-                        <input class="form-control file-upload" id="orgProfile" name="file" type="file">
-                    </div>
+                    <input type="hidden" class="form-control" th:field="*{orgProfile}">
+                    <div class="summernote" id="orgProfile"></div>
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">经营范围：</label>
                 <div class="col-sm-8">
-                    <input name="businessScope" th:field="*{businessScope}" class="form-control" type="text">
+                    <input type="hidden" class="form-control" th:field="*{businessScope}">
+                    <div class="summernote" id="businessScope"></div>
                 </div>
             </div>
             <div class="form-group">    
@@ -255,10 +259,10 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <label class="col-sm-3 control-label">发行方式：</label>
                 <div class="col-sm-8">
-                    <input name="issueWay" th:field="*{issueWay}" class="form-control" type="text">
+                    <textarea name="issueWay" class="form-control">[[*{issueWay}]]</textarea>
                 </div>
             </div>
             <div class="form-group">    
@@ -337,7 +341,7 @@
     </div>
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: datetimepicker-js" />
-    <th:block th:include="include :: bootstrap-fileinput-js"/>
+    <th:block th:include="include :: summernote-js" />
     <script th:inline="javascript">
         var prefix = ctx + "investment/invCompany";
         $("#form-invCompany-edit").validate({
@@ -368,20 +372,44 @@
             autoclose: true
         });
 
-        $(".file-upload").each(function (i) {
-            var val = $("input[name='" + this.id + "']").val()
-            $(this).fileinput({
-                'uploadUrl': ctx + 'common/upload',
-                initialPreviewAsData: true,
-                initialPreview: [val],
-                maxFileCount: 1,
-                autoReplace: true
-            }).on('fileuploaded', function (event, data, previewId, index) {
-                $("input[name='" + event.currentTarget.id + "']").val(data.response.url)
-            }).on('fileremoved', function (event, id, index) {
-                $("input[name='" + event.currentTarget.id + "']").val('')
+        $(function() {
+            $('.summernote').each(function(i) {
+                $('#' + this.id).summernote({
+                    lang: 'zh-CN',
+                    dialogsInBody: true,
+                    callbacks: {
+                        onChange: function(contents, $edittable) {
+                            $("input[name='" + this.id + "']").val(contents);
+                        },
+                        onImageUpload: function(files) {
+                            var obj = this;
+                            var data = new FormData();
+                            data.append("file", files[0]);
+                            $.ajax({
+                                type: "post",
+                                url: ctx + "common/upload",
+                                data: data,
+                                cache: false,
+                                contentType: false,
+                                processData: false,
+                                dataType: 'json',
+                                success: function(result) {
+                                    if (result.code == web_status.SUCCESS) {
+                                        $('#' + obj.id).summernote('insertImage', result.url);
+                                    } else {
+                                        $.modal.alertError(result.msg);
+                                    }
+                                },
+                                error: function(error) {
+                                    $.modal.alertWarning("图片上传失败。");
+                                }
+                            });
+                        }
+                    }
+                });
+                var content = $("input[name='" + this.id + "']").val();
+                $('#' + this.id).summernote('code', content);
             })
-            $(this).fileinput('_initFileActions');
         });
     </script>
 </body>

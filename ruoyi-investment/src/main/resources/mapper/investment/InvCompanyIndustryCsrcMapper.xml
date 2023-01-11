@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.investment.mapper.InvCompanyIndustryCsrcMapper">
+    
+    <resultMap type="InvCompanyIndustryCsrc" id="InvCompanyIndustryCsrcResult">
+        <result property="id"    column="id"    />
+        <result property="code"    column="code"    />
+        <result property="csrc1"    column="csrc1"    />
+        <result property="csrc2"    column="csrc2"    />
+        <result property="csrc3"    column="csrc3"    />
+        <result property="csrc4"    column="csrc4"    />
+    </resultMap>
+
+    <sql id="selectInvCompanyIndustryCsrcVo">
+        select id, code, csrc1, csrc2, csrc3, csrc4 from inv_company_industry_csrc
+    </sql>
+
+    <select id="selectInvCompanyIndustryCsrcList" parameterType="InvCompanyIndustryCsrc" resultMap="InvCompanyIndustryCsrcResult">
+        <include refid="selectInvCompanyIndustryCsrcVo"/>
+        <where>  
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="csrc1 != null  and csrc1 != ''"> and csrc1 = #{csrc1}</if>
+            <if test="csrc2 != null  and csrc2 != ''"> and csrc2 = #{csrc2}</if>
+            <if test="csrc3 != null  and csrc3 != ''"> and csrc3 = #{csrc3}</if>
+            <if test="csrc4 != null  and csrc4 != ''"> and csrc4 = #{csrc4}</if>
+        </where>
+    </select>
+    
+    <select id="selectInvCompanyIndustryCsrcById" parameterType="Long" resultMap="InvCompanyIndustryCsrcResult">
+        <include refid="selectInvCompanyIndustryCsrcVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInvCompanyIndustryCsrc" parameterType="InvCompanyIndustryCsrc" useGeneratedKeys="true" keyProperty="id">
+        insert into inv_company_industry_csrc
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">code,</if>
+            <if test="csrc1 != null and csrc1 != ''">csrc1,</if>
+            <if test="csrc2 != null">csrc2,</if>
+            <if test="csrc3 != null">csrc3,</if>
+            <if test="csrc4 != null">csrc4,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">#{code},</if>
+            <if test="csrc1 != null and csrc1 != ''">#{csrc1},</if>
+            <if test="csrc2 != null">#{csrc2},</if>
+            <if test="csrc3 != null">#{csrc3},</if>
+            <if test="csrc4 != null">#{csrc4},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInvCompanyIndustryCsrc" parameterType="InvCompanyIndustryCsrc">
+        update inv_company_industry_csrc
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null and code != ''">code = #{code},</if>
+            <if test="csrc1 != null and csrc1 != ''">csrc1 = #{csrc1},</if>
+            <if test="csrc2 != null">csrc2 = #{csrc2},</if>
+            <if test="csrc3 != null">csrc3 = #{csrc3},</if>
+            <if test="csrc4 != null">csrc4 = #{csrc4},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInvCompanyIndustryCsrcById" parameterType="Long">
+        delete from inv_company_industry_csrc where id = #{id}
+    </delete>
+
+    <delete id="deleteInvCompanyIndustryCsrcByIds" parameterType="String">
+        delete from inv_company_industry_csrc where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

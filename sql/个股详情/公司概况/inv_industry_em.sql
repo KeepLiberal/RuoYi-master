@@ -1,8 +1,8 @@
 /*
  东财行业
 */
-drop table if exists inv_industry_csrc;
-create table inv_industry_csrc (
+drop table if exists inv_industry_em;
+create table inv_industry_em (
   id bigint not null auto_increment comment 'ID',
   pid int DEFAULT NULL COMMENT '父ID',
   shortname varchar(100) DEFAULT NULL COMMENT '简称',

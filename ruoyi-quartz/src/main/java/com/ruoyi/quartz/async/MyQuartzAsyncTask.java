@@ -70,7 +70,10 @@ public class MyQuartzAsyncTask {
                             JSONObject next = (JSONObject) iterator.next();
                             Set<String> keySetInner = next.keySet();
                             for (String keyInner : keySetInner) {
-                                map.put(keyInner, (String) next.get(keyInner));
+                                String value = String.valueOf(next.get(keyInner));
+                                if(StringUtils.isNotEmpty(value) && !"null".equals(value)){
+                                    map.put(keyInner, value);
+                                }
                             }
                         }
                     }
@@ -84,16 +87,18 @@ public class MyQuartzAsyncTask {
                     String genericType = field.getGenericType().toString();
                     String fieldName = field.getName();
                     String valueString = map.get(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
-                    if ("class java.lang.Double".equals(genericType)) {
-                        Double value = NumFormatUtil.toDouble(valueString);
-                        field.set(invCompany, value);
-                    }
-                    if ("class java.util.Date".equals(genericType)) {
-                        Date value = DateUtils.parseDate(valueString);
-                        field.set(invCompany, value);
-                    }
-                    if ("class java.lang.String".equals(genericType)) {
-                        field.set(invCompany, valueString);
+                    if (!"code".equals(fieldName)){
+                        if ("class java.lang.Double".equals(genericType)) {
+                            Double value = NumFormatUtil.toDouble(valueString);
+                            field.set(invCompany, value);
+                        }
+                        if ("class java.util.Date".equals(genericType)) {
+                            Date value = DateUtils.parseDate(valueString);
+                            field.set(invCompany, value);
+                        }
+                        if ("class java.lang.String".equals(genericType)) {
+                            field.set(invCompany, valueString);
+                        }
                     }
                 }
                 InvCompany compare = invCompanyMapper.selectInvCompanyByCode(stock.getCode());
