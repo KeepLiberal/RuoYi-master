@@ -21,21 +21,13 @@ public class InvCompanyIndustryCsrc extends BaseEntity{
     @Excel(name = "股票代码")
     private String code;
 
-    /** 一级 */
-    @Excel(name = "一级")
-    private String csrc1;
+    /** 级别 */
+    @Excel(name = "级别")
+    private Integer level;
 
-    /** 二级 */
-    @Excel(name = "二级")
-    private String csrc2;
-
-    /** 三级 */
-    @Excel(name = "三级")
-    private String csrc3;
-
-    /** 四级 */
-    @Excel(name = "四级")
-    private String csrc4;
+    /** 证监会行业ID */
+    @Excel(name = "证监会行业ID")
+    private Integer industryCsrcId;
 
     public void setId(Integer id){this.id = id;}
     public Integer getId(){return id;}
@@ -43,17 +35,11 @@ public class InvCompanyIndustryCsrc extends BaseEntity{
     public void setCode(String code){this.code = code;}
     public String getCode(){return code;}
 
-    public void setCsrc1(String csrc1){this.csrc1 = csrc1;}
-    public String getCsrc1(){return csrc1;}
+    public void setLevel(Integer level){this.level = level;}
+    public Integer getLevel(){return level;}
 
-    public void setCsrc2(String csrc2){this.csrc2 = csrc2;}
-    public String getCsrc2(){return csrc2;}
-
-    public void setCsrc3(String csrc3){this.csrc3 = csrc3;}
-    public String getCsrc3(){return csrc3;}
-
-    public void setCsrc4(String csrc4){this.csrc4 = csrc4;}
-    public String getCsrc4(){return csrc4;}
+    public void setIndustryCsrcId(Integer industryCsrcId){this.industryCsrcId = industryCsrcId;}
+    public Integer getIndustryCsrcId(){return industryCsrcId;}
 
 
     @Override
@@ -61,10 +47,8 @@ public class InvCompanyIndustryCsrc extends BaseEntity{
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
             .append("code", getCode())
-            .append("csrc1", getCsrc1())
-            .append("csrc2", getCsrc2())
-            .append("csrc3", getCsrc3())
-            .append("csrc4", getCsrc4())
+            .append("level", getLevel())
+            .append("industryCsrcId", getIndustryCsrcId())
             .toString();
     }
 }

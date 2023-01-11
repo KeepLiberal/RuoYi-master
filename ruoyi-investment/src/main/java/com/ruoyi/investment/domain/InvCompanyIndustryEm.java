@@ -21,21 +21,13 @@ public class InvCompanyIndustryEm extends BaseEntity{
     @Excel(name = "股票代码")
     private String code;
 
-    /** 一级 */
-    @Excel(name = "一级")
-    private String em1;
+    /** 级别 */
+    @Excel(name = "级别")
+    private Integer level;
 
-    /** 二级 */
-    @Excel(name = "二级")
-    private String em2;
-
-    /** 三级 */
-    @Excel(name = "三级")
-    private String em3;
-
-    /** 四级 */
-    @Excel(name = "四级")
-    private String em4;
+    /** 东财行业ID */
+    @Excel(name = "东财行业ID")
+    private Integer industryEmId;
 
     public void setId(Integer id){this.id = id;}
     public Integer getId(){return id;}
@@ -43,17 +35,11 @@ public class InvCompanyIndustryEm extends BaseEntity{
     public void setCode(String code){this.code = code;}
     public String getCode(){return code;}
 
-    public void setEm1(String em1){this.em1 = em1;}
-    public String getEm1(){return em1;}
+    public void setLevel(Integer level){this.level = level;}
+    public Integer getLevel(){return level;}
 
-    public void setEm2(String em2){this.em2 = em2;}
-    public String getEm2(){return em2;}
-
-    public void setEm3(String em3){this.em3 = em3;}
-    public String getEm3(){return em3;}
-
-    public void setEm4(String em4){this.em4 = em4;}
-    public String getEm4(){return em4;}
+    public void setIndustryEmId(Integer industryEmId){this.industryEmId = industryEmId;}
+    public Integer getIndustryEmId(){return industryEmId;}
 
 
     @Override
@@ -61,10 +47,8 @@ public class InvCompanyIndustryEm extends BaseEntity{
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
             .append("code", getCode())
-            .append("em1", getEm1())
-            .append("em2", getEm2())
-            .append("em3", getEm3())
-            .append("em4", getEm4())
+            .append("level", getLevel())
+            .append("industryEmId", getIndustryEmId())
             .toString();
     }
 }

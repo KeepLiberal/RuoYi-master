@@ -7,24 +7,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="InvCompanyIndustryEm" id="InvCompanyIndustryEmResult">
         <result property="id"    column="id"    />
         <result property="code"    column="code"    />
-        <result property="em1"    column="em1"    />
-        <result property="em2"    column="em2"    />
-        <result property="em3"    column="em3"    />
-        <result property="em4"    column="em4"    />
+        <result property="level"    column="level"    />
+        <result property="industryEmId"    column="industry_em_id"    />
     </resultMap>
 
     <sql id="selectInvCompanyIndustryEmVo">
-        select id, code, em1, em2, em3, em4 from inv_company_industry_em
+        select id, code, level, industry_em_id from inv_company_industry_em
     </sql>
 
     <select id="selectInvCompanyIndustryEmList" parameterType="InvCompanyIndustryEm" resultMap="InvCompanyIndustryEmResult">
         <include refid="selectInvCompanyIndustryEmVo"/>
         <where>  
             <if test="code != null  and code != ''"> and code = #{code}</if>
-            <if test="em1 != null  and em1 != ''"> and em1 = #{em1}</if>
-            <if test="em2 != null  and em2 != ''"> and em2 = #{em2}</if>
-            <if test="em3 != null  and em3 != ''"> and em3 = #{em3}</if>
-            <if test="em4 != null  and em4 != ''"> and em4 = #{em4}</if>
+            <if test="level != null "> and level = #{level}</if>
+            <if test="industryEmId != null "> and industry_em_id = #{industryEmId}</if>
         </where>
     </select>
     
@@ -37,17 +33,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into inv_company_industry_em
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="code != null and code != ''">code,</if>
-            <if test="em1 != null and em1 != ''">em1,</if>
-            <if test="em2 != null">em2,</if>
-            <if test="em3 != null">em3,</if>
-            <if test="em4 != null">em4,</if>
+            <if test="level != null">level,</if>
+            <if test="industryEmId != null">industry_em_id,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="code != null and code != ''">#{code},</if>
-            <if test="em1 != null and em1 != ''">#{em1},</if>
-            <if test="em2 != null">#{em2},</if>
-            <if test="em3 != null">#{em3},</if>
-            <if test="em4 != null">#{em4},</if>
+            <if test="level != null">#{level},</if>
+            <if test="industryEmId != null">#{industryEmId},</if>
          </trim>
     </insert>
 
@@ -55,10 +47,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update inv_company_industry_em
         <trim prefix="SET" suffixOverrides=",">
             <if test="code != null and code != ''">code = #{code},</if>
-            <if test="em1 != null and em1 != ''">em1 = #{em1},</if>
-            <if test="em2 != null">em2 = #{em2},</if>
-            <if test="em3 != null">em3 = #{em3},</if>
-            <if test="em4 != null">em4 = #{em4},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="industryEmId != null">industry_em_id = #{industryEmId},</if>
         </trim>
         where id = #{id}
     </update>

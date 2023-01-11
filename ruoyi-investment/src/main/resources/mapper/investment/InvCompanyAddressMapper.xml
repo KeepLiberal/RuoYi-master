@@ -7,24 +7,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="InvCompanyAddress" id="InvCompanyAddressResult">
         <result property="id"    column="id"    />
         <result property="code"    column="code"    />
-        <result property="province"    column="province"    />
-        <result property="city"    column="city"    />
-        <result property="county"    column="county"    />
-        <result property="address"    column="address"    />
+        <result property="level"    column="level"    />
+        <result property="areaId"    column="area_id"    />
     </resultMap>
 
     <sql id="selectInvCompanyAddressVo">
-        select id, code, province, city, county, address from inv_company_address
+        select id, code, level, area_id from inv_company_address
     </sql>
 
     <select id="selectInvCompanyAddressList" parameterType="InvCompanyAddress" resultMap="InvCompanyAddressResult">
         <include refid="selectInvCompanyAddressVo"/>
         <where>  
             <if test="code != null  and code != ''"> and code = #{code}</if>
-            <if test="province != null  and province != ''"> and province = #{province}</if>
-            <if test="city != null  and city != ''"> and city = #{city}</if>
-            <if test="county != null  and county != ''"> and county = #{county}</if>
-            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="level != null "> and level = #{level}</if>
+            <if test="areaId != null "> and area_id = #{areaId}</if>
         </where>
     </select>
     
@@ -37,17 +33,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into inv_company_address
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="code != null and code != ''">code,</if>
-            <if test="province != null">province,</if>
-            <if test="city != null">city,</if>
-            <if test="county != null">county,</if>
-            <if test="address != null">address,</if>
+            <if test="level != null">level,</if>
+            <if test="areaId != null">area_id,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="code != null and code != ''">#{code},</if>
-            <if test="province != null">#{province},</if>
-            <if test="city != null">#{city},</if>
-            <if test="county != null">#{county},</if>
-            <if test="address != null">#{address},</if>
+            <if test="level != null">#{level},</if>
+            <if test="areaId != null">#{areaId},</if>
          </trim>
     </insert>
 
@@ -55,10 +47,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update inv_company_address
         <trim prefix="SET" suffixOverrides=",">
             <if test="code != null and code != ''">code = #{code},</if>
-            <if test="province != null">province = #{province},</if>
-            <if test="city != null">city = #{city},</if>
-            <if test="county != null">county = #{county},</if>
-            <if test="address != null">address = #{address},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="areaId != null">area_id = #{areaId},</if>
         </trim>
         where id = #{id}
     </update>

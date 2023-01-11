@@ -21,21 +21,13 @@ public class InvCompanyAddress extends BaseEntity{
     @Excel(name = "股票代码")
     private String code;
 
-    /** 省 */
-    @Excel(name = "省")
-    private String province;
+    /** 级别 */
+    @Excel(name = "级别")
+    private Integer level;
 
-    /** 市区 */
-    @Excel(name = "市区")
-    private String city;
-
-    /** 县 */
-    @Excel(name = "县")
-    private String county;
-
-    /** 详细地址 */
-    @Excel(name = "详细地址")
-    private String address;
+    /** 地区ID */
+    @Excel(name = "地区ID")
+    private Integer areaId;
 
     public void setId(Integer id){this.id = id;}
     public Integer getId(){return id;}
@@ -43,17 +35,11 @@ public class InvCompanyAddress extends BaseEntity{
     public void setCode(String code){this.code = code;}
     public String getCode(){return code;}
 
-    public void setProvince(String province){this.province = province;}
-    public String getProvince(){return province;}
+    public void setLevel(Integer level){this.level = level;}
+    public Integer getLevel(){return level;}
 
-    public void setCity(String city){this.city = city;}
-    public String getCity(){return city;}
-
-    public void setCounty(String county){this.county = county;}
-    public String getCounty(){return county;}
-
-    public void setAddress(String address){this.address = address;}
-    public String getAddress(){return address;}
+    public void setAreaId(Integer areaId){this.areaId = areaId;}
+    public Integer getAreaId(){return areaId;}
 
 
     @Override
@@ -61,10 +47,8 @@ public class InvCompanyAddress extends BaseEntity{
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
             .append("code", getCode())
-            .append("province", getProvince())
-            .append("city", getCity())
-            .append("county", getCounty())
-            .append("address", getAddress())
+            .append("level", getLevel())
+            .append("areaId", getAreaId())
             .toString();
     }
 }

@@ -7,24 +7,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="InvCompanyIndustryCsrc" id="InvCompanyIndustryCsrcResult">
         <result property="id"    column="id"    />
         <result property="code"    column="code"    />
-        <result property="csrc1"    column="csrc1"    />
-        <result property="csrc2"    column="csrc2"    />
-        <result property="csrc3"    column="csrc3"    />
-        <result property="csrc4"    column="csrc4"    />
+        <result property="level"    column="level"    />
+        <result property="industryCsrcId"    column="industry_csrc_id"    />
     </resultMap>
 
     <sql id="selectInvCompanyIndustryCsrcVo">
-        select id, code, csrc1, csrc2, csrc3, csrc4 from inv_company_industry_csrc
+        select id, code, level, industry_csrc_id from inv_company_industry_csrc
     </sql>
 
     <select id="selectInvCompanyIndustryCsrcList" parameterType="InvCompanyIndustryCsrc" resultMap="InvCompanyIndustryCsrcResult">
         <include refid="selectInvCompanyIndustryCsrcVo"/>
         <where>  
             <if test="code != null  and code != ''"> and code = #{code}</if>
-            <if test="csrc1 != null  and csrc1 != ''"> and csrc1 = #{csrc1}</if>
-            <if test="csrc2 != null  and csrc2 != ''"> and csrc2 = #{csrc2}</if>
-            <if test="csrc3 != null  and csrc3 != ''"> and csrc3 = #{csrc3}</if>
-            <if test="csrc4 != null  and csrc4 != ''"> and csrc4 = #{csrc4}</if>
+            <if test="level != null "> and level = #{level}</if>
+            <if test="industryCsrcId != null "> and industry_csrc_id = #{industryCsrcId}</if>
         </where>
     </select>
     
@@ -37,17 +33,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into inv_company_industry_csrc
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="code != null and code != ''">code,</if>
-            <if test="csrc1 != null and csrc1 != ''">csrc1,</if>
-            <if test="csrc2 != null">csrc2,</if>
-            <if test="csrc3 != null">csrc3,</if>
-            <if test="csrc4 != null">csrc4,</if>
+            <if test="level != null">level,</if>
+            <if test="industryCsrcId != null">industry_csrc_id,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="code != null and code != ''">#{code},</if>
-            <if test="csrc1 != null and csrc1 != ''">#{csrc1},</if>
-            <if test="csrc2 != null">#{csrc2},</if>
-            <if test="csrc3 != null">#{csrc3},</if>
-            <if test="csrc4 != null">#{csrc4},</if>
+            <if test="level != null">#{level},</if>
+            <if test="industryCsrcId != null">#{industryCsrcId},</if>
          </trim>
     </insert>
 
@@ -55,10 +47,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update inv_company_industry_csrc
         <trim prefix="SET" suffixOverrides=",">
             <if test="code != null and code != ''">code = #{code},</if>
-            <if test="csrc1 != null and csrc1 != ''">csrc1 = #{csrc1},</if>
-            <if test="csrc2 != null">csrc2 = #{csrc2},</if>
-            <if test="csrc3 != null">csrc3 = #{csrc3},</if>
-            <if test="csrc4 != null">csrc4 = #{csrc4},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="industryCsrcId != null">industry_csrc_id = #{industryCsrcId},</if>
         </trim>
         where id = #{id}
     </update>

@@ -6,8 +6,8 @@ import com.ruoyi.common.core.domain.entity.SysDictData;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.common.utils.spring.SpringUtils;
-import com.ruoyi.investment.domain.InvStock;
-import com.ruoyi.investment.mapper.InvStockMapper;
+import com.ruoyi.investment.domain.*;
+import com.ruoyi.investment.mapper.*;
 import com.ruoyi.quartz.async.MyQuartzAsyncTask;
 import com.ruoyi.quartz.util.TaskUtils;
 import com.ruoyi.system.mapper.SysDictDataMapper;
@@ -36,6 +36,16 @@ public class RyTask {
     private MyQuartzAsyncTask myQuartzAsyncTask;
     @Resource
     private InvStockMapper invStockMapper;
+    @Resource
+    private InvCompanyMapper invCompanyMapper;
+    @Resource
+    private InvIndustryCsrcMapper invIndustryCsrcMapper;
+    @Resource
+    private InvCompanyIndustryCsrcMapper invCompanyIndustryCsrcMapper;
+    @Resource
+    private InvIndustryEmMapper invIndustryEmMapper;
+    @Resource
+    private InvCompanyIndustryEmMapper invCompanyIndustryEmMapper;
     @Resource
     private SysDictDataMapper dictDataMapper;
 
@@ -140,83 +150,192 @@ public class RyTask {
 
         log.info("========沪深A股-公司概况 任务开始=========");
         for (InvStock stock : stockList) {
-            myQuartzAsyncTask.invCompanyTask(stock, ev.getProperty("inv.company-company-ajax"), new AtomicInteger(10));
+//            if ("000001".equals(stock.getCode())){
+            // myQuartzAsyncTask.invCompanyTask(stock, ev.getProperty("inv.company-company-ajax"), new AtomicInteger(10));
+//            }
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+
+        List<InvCompany> invCompanies = invCompanyMapper.selectInvCompanyList(null);
+        for (InvCompany invCompany : invCompanies) {
+            String industryCsrc = invCompany.getIndustrycsrc1();
+            if (StringUtils.isNotEmpty(industryCsrc)) {
+                String[] industryCsrcs = industryCsrc.split("-");
+                for (int i = 0; i < industryCsrcs.length; i++) {
+                    InvIndustryCsrc invIndustryCsrc = new InvIndustryCsrc();
+                    String name = industryCsrcs[i];
+                    String shortName = name.replace("业", "");
+                    invIndustryCsrc.setShortName(shortName);
+                    invIndustryCsrc.setName(name);
+                    invIndustryCsrc.setLevel(i + 1);
+                    String mergeName = "";
+                    for (int j = 0; j <= i; j++) {
+                        if (StringUtils.isNotEmpty(mergeName)){
+                            mergeName = mergeName + "-" + industryCsrcs[j];
+                        }else{
+                            mergeName = industryCsrcs[j];
+                        }
+                    }
+                    invIndustryCsrc.setMergeName(mergeName);
+                    List<InvIndustryCsrc> csrcs = invIndustryCsrcMapper.selectInvIndustryCsrcList(invIndustryCsrc);
+                    if (null == csrcs || csrcs.size() == 0) {
+                        if (i == 0) {
+                            invIndustryCsrc.setPid(0);
+                        } else {
+                            InvIndustryCsrc csrc = new InvIndustryCsrc();
+                            String mergeNa = "";
+                            for (int j = 0; j <= i - 1; j++) {
+                                if (StringUtils.isNotEmpty(mergeNa)){
+                                    mergeNa = mergeNa + "-" + industryCsrcs[j];
+                                }else{
+                                    mergeNa = industryCsrcs[j];
+                                }
+                            }
+                            csrc.setMergeName(mergeNa);
+                            csrcs = invIndustryCsrcMapper.selectInvIndustryCsrcList(csrc);
+                            invIndustryCsrc.setPid(csrcs.get(0).getId());
+                        }
+                        invIndustryCsrcMapper.insertInvIndustryCsrc(invIndustryCsrc);
+                    }
+                }
+                InvCompanyIndustryCsrc invCompanyIndustryCsrc = new InvCompanyIndustryCsrc();
+                for (int i = 0; i < industryCsrcs.length; i++) {
+                    InvIndustryCsrc invIndustryCsrc = new InvIndustryCsrc();
+                    invIndustryCsrc.setName(industryCsrcs[i]);
+                    List<InvIndustryCsrc> csrcs = invIndustryCsrcMapper.selectInvIndustryCsrcList(invIndustryCsrc);
+                    invCompanyIndustryCsrc.setCode(invCompany.getCode());
+                    invCompanyIndustryCsrc.setLevel(i+1);
+                    invCompanyIndustryCsrc.setIndustryCsrcId(csrcs.get(0).getId());
+                    invCompanyIndustryCsrcMapper.insertInvCompanyIndustryCsrc(invCompanyIndustryCsrc);
+                }
+            }
+
+            String industryEm = invCompany.getEm2016();
+            if (StringUtils.isNotEmpty(industryEm)) {
+                String[] industryEms = industryEm.split("-");
+                for (int i = 0; i < industryEms.length; i++) {
+                    InvIndustryEm invIndustryEm = new InvIndustryEm();
+                    String name = industryEms[i];
+                    String shortName = name.replace("业", "");
+                    invIndustryEm.setShortName(shortName);
+                    invIndustryEm.setName(name);
+                    invIndustryEm.setLevel(i + 1);
+                    String mergeName = "";
+                    for (int j = 0; j <= i; j++) {
+                        if (StringUtils.isNotEmpty(mergeName)){
+                            mergeName = mergeName + "-" + industryEms[j];
+                        }else{
+                            mergeName = industryEms[j];
+                        }
+                    }
+                    invIndustryEm.setMergeName(mergeName);
+                    List<InvIndustryEm> ems = invIndustryEmMapper.selectInvIndustryEmList(invIndustryEm);
+                    if (null == ems || ems.size() == 0) {
+                        if (i == 0) {
+                            invIndustryEm.setPid(0);
+                        } else {
+                            InvIndustryEm em = new InvIndustryEm();
+                            String mergeNa = "";
+                            for (int j = 0; j <= i - 1; j++) {
+                                if (StringUtils.isNotEmpty(mergeNa)){
+                                    mergeNa = mergeNa + "-" + industryEms[j];
+                                }else{
+                                    mergeNa = industryEms[j];
+                                }
+                            }
+                            em.setMergeName(mergeNa);
+                            ems = invIndustryEmMapper.selectInvIndustryEmList(em);
+                            invIndustryEm.setPid(ems.get(0).getId());
+                        }
+                        invIndustryEmMapper.insertInvIndustryEm(invIndustryEm);
+                    }
+                }
+                InvCompanyIndustryEm invCompanyIndustryEm = new InvCompanyIndustryEm();
+                for (int i = 0; i < industryEms.length; i++) {
+                    InvIndustryEm invIndustryEm = new InvIndustryEm();
+                    invIndustryEm.setName(industryEms[i]);
+                    List<InvIndustryEm> csrcs = invIndustryEmMapper.selectInvIndustryEmList(invIndustryEm);
+                    invCompanyIndustryEm.setCode(invCompany.getCode());
+                    invCompanyIndustryEm.setLevel(i+1);
+                    invCompanyIndustryEm.setIndustryEmId(csrcs.get(0).getId());
+                    invCompanyIndustryEmMapper.insertInvCompanyIndustryEm(invCompanyIndustryEm);
+                }
+            }
+        }
         log.info("========沪深A股-公司概况 任务完成=========");
 
+//
+//        log.info("========财务分析-报告日期 任务开始=========");
+//        for (InvStock stock : stockList) {
+//            myQuartzAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-zcfz-date-bgq"), "zcfz", "bgq", new AtomicInteger(10));
+//            myQuartzAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-zcfz-date-nd"), "zcfz", "nd", new AtomicInteger(10));
+//
+//            myQuartzAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-lr-date-bgq"), "lr", "bgq", new AtomicInteger(10));
+//            myQuartzAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-lr-date-nd"), "lr", "nd", new AtomicInteger(10));
+//            myQuartzAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-lr-date-jd"), "lr", "jd", new AtomicInteger(10));
+//
+//            myQuartzAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-xjll-date-bgq"), "xjll", "bgq", new AtomicInteger(10));
+//            myQuartzAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-xjll-date-nd"), "xjll", "nd", new AtomicInteger(10));
+//            myQuartzAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-xjll-date-jd"), "xjll", "jd", new AtomicInteger(10));
+//        }
+//        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+//        log.info("========财务分析-报告日期 任务完成=========");
+//
+//        log.info("========财务分析-重要指标 任务开始=========");
+//        for (InvStock stock : stockList) {
+//            myQuartzAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-ajax-bgq"), "bgq", new AtomicInteger(10));
+//            myQuartzAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-ajax-nd"), "nd", new AtomicInteger(10));
+//            myQuartzAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-ajax-jd"), "jd", new AtomicInteger(10));
+//        }
+//        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+//        log.info("========财务分析-重要指标 任务完成=========");
+//
+//        log.info("========财务分析-杜邦分析 任务开始=========");
+//        for (InvStock stock : stockList) {
+//            myQuartzAsyncTask.invFinanceDbfxTask(stock, ev.getProperty("inv.finance-dbfx-ajax"), new AtomicInteger(10));
+//        }
+//        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+//        log.info("========财务分析-杜邦分析 任务完成=========");
+//
+//        log.info("========财务分析-资产负债 任务开始=========");
+//        SysDictData dictData = new SysDictData();
+//        dictData.setDictType("opinion_type");
+//        List<SysDictData> dictDatas = dictDataMapper.selectDictDataList(dictData);
+//        for (InvStock stock : stockList) {
+//            myQuartzAsyncTask.invFinanceZcfzTask(stock, ev.getProperty("inv.finance-zcfz-ajax-bgq"), "zcfz", "bgq", dictDatas, new AtomicInteger(10));
+//            myQuartzAsyncTask.invFinanceZcfzTask(stock, ev.getProperty("inv.finance-zcfz-ajax-nd"), "zcfz", "nd", dictDatas, new AtomicInteger(10));
+//        }
+//        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+//        log.info("========财务分析-资产负债 任务完成=========");
+//
+//        log.info("========财务分析-利润 任务开始=========");
+//        for (InvStock stock : stockList) {
+//            myQuartzAsyncTask.invFinanceLrTask(stock, ev.getProperty("inv.finance-lr-ajax-bgq"), "lr", "bgq", dictDatas, new AtomicInteger(10));
+//            myQuartzAsyncTask.invFinanceLrTask(stock, ev.getProperty("inv.finance-lr-ajax-nd"), "lr", "nd", dictDatas, new AtomicInteger(10));
+//            myQuartzAsyncTask.invFinanceLrTask(stock, ev.getProperty("inv.finance-lr-ajax-jd"), "lr", "jd", dictDatas, new AtomicInteger(10));
+//        }
+//        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+//        log.info("========财务分析-利润 任务完成=========");
+//
+//        log.info("========财务分析-现金流量 任务开始=========");
+//        for (InvStock stock : stockList) {
+//            myQuartzAsyncTask.invFinanceXjllTask(stock, ev.getProperty("inv.finance-xjll-ajax-bgq"), "xjll", "bgq", dictDatas, new AtomicInteger(10));
+//            myQuartzAsyncTask.invFinanceXjllTask(stock, ev.getProperty("inv.finance-xjll-ajax-nd"), "xjll", "nd", dictDatas, new AtomicInteger(10));
+//            myQuartzAsyncTask.invFinanceXjllTask(stock, ev.getProperty("inv.finance-xjll-ajax-jd"), "xjll", "jd", dictDatas, new AtomicInteger(10));
+//        }
+//        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+//        log.info("========财务分析-现金流量 任务完成=========");
+//
+//        log.info("========财务分析-百分比 任务开始=========");
+//        for (InvStock stock : stockList) {
+//            myQuartzAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-ajax-bgq"), "bgq", new AtomicInteger(10));
+//            myQuartzAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-ajax-nd"), "nd", new AtomicInteger(10));
+//            myQuartzAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-ajax-jd"), "jd", new AtomicInteger(10));
+//        }
+//        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+//        log.info("========财务分析-百分比 任务完成=========");
 
-        log.info("========财务分析-报告日期 任务开始=========");
-        for (InvStock stock : stockList) {
-            myQuartzAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-zcfz-date-bgq"), "zcfz", "bgq", new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-zcfz-date-nd"), "zcfz", "nd", new AtomicInteger(10));
-
-            myQuartzAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-lr-date-bgq"), "lr", "bgq", new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-lr-date-nd"), "lr", "nd", new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-lr-date-jd"), "lr", "jd", new AtomicInteger(10));
-
-            myQuartzAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-xjll-date-bgq"), "xjll", "bgq", new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-xjll-date-nd"), "xjll", "nd", new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-xjll-date-jd"), "xjll", "jd", new AtomicInteger(10));
-        }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========财务分析-报告日期 任务完成=========");
-
-        log.info("========财务分析-重要指标 任务开始=========");
-        for (InvStock stock : stockList) {
-            myQuartzAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-ajax-bgq"), "bgq", new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-ajax-nd"), "nd", new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-ajax-jd"), "jd", new AtomicInteger(10));
-        }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========财务分析-重要指标 任务完成=========");
-
-        log.info("========财务分析-杜邦分析 任务开始=========");
-        for (InvStock stock : stockList) {
-            myQuartzAsyncTask.invFinanceDbfxTask(stock, ev.getProperty("inv.finance-dbfx-ajax"), new AtomicInteger(10));
-        }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========财务分析-杜邦分析 任务完成=========");
-
-        log.info("========财务分析-资产负债 任务开始=========");
-        SysDictData dictData = new SysDictData();
-        dictData.setDictType("opinion_type");
-        List<SysDictData> dictDatas = dictDataMapper.selectDictDataList(dictData);
-        for (InvStock stock : stockList) {
-            myQuartzAsyncTask.invFinanceZcfzTask(stock, ev.getProperty("inv.finance-zcfz-ajax-bgq"), "zcfz", "bgq", dictDatas, new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceZcfzTask(stock, ev.getProperty("inv.finance-zcfz-ajax-nd"), "zcfz", "nd", dictDatas, new AtomicInteger(10));
-        }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========财务分析-资产负债 任务完成=========");
-
-        log.info("========财务分析-利润 任务开始=========");
-        for (InvStock stock : stockList) {
-            myQuartzAsyncTask.invFinanceLrTask(stock, ev.getProperty("inv.finance-lr-ajax-bgq"), "lr", "bgq", dictDatas, new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceLrTask(stock, ev.getProperty("inv.finance-lr-ajax-nd"), "lr", "nd", dictDatas, new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceLrTask(stock, ev.getProperty("inv.finance-lr-ajax-jd"), "lr", "jd", dictDatas, new AtomicInteger(10));
-        }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========财务分析-利润 任务完成=========");
-
-        log.info("========财务分析-现金流量 任务开始=========");
-        for (InvStock stock : stockList) {
-            myQuartzAsyncTask.invFinanceXjllTask(stock, ev.getProperty("inv.finance-xjll-ajax-bgq"), "xjll", "bgq", dictDatas, new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceXjllTask(stock, ev.getProperty("inv.finance-xjll-ajax-nd"), "xjll", "nd", dictDatas, new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceXjllTask(stock, ev.getProperty("inv.finance-xjll-ajax-jd"), "xjll", "jd", dictDatas, new AtomicInteger(10));
-        }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========财务分析-现金流量 任务完成=========");
-
-        log.info("========财务分析-百分比 任务开始=========");
-        for (InvStock stock : stockList) {
-            myQuartzAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-ajax-bgq"), "bgq", new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-ajax-nd"), "nd", new AtomicInteger(10));
-            myQuartzAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-ajax-jd"), "jd", new AtomicInteger(10));
-        }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========财务分析-百分比 任务完成=========");
-
-        log.info("================财务分析任务  完成=================");
+        log.info("================财务分析任务 完成=================");
     }
 
     ///////////////////////////////////////////////////////快速工具///////////////////////////////////////////////////////
@@ -236,43 +355,43 @@ public class RyTask {
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
         for (InvStock stock : stockList) {
 //            if ("000001".equals(stock.getCode())) {
-                if ("company".equals(interfaceName)) {
-                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.company-company-ajax"));
-                    myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.company-web"), interfaceName);
-                }
-                if ("zyzb".equals(interfaceName)) {
-                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-zyzb-ajax-bgq"));
-                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-zyzb-ajax-nd"));
-                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-zyzb-ajax-jd"));
-                    myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.finance-web"), interfaceName);
-                }
-                if ("dbfx".equals(interfaceName)) {
-                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-dbfx-ajax"));
-                    myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.finance-web"), interfaceName);
-                }
-                if ("zcfz".equals(interfaceName)) {
-                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-zcfz-ajax-bgq"));
-                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-zcfz-ajax-nd"));
-                    myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.finance-web"), interfaceName);
-                }
-                if ("lr".equals(interfaceName)) {
-                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-lr-ajax-bgq"));
-                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-lr-ajax-nd"));
-                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-lr-ajax-jd"));
-                    myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.finance-web"), interfaceName);
-                }
-                if ("xjll".equals(interfaceName)) {
-                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-xjll-ajax-bgq"));
-                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-xjll-ajax-nd"));
-                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-xjll-ajax-jd"));
-                    myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.finance-web"), interfaceName);
-                }
-                if ("bfb".equals(interfaceName)) {
-                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-bfb-ajax-bgq"));
-                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-bfb-ajax-nd"));
-                    myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-bfb-ajax-jd"));
-                    myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.finance-web"), interfaceName);
-                }
+            if ("company".equals(interfaceName)) {
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.company-company-ajax"));
+                myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.company-web"), interfaceName);
+            }
+            if ("zyzb".equals(interfaceName)) {
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-zyzb-ajax-bgq"));
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-zyzb-ajax-nd"));
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-zyzb-ajax-jd"));
+                myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.finance-web"), interfaceName);
+            }
+            if ("dbfx".equals(interfaceName)) {
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-dbfx-ajax"));
+                myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.finance-web"), interfaceName);
+            }
+            if ("zcfz".equals(interfaceName)) {
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-zcfz-ajax-bgq"));
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-zcfz-ajax-nd"));
+                myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.finance-web"), interfaceName);
+            }
+            if ("lr".equals(interfaceName)) {
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-lr-ajax-bgq"));
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-lr-ajax-nd"));
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-lr-ajax-jd"));
+                myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.finance-web"), interfaceName);
+            }
+            if ("xjll".equals(interfaceName)) {
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-xjll-ajax-bgq"));
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-xjll-ajax-nd"));
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-xjll-ajax-jd"));
+                myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.finance-web"), interfaceName);
+            }
+            if ("bfb".equals(interfaceName)) {
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-bfb-ajax-bgq"));
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-bfb-ajax-nd"));
+                myQuartzAsyncTask.getInterfaceKey(stock, ev.getProperty("inv.finance-bfb-ajax-jd"));
+                myQuartzAsyncTask.getHtmlKey(stock, ev.getProperty("inv.finance-web"), interfaceName);
+            }
 //            }
         }
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
