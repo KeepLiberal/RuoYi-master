@@ -16,7 +16,7 @@ public interface IInvCompanyIndustryCsrcService {
      * @param id 所属证监会行业主键
      * @return 所属证监会行业
      */
-    public InvCompanyIndustryCsrc selectInvCompanyIndustryCsrcById(Long id);
+    public InvCompanyIndustryCsrc selectInvCompanyIndustryCsrcById(Integer id);
 
     /**
      * 查询所属证监会行业列表
@@ -56,5 +56,5 @@ public interface IInvCompanyIndustryCsrcService {
      * @param id 所属证监会行业主键
      * @return 结果
      */
-    public int deleteInvCompanyIndustryCsrcById(Long id);
+    public int deleteInvCompanyIndustryCsrcById(Integer id);
 }

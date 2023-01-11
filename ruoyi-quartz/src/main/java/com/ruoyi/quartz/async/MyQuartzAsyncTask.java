@@ -34,6 +34,10 @@ public class MyQuartzAsyncTask {
     @Resource
     private InvCompanyMapper invCompanyMapper;
     @Resource
+    private InvIndustryCsrcMapper invIndustryCsrcMapper;
+    @Resource
+    private InvIndustryEmMapper invIndustryEmMapper;
+    @Resource
     private InvFinanceReportDateMapper invFinanceReportDateMapper;
     @Resource
     private InvFinanceZyzbMapper invFinanceZyzbMapper;
@@ -71,7 +75,7 @@ public class MyQuartzAsyncTask {
                             Set<String> keySetInner = next.keySet();
                             for (String keyInner : keySetInner) {
                                 String value = String.valueOf(next.get(keyInner));
-                                if(StringUtils.isNotEmpty(value) && !"null".equals(value)){
+                                if (StringUtils.isNotEmpty(value) && !"null".equals(value)) {
                                     map.put(keyInner, value);
                                 }
                             }
@@ -87,7 +91,7 @@ public class MyQuartzAsyncTask {
                     String genericType = field.getGenericType().toString();
                     String fieldName = field.getName();
                     String valueString = map.get(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
-                    if (!"code".equals(fieldName)){
+                    if (!"code".equals(fieldName) && StringUtils.isNotEmpty(valueString)) {
                         if ("class java.lang.Double".equals(genericType)) {
                             Double value = NumFormatUtil.toDouble(valueString);
                             field.set(invCompany, value);
@@ -98,6 +102,86 @@ public class MyQuartzAsyncTask {
                         }
                         if ("class java.lang.String".equals(genericType)) {
                             field.set(invCompany, valueString);
+                            //所属证监会行业
+                            if ("industrycsrc1".equals(fieldName)) {
+                                String[] industrycsrcs = valueString.split("-");
+                                for (int i = 0; i < industrycsrcs.length; i++) {
+                                    InvIndustryCsrc invIndustryCsrc = new InvIndustryCsrc();
+                                    String shortName = industrycsrcs[i];
+                                    String mergeName = shortName;
+
+                                    invIndustryCsrc.setShortName(shortName.replace("业", ""));
+                                    invIndustryCsrc.setName(shortName);
+                                    for (int j = i; j > 0; j--) {
+                                        mergeName = industrycsrcs[j - 1] + "-" + mergeName;
+                                    }
+                                    invIndustryCsrc.setMergeName(mergeName);
+                                    invIndustryCsrc.setLevel(i + 1);
+
+                                    List<InvIndustryCsrc> csrcs = invIndustryCsrcMapper.selectInvIndustryCsrcList(invIndustryCsrc);
+                                    if (null == csrcs || csrcs.size() == 0) {
+                                        if (i == 0) {
+                                            invIndustryCsrc.setPid(0);
+                                        } else {
+                                            InvIndustryCsrc csrc = new InvIndustryCsrc();
+                                            csrc.setName(industrycsrcs[i - 1]);
+                                            String mergeNa = shortName;
+                                            for (int j = i; j > 1; j--) {
+                                                mergeNa = industrycsrcs[j - 1] + "-" + mergeNa;
+                                            }
+                                            csrc.setMergeName(mergeNa);
+                                            csrcs = invIndustryCsrcMapper.selectInvIndustryCsrcList(csrc);
+                                            invIndustryCsrc.setPid(csrcs.get(0).getId());
+                                        }
+                                        invIndustryCsrcMapper.insertInvIndustryCsrc(invIndustryCsrc);
+                                    }
+                                }
+                            }
+                            //所属东财行业
+                            if ("em2016".equals(fieldName)) {
+                                String[] industrycsrcs = valueString.split("-");
+                                for (int i = 0; i < industrycsrcs.length; i++) {
+                                    InvIndustryEm invIndustryEm = new InvIndustryEm();
+                                    String shortName = industrycsrcs[i];
+                                    String mergeName = shortName;
+
+                                    invIndustryEm.setShortName(shortName.replace("业", ""));
+                                    invIndustryEm.setName(shortName);
+                                    for (int j = i; j > 0; j--) {
+                                        mergeName = industrycsrcs[j - 1] + "-" + mergeName;
+                                    }
+                                    invIndustryEm.setMergeName(mergeName);
+                                    invIndustryEm.setLevel(i + 1);
+
+                                    List<InvIndustryEm> ems = invIndustryEmMapper.selectInvIndustryEmList(invIndustryEm);
+                                    if (null == ems || ems.size() == 0) {
+                                        if (i == 0) {
+                                            invIndustryEm.setPid(0);
+                                        } else {
+                                            InvIndustryEm em = new InvIndustryEm();
+                                            em.setName(industrycsrcs[i - 1]);
+                                            String mergeNa = shortName;
+                                            for (int j = i; j > 1; j--) {
+                                                mergeNa = industrycsrcs[j - 1] + "-" + mergeNa;
+                                            }
+                                            em.setMergeName(mergeNa);
+                                            ems = invIndustryEmMapper.selectInvIndustryEmList(em);
+                                            invIndustryEm.setPid(ems.get(0).getId());
+                                        }
+                                        invIndustryEmMapper.insertInvIndustryEm(invIndustryEm);
+                                    }
+                                }
+                            }
+                            //区域
+                            if ("province".equals(fieldName)) {
+
+                            }
+                            //办公地址
+                            if ("address".equals(fieldName)) {
+
+                            }
+
+
                         }
                     }
                 }

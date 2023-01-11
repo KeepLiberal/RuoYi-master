@@ -15,7 +15,7 @@ public class InvCompanyIndustryEm extends BaseEntity{
     private static final long serialVersionUID = 1L;
 
     /** ID */
-    private Long id;
+    private Integer id;
 
     /** 股票代码 */
     @Excel(name = "股票代码")
@@ -37,8 +37,8 @@ public class InvCompanyIndustryEm extends BaseEntity{
     @Excel(name = "四级")
     private String em4;
 
-    public void setId(Long id){this.id = id;}
-    public Long getId(){return id;}
+    public void setId(Integer id){this.id = id;}
+    public Integer getId(){return id;}
 
     public void setCode(String code){this.code = code;}
     public String getCode(){return code;}

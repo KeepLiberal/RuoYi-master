@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.investment.mapper.InvCompanyAddressMapper">
+    
+    <resultMap type="InvCompanyAddress" id="InvCompanyAddressResult">
+        <result property="id"    column="id"    />
+        <result property="code"    column="code"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="county"    column="county"    />
+        <result property="address"    column="address"    />
+    </resultMap>
+
+    <sql id="selectInvCompanyAddressVo">
+        select id, code, province, city, county, address from inv_company_address
+    </sql>
+
+    <select id="selectInvCompanyAddressList" parameterType="InvCompanyAddress" resultMap="InvCompanyAddressResult">
+        <include refid="selectInvCompanyAddressVo"/>
+        <where>  
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="province != null  and province != ''"> and province = #{province}</if>
+            <if test="city != null  and city != ''"> and city = #{city}</if>
+            <if test="county != null  and county != ''"> and county = #{county}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+        </where>
+    </select>
+    
+    <select id="selectInvCompanyAddressById" parameterType="Integer" resultMap="InvCompanyAddressResult">
+        <include refid="selectInvCompanyAddressVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInvCompanyAddress" parameterType="InvCompanyAddress" useGeneratedKeys="true" keyProperty="id">
+        insert into inv_company_address
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">code,</if>
+            <if test="province != null">province,</if>
+            <if test="city != null">city,</if>
+            <if test="county != null">county,</if>
+            <if test="address != null">address,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">#{code},</if>
+            <if test="province != null">#{province},</if>
+            <if test="city != null">#{city},</if>
+            <if test="county != null">#{county},</if>
+            <if test="address != null">#{address},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInvCompanyAddress" parameterType="InvCompanyAddress">
+        update inv_company_address
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null and code != ''">code = #{code},</if>
+            <if test="province != null">province = #{province},</if>
+            <if test="city != null">city = #{city},</if>
+            <if test="county != null">county = #{county},</if>
+            <if test="address != null">address = #{address},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInvCompanyAddressById" parameterType="Integer">
+        delete from inv_company_address where id = #{id}
+    </delete>
+
+    <delete id="deleteInvCompanyAddressByIds" parameterType="String">
+        delete from inv_company_address where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

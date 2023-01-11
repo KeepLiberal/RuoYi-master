@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectInvCompanyIndustryEmById" parameterType="Long" resultMap="InvCompanyIndustryEmResult">
+    <select id="selectInvCompanyIndustryEmById" parameterType="Integer" resultMap="InvCompanyIndustryEmResult">
         <include refid="selectInvCompanyIndustryEmVo"/>
         where id = #{id}
     </select>
@@ -63,7 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
-    <delete id="deleteInvCompanyIndustryEmById" parameterType="Long">
+    <delete id="deleteInvCompanyIndustryEmById" parameterType="Integer">
         delete from inv_company_industry_em where id = #{id}
     </delete>
 

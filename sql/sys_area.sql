@@ -8,7 +8,7 @@ CREATE TABLE `sys_area` (
   `shortname` varchar(100) DEFAULT NULL COMMENT '简称',
   `name` varchar(100) DEFAULT NULL COMMENT '名称',
   `mergename` varchar(255) DEFAULT NULL COMMENT '全称',
-  `level` tinyint DEFAULT NULL COMMENT '层级 0:省 1:市区 2:县',
+  `level` int DEFAULT NULL COMMENT '层级 0:省 1:市区 2:县',
   `pinyin` varchar(100) DEFAULT NULL COMMENT '拼音',
   `code` varchar(100) DEFAULT NULL COMMENT '长途区号',
   `zip` varchar(100) DEFAULT NULL COMMENT '邮编',

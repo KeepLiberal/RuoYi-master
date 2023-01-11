@@ -26,7 +26,7 @@ public class InvIndustryEmServiceImpl implements IInvIndustryEmService {
      * @return 东财行业
      */
     @Override
-    public InvIndustryEm selectInvIndustryEmById(Long id) {
+    public InvIndustryEm selectInvIndustryEmById(Integer id) {
         return invIndustryEmMapper.selectInvIndustryEmById(id);
     }
 
@@ -81,7 +81,7 @@ public class InvIndustryEmServiceImpl implements IInvIndustryEmService {
      * @return 结果
      */
     @Override
-    public int deleteInvIndustryEmById(Long id) {
+    public int deleteInvIndustryEmById(Integer id) {
         return invIndustryEmMapper.deleteInvIndustryEmById(id);
     }
 }

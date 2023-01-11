@@ -3,7 +3,7 @@
 */
 drop table if exists inv_company_address;
 create table inv_company_address (
-  id bigint not null auto_increment comment 'ID',
+  id int not null auto_increment comment 'ID',
   code varchar(10) not null comment '股票代码',
   province varchar(100) default null comment '省',
   city varchar(100) default null comment '市区',

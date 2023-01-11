@@ -16,7 +16,7 @@ public interface InvCompanyIndustryEmMapper {
      * @param id 所属东财行业主键
      * @return 所属东财行业
      */
-    public InvCompanyIndustryEm selectInvCompanyIndustryEmById(Long id);
+    public InvCompanyIndustryEm selectInvCompanyIndustryEmById(Integer id);
 
     /**
      * 查询所属东财行业列表
@@ -48,7 +48,7 @@ public interface InvCompanyIndustryEmMapper {
      * @param id 所属东财行业主键
      * @return 结果
      */
-    public int deleteInvCompanyIndustryEmById(Long id);
+    public int deleteInvCompanyIndustryEmById(Integer id);
 
     /**
      * 批量删除所属东财行业

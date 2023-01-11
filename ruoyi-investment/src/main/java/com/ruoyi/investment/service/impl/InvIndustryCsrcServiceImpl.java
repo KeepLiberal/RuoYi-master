@@ -26,7 +26,7 @@ public class InvIndustryCsrcServiceImpl implements IInvIndustryCsrcService {
      * @return 证监会行业
      */
     @Override
-    public InvIndustryCsrc selectInvIndustryCsrcById(Long id) {
+    public InvIndustryCsrc selectInvIndustryCsrcById(Integer id) {
         return invIndustryCsrcMapper.selectInvIndustryCsrcById(id);
     }
 
@@ -81,7 +81,7 @@ public class InvIndustryCsrcServiceImpl implements IInvIndustryCsrcService {
      * @return 结果
      */
     @Override
-    public int deleteInvIndustryCsrcById(Long id) {
+    public int deleteInvIndustryCsrcById(Integer id) {
         return invIndustryCsrcMapper.deleteInvIndustryCsrcById(id);
     }
 }
