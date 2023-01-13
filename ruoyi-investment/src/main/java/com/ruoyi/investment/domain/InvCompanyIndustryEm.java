@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.util.Objects;
+
 /**
  * 所属东财行业对象 inv_company_industry_em
  * 
@@ -41,6 +43,18 @@ public class InvCompanyIndustryEm extends BaseEntity{
     public void setIndustryEmId(Integer industryEmId){this.industryEmId = industryEmId;}
     public Integer getIndustryEmId(){return industryEmId;}
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof InvCompanyIndustryEm)) return false;
+        InvCompanyIndustryEm that = (InvCompanyIndustryEm) o;
+        return Objects.equals(code, that.code) && Objects.equals(level, that.level) && Objects.equals(industryEmId, that.industryEmId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, level, industryEmId);
+    }
 
     @Override
     public String toString() {

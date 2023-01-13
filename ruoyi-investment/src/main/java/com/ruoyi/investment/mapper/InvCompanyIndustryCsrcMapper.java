@@ -27,6 +27,13 @@ public interface InvCompanyIndustryCsrcMapper {
     public List<InvCompanyIndustryCsrc> selectInvCompanyIndustryCsrcList(InvCompanyIndustryCsrc invCompanyIndustryCsrc);
 
     /**
+     * 查询所属证监会行业列表
+     *
+     * @return 所属证监会行业集合
+     */
+    public List<InvCompanyIndustryCsrc> selectInvCompanyIndustryCsrcList();
+
+    /**
      * 新增所属证监会行业
      * 
      * @param invCompanyIndustryCsrc 所属证监会行业

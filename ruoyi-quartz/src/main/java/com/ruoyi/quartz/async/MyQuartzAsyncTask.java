@@ -49,14 +49,6 @@ public class MyQuartzAsyncTask {
     private InvFinanceXjllMapper invFinanceXjllMapper;
     @Resource
     private InvFinanceBfbMapper invFinanceBfbMapper;
-    @Resource
-    private InvIndustryCsrcMapper invIndustryCsrcMapper;
-    @Resource
-    private InvCompanyIndustryCsrcMapper invCompanyIndustryCsrcMapper;
-    @Resource
-    private InvIndustryEmMapper invIndustryEmMapper;
-    @Resource
-    private InvCompanyIndustryEmMapper invCompanyIndustryEmMapper;
 
     /**
      * 异步执行 公司概况 任务
@@ -202,78 +194,6 @@ public class MyQuartzAsyncTask {
                 invIndustryEmTask(company, count);
             } else {
                 log.error(">>>MyQuartzAsyncTask.invIndustryEmTask(" + company + ")异常:", e);
-            }
-        }
-    }
-
-    /**
-     * 异步执行 公司所属证监会行业
-     */
-    @Async("threadPoolTaskExecutor")
-    public void invCompanyIndustryCsrcTask(InvCompany company, AtomicInteger count) {
-        try {
-            String industryCsrc = company.getIndustrycsrc1();
-            if (StringUtils.isNotEmpty(industryCsrc)) {
-                String[] industryCsrcs = industryCsrc.split("-");
-                InvCompanyIndustryCsrc invCompanyIndustryCsrc = new InvCompanyIndustryCsrc();
-                for (int i = 0; i < industryCsrcs.length; i++) {
-                    InvIndustryCsrc invIndustryCsrc = new InvIndustryCsrc();
-                    String mergeName = "";
-                    for (int j = 0; j <= i; j++) {
-                        if (StringUtils.isNotEmpty(mergeName)) {
-                            mergeName = mergeName + "-" + industryCsrcs[j];
-                        } else {
-                            mergeName = industryCsrcs[j];
-                        }
-                    }
-                    invIndustryCsrc.setMergeName(mergeName);
-                    invCompanyIndustryCsrc.setCode(company.getCode());
-                    invCompanyIndustryCsrc.setLevel(i + 1);
-                    //invCompanyIndustryCsrc.setIndustryCsrcId(RyTask.invIndustryEmMap.get(mergeName).getId());
-                    invCompanyIndustryCsrcMapper.insertInvCompanyIndustryCsrc(invCompanyIndustryCsrc);
-                }
-            }
-        } catch (Exception e) {
-            if (count.get() > 0) {
-                count.decrementAndGet();
-                invCompanyIndustryCsrcTask(company, count);
-            } else {
-                log.error(">>>MyQuartzAsyncTask.invCompanyIndustryCsrcTask(" + company + ")异常:", e);
-            }
-        }
-    }
-
-    /**
-     * 异步执行 公司所属东财行业
-     */
-    @Async("threadPoolTaskExecutor")
-    public void invCompanyIndustryEmTask(InvCompany company, AtomicInteger count) {
-        try {
-            String industryEm = company.getEm2016();
-            String[] industryEms = industryEm.split("-");
-            InvCompanyIndustryEm invCompanyIndustryEm = new InvCompanyIndustryEm();
-            for (int i = 0; i < industryEms.length; i++) {
-                String mergeName = "";
-                for (int j = 0; j <= i; j++) {
-                    if (StringUtils.isNotEmpty(mergeName)) {
-                        mergeName = mergeName + "-" + industryEms[j];
-                    } else {
-                        mergeName = industryEms[j];
-                    }
-                }
-                InvIndustryEm invIndustryEm = new InvIndustryEm();
-                invIndustryEm.setMergeName(mergeName);
-                invCompanyIndustryEm.setCode(company.getCode());
-                invCompanyIndustryEm.setLevel(i + 1);
-                //invCompanyIndustryEm.setIndustryEmId(RyTask.invIndustryCsrcMap.get(mergeName).getId());
-                invCompanyIndustryEmMapper.insertInvCompanyIndustryEm(invCompanyIndustryEm);
-            }
-        } catch (Exception e) {
-            if (count.get() > 0) {
-                count.decrementAndGet();
-                invCompanyIndustryEmTask(company, count);
-            } else {
-                log.error(">>>MyQuartzAsyncTask.invCompanyIndustryEmTask(" + company + ")异常:", e);
             }
         }
     }

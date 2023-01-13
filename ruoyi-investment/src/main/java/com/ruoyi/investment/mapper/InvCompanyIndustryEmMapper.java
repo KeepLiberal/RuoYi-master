@@ -27,6 +27,13 @@ public interface InvCompanyIndustryEmMapper {
     public List<InvCompanyIndustryEm> selectInvCompanyIndustryEmList(InvCompanyIndustryEm invCompanyIndustryEm);
 
     /**
+     * 查询所属东财行业列表
+     *
+     * @return 所属东财行业集合
+     */
+    public List<InvCompanyIndustryEm> selectInvCompanyIndustryEmList();
+
+    /**
      * 新增所属东财行业
      * 
      * @param invCompanyIndustryEm 所属东财行业
