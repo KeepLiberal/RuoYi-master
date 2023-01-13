@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysAreaMapper">
+    
+    <resultMap type="SysArea" id="SysAreaResult">
+        <result property="id"    column="id"    />
+        <result property="pid"    column="pid"    />
+        <result property="shortName"    column="short_name"    />
+        <result property="name"    column="name"    />
+        <result property="mergeName"    column="merge_name"    />
+        <result property="level"    column="level"    />
+        <result property="pinyin"    column="pinyin"    />
+        <result property="code"    column="code"    />
+        <result property="zip"    column="zip"    />
+        <result property="first"    column="first"    />
+        <result property="lng"    column="lng"    />
+        <result property="lat"    column="lat"    />
+    </resultMap>
+
+    <sql id="selectSysAreaVo">
+        select id, pid, short_name, name, merge_name, level, pinyin, code, zip, first, lng, lat from sys_area
+    </sql>
+
+    <select id="selectSysAreaList" parameterType="SysArea" resultMap="SysAreaResult">
+        <include refid="selectSysAreaVo"/>
+        <where>  
+            <if test="pid != null "> and pid = #{pid}</if>
+            <if test="shortName != null  and shortName != ''"> and short_name like concat('%', #{shortName}, '%')</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="mergeName != null  and mergeName != ''"> and merge_name like concat('%', #{mergeName}, '%')</if>
+            <if test="level != null "> and level = #{level}</if>
+            <if test="pinyin != null  and pinyin != ''"> and pinyin = #{pinyin}</if>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="zip != null  and zip != ''"> and zip = #{zip}</if>
+            <if test="first != null  and first != ''"> and first = #{first}</if>
+            <if test="lng != null  and lng != ''"> and lng = #{lng}</if>
+            <if test="lat != null  and lat != ''"> and lat = #{lat}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysAreaById" parameterType="Integer" resultMap="SysAreaResult">
+        <include refid="selectSysAreaVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysArea" parameterType="SysArea" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_area
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pid != null">pid,</if>
+            <if test="shortName != null">short_name,</if>
+            <if test="name != null">name,</if>
+            <if test="mergeName != null">merge_name,</if>
+            <if test="level != null">level,</if>
+            <if test="pinyin != null">pinyin,</if>
+            <if test="code != null">code,</if>
+            <if test="zip != null">zip,</if>
+            <if test="first != null">first,</if>
+            <if test="lng != null">lng,</if>
+            <if test="lat != null">lat,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pid != null">#{pid},</if>
+            <if test="shortName != null">#{shortName},</if>
+            <if test="name != null">#{name},</if>
+            <if test="mergeName != null">#{mergeName},</if>
+            <if test="level != null">#{level},</if>
+            <if test="pinyin != null">#{pinyin},</if>
+            <if test="code != null">#{code},</if>
+            <if test="zip != null">#{zip},</if>
+            <if test="first != null">#{first},</if>
+            <if test="lng != null">#{lng},</if>
+            <if test="lat != null">#{lat},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysArea" parameterType="SysArea">
+        update sys_area
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pid != null">pid = #{pid},</if>
+            <if test="shortName != null">short_name = #{shortName},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="mergeName != null">merge_name = #{mergeName},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="pinyin != null">pinyin = #{pinyin},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="zip != null">zip = #{zip},</if>
+            <if test="first != null">first = #{first},</if>
+            <if test="lng != null">lng = #{lng},</if>
+            <if test="lat != null">lat = #{lat},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysAreaById" parameterType="Integer">
+        delete from sys_area where id = #{id}
+    </delete>
+
+    <delete id="deleteSysAreaByIds" parameterType="String">
+        delete from sys_area where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

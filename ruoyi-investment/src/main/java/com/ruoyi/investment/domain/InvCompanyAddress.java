@@ -21,6 +21,10 @@ public class InvCompanyAddress extends BaseEntity{
     @Excel(name = "股票代码")
     private String code;
 
+    /** 地址类型 */
+    @Excel(name = "地址类型")
+    private String type;
+
     /** 级别 */
     @Excel(name = "级别")
     private Integer level;
@@ -35,6 +39,9 @@ public class InvCompanyAddress extends BaseEntity{
     public void setCode(String code){this.code = code;}
     public String getCode(){return code;}
 
+    public void setType(String type){this.type = type;}
+    public String getType(){return type;}
+
     public void setLevel(Integer level){this.level = level;}
     public Integer getLevel(){return level;}
 
@@ -47,6 +54,7 @@ public class InvCompanyAddress extends BaseEntity{
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
             .append("code", getCode())
+            .append("type", getType())
             .append("level", getLevel())
             .append("areaId", getAreaId())
             .toString();

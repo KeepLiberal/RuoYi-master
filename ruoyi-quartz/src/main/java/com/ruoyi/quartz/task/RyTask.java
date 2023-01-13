@@ -10,6 +10,8 @@ import com.ruoyi.investment.domain.*;
 import com.ruoyi.investment.mapper.*;
 import com.ruoyi.quartz.async.InvestmentDataAsyncTask;
 import com.ruoyi.quartz.util.TaskUtils;
+import com.ruoyi.system.domain.SysArea;
+import com.ruoyi.system.mapper.SysAreaMapper;
 import com.ruoyi.system.mapper.SysDictDataMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
@@ -42,11 +44,11 @@ public class RyTask {
     @Resource
     private InvIndustryEmMapper invIndustryEmMapper;
     @Resource
-    private InvCompanyIndustryEmMapper invCompanyIndustryEmMapper;
-    @Resource
-    private InvCompanyIndustryCsrcMapper invCompanyIndustryCsrcMapper;
+    private InvCompanyAddressMapper invCompanyAddressMapper;
     @Resource
     private SysDictDataMapper dictDataMapper;
+    @Resource
+    private SysAreaMapper sysAreaMapper;
 
     /**
      * 容器中的线程池
@@ -150,7 +152,7 @@ public class RyTask {
         log.info("========沪深A股-公司概况 任务开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
         for (InvStock stock : stockList) {
-            investmentDataAsyncTask.invCompanyTask(stock, ev.getProperty("inv.company-company-ajax"), new AtomicInteger(10));
+            //investmentDataAsyncTask.invCompanyTask(stock, ev.getProperty("inv.company-company-ajax"), new AtomicInteger(10));
         }
         isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========沪深A股-公司概况 任务完成=========");
@@ -160,82 +162,7 @@ public class RyTask {
         invIndustryEm(companyList);
         invCompanyIndustryCsrc(companyList);
         invCompanyIndustryEm(companyList);
-    }
-
-    /**
-     * 财务分析
-     */
-    private void invFinance() {
-        log.info("========财务分析-报告日期 任务开始=========");
-        List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
-        for (InvStock stock : stockList) {
-            investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-zcfz-date-bgq"), "zcfz", "bgq", new AtomicInteger(10));
-            investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-zcfz-date-nd"), "zcfz", "nd", new AtomicInteger(10));
-
-            investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-lr-date-bgq"), "lr", "bgq", new AtomicInteger(10));
-            investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-lr-date-nd"), "lr", "nd", new AtomicInteger(10));
-            investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-lr-date-jd"), "lr", "jd", new AtomicInteger(10));
-
-            investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-xjll-date-bgq"), "xjll", "bgq", new AtomicInteger(10));
-            investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-xjll-date-nd"), "xjll", "nd", new AtomicInteger(10));
-            investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-xjll-date-jd"), "xjll", "jd", new AtomicInteger(10));
-        }
-        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========财务分析-报告日期 任务完成=========");
-
-        log.info("========财务分析-重要指标 任务开始=========");
-        for (InvStock stock : stockList) {
-            investmentDataAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-ajax-bgq"), "bgq", new AtomicInteger(10));
-            investmentDataAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-ajax-nd"), "nd", new AtomicInteger(10));
-            investmentDataAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-ajax-jd"), "jd", new AtomicInteger(10));
-        }
-        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========财务分析-重要指标 任务完成=========");
-
-        log.info("========财务分析-杜邦分析 任务开始=========");
-        for (InvStock stock : stockList) {
-            investmentDataAsyncTask.invFinanceDbfxTask(stock, ev.getProperty("inv.finance-dbfx-ajax"), new AtomicInteger(10));
-        }
-        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========财务分析-杜邦分析 任务完成=========");
-
-        log.info("========财务分析-资产负债 任务开始=========");
-        SysDictData dictData = new SysDictData();
-        dictData.setDictType("opinion_type");
-        List<SysDictData> dictDatas = dictDataMapper.selectDictDataList(dictData);
-        for (InvStock stock : stockList) {
-            investmentDataAsyncTask.invFinanceZcfzTask(stock, ev.getProperty("inv.finance-zcfz-ajax-bgq"), "zcfz", "bgq", dictDatas, new AtomicInteger(10));
-            investmentDataAsyncTask.invFinanceZcfzTask(stock, ev.getProperty("inv.finance-zcfz-ajax-nd"), "zcfz", "nd", dictDatas, new AtomicInteger(10));
-        }
-        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========财务分析-资产负债 任务完成=========");
-
-        log.info("========财务分析-利润 任务开始=========");
-        for (InvStock stock : stockList) {
-            investmentDataAsyncTask.invFinanceLrTask(stock, ev.getProperty("inv.finance-lr-ajax-bgq"), "lr", "bgq", dictDatas, new AtomicInteger(10));
-            investmentDataAsyncTask.invFinanceLrTask(stock, ev.getProperty("inv.finance-lr-ajax-nd"), "lr", "nd", dictDatas, new AtomicInteger(10));
-            investmentDataAsyncTask.invFinanceLrTask(stock, ev.getProperty("inv.finance-lr-ajax-jd"), "lr", "jd", dictDatas, new AtomicInteger(10));
-        }
-        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========财务分析-利润 任务完成=========");
-
-        log.info("========财务分析-现金流量 任务开始=========");
-        for (InvStock stock : stockList) {
-            investmentDataAsyncTask.invFinanceXjllTask(stock, ev.getProperty("inv.finance-xjll-ajax-bgq"), "xjll", "bgq", dictDatas, new AtomicInteger(10));
-            investmentDataAsyncTask.invFinanceXjllTask(stock, ev.getProperty("inv.finance-xjll-ajax-nd"), "xjll", "nd", dictDatas, new AtomicInteger(10));
-            investmentDataAsyncTask.invFinanceXjllTask(stock, ev.getProperty("inv.finance-xjll-ajax-jd"), "xjll", "jd", dictDatas, new AtomicInteger(10));
-        }
-        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========财务分析-现金流量 任务完成=========");
-
-        log.info("========财务分析-百分比 任务开始=========");
-        for (InvStock stock : stockList) {
-            investmentDataAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-ajax-bgq"), "bgq", new AtomicInteger(10));
-            investmentDataAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-ajax-nd"), "nd", new AtomicInteger(10));
-            investmentDataAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-ajax-jd"), "jd", new AtomicInteger(10));
-        }
-        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========财务分析-百分比 任务完成=========");
+        invCompanyAddress(companyList);
     }
 
     /**
@@ -317,9 +244,6 @@ public class RyTask {
                     if (invIndustryEms.equals(em)) {
                         invIndustryEm.setId(em.getId());
                         invIndustryEm.setPid(em.getPid());
-                        if ("肉制品".equals(invIndustryEm.getName()) && "食品饮料-食品-肉制品".equals(invIndustryEm.getMergeName())) {
-                            System.out.println(invIndustryEm);
-                        }
                     }
                 }
             }
@@ -372,56 +296,18 @@ public class RyTask {
      */
     private void invCompanyIndustryCsrc(List<InvCompany> companyList) {
         try {
-            log.info("========所属证监会行业 任务开始=========");
+            log.info("========公司所属证监会行业 任务开始=========");
             List<InvIndustryCsrc> invIndustryCsrcs = invIndustryCsrcMapper.selectInvIndustryCsrcList();
             Map<String, InvIndustryCsrc> invIndustryCsrcMap = new HashMap<>();
             for (InvIndustryCsrc invIndustryCsrc : invIndustryCsrcs) {
                 String key = invIndustryCsrc.getMergeName() + invIndustryCsrc.getLevel();
                 invIndustryCsrcMap.put(key, invIndustryCsrc);
             }
-            List<InvCompanyIndustryCsrc> invCompanyIndustryCsrcs = invCompanyIndustryCsrcMapper.selectInvCompanyIndustryCsrcList();
-            Map<String, InvCompanyIndustryCsrc> invCompanyIndustryCsrcMap = new HashMap<>();
-            for (InvCompanyIndustryCsrc invCompanyIndustryCsrc : invCompanyIndustryCsrcs) {
-                String key = invCompanyIndustryCsrc.getCode() + invCompanyIndustryCsrc.getLevel();
-                invCompanyIndustryCsrcMap.put(key, invCompanyIndustryCsrc);
-            }
             for (InvCompany company : companyList) {
-                String industryCsrc = company.getIndustrycsrc1();
-                if (StringUtils.isNotEmpty(industryCsrc)) {
-                    String[] industryCsrcs = industryCsrc.split("-");
-
-                    for (int i = 0; i < industryCsrcs.length; i++) {
-                        String mergeName = "";
-                        for (int j = 0; j <= i; j++) {
-                            if (StringUtils.isNotEmpty(mergeName)) {
-                                mergeName = mergeName + "-" + industryCsrcs[j];
-                            } else {
-                                mergeName = industryCsrcs[j];
-                            }
-                        }
-                        int level = i + 1;
-
-                        String invIndustryCsrcMapKey = mergeName + level;
-                        if (invIndustryCsrcMap.containsKey(invIndustryCsrcMapKey)) {
-                            InvCompanyIndustryCsrc invCompanyIndustryCsrc = new InvCompanyIndustryCsrc();
-                            invCompanyIndustryCsrc.setCode(company.getCode());
-                            invCompanyIndustryCsrc.setLevel(level);
-                            invCompanyIndustryCsrc.setIndustryCsrcId(invIndustryCsrcMap.get(invIndustryCsrcMapKey).getId());
-
-                            String invCompanyIndustryCsrcMapKey = invCompanyIndustryCsrc.getCode() + invCompanyIndustryCsrc.getLevel();
-                            if (invCompanyIndustryCsrcMap.containsKey(invCompanyIndustryCsrcMapKey)) {
-                                if (!invCompanyIndustryCsrcMap.get(invCompanyIndustryCsrcMapKey).equals(invCompanyIndustryCsrc)) {
-                                    invCompanyIndustryCsrcMapper.deleteInvCompanyIndustryCsrcById(invCompanyIndustryCsrcMap.get(invCompanyIndustryCsrcMapKey).getId());
-                                    invCompanyIndustryCsrcMapper.insertInvCompanyIndustryCsrc(invCompanyIndustryCsrc);
-                                }
-                            } else {
-                                invCompanyIndustryCsrcMapper.insertInvCompanyIndustryCsrc(invCompanyIndustryCsrc);
-                            }
-                        }
-                    }
-                }
+                investmentDataAsyncTask.invCompanyIndustryCsrc(company, invIndustryCsrcMap, new AtomicInteger(10));
             }
-            log.info("========所属证监会行业 任务完成=========");
+            isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+            log.info("========公司所属证监会行业 任务完成=========");
         } catch (Exception e) {
             log.error(">>>异常:", e);
         }
@@ -432,59 +318,120 @@ public class RyTask {
      */
     private void invCompanyIndustryEm(List<InvCompany> companyList) {
         try {
-            log.info("========所属东财行业 任务开始=========");
+            log.info("========公司所属东财行业 任务开始=========");
             List<InvIndustryEm> invIndustryEms = invIndustryEmMapper.selectInvIndustryEmList();
             Map<String, InvIndustryEm> invIndustryEmMap = new HashMap<>();
             for (InvIndustryEm invIndustryEm : invIndustryEms) {
                 String key = invIndustryEm.getMergeName() + invIndustryEm.getLevel();
                 invIndustryEmMap.put(key, invIndustryEm);
             }
-            List<InvCompanyIndustryEm> invCompanyIndustryEms = invCompanyIndustryEmMapper.selectInvCompanyIndustryEmList();
-            Map<String, InvCompanyIndustryEm> invCompanyIndustryEmMap = new HashMap<>();
-            for (InvCompanyIndustryEm invCompanyIndustryEm : invCompanyIndustryEms) {
-                String key = invCompanyIndustryEm.getCode() + invCompanyIndustryEm.getLevel();
-                invCompanyIndustryEmMap.put(key, invCompanyIndustryEm);
-            }
             for (InvCompany company : companyList) {
-                String industryEm = company.getEm2016();
-                if (StringUtils.isNotEmpty(industryEm)) {
-                    String[] industryEms = industryEm.split("-");
-
-                    for (int i = 0; i < industryEms.length; i++) {
-                        String mergeName = "";
-                        for (int j = 0; j <= i; j++) {
-                            if (StringUtils.isNotEmpty(mergeName)) {
-                                mergeName = mergeName + "-" + industryEms[j];
-                            } else {
-                                mergeName = industryEms[j];
-                            }
-                        }
-                        int level = i + 1;
-
-                        String invIndustryEmMapKey = mergeName + level;
-                        if (invIndustryEmMap.containsKey(invIndustryEmMapKey)) {
-                            InvCompanyIndustryEm invCompanyIndustryEm = new InvCompanyIndustryEm();
-                            invCompanyIndustryEm.setCode(company.getCode());
-                            invCompanyIndustryEm.setLevel(level);
-                            invCompanyIndustryEm.setIndustryEmId(invIndustryEmMap.get(invIndustryEmMapKey).getId());
-
-                            String invCompanyIndustryEmMapKey = invCompanyIndustryEm.getCode() + invCompanyIndustryEm.getLevel();
-                            if (invCompanyIndustryEmMap.containsKey(invCompanyIndustryEmMapKey)) {
-                                if (!invCompanyIndustryEmMap.get(invCompanyIndustryEmMapKey).equals(invCompanyIndustryEm)) {
-                                    invCompanyIndustryEmMapper.deleteInvCompanyIndustryEmById(invCompanyIndustryEmMap.get(invCompanyIndustryEmMapKey).getId());
-                                    invCompanyIndustryEmMapper.insertInvCompanyIndustryEm(invCompanyIndustryEm);
-                                }
-                            } else {
-                                invCompanyIndustryEmMapper.insertInvCompanyIndustryEm(invCompanyIndustryEm);
-                            }
-                        }
-                    }
-                }
+                investmentDataAsyncTask.invCompanyIndustryEm(company, invIndustryEmMap, new AtomicInteger(10));
             }
-            log.info("========所属东财行业 任务完成=========");
+            isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+            log.info("========公司所属东财行业 任务完成=========");
         } catch (Exception e) {
             log.error(">>>异常:", e);
         }
+    }
+
+    /**
+     * 公司办公地址、注册地址
+     */
+    private void invCompanyAddress(List<InvCompany> companyList) {
+        try {
+            log.info("========公司办公地址、注册地址 任务开始=========");
+            List<SysArea> sysAreas = sysAreaMapper.selectSysAreaList();
+            Map<String, SysArea> sysAreasMap = new HashMap<>();
+            for (SysArea sysArea : sysAreas) {
+                String key = sysArea.getName() + sysArea.getLevel();
+                sysAreasMap.put(key, sysArea);
+            }
+            for (InvCompany company : companyList) {
+                investmentDataAsyncTask.invCompanyAddress(company, sysAreasMap, new AtomicInteger(10));
+            }
+            isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+            log.info("========公司办公地址、注册地址 任务完成=========");
+        } catch (Exception e) {
+            log.error(">>>异常:", e);
+        }
+    }
+
+
+    /**
+     * 财务分析
+     */
+    private void invFinance() {
+        log.info("========财务分析-报告日期 任务开始=========");
+        List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
+        for (InvStock stock : stockList) {
+            investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-zcfz-date-bgq"), "zcfz", "bgq", new AtomicInteger(10));
+            investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-zcfz-date-nd"), "zcfz", "nd", new AtomicInteger(10));
+
+            investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-lr-date-bgq"), "lr", "bgq", new AtomicInteger(10));
+            investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-lr-date-nd"), "lr", "nd", new AtomicInteger(10));
+            investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-lr-date-jd"), "lr", "jd", new AtomicInteger(10));
+
+            investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-xjll-date-bgq"), "xjll", "bgq", new AtomicInteger(10));
+            investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-xjll-date-nd"), "xjll", "nd", new AtomicInteger(10));
+            investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-xjll-date-jd"), "xjll", "jd", new AtomicInteger(10));
+        }
+        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        log.info("========财务分析-报告日期 任务完成=========");
+
+        log.info("========财务分析-重要指标 任务开始=========");
+        for (InvStock stock : stockList) {
+            investmentDataAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-ajax-bgq"), "bgq", new AtomicInteger(10));
+            investmentDataAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-ajax-nd"), "nd", new AtomicInteger(10));
+            investmentDataAsyncTask.invFinanceZyzbTask(stock, ev.getProperty("inv.finance-zyzb-ajax-jd"), "jd", new AtomicInteger(10));
+        }
+        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        log.info("========财务分析-重要指标 任务完成=========");
+
+        log.info("========财务分析-杜邦分析 任务开始=========");
+        for (InvStock stock : stockList) {
+            investmentDataAsyncTask.invFinanceDbfxTask(stock, ev.getProperty("inv.finance-dbfx-ajax"), new AtomicInteger(10));
+        }
+        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        log.info("========财务分析-杜邦分析 任务完成=========");
+
+        log.info("========财务分析-资产负债 任务开始=========");
+        SysDictData dictData = new SysDictData();
+        dictData.setDictType("opinion_type");
+        List<SysDictData> dictDatas = dictDataMapper.selectDictDataList(dictData);
+        for (InvStock stock : stockList) {
+            investmentDataAsyncTask.invFinanceZcfzTask(stock, ev.getProperty("inv.finance-zcfz-ajax-bgq"), "zcfz", "bgq", dictDatas, new AtomicInteger(10));
+            investmentDataAsyncTask.invFinanceZcfzTask(stock, ev.getProperty("inv.finance-zcfz-ajax-nd"), "zcfz", "nd", dictDatas, new AtomicInteger(10));
+        }
+        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        log.info("========财务分析-资产负债 任务完成=========");
+
+        log.info("========财务分析-利润 任务开始=========");
+        for (InvStock stock : stockList) {
+            investmentDataAsyncTask.invFinanceLrTask(stock, ev.getProperty("inv.finance-lr-ajax-bgq"), "lr", "bgq", dictDatas, new AtomicInteger(10));
+            investmentDataAsyncTask.invFinanceLrTask(stock, ev.getProperty("inv.finance-lr-ajax-nd"), "lr", "nd", dictDatas, new AtomicInteger(10));
+            investmentDataAsyncTask.invFinanceLrTask(stock, ev.getProperty("inv.finance-lr-ajax-jd"), "lr", "jd", dictDatas, new AtomicInteger(10));
+        }
+        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        log.info("========财务分析-利润 任务完成=========");
+
+        log.info("========财务分析-现金流量 任务开始=========");
+        for (InvStock stock : stockList) {
+            investmentDataAsyncTask.invFinanceXjllTask(stock, ev.getProperty("inv.finance-xjll-ajax-bgq"), "xjll", "bgq", dictDatas, new AtomicInteger(10));
+            investmentDataAsyncTask.invFinanceXjllTask(stock, ev.getProperty("inv.finance-xjll-ajax-nd"), "xjll", "nd", dictDatas, new AtomicInteger(10));
+            investmentDataAsyncTask.invFinanceXjllTask(stock, ev.getProperty("inv.finance-xjll-ajax-jd"), "xjll", "jd", dictDatas, new AtomicInteger(10));
+        }
+        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        log.info("========财务分析-现金流量 任务完成=========");
+
+        log.info("========财务分析-百分比 任务开始=========");
+        for (InvStock stock : stockList) {
+            investmentDataAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-ajax-bgq"), "bgq", new AtomicInteger(10));
+            investmentDataAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-ajax-nd"), "nd", new AtomicInteger(10));
+            investmentDataAsyncTask.invFinanceBfbTask(stock, ev.getProperty("inv.finance-bfb-ajax-jd"), "jd", new AtomicInteger(10));
+        }
+        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        log.info("========财务分析-百分比 任务完成=========");
     }
 
     /**
@@ -496,11 +443,9 @@ public class RyTask {
         log.info("================数据初始化任务 开始=================");
 
         invStock();
-
-
         invCompany();
+        //invFinance();
 
-        invFinance();
         log.info("================数据初始化任务 完成=================");
     }
 
@@ -580,4 +525,6 @@ public class RyTask {
     public void ryMultipleParams(String s, Boolean b, Long l, Double d, Integer i) {
         System.out.println(StringUtils.format("执行多参方法： 字符串类型{}，布尔类型{}，长整型{}，浮点型{}，整形{}", s, b, l, d, i));
     }
+
+
 }

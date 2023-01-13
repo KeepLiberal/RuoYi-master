@@ -64,4 +64,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
+    <delete id="deleteInvCompanyIndustryEm" parameterType="InvCompanyIndustryEm">
+        delete from inv_company_industry_em
+        <where>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="level != null "> and level = #{level}</if>
+        </where>
+    </delete>
+
 </mapper>

@@ -7,18 +7,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="InvCompanyAddress" id="InvCompanyAddressResult">
         <result property="id"    column="id"    />
         <result property="code"    column="code"    />
+        <result property="type"    column="type"    />
         <result property="level"    column="level"    />
         <result property="areaId"    column="area_id"    />
     </resultMap>
 
     <sql id="selectInvCompanyAddressVo">
-        select id, code, level, area_id from inv_company_address
+        select id, code, type, level, area_id from inv_company_address
     </sql>
 
     <select id="selectInvCompanyAddressList" parameterType="InvCompanyAddress" resultMap="InvCompanyAddressResult">
         <include refid="selectInvCompanyAddressVo"/>
         <where>  
             <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
             <if test="level != null "> and level = #{level}</if>
             <if test="areaId != null "> and area_id = #{areaId}</if>
         </where>
@@ -33,11 +35,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into inv_company_address
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="code != null and code != ''">code,</if>
+            <if test="type != null and type != ''">type,</if>
             <if test="level != null">level,</if>
             <if test="areaId != null">area_id,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="code != null and code != ''">#{code},</if>
+            <if test="type != null and type != ''">#{type},</if>
             <if test="level != null">#{level},</if>
             <if test="areaId != null">#{areaId},</if>
          </trim>
@@ -47,6 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update inv_company_address
         <trim prefix="SET" suffixOverrides=",">
             <if test="code != null and code != ''">code = #{code},</if>
+            <if test="type != null and type != ''">type = #{type},</if>
             <if test="level != null">level = #{level},</if>
             <if test="areaId != null">area_id = #{areaId},</if>
         </trim>
@@ -62,6 +67,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
+    </delete>
+
+    <delete id="deleteInvCompanyAddress" parameterType="InvCompanyAddress">
+        delete from inv_company_address
+        <where>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="level != null "> and level = #{level}</if>
+        </where>
     </delete>
 
 </mapper>

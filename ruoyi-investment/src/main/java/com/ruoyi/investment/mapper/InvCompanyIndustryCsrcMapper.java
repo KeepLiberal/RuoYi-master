@@ -58,6 +58,14 @@ public interface InvCompanyIndustryCsrcMapper {
     public int deleteInvCompanyIndustryCsrcById(Integer id);
 
     /**
+     * 删除所属证监会行业
+     *
+     * @param invCompanyIndustryCsrc 所属证监会行业
+     * @return 结果
+     */
+    public int deleteInvCompanyIndustryCsrc(InvCompanyIndustryCsrc invCompanyIndustryCsrc);
+
+    /**
      * 批量删除所属证监会行业
      * 
      * @param ids 需要删除的数据主键集合

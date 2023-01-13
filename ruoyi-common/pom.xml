@@ -119,6 +119,13 @@
             <artifactId>jsoup</artifactId>
         </dependency>
 
+        <!-- 将中文转换为拼音 -->
+        <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+        </dependency>
+
+
     </dependencies>
 
 </project>

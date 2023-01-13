@@ -58,6 +58,14 @@ public interface InvCompanyIndustryEmMapper {
     public int deleteInvCompanyIndustryEmById(Integer id);
 
     /**
+     * 删除所属东财行业
+     *
+     * @param invCompanyIndustryEm 所属东财行业
+     * @return 结果
+     */
+    public int deleteInvCompanyIndustryEm(InvCompanyIndustryEm invCompanyIndustryEm);
+
+    /**
      * 批量删除所属东财行业
      * 
      * @param ids 需要删除的数据主键集合

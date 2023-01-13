@@ -11,6 +11,8 @@ import com.ruoyi.investment.domain.*;
 import com.ruoyi.investment.mapper.*;
 import com.ruoyi.quartz.task.RyTask;
 import com.ruoyi.quartz.util.TaskUtils;
+import com.ruoyi.system.domain.SysArea;
+import com.ruoyi.system.mapper.SysAreaMapper;
 import com.ruoyi.system.mapper.SysDictDataMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -37,6 +39,12 @@ public class InvestmentDataAsyncTask {
     @Resource
     private InvCompanyMapper invCompanyMapper;
     @Resource
+    private InvCompanyIndustryEmMapper invCompanyIndustryEmMapper;
+    @Resource
+    private InvCompanyIndustryCsrcMapper invCompanyIndustryCsrcMapper;
+    @Resource
+    private InvCompanyAddressMapper invCompanyAddressMapper;
+    @Resource
     private InvFinanceReportDateMapper invFinanceReportDateMapper;
     @Resource
     private InvFinanceZyzbMapper invFinanceZyzbMapper;
@@ -50,6 +58,7 @@ public class InvestmentDataAsyncTask {
     private InvFinanceXjllMapper invFinanceXjllMapper;
     @Resource
     private InvFinanceBfbMapper invFinanceBfbMapper;
+
 
     /**
      * 异步执行 公司概况 任务
@@ -117,7 +126,7 @@ public class InvestmentDataAsyncTask {
                 count.decrementAndGet();
                 invCompanyTask(stock, urlStr, count);
             } else {
-                log.error(">>>MyQuartzAsyncTask.invCompanyTask(" + urlStr + ")异常:", e);
+                log.error(">>>异常:", e);
             }
         }
     }
@@ -131,12 +140,11 @@ public class InvestmentDataAsyncTask {
             if (StringUtils.isNotEmpty(industryCsrc)) {
                 String[] industryCsrcs = industryCsrc.split("-");
                 for (int i = 0; i < industryCsrcs.length; i++) {
-                    InvIndustryCsrc invIndustryCsrc = new InvIndustryCsrc();
+                    int level = i + 1;
                     String name = industryCsrcs[i];
+                    String fullPinyin = StringUtils.getFullPinyin(name);
+                    String pinyinInitial = StringUtils.getPinyinInitial(name);
                     String shortName = name.replace("业", "");
-                    invIndustryCsrc.setShortName(shortName);
-                    invIndustryCsrc.setName(name);
-                    invIndustryCsrc.setLevel(i + 1);
                     String mergeName = "";
                     for (int j = 0; j <= i; j++) {
                         if (StringUtils.isNotEmpty(mergeName)) {
@@ -145,7 +153,15 @@ public class InvestmentDataAsyncTask {
                             mergeName = industryCsrcs[j];
                         }
                     }
+
+                    InvIndustryCsrc invIndustryCsrc = new InvIndustryCsrc();
+                    invIndustryCsrc.setShortName(shortName);
+                    invIndustryCsrc.setName(name);
+                    invIndustryCsrc.setLevel(level);
                     invIndustryCsrc.setMergeName(mergeName);
+                    invIndustryCsrc.setPinyin(fullPinyin);
+                    invIndustryCsrc.setFirst(pinyinInitial);
+
                     RyTask.invIndustryCsrcSet.add(invIndustryCsrc);
                 }
             }
@@ -154,7 +170,7 @@ public class InvestmentDataAsyncTask {
                 count.decrementAndGet();
                 invIndustryCsrcTask(company, count);
             } else {
-                log.error(">>>MyQuartzAsyncTask.invIndustryCsrcTask(" + company + ")异常:", e);
+                log.error(">>>异常:", e);
             }
         }
     }
@@ -168,12 +184,11 @@ public class InvestmentDataAsyncTask {
             if (StringUtils.isNotEmpty(industryEm)) {
                 String[] industryEms = industryEm.split("-");
                 for (int i = 0; i < industryEms.length; i++) {
-                    InvIndustryEm invIndustryEm = new InvIndustryEm();
+                    int level = i + 1;
                     String name = industryEms[i];
+                    String fullPinyin = StringUtils.getFullPinyin(name);
+                    String pinyinInitial = StringUtils.getPinyinInitial(name);
                     String shortName = name.replace("业", "");
-                    invIndustryEm.setShortName(shortName);
-                    invIndustryEm.setName(name);
-                    invIndustryEm.setLevel(i + 1);
                     String mergeName = "";
                     for (int j = 0; j <= i; j++) {
                         if (StringUtils.isNotEmpty(mergeName)) {
@@ -182,7 +197,15 @@ public class InvestmentDataAsyncTask {
                             mergeName = industryEms[j];
                         }
                     }
+
+                    InvIndustryEm invIndustryEm = new InvIndustryEm();
+                    invIndustryEm.setShortName(shortName);
+                    invIndustryEm.setName(name);
+                    invIndustryEm.setLevel(level);
                     invIndustryEm.setMergeName(mergeName);
+                    invIndustryEm.setPinyin(fullPinyin);
+                    invIndustryEm.setFirst(pinyinInitial);
+
                     RyTask.invIndustryEmSet.add(invIndustryEm);
                 }
             }
@@ -191,7 +214,182 @@ public class InvestmentDataAsyncTask {
                 count.decrementAndGet();
                 invIndustryEmTask(company, count);
             } else {
-                log.error(">>>MyQuartzAsyncTask.invIndustryEmTask(" + company + ")异常:", e);
+                log.error(">>>异常:", e);
+            }
+        }
+    }
+
+    /**
+     * 公司所属证监会行业
+     */
+    public void invCompanyIndustryCsrc(InvCompany company, Map<String, InvIndustryCsrc> invIndustryCsrcMap, AtomicInteger count) {
+        try {
+            String industryCsrc = company.getIndustrycsrc1();
+            if (StringUtils.isNotEmpty(industryCsrc)) {
+                String[] industryCsrcs = industryCsrc.split("-");
+                for (int i = 0; i < industryCsrcs.length; i++) {
+                    String mergeName = "";
+                    for (int j = 0; j <= i; j++) {
+                        if (StringUtils.isNotEmpty(mergeName)) {
+                            mergeName = mergeName + "-" + industryCsrcs[j];
+                        } else {
+                            mergeName = industryCsrcs[j];
+                        }
+                    }
+                    int level = i + 1;
+                    String invIndustryCsrcMapKey = mergeName + level;
+                    if (invIndustryCsrcMap.containsKey(invIndustryCsrcMapKey)) {
+                        InvCompanyIndustryCsrc invCompanyIndustryCsrc = new InvCompanyIndustryCsrc();
+                        invCompanyIndustryCsrc.setCode(company.getCode());
+                        invCompanyIndustryCsrc.setLevel(level);
+                        invCompanyIndustryCsrc.setIndustryCsrcId(invIndustryCsrcMap.get(invIndustryCsrcMapKey).getId());
+                        invCompanyIndustryCsrcMapper.deleteInvCompanyIndustryCsrc(invCompanyIndustryCsrc);
+                        invCompanyIndustryCsrcMapper.insertInvCompanyIndustryCsrc(invCompanyIndustryCsrc);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                invCompanyIndustryCsrc(company, invIndustryCsrcMap, count);
+            } else {
+                log.error(">>>异常:", e);
+            }
+        }
+    }
+
+    /**
+     * 公司所属东财行业
+     */
+    public void invCompanyIndustryEm(InvCompany company, Map<String, InvIndustryEm> invIndustryEmMap, AtomicInteger count) {
+        try {
+            String industryEm = company.getEm2016();
+            if (StringUtils.isNotEmpty(industryEm)) {
+                String[] industryEms = industryEm.split("-");
+                Set<InvCompanyIndustryEm> insertSet = new HashSet<>();
+                for (int i = 0; i < industryEms.length; i++) {
+                    String mergeName = "";
+                    for (int j = 0; j <= i; j++) {
+                        if (StringUtils.isNotEmpty(mergeName)) {
+                            mergeName = mergeName + "-" + industryEms[j];
+                        } else {
+                            mergeName = industryEms[j];
+                        }
+                    }
+                    int level = i + 1;
+                    String invIndustryEmMapKey = mergeName + level;
+                    if (invIndustryEmMap.containsKey(invIndustryEmMapKey)) {
+                        InvCompanyIndustryEm invCompanyIndustryEm = new InvCompanyIndustryEm();
+                        invCompanyIndustryEm.setCode(company.getCode());
+                        invCompanyIndustryEm.setLevel(level);
+                        invCompanyIndustryEm.setIndustryEmId(invIndustryEmMap.get(invIndustryEmMapKey).getId());
+                        invCompanyIndustryEmMapper.deleteInvCompanyIndustryEm(invCompanyIndustryEm);
+                        invCompanyIndustryEmMapper.insertInvCompanyIndustryEm(invCompanyIndustryEm);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                invCompanyIndustryEm(company, invIndustryEmMap, count);
+            } else {
+                log.error(">>>异常:", e);
+            }
+        }
+    }
+
+
+    /**
+     * 公司办公地址、注册地址
+     */
+    public void invCompanyAddress(InvCompany company, Map<String, SysArea> sysAreasMap, AtomicInteger count) {
+        try {
+            Map<String, String> provinceMap = new HashMap<>();
+            Map<String, String> cityMap = new HashMap<>();
+            String workAddress = company.getAddress();
+            String regAddress = company.getRegAddress();
+            if (StringUtils.isNotEmpty(workAddress)) {
+                for (String address : workAddress.split(",")) {
+                    String province = address.substring(0, address.indexOf("省") + 1).replace("中国", "");
+                    if (StringUtils.isNotEmpty(province)){
+                        provinceMap.put(province, "WOR");
+                    }
+                    String city = address.substring(address.indexOf("省") + 1, address.indexOf("市") + 1);
+                    if (StringUtils.isNotEmpty(province)){
+                        cityMap.put(city, "WOR");
+                    }
+                }
+            }
+            if (StringUtils.isNotEmpty(regAddress)) {
+                for (String address : regAddress.split(",")) {
+                    String province = address.substring(0, address.indexOf("省") + 1).replace("中国", "");
+                    if (StringUtils.isNotEmpty(province)){
+                        provinceMap.put(province, "WOR");
+                    }
+                    String city = address.substring(address.indexOf("省") + 1, address.indexOf("市") + 1);
+                    if (StringUtils.isNotEmpty(province)){
+                        cityMap.put(city, "WOR");
+                    }
+                }
+            }
+            if (provinceMap.values().contains("WOR")){
+                InvCompanyAddress invCompanyAddress = new InvCompanyAddress();
+                invCompanyAddress.setCode(company.getCode());
+                invCompanyAddress.setType("WOR");
+                invCompanyAddress.setLevel(1);
+                invCompanyAddressMapper.deleteInvCompanyAddress(invCompanyAddress);
+            }
+            if (provinceMap.values().contains("REG")){
+                InvCompanyAddress invCompanyAddress = new InvCompanyAddress();
+                invCompanyAddress.setCode(company.getCode());
+                invCompanyAddress.setType("REG");
+                invCompanyAddress.setLevel(1);
+                invCompanyAddressMapper.deleteInvCompanyAddress(invCompanyAddress);
+            }
+            if (cityMap.values().contains("WOR")){
+                InvCompanyAddress invCompanyAddress = new InvCompanyAddress();
+                invCompanyAddress.setCode(company.getCode());
+                invCompanyAddress.setType("WOR");
+                invCompanyAddress.setLevel(2);
+                invCompanyAddressMapper.deleteInvCompanyAddress(invCompanyAddress);
+            }
+            if (cityMap.values().contains("REG")){
+                InvCompanyAddress invCompanyAddress = new InvCompanyAddress();
+                invCompanyAddress.setCode(company.getCode());
+                invCompanyAddress.setType("REG");
+                invCompanyAddress.setLevel(2);
+                invCompanyAddressMapper.deleteInvCompanyAddress(invCompanyAddress);
+            }
+            for (String province : provinceMap.keySet()) {
+                int level = 1;
+                String key = province + level;
+                if (sysAreasMap.containsKey(key)) {
+                    InvCompanyAddress invCompanyAddress = new InvCompanyAddress();
+                    invCompanyAddress.setCode(company.getCode());
+                    invCompanyAddress.setType(provinceMap.get(province));
+                    invCompanyAddress.setLevel(level);
+                    invCompanyAddress.setAreaId(sysAreasMap.get(key).getId());
+                    invCompanyAddressMapper.insertInvCompanyAddress(invCompanyAddress);
+                }
+            }
+            for (String city : cityMap.keySet()) {
+                int level = 2;
+                String key = city + level;
+                if (sysAreasMap.containsKey(key)) {
+                    InvCompanyAddress invCompanyAddress = new InvCompanyAddress();
+                    invCompanyAddress.setCode(company.getCode());
+                    invCompanyAddress.setType(provinceMap.get(city));
+                    invCompanyAddress.setLevel(level);
+                    invCompanyAddress.setAreaId(sysAreasMap.get(key).getId());
+                    invCompanyAddressMapper.insertInvCompanyAddress(invCompanyAddress);
+                }
+            }
+        } catch (Exception e) {
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                invCompanyAddress(company, sysAreasMap, count);
+            } else {
+                log.error(">>>异常:", e);
             }
         }
     }
@@ -281,7 +479,7 @@ public class InvestmentDataAsyncTask {
                 count.decrementAndGet();
                 invFinanceReportDateTask(stock, urlStr, financeType, reportType, count);
             } else {
-                log.error(">>>MyQuartzAsyncTask.invFinanceReportDateTask(" + urlStr + ")异常:", e);
+                log.error(">>>异常:", e);
             }
         }
     }
@@ -352,7 +550,7 @@ public class InvestmentDataAsyncTask {
                 count.decrementAndGet();
                 invFinanceZyzbTask(stock, urlStr, reportType, count);
             } else {
-                log.error(">>>MyQuartzAsyncTask.invFinanceZyzbTask(" + urlStr + ")异常:", e);
+                log.error(">>>异常:", e);
             }
         }
     }
@@ -420,7 +618,7 @@ public class InvestmentDataAsyncTask {
                 count.decrementAndGet();
                 invFinanceDbfxTask(stock, urlStr, count);
             } else {
-                log.error(">>>MyQuartzAsyncTask.invFinanceDbfxTask(" + urlStr + ")异常:", e);
+                log.error(">>>异常:", e);
             }
         }
     }
@@ -556,7 +754,7 @@ public class InvestmentDataAsyncTask {
                 count.decrementAndGet();
                 invFinanceZcfzTask(stock, urlStr, financeType, reportType, dictDatas, count);
             } else {
-                log.error(">>>MyQuartzAsyncTask.invFinanceZcfzTask(" + urlStr + ")异常:", e);
+                log.error(">>>异常:", e);
             }
         }
     }
@@ -692,7 +890,7 @@ public class InvestmentDataAsyncTask {
                 count.decrementAndGet();
                 invFinanceLrTask(stock, urlStr, financeType, reportType, dictDatas, count);
             } else {
-                log.error(">>>MyQuartzAsyncTask.invFinanceLrTask(" + urlStr + ")异常:", e);
+                log.error(">>>异常:", e);
             }
         }
     }
@@ -828,7 +1026,7 @@ public class InvestmentDataAsyncTask {
                 count.decrementAndGet();
                 invFinanceXjllTask(stock, urlStr, financeType, reportType, dictDatas, count);
             } else {
-                log.error(">>>MyQuartzAsyncTask.invFinanceXjllTask(" + urlStr + ")异常:", e);
+                log.error(">>>异常:", e);
             }
         }
     }
@@ -912,7 +1110,7 @@ public class InvestmentDataAsyncTask {
                 count.decrementAndGet();
                 invFinanceBfbTask(stock, urlStr, reportType, count);
             } else {
-                log.error(">>>MyQuartzAsyncTask.invFinanceBfbTask(" + urlStr + ")异常:", e);
+                log.error(">>>异常:", e);
             }
         }
     }

@@ -27,6 +27,13 @@ public interface InvCompanyAddressMapper {
     public List<InvCompanyAddress> selectInvCompanyAddressList(InvCompanyAddress invCompanyAddress);
 
     /**
+     * 查询公司地址列表
+     *
+     * @return 公司地址集合
+     */
+    public List<InvCompanyAddress> selectInvCompanyAddressList();
+
+    /**
      * 新增公司地址
      * 
      * @param invCompanyAddress 公司地址
@@ -49,6 +56,14 @@ public interface InvCompanyAddressMapper {
      * @return 结果
      */
     public int deleteInvCompanyAddressById(Integer id);
+
+    /**
+     * 删除公司地址
+     *
+     * @param invCompanyAddress 公司地址
+     * @return 结果
+     */
+    public int deleteInvCompanyAddress(InvCompanyAddress invCompanyAddress);
 
     /**
      * 批量删除公司地址
