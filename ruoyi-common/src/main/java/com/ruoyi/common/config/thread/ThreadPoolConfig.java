@@ -21,10 +21,10 @@ import com.ruoyi.common.utils.Threads;
 @EnableAsync //项目中使用 @Async的话，必须配合@EnableAsync(通知配置器开启异步)，@EnableAsync加在任何类上都行，只要主启动类能扫描到就行
 public class ThreadPoolConfig {
     // 核心线程池大小
-    private int corePoolSize = 48;
+    private int corePoolSize = 24;
 
     // 最大可创建的线程数
-    private int maxPoolSize = 96;
+    private int maxPoolSize = 48;
 
     // 队列最大长度
     private int queueCapacity = 100000;
@@ -32,8 +32,27 @@ public class ThreadPoolConfig {
     // 线程池维护线程所允许的空闲时间
     private int keepAliveSeconds = 60;
 
-    @Bean(name = "threadPoolTaskExecutor")
-    public ThreadPoolTaskExecutor threadPoolTaskExecutor() {
+    /**
+     * 智能投顾专用线程池
+     */
+    @Bean(name = "investmentPolicyThreadPoolTaskExecutor")
+    public ThreadPoolTaskExecutor investmentPolicyThreadPoolTaskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(corePoolSize); //核心线程数
+        executor.setMaxPoolSize(maxPoolSize);//最大线程数
+        executor.setQueueCapacity(queueCapacity);//缓存队列
+        executor.setKeepAliveSeconds(keepAliveSeconds);//允许的空闲时间
+        executor.setThreadNamePrefix("myThread-");//设置线程名称前缀
+        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());//设置拒绝策略
+        executor.setWaitForTasksToCompleteOnShutdown(true);//等待所有任务结束后再关闭线程池
+        return executor;
+    }
+
+    /**
+     * 东财数据初始化专用线程池
+     */
+    @Bean(name = "investmentDataThreadPoolTaskExecutor")
+    public ThreadPoolTaskExecutor investmentDataThreadPoolTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(corePoolSize); //核心线程数
         executor.setMaxPoolSize(maxPoolSize);//最大线程数

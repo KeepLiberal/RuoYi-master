@@ -29,7 +29,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Slf4j
 @Component
-public class MyQuartzAsyncTask {
+@Async("investmentDataThreadPoolTaskExecutor")
+public class InvestmentDataAsyncTask {
 
     @Resource
     private InvStockMapper invStockMapper;
@@ -53,7 +54,6 @@ public class MyQuartzAsyncTask {
     /**
      * 异步执行 公司概况 任务
      */
-    @Async("threadPoolTaskExecutor")
     public void invCompanyTask(InvStock stock, String url, AtomicInteger count) {
         String urlStr = url;
         try {
@@ -125,7 +125,6 @@ public class MyQuartzAsyncTask {
     /**
      * 异步执行 证监会行业
      */
-    @Async("threadPoolTaskExecutor")
     public void invIndustryCsrcTask(InvCompany company, AtomicInteger count) {
         try {
             String industryCsrc = company.getIndustrycsrc1();
@@ -163,7 +162,6 @@ public class MyQuartzAsyncTask {
     /**
      * 异步执行 东财行业
      */
-    @Async("threadPoolTaskExecutor")
     public void invIndustryEmTask(InvCompany company, AtomicInteger count) {
         try {
             String industryEm = company.getEm2016();
@@ -201,7 +199,6 @@ public class MyQuartzAsyncTask {
     /**
      * 异步执行 财务分析-报告日期 任务
      */
-    @Async("threadPoolTaskExecutor")
     public void invFinanceReportDateTask(InvStock stock, String url, String financeType, String reportType, AtomicInteger count) {
         String urlStr = url;
         try {
@@ -292,7 +289,6 @@ public class MyQuartzAsyncTask {
     /**
      * 异步执行 财务分析-重要指标 任务
      */
-    @Async("threadPoolTaskExecutor")
     public void invFinanceZyzbTask(InvStock stock, String url, String reportType, AtomicInteger count) {
         String urlStr = url;
         try {
@@ -364,7 +360,6 @@ public class MyQuartzAsyncTask {
     /**
      * 异步执行 财务分析-杜邦分析 任务
      */
-    @Async("threadPoolTaskExecutor")
     public void invFinanceDbfxTask(InvStock stock, String url, AtomicInteger count) {
         String urlStr = url;
         try {
@@ -433,7 +428,6 @@ public class MyQuartzAsyncTask {
     /**
      * 异步执行 财务分析-资产负债 任务
      */
-    @Async("threadPoolTaskExecutor")
     public void invFinanceZcfzTask(InvStock stock, String url, String financeType, String reportType, List<SysDictData> dictDatas, AtomicInteger count) {
         String urlStr = url;
         try {
@@ -570,7 +564,6 @@ public class MyQuartzAsyncTask {
     /**
      * 异步执行 财务分析-利润 任务
      */
-    @Async("threadPoolTaskExecutor")
     public void invFinanceLrTask(InvStock stock, String url, String financeType, String reportType, List<SysDictData> dictDatas, AtomicInteger count) {
         String urlStr = url;
         try {
@@ -707,7 +700,6 @@ public class MyQuartzAsyncTask {
     /**
      * 异步执行 财务分析-现金流量 任务
      */
-    @Async("threadPoolTaskExecutor")
     public void invFinanceXjllTask(InvStock stock, String url, String financeType, String reportType, List<SysDictData> dictDatas, AtomicInteger count) {
         String urlStr = url;
         try {
@@ -844,7 +836,6 @@ public class MyQuartzAsyncTask {
     /**
      * 异步执行 财务分析-百分比 任务
      */
-    @Async("threadPoolTaskExecutor")
     public void invFinanceBfbTask(InvStock stock, String url, String reportType, AtomicInteger count) {
         String urlStr = url;
         try {
@@ -931,7 +922,6 @@ public class MyQuartzAsyncTask {
     /**
      * 多线程获取接口字段
      */
-    @Async("threadPoolTaskExecutor")
     public void getInterfaceKey(InvStock stock, String dataUrl) {
         if (StringUtils.isNotEmpty(dataUrl)) TaskUtils.getInterfaceKey(stock, dataUrl);
     }
@@ -939,7 +929,6 @@ public class MyQuartzAsyncTask {
     /**
      * 多线程获取接口字段
      */
-    @Async("threadPoolTaskExecutor")
     public void getHtmlKey(InvStock stock, String htmlUrl, String name) {
         if (StringUtils.isNotEmpty(htmlUrl)) TaskUtils.getHtmlKey(stock, htmlUrl, name);
     }
