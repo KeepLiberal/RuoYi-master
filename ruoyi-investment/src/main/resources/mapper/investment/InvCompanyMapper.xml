@@ -1,135 +1,199 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.investment.mapper.InvCompanyMapper">
-    
+
     <resultMap type="InvCompany" id="InvCompanyResult">
-        <result property="code"    column="code"    />
-        <result property="orgName"    column="org_name"    />
-        <result property="orgNameEn"    column="org_name_en"    />
-        <result property="strCodea"    column="str_codea"    />
-        <result property="strNamea"    column="str_namea"    />
-        <result property="expandNameAbbr"    column="expand_name_abbr"    />
-        <result property="formername"    column="formername"    />
-        <result property="strCodeb"    column="str_codeb"    />
-        <result property="strNameb"    column="str_nameb"    />
-        <result property="strCodeh"    column="str_codeh"    />
-        <result property="strNameh"    column="str_nameh"    />
-        <result property="securityType"    column="security_type"    />
-        <result property="em2016"    column="em2016"    />
-        <result property="tradeMarket"    column="trade_market"    />
-        <result property="industrycsrc1"    column="industrycsrc1"    />
-        <result property="president"    column="president"    />
-        <result property="legalPerson"    column="legal_person"    />
-        <result property="secretary"    column="secretary"    />
-        <result property="chairman"    column="chairman"    />
-        <result property="secpresent"    column="secpresent"    />
-        <result property="indedirectors"    column="indedirectors"    />
-        <result property="orgTel"    column="org_tel"    />
-        <result property="orgEmail"    column="org_email"    />
-        <result property="orgFax"    column="org_fax"    />
-        <result property="orgWeb"    column="org_web"    />
-        <result property="address"    column="address"    />
-        <result property="regAddress"    column="reg_address"    />
-        <result property="province"    column="province"    />
-        <result property="addressPostcode"    column="address_postcode"    />
-        <result property="regCapital"    column="reg_capital"    />
-        <result property="regNum"    column="reg_num"    />
-        <result property="empNum"    column="emp_num"    />
-        <result property="tatolnumber"    column="tatolnumber"    />
-        <result property="lawFirm"    column="law_firm"    />
-        <result property="accountfirmName"    column="accountfirm_name"    />
-        <result property="orgProfile"    column="org_profile"    />
-        <result property="businessScope"    column="business_scope"    />
-        <result property="foundDate"    column="found_date"    />
-        <result property="listingDate"    column="listing_date"    />
-        <result property="afterIssuePe"    column="after_issue_pe"    />
-        <result property="onlineIssueDate"    column="online_issue_date"    />
-        <result property="issueWay"    column="issue_way"    />
-        <result property="parValue"    column="par_value"    />
-        <result property="totalIssueNum"    column="total_issue_num"    />
-        <result property="issuePrice"    column="issue_price"    />
-        <result property="decSumissuefee"    column="dec_sumissuefee"    />
-        <result property="totalFunds"    column="total_funds"    />
-        <result property="netRaiseFunds"    column="net_raise_funds"    />
-        <result property="openPrice"    column="open_price"    />
-        <result property="closePrice"    column="close_price"    />
-        <result property="turnoverrate"    column="turnoverrate"    />
-        <result property="highPrice"    column="high_price"    />
-        <result property="offlineVapRatio"    column="offline_vap_ratio"    />
-        <result property="onlineIssueLwr"    column="online_issue_lwr"    />
+        <result property="code" column="code"/>
+        <result property="orgName" column="org_name"/>
+        <result property="orgNameEn" column="org_name_en"/>
+        <result property="strCodea" column="str_codea"/>
+        <result property="strNamea" column="str_namea"/>
+        <result property="expandNameAbbr" column="expand_name_abbr"/>
+        <result property="formername" column="formername"/>
+        <result property="strCodeb" column="str_codeb"/>
+        <result property="strNameb" column="str_nameb"/>
+        <result property="strCodeh" column="str_codeh"/>
+        <result property="strNameh" column="str_nameh"/>
+        <result property="securityType" column="security_type"/>
+        <result property="em2016" column="em2016"/>
+        <result property="tradeMarket" column="trade_market"/>
+        <result property="industrycsrc1" column="industrycsrc1"/>
+        <result property="president" column="president"/>
+        <result property="legalPerson" column="legal_person"/>
+        <result property="secretary" column="secretary"/>
+        <result property="chairman" column="chairman"/>
+        <result property="secpresent" column="secpresent"/>
+        <result property="indedirectors" column="indedirectors"/>
+        <result property="orgTel" column="org_tel"/>
+        <result property="orgEmail" column="org_email"/>
+        <result property="orgFax" column="org_fax"/>
+        <result property="orgWeb" column="org_web"/>
+        <result property="address" column="address"/>
+        <result property="regAddress" column="reg_address"/>
+        <result property="province" column="province"/>
+        <result property="addressPostcode" column="address_postcode"/>
+        <result property="regCapital" column="reg_capital"/>
+        <result property="regNum" column="reg_num"/>
+        <result property="empNum" column="emp_num"/>
+        <result property="tatolnumber" column="tatolnumber"/>
+        <result property="lawFirm" column="law_firm"/>
+        <result property="accountfirmName" column="accountfirm_name"/>
+        <result property="orgProfile" column="org_profile"/>
+        <result property="businessScope" column="business_scope"/>
+        <result property="foundDate" column="found_date"/>
+        <result property="listingDate" column="listing_date"/>
+        <result property="afterIssuePe" column="after_issue_pe"/>
+        <result property="onlineIssueDate" column="online_issue_date"/>
+        <result property="issueWay" column="issue_way"/>
+        <result property="parValue" column="par_value"/>
+        <result property="totalIssueNum" column="total_issue_num"/>
+        <result property="issuePrice" column="issue_price"/>
+        <result property="decSumissuefee" column="dec_sumissuefee"/>
+        <result property="totalFunds" column="total_funds"/>
+        <result property="netRaiseFunds" column="net_raise_funds"/>
+        <result property="openPrice" column="open_price"/>
+        <result property="closePrice" column="close_price"/>
+        <result property="turnoverrate" column="turnoverrate"/>
+        <result property="highPrice" column="high_price"/>
+        <result property="offlineVapRatio" column="offline_vap_ratio"/>
+        <result property="onlineIssueLwr" column="online_issue_lwr"/>
     </resultMap>
 
     <sql id="selectInvCompanyVo">
-        select code, org_name, org_name_en, str_codea, str_namea, expand_name_abbr, formername, str_codeb, str_nameb, str_codeh, str_nameh, security_type, em2016, trade_market, industrycsrc1, president, legal_person, secretary, chairman, secpresent, indedirectors, org_tel, org_email, org_fax, org_web, address, reg_address, province, address_postcode, reg_capital, reg_num, emp_num, tatolnumber, law_firm, accountfirm_name, org_profile, business_scope, found_date, listing_date, after_issue_pe, online_issue_date, issue_way, par_value, total_issue_num, issue_price, dec_sumissuefee, total_funds, net_raise_funds, open_price, close_price, turnoverrate, high_price, offline_vap_ratio, online_issue_lwr from inv_company
+        select code,
+               org_name,
+               org_name_en,
+               str_codea,
+               str_namea,
+               expand_name_abbr,
+               formername,
+               str_codeb,
+               str_nameb,
+               str_codeh,
+               str_nameh,
+               security_type,
+               em2016,
+               trade_market,
+               industrycsrc1,
+               president,
+               legal_person,
+               secretary,
+               chairman,
+               secpresent,
+               indedirectors,
+               org_tel,
+               org_email,
+               org_fax,
+               org_web,
+               address,
+               reg_address,
+               province,
+               address_postcode,
+               reg_capital,
+               reg_num,
+               emp_num,
+               tatolnumber,
+               law_firm,
+               accountfirm_name,
+               org_profile,
+               business_scope,
+               found_date,
+               listing_date,
+               after_issue_pe,
+               online_issue_date,
+               issue_way,
+               par_value,
+               total_issue_num,
+               issue_price,
+               dec_sumissuefee,
+               total_funds,
+               net_raise_funds,
+               open_price,
+               close_price,
+               turnoverrate,
+               high_price,
+               offline_vap_ratio,
+               online_issue_lwr
+        from inv_company
     </sql>
 
     <select id="selectInvCompanyList" parameterType="InvCompany" resultMap="InvCompanyResult">
         <include refid="selectInvCompanyVo"/>
         <where>
-            <if test="code != null  and code != ''"> and code = #{code}</if>
-            <if test="orgName != null  and orgName != ''"> and org_name like concat('%', #{orgName}, '%')</if>
-            <if test="orgNameEn != null  and orgNameEn != ''"> and org_name_en like concat('%', #{orgNameEn}, '%')</if>
-            <if test="strCodea != null  and strCodea != ''"> and str_codea = #{strCodea}</if>
-            <if test="strNamea != null  and strNamea != ''"> and str_namea like concat('%', #{strNamea}, '%')</if>
-            <if test="expandNameAbbr != null  and expandNameAbbr != ''"> and expand_name_abbr like concat('%', #{expandNameAbbr}, '%')</if>
-            <if test="formername != null  and formername != ''"> and formername like concat('%', #{formername}, '%')</if>
-            <if test="strCodeb != null  and strCodeb != ''"> and str_codeb = #{strCodeb}</if>
-            <if test="strNameb != null  and strNameb != ''"> and str_nameb like concat('%', #{strNameb}, '%')</if>
-            <if test="strCodeh != null  and strCodeh != ''"> and str_codeh = #{strCodeh}</if>
-            <if test="strNameh != null  and strNameh != ''"> and str_nameh like concat('%', #{strNameh}, '%')</if>
-            <if test="securityType != null  and securityType != ''"> and security_type = #{securityType}</if>
-            <if test="em2016 != null  and em2016 != ''"> and em2016 = #{em2016}</if>
-            <if test="tradeMarket != null  and tradeMarket != ''"> and trade_market = #{tradeMarket}</if>
-            <if test="industrycsrc1 != null  and industrycsrc1 != ''"> and industrycsrc1 = #{industrycsrc1}</if>
-            <if test="president != null  and president != ''"> and president = #{president}</if>
-            <if test="legalPerson != null  and legalPerson != ''"> and legal_person = #{legalPerson}</if>
-            <if test="secretary != null  and secretary != ''"> and secretary = #{secretary}</if>
-            <if test="chairman != null  and chairman != ''"> and chairman = #{chairman}</if>
-            <if test="secpresent != null  and secpresent != ''"> and secpresent = #{secpresent}</if>
-            <if test="indedirectors != null  and indedirectors != ''"> and indedirectors = #{indedirectors}</if>
-            <if test="orgTel != null  and orgTel != ''"> and org_tel = #{orgTel}</if>
-            <if test="orgEmail != null  and orgEmail != ''"> and org_email = #{orgEmail}</if>
-            <if test="orgFax != null  and orgFax != ''"> and org_fax = #{orgFax}</if>
-            <if test="orgWeb != null  and orgWeb != ''"> and org_web = #{orgWeb}</if>
-            <if test="address != null  and address != ''"> and address = #{address}</if>
-            <if test="regAddress != null  and regAddress != ''"> and reg_address = #{regAddress}</if>
-            <if test="province != null  and province != ''"> and province = #{province}</if>
-            <if test="addressPostcode != null  and addressPostcode != ''"> and address_postcode = #{addressPostcode}</if>
-            <if test="regCapital != null "> and reg_capital = #{regCapital}</if>
-            <if test="regNum != null  and regNum != ''"> and reg_num = #{regNum}</if>
-            <if test="empNum != null  and empNum != ''"> and emp_num = #{empNum}</if>
-            <if test="tatolnumber != null  and tatolnumber != ''"> and tatolnumber = #{tatolnumber}</if>
-            <if test="lawFirm != null  and lawFirm != ''"> and law_firm like concat('%', #{lawFirm}, '%')</if>
-            <if test="accountfirmName != null  and accountfirmName != ''"> and accountfirm_name like concat('%', #{accountfirmName}, '%')</if>
-            <if test="orgProfile != null  and orgProfile != ''"> and org_profile = #{orgProfile}</if>
-            <if test="businessScope != null  and businessScope != ''"> and business_scope = #{businessScope}</if>
-            <if test="foundDate != null "> and found_date = #{foundDate}</if>
-            <if test="listingDate != null "> and listing_date = #{listingDate}</if>
-            <if test="afterIssuePe != null "> and after_issue_pe = #{afterIssuePe}</if>
-            <if test="onlineIssueDate != null "> and online_issue_date = #{onlineIssueDate}</if>
-            <if test="issueWay != null  and issueWay != ''"> and issue_way = #{issueWay}</if>
-            <if test="parValue != null "> and par_value = #{parValue}</if>
-            <if test="totalIssueNum != null "> and total_issue_num = #{totalIssueNum}</if>
-            <if test="issuePrice != null "> and issue_price = #{issuePrice}</if>
-            <if test="decSumissuefee != null "> and dec_sumissuefee = #{decSumissuefee}</if>
-            <if test="totalFunds != null "> and total_funds = #{totalFunds}</if>
-            <if test="netRaiseFunds != null "> and net_raise_funds = #{netRaiseFunds}</if>
-            <if test="openPrice != null "> and open_price = #{openPrice}</if>
-            <if test="closePrice != null "> and close_price = #{closePrice}</if>
-            <if test="turnoverrate != null "> and turnoverrate = #{turnoverrate}</if>
-            <if test="highPrice != null "> and high_price = #{highPrice}</if>
-            <if test="offlineVapRatio != null "> and offline_vap_ratio = #{offlineVapRatio}</if>
-            <if test="onlineIssueLwr != null "> and online_issue_lwr = #{onlineIssueLwr}</if>
+            <if test="code != null  and code != ''">and code = #{code}</if>
+            <if test="orgName != null  and orgName != ''">and org_name like concat('%', #{orgName}, '%')</if>
+            <if test="orgNameEn != null  and orgNameEn != ''">and org_name_en like concat('%', #{orgNameEn}, '%')</if>
+            <if test="strCodea != null  and strCodea != ''">and str_codea = #{strCodea}</if>
+            <if test="strNamea != null  and strNamea != ''">and str_namea like concat('%', #{strNamea}, '%')</if>
+            <if test="expandNameAbbr != null  and expandNameAbbr != ''">and expand_name_abbr like concat('%',
+                #{expandNameAbbr}, '%')
+            </if>
+            <if test="formername != null  and formername != ''">and formername like concat('%', #{formername}, '%')</if>
+            <if test="strCodeb != null  and strCodeb != ''">and str_codeb = #{strCodeb}</if>
+            <if test="strNameb != null  and strNameb != ''">and str_nameb like concat('%', #{strNameb}, '%')</if>
+            <if test="strCodeh != null  and strCodeh != ''">and str_codeh = #{strCodeh}</if>
+            <if test="strNameh != null  and strNameh != ''">and str_nameh like concat('%', #{strNameh}, '%')</if>
+            <if test="securityType != null  and securityType != ''">and security_type = #{securityType}</if>
+            <if test="em2016 != null  and em2016 != ''">and em2016 = #{em2016}</if>
+            <if test="tradeMarket != null  and tradeMarket != ''">and trade_market = #{tradeMarket}</if>
+            <if test="industrycsrc1 != null  and industrycsrc1 != ''">and industrycsrc1 = #{industrycsrc1}</if>
+            <if test="president != null  and president != ''">and president = #{president}</if>
+            <if test="legalPerson != null  and legalPerson != ''">and legal_person = #{legalPerson}</if>
+            <if test="secretary != null  and secretary != ''">and secretary = #{secretary}</if>
+            <if test="chairman != null  and chairman != ''">and chairman = #{chairman}</if>
+            <if test="secpresent != null  and secpresent != ''">and secpresent = #{secpresent}</if>
+            <if test="indedirectors != null  and indedirectors != ''">and indedirectors = #{indedirectors}</if>
+            <if test="orgTel != null  and orgTel != ''">and org_tel = #{orgTel}</if>
+            <if test="orgEmail != null  and orgEmail != ''">and org_email = #{orgEmail}</if>
+            <if test="orgFax != null  and orgFax != ''">and org_fax = #{orgFax}</if>
+            <if test="orgWeb != null  and orgWeb != ''">and org_web = #{orgWeb}</if>
+            <if test="address != null  and address != ''">and address = #{address}</if>
+            <if test="regAddress != null  and regAddress != ''">and reg_address = #{regAddress}</if>
+            <if test="province != null  and province != ''">and province = #{province}</if>
+            <if test="addressPostcode != null  and addressPostcode != ''">and address_postcode = #{addressPostcode}</if>
+            <if test="regCapital != null ">and reg_capital = #{regCapital}</if>
+            <if test="regNum != null  and regNum != ''">and reg_num = #{regNum}</if>
+            <if test="empNum != null  and empNum != ''">and emp_num = #{empNum}</if>
+            <if test="tatolnumber != null  and tatolnumber != ''">and tatolnumber = #{tatolnumber}</if>
+            <if test="lawFirm != null  and lawFirm != ''">and law_firm like concat('%', #{lawFirm}, '%')</if>
+            <if test="accountfirmName != null  and accountfirmName != ''">and accountfirm_name like concat('%',
+                #{accountfirmName}, '%')
+            </if>
+            <if test="orgProfile != null  and orgProfile != ''">and org_profile = #{orgProfile}</if>
+            <if test="businessScope != null  and businessScope != ''">and business_scope = #{businessScope}</if>
+            <if test="foundDate != null ">and found_date = #{foundDate}</if>
+            <if test="listingDate != null ">and listing_date = #{listingDate}</if>
+            <if test="afterIssuePe != null ">and after_issue_pe = #{afterIssuePe}</if>
+            <if test="onlineIssueDate != null ">and online_issue_date = #{onlineIssueDate}</if>
+            <if test="issueWay != null  and issueWay != ''">and issue_way = #{issueWay}</if>
+            <if test="parValue != null ">and par_value = #{parValue}</if>
+            <if test="totalIssueNum != null ">and total_issue_num = #{totalIssueNum}</if>
+            <if test="issuePrice != null ">and issue_price = #{issuePrice}</if>
+            <if test="decSumissuefee != null ">and dec_sumissuefee = #{decSumissuefee}</if>
+            <if test="totalFunds != null ">and total_funds = #{totalFunds}</if>
+            <if test="netRaiseFunds != null ">and net_raise_funds = #{netRaiseFunds}</if>
+            <if test="openPrice != null ">and open_price = #{openPrice}</if>
+            <if test="closePrice != null ">and close_price = #{closePrice}</if>
+            <if test="turnoverrate != null ">and turnoverrate = #{turnoverrate}</if>
+            <if test="highPrice != null ">and high_price = #{highPrice}</if>
+            <if test="offlineVapRatio != null ">and offline_vap_ratio = #{offlineVapRatio}</if>
+            <if test="onlineIssueLwr != null ">and online_issue_lwr = #{onlineIssueLwr}</if>
         </where>
     </select>
-    
+
+    <select id="selectInvCompanyShortList" resultMap="InvCompanyResult">
+        select code, em2016, industrycsrc1, address, reg_address
+        from inv_company
+    </select>
+
+
     <select id="selectInvCompanyByCode" parameterType="String" resultMap="InvCompanyResult">
         <include refid="selectInvCompanyVo"/>
         where code = #{code}
     </select>
-        
+
     <insert id="insertInvCompany" parameterType="InvCompany">
         insert into inv_company
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -187,7 +251,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="highPrice != null">high_price,</if>
             <if test="offlineVapRatio != null">offline_vap_ratio,</if>
             <if test="onlineIssueLwr != null">online_issue_lwr,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="code != null">#{code},</if>
             <if test="orgName != null">#{orgName},</if>
@@ -243,7 +307,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="highPrice != null">#{highPrice},</if>
             <if test="offlineVapRatio != null">#{offlineVapRatio},</if>
             <if test="onlineIssueLwr != null">#{onlineIssueLwr},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateInvCompany" parameterType="InvCompany">
@@ -307,11 +371,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteInvCompanyByCode" parameterType="String">
-        delete from inv_company where code = #{code}
+        delete
+        from inv_company
+        where code = #{code}
     </delete>
 
     <delete id="deleteInvCompanyByCodes" parameterType="String">
-        delete from inv_company where code in 
+        delete from inv_company where code in
         <foreach item="code" collection="array" open="(" separator="," close=")">
             #{code}
         </foreach>

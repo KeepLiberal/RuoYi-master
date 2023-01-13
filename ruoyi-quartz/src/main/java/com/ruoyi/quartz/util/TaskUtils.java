@@ -72,7 +72,7 @@ public class TaskUtils {
                             Iterator<Object> iterator = jsonArray.iterator();
                             if (iterator.hasNext()) {
                                 JSONObject next = (JSONObject) iterator.next();
-                                RyTask.keySetOfInterface.addAll(next.keySet());
+                                RyTask.keyOfInterfaceSet.addAll(next.keySet());
                             }
                         }
                     }
@@ -144,8 +144,8 @@ public class TaskUtils {
                             String key = tds.get(i).text();
                             String cleanKey = cleanKey(key);
                             if (StringUtils.isNotEmpty(cleanKey)) {
-                                RyTask.keySetOfHtml.add(cleanKey);
-                                RyTask.sqlMapOfHtml.put(cleanKey, getSql(key, text));
+                                RyTask.keyOfHtmlSet.add(cleanKey);
+                                RyTask.sqlOfHtmlMap.put(cleanKey, getSql(key, text));
                             }
                         }
                     }
@@ -183,8 +183,8 @@ public class TaskUtils {
                         }
                         String cleanKey = cleanKey(key);
                         if (StringUtils.isNotEmpty(cleanKey)) {
-                            RyTask.keySetOfHtml.add(cleanKey);
-                            RyTask.sqlMapOfHtml.put(cleanKey, getSql(key, text));
+                            RyTask.keyOfHtmlSet.add(cleanKey);
+                            RyTask.sqlOfHtmlMap.put(cleanKey, getSql(key, text));
                         }
                     }
                 }
@@ -222,8 +222,8 @@ public class TaskUtils {
                             String key = p.text();
                             String cleanKey = cleanKey(key);
                             if (StringUtils.isNotEmpty(cleanKey)) {
-                                RyTask.keySetOfHtml.add(cleanKey);
-                                RyTask.sqlMapOfHtml.put(cleanKey, getSql(key, divClassName + "-" + pClassName+"-"+url));
+                                RyTask.keyOfHtmlSet.add(cleanKey);
+                                RyTask.sqlOfHtmlMap.put(cleanKey, getSql(key, divClassName + "-" + pClassName+"-"+url));
                             }
                         }
                     }
@@ -266,8 +266,8 @@ public class TaskUtils {
                         }
                         String cleanKey = cleanKey(key);
                         if (StringUtils.isNotEmpty(cleanKey)) {
-                            RyTask.keySetOfHtml.add(cleanKey);
-                            RyTask.sqlMapOfHtml.put(cleanKey, getSql(key, text));
+                            RyTask.keyOfHtmlSet.add(cleanKey);
+                            RyTask.sqlOfHtmlMap.put(cleanKey, getSql(key, text));
                         }
                     }
                 }
@@ -310,8 +310,8 @@ public class TaskUtils {
                         }
                         String cleanKey = cleanKey(key);
                         if (StringUtils.isNotEmpty(cleanKey)) {
-                            RyTask.keySetOfHtml.add(cleanKey);
-                            RyTask.sqlMapOfHtml.put(cleanKey, getSql(key, text));
+                            RyTask.keyOfHtmlSet.add(cleanKey);
+                            RyTask.sqlOfHtmlMap.put(cleanKey, getSql(key, text));
                         }
                     }
                 }
@@ -354,8 +354,8 @@ public class TaskUtils {
                         }
                         String cleanKey = cleanKey(key);
                         if (StringUtils.isNotEmpty(cleanKey)) {
-                            RyTask.keySetOfHtml.add(cleanKey);
-                            RyTask.sqlMapOfHtml.put(cleanKey, getSql(key, text));
+                            RyTask.keyOfHtmlSet.add(cleanKey);
+                            RyTask.sqlOfHtmlMap.put(cleanKey, getSql(key, text));
                         }
                     }
                 }
@@ -390,8 +390,8 @@ public class TaskUtils {
                         String key = tds.get(0).select("span").get(0).text();
                         String cleanKey = cleanKey(key);
                         if (StringUtils.isNotEmpty(cleanKey)) {
-                            RyTask.keySetOfHtml.add(cleanKey);
-                            RyTask.sqlMapOfHtml.put(cleanKey, getSql(key, text));
+                            RyTask.keyOfHtmlSet.add(cleanKey);
+                            RyTask.sqlOfHtmlMap.put(cleanKey, getSql(key, text));
                         }
                     }
                 }
@@ -423,7 +423,7 @@ public class TaskUtils {
             }
             // 遍历写入
             bw = new BufferedWriter(new FileWriter(sqlFile));
-            for (String sql : RyTask.keySetOfInterface) {
+            for (String sql : RyTask.keyOfInterfaceSet) {
                 bw.write(sql);
                 bw.write(System.getProperty("line.separator"));
             }
@@ -450,23 +450,23 @@ public class TaskUtils {
             LinkedHashMap<String, String> sqlLinkedHashMap = new LinkedHashMap<>();
             Set<String> imageSet = new HashSet<>();
             //字段和对应的同比环比配对
-            Set<String> keyMapOfHtmlKeySet = RyTask.sqlMapOfHtml.keySet();
+            Set<String> keyMapOfHtmlKeySet = RyTask.sqlOfHtmlMap.keySet();
             for (String outKey : keyMapOfHtmlKeySet) {
-                String value = RyTask.sqlMapOfHtml.get(outKey);
+                String value = RyTask.sqlOfHtmlMap.get(outKey);
                 if (value.contains("https")) {
                     String imageUrl = value.substring(value.indexOf("https"),value.length()-2);
                     imageSet.add(imageUrl);
                 }
                 if (!outKey.endsWith("_YOY") && !outKey.endsWith("_QOQ")) {
-                    sqlLinkedHashMap.put(outKey, RyTask.sqlMapOfHtml.get(outKey));
+                    sqlLinkedHashMap.put(outKey, RyTask.sqlOfHtmlMap.get(outKey));
                     for (String innerKey : keyMapOfHtmlKeySet) {
                         if ((outKey + "_YOY").equals(innerKey)) {
-                            sqlLinkedHashMap.put(innerKey, RyTask.sqlMapOfHtml.get(innerKey));
+                            sqlLinkedHashMap.put(innerKey, RyTask.sqlOfHtmlMap.get(innerKey));
                         }
                     }
                     for (String innerKey : keyMapOfHtmlKeySet) {
                         if ((outKey + "_QOQ").equals(innerKey)) {
-                            sqlLinkedHashMap.put(innerKey, RyTask.sqlMapOfHtml.get(innerKey));
+                            sqlLinkedHashMap.put(innerKey, RyTask.sqlOfHtmlMap.get(innerKey));
                         }
                     }
                 }
@@ -526,13 +526,13 @@ public class TaskUtils {
             List<String> interfaceHasNo = new ArrayList<>();
             List<String> htmlHasNo = new ArrayList<>();
 
-            for (String key : RyTask.keySetOfInterface) {
-                if (!RyTask.keySetOfHtml.contains(key)) {
+            for (String key : RyTask.keyOfInterfaceSet) {
+                if (!RyTask.keyOfHtmlSet.contains(key)) {
                     htmlHasNo.add(key);
                 }
             }
-            for (String key : RyTask.keySetOfHtml) {
-                if (!RyTask.keySetOfInterface.contains(key)) {
+            for (String key : RyTask.keyOfHtmlSet) {
+                if (!RyTask.keyOfInterfaceSet.contains(key)) {
                     interfaceHasNo.add(key);
                 }
             }

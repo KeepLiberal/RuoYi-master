@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.util.Objects;
+
 /**
  * 证监会行业对象 inv_industry_csrc
  * 
@@ -69,6 +71,18 @@ public class InvIndustryCsrc extends BaseEntity{
     public void setFirst(String first){this.first = first;}
     public String getFirst(){return first;}
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof InvIndustryCsrc)) return false;
+        InvIndustryCsrc that = (InvIndustryCsrc) o;
+        return Objects.equals(shortName, that.shortName) && Objects.equals(name, that.name) && Objects.equals(mergeName, that.mergeName) && Objects.equals(level, that.level) && Objects.equals(pinyin, that.pinyin) && Objects.equals(first, that.first);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(shortName, name, mergeName, level, pinyin, first);
+    }
 
     @Override
     public String toString() {

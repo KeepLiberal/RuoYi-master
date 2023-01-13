@@ -27,6 +27,14 @@ public interface InvCompanyMapper {
     public List<InvCompany> selectInvCompanyList(InvCompany invCompany);
 
     /**
+     * 查询公司概况列表
+     *
+     * @return 公司概况集合
+     */
+    public List<InvCompany> selectInvCompanyShortList();
+
+
+    /**
      * 新增公司概况
      * 
      * @param invCompany 公司概况

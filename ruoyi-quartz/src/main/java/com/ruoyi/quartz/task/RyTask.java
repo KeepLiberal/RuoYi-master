@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -56,16 +57,23 @@ public class RyTask {
     /**
      * 存放接口所有字段
      */
-    public static Set<String> keySetOfInterface = new HashSet<>();
+    public static Set<String> keyOfInterfaceSet = new HashSet<>();
     /**
      * 存放接口所有字段
      */
-    public static Set<String> keySetOfHtml = new HashSet<>();
+    public static Set<String> keyOfHtmlSet = new HashSet<>();
     /**
      * 存放sql
      */
-    public static LinkedHashMap<String, String> sqlMapOfHtml = new LinkedHashMap<>();
-
+    public static LinkedHashMap<String, String> sqlOfHtmlMap = new LinkedHashMap<>();
+    /**
+     * 存放证监会行业
+     */
+    public static LinkedHashSet<InvIndustryCsrc> invIndustryCsrcSet = new LinkedHashSet<>();
+    /**
+     * 存放东财行业
+     */
+    public static LinkedHashSet<InvIndustryEm> invIndustryEmSet = new LinkedHashSet<>();
 
     ///////////////////////////////////////////////////////个股信息//////////////////////////////////////////////////////
 
@@ -80,6 +88,7 @@ public class RyTask {
      * 沪深A股基础数据抓取
      */
     private void invStockTask() {
+        log.info("========沪深A股-基础数据 任务开始=========");
         SysDictData dictData = new SysDictData();
         dictData.setDictType("market_type");
         List<SysDictData> dictDatas = dictDataMapper.selectDictDataList(dictData);
@@ -129,142 +138,149 @@ public class RyTask {
                 }
             }
         }
+        log.info("========沪深A股-基础数据 任务完成=========");
+    }
+
+    private void invCompany(List<InvStock> stockList) {
+        log.info("========沪深A股-公司概况 任务开始=========");
+        for (InvStock stock : stockList) {
+            myQuartzAsyncTask.invCompanyTask(stock, ev.getProperty("inv.company-company-ajax"), new AtomicInteger(10));
+        }
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        log.info("========沪深A股-公司概况 任务完成=========");
+    }
+
+    private void invIndustryCsrcTask(List<InvCompany> companyList) {
+        log.info("========证监会行业 任务开始=========");
+        for (InvCompany company : companyList) {
+            myQuartzAsyncTask.invIndustryCsrcTask(company, new AtomicInteger(10));
+        }
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        List<InvIndustryCsrc> invIndustryCsrcs = invIndustryCsrcMapper.selectInvIndustryCsrcList();
+        for (InvIndustryCsrc invIndustryCsrc : invIndustryCsrcSet) {
+            for (InvIndustryCsrc csrc : invIndustryCsrcs) {
+                if (invIndustryCsrc.equals(csrc)) {
+                    invIndustryCsrc.setId(csrc.getId());
+                    invIndustryCsrc.setPid(csrc.getPid());
+                }
+            }
+        }
+        int id = 10000;
+        InvIndustryCsrc icsrc = invIndustryCsrcMapper.selectMaxId();
+        if (null != icsrc) {
+            id = icsrc.getId();
+        }
+        for (int i = 1; i < 5; i++) {
+            for (InvIndustryCsrc invIndustryCsrc : invIndustryCsrcSet) {
+                if (invIndustryCsrc.getLevel() == i) {
+                    id++;
+                    if (null == invIndustryCsrc.getId()) {
+                        invIndustryCsrc.setId(id);
+                    }
+                    if (null == invIndustryCsrc.getPid()) {
+                        if (i == 1) {
+                            invIndustryCsrc.setPid(0);
+                        } else {
+                            for (InvIndustryCsrc industryCsrc : invIndustryCsrcSet) {
+                                if (industryCsrc.getLevel() == i - 1) {
+                                    String pMergeName = industryCsrc.getMergeName();
+                                    String mergeName = invIndustryCsrc.getMergeName();
+                                    String name = invIndustryCsrc.getName();
+                                    String cName = mergeName.substring(0, mergeName.lastIndexOf(name) - 1);
+                                    if (cName.equals(pMergeName)) {
+                                        invIndustryCsrc.setPid(industryCsrc.getId());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for (InvIndustryCsrc invIndustryCsrc : invIndustryCsrcSet) {
+            if (!invIndustryCsrcs.contains(invIndustryCsrc)) {
+                invIndustryCsrcMapper.insertInvIndustryCsrc(invIndustryCsrc);
+            }
+        }
+        log.info("========证监会行业 任务完成=========");
+    }
+
+    private void invIndustryEmTask(List<InvCompany> companyList) {
+        log.info("========东财行业 任务开始=========");
+        for (InvCompany company : companyList) {
+            myQuartzAsyncTask.invIndustryEmTask(company, new AtomicInteger(10));
+        }
+        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        List<InvIndustryEm> invIndustryEms = invIndustryEmMapper.selectInvIndustryEmList();
+        for (InvIndustryEm invIndustryEm : invIndustryEmSet) {
+            for (InvIndustryEm em : invIndustryEms) {
+                if (invIndustryEms.equals(em)) {
+                    invIndustryEm.setId(em.getId());
+                    invIndustryEm.setPid(em.getPid());
+                    if ("肉制品".equals(invIndustryEm.getName()) && "食品饮料-食品-肉制品".equals(invIndustryEm.getMergeName())) {
+                        System.out.println(invIndustryEm);
+                    }
+                }
+            }
+        }
+        int id = 10000;
+        InvIndustryEm iem = invIndustryEmMapper.selectMaxId();
+        if (null != iem) {
+            id = iem.getId();
+        }
+        for (int i = 1; i < 5; i++) {
+            for (InvIndustryEm invIndustryEm : invIndustryEmSet) {
+                if (invIndustryEm.getLevel() == i) {
+                    id++;
+                    if (null == invIndustryEm.getId()) {
+                        invIndustryEm.setId(id);
+                    }
+                    if (null == invIndustryEm.getPid()) {
+                        if (i == 1) {
+                            invIndustryEm.setPid(0);
+                        } else {
+                            for (InvIndustryEm industryEm : invIndustryEmSet) {
+                                if (industryEm.getLevel() == i - 1) {
+                                    String pMergeName = industryEm.getMergeName();
+                                    String mergeName = invIndustryEm.getMergeName();
+                                    String name = invIndustryEm.getName();
+                                    String cName = mergeName.substring(0, mergeName.lastIndexOf(name) - 1);
+                                    if (cName.equals(pMergeName)) {
+                                        invIndustryEm.setPid(industryEm.getId());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for (InvIndustryEm invIndustryEm : invIndustryEmSet) {
+            if (!invIndustryEms.contains(invIndustryEm)) {
+                invIndustryEmMapper.insertInvIndustryEm(invIndustryEm);
+            }
+        }
+        log.info("========东财行业 任务完成=========");
     }
 
     /**
      * 财务分析数据抓取
      */
-    public void invFinanceTask() {
-        log.info("================财务分析任务 等待=================");
-        //保证线程池比较闲时候再开始任务
+    public void initDataTask() {
+        log.info("================数据初始化任务 等待=================");
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("================财务分析任务 开始=================");
+        log.info("================数据初始化任务 开始=================");
 
-        log.info("========沪深A股-基础数据 任务开始=========");
-        //沪深A股基础数据抓取任务
         invStockTask();
-        log.info("========沪深A股-基础数据 任务完成=========");
 
-        //获取所有未退市股
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
+        //invCompany(stockList);
 
-        log.info("========沪深A股-公司概况 任务开始=========");
-        for (InvStock stock : stockList) {
-//            if ("000001".equals(stock.getCode())){
-            // myQuartzAsyncTask.invCompanyTask(stock, ev.getProperty("inv.company-company-ajax"), new AtomicInteger(10));
-//            }
-        }
-        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        List<InvCompany> companyList = invCompanyMapper.selectInvCompanyShortList();
+        invIndustryCsrcTask(companyList);
+        invIndustryEmTask(companyList);
 
-        List<InvCompany> invCompanies = invCompanyMapper.selectInvCompanyList(null);
-        for (InvCompany invCompany : invCompanies) {
-            String industryCsrc = invCompany.getIndustrycsrc1();
-            if (StringUtils.isNotEmpty(industryCsrc)) {
-                String[] industryCsrcs = industryCsrc.split("-");
-                for (int i = 0; i < industryCsrcs.length; i++) {
-                    InvIndustryCsrc invIndustryCsrc = new InvIndustryCsrc();
-                    String name = industryCsrcs[i];
-                    String shortName = name.replace("业", "");
-                    invIndustryCsrc.setShortName(shortName);
-                    invIndustryCsrc.setName(name);
-                    invIndustryCsrc.setLevel(i + 1);
-                    String mergeName = "";
-                    for (int j = 0; j <= i; j++) {
-                        if (StringUtils.isNotEmpty(mergeName)){
-                            mergeName = mergeName + "-" + industryCsrcs[j];
-                        }else{
-                            mergeName = industryCsrcs[j];
-                        }
-                    }
-                    invIndustryCsrc.setMergeName(mergeName);
-                    List<InvIndustryCsrc> csrcs = invIndustryCsrcMapper.selectInvIndustryCsrcList(invIndustryCsrc);
-                    if (null == csrcs || csrcs.size() == 0) {
-                        if (i == 0) {
-                            invIndustryCsrc.setPid(0);
-                        } else {
-                            InvIndustryCsrc csrc = new InvIndustryCsrc();
-                            String mergeNa = "";
-                            for (int j = 0; j <= i - 1; j++) {
-                                if (StringUtils.isNotEmpty(mergeNa)){
-                                    mergeNa = mergeNa + "-" + industryCsrcs[j];
-                                }else{
-                                    mergeNa = industryCsrcs[j];
-                                }
-                            }
-                            csrc.setMergeName(mergeNa);
-                            csrcs = invIndustryCsrcMapper.selectInvIndustryCsrcList(csrc);
-                            invIndustryCsrc.setPid(csrcs.get(0).getId());
-                        }
-                        invIndustryCsrcMapper.insertInvIndustryCsrc(invIndustryCsrc);
-                    }
-                }
-                InvCompanyIndustryCsrc invCompanyIndustryCsrc = new InvCompanyIndustryCsrc();
-                for (int i = 0; i < industryCsrcs.length; i++) {
-                    InvIndustryCsrc invIndustryCsrc = new InvIndustryCsrc();
-                    invIndustryCsrc.setName(industryCsrcs[i]);
-                    List<InvIndustryCsrc> csrcs = invIndustryCsrcMapper.selectInvIndustryCsrcList(invIndustryCsrc);
-                    invCompanyIndustryCsrc.setCode(invCompany.getCode());
-                    invCompanyIndustryCsrc.setLevel(i+1);
-                    invCompanyIndustryCsrc.setIndustryCsrcId(csrcs.get(0).getId());
-                    invCompanyIndustryCsrcMapper.insertInvCompanyIndustryCsrc(invCompanyIndustryCsrc);
-                }
-            }
 
-            String industryEm = invCompany.getEm2016();
-            if (StringUtils.isNotEmpty(industryEm)) {
-                String[] industryEms = industryEm.split("-");
-                for (int i = 0; i < industryEms.length; i++) {
-                    InvIndustryEm invIndustryEm = new InvIndustryEm();
-                    String name = industryEms[i];
-                    String shortName = name.replace("业", "");
-                    invIndustryEm.setShortName(shortName);
-                    invIndustryEm.setName(name);
-                    invIndustryEm.setLevel(i + 1);
-                    String mergeName = "";
-                    for (int j = 0; j <= i; j++) {
-                        if (StringUtils.isNotEmpty(mergeName)){
-                            mergeName = mergeName + "-" + industryEms[j];
-                        }else{
-                            mergeName = industryEms[j];
-                        }
-                    }
-                    invIndustryEm.setMergeName(mergeName);
-                    List<InvIndustryEm> ems = invIndustryEmMapper.selectInvIndustryEmList(invIndustryEm);
-                    if (null == ems || ems.size() == 0) {
-                        if (i == 0) {
-                            invIndustryEm.setPid(0);
-                        } else {
-                            InvIndustryEm em = new InvIndustryEm();
-                            String mergeNa = "";
-                            for (int j = 0; j <= i - 1; j++) {
-                                if (StringUtils.isNotEmpty(mergeNa)){
-                                    mergeNa = mergeNa + "-" + industryEms[j];
-                                }else{
-                                    mergeNa = industryEms[j];
-                                }
-                            }
-                            em.setMergeName(mergeNa);
-                            ems = invIndustryEmMapper.selectInvIndustryEmList(em);
-                            invIndustryEm.setPid(ems.get(0).getId());
-                        }
-                        invIndustryEmMapper.insertInvIndustryEm(invIndustryEm);
-                    }
-                }
-                InvCompanyIndustryEm invCompanyIndustryEm = new InvCompanyIndustryEm();
-                for (int i = 0; i < industryEms.length; i++) {
-                    InvIndustryEm invIndustryEm = new InvIndustryEm();
-                    invIndustryEm.setName(industryEms[i]);
-                    List<InvIndustryEm> csrcs = invIndustryEmMapper.selectInvIndustryEmList(invIndustryEm);
-                    invCompanyIndustryEm.setCode(invCompany.getCode());
-                    invCompanyIndustryEm.setLevel(i+1);
-                    invCompanyIndustryEm.setIndustryEmId(csrcs.get(0).getId());
-                    invCompanyIndustryEmMapper.insertInvCompanyIndustryEm(invCompanyIndustryEm);
-                }
-            }
-        }
-        log.info("========沪深A股-公司概况 任务完成=========");
-
-//
 //        log.info("========财务分析-报告日期 任务开始=========");
 //        for (InvStock stock : stockList) {
 //            myQuartzAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-zcfz-date-bgq"), "zcfz", "bgq", new AtomicInteger(10));
@@ -335,7 +351,7 @@ public class RyTask {
 //        isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
 //        log.info("========财务分析-百分比 任务完成=========");
 
-        log.info("================财务分析任务 完成=================");
+        log.info("================数据初始化任务 完成=================");
     }
 
     ///////////////////////////////////////////////////////快速工具///////////////////////////////////////////////////////
@@ -348,9 +364,9 @@ public class RyTask {
         isCompletedByTaskCount(threadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========生成SQL interfaceName:{} 任务开始=========", interfaceName);
 
-        keySetOfInterface.clear();
-        keySetOfHtml.clear();
-        sqlMapOfHtml.clear();
+        keyOfInterfaceSet.clear();
+        keyOfHtmlSet.clear();
+        sqlOfHtmlMap.clear();
 
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
         for (InvStock stock : stockList) {

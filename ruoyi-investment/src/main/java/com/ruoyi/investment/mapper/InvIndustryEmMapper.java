@@ -27,6 +27,13 @@ public interface InvIndustryEmMapper {
     public List<InvIndustryEm> selectInvIndustryEmList(InvIndustryEm invIndustryEm);
 
     /**
+     * 查询东财行业列表
+     *
+     * @return 东财行业集合
+     */
+    public List<InvIndustryEm> selectInvIndustryEmList();
+
+    /**
      * 新增东财行业
      * 
      * @param invIndustryEm 东财行业
@@ -57,4 +64,11 @@ public interface InvIndustryEmMapper {
      * @return 结果
      */
     public int deleteInvIndustryEmByIds(String[] ids);
+
+    /**
+     * 查询东财行业最大id
+     *
+     * @return 结果
+     */
+    public InvIndustryEm selectMaxId();
 }

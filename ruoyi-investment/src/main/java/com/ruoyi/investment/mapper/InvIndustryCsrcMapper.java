@@ -27,6 +27,13 @@ public interface InvIndustryCsrcMapper {
     public List<InvIndustryCsrc> selectInvIndustryCsrcList(InvIndustryCsrc invIndustryCsrc);
 
     /**
+     * 查询证监会行业列表
+     *
+     * @return 证监会行业集合
+     */
+    public List<InvIndustryCsrc> selectInvIndustryCsrcList();
+
+    /**
      * 新增证监会行业
      * 
      * @param invIndustryCsrc 证监会行业
@@ -57,4 +64,11 @@ public interface InvIndustryCsrcMapper {
      * @return 结果
      */
     public int deleteInvIndustryCsrcByIds(String[] ids);
+
+    /**
+     * 查询证监会行业最大id
+     *
+     * @return 结果
+     */
+    public InvIndustryCsrc selectMaxId();
 }
