@@ -184,7 +184,7 @@
     </select>
 
     <select id="selectInvCompanyShortList" resultMap="InvCompanyResult">
-        select code, em2016, industrycsrc1, address, reg_address
+        select code, em2016, industrycsrc1, province, address, reg_address
         from inv_company
     </select>
 

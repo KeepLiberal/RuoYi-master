@@ -7,7 +7,7 @@ import com.ruoyi.investment.domain.InvCompanyAddress;
  * 公司地址Service接口
  * 
  * @author yangwenyang
- * @date 2023-01-11
+ * @date 2023-01-16
  */
 public interface IInvCompanyAddressService {
     /**

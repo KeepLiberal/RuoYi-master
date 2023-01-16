@@ -39,9 +39,7 @@ public class InvestmentDataAsyncTask {
     @Resource
     private InvCompanyMapper invCompanyMapper;
     @Resource
-    private InvCompanyIndustryEmMapper invCompanyIndustryEmMapper;
-    @Resource
-    private InvCompanyIndustryCsrcMapper invCompanyIndustryCsrcMapper;
+    private InvCompanyIndustryMapper invCompanyIndustryMapper;
     @Resource
     private InvCompanyAddressMapper invCompanyAddressMapper;
     @Resource
@@ -61,7 +59,7 @@ public class InvestmentDataAsyncTask {
 
 
     /**
-     * 异步执行 公司概况 任务
+     * 公司概况 任务
      */
     public void invCompanyTask(InvStock stock, String url, AtomicInteger count) {
         String urlStr = url;
@@ -132,19 +130,71 @@ public class InvestmentDataAsyncTask {
     }
 
     /**
-     * 异步执行 证监会行业
+     * 行业
      */
-    public void invIndustryCsrcTask(InvCompany company, AtomicInteger count) {
+    public void invIndustryTask(InvCompany company, String type, AtomicInteger count) {
         try {
-            String industryCsrc = company.getIndustrycsrc1();
-            if (StringUtils.isNotEmpty(industryCsrc)) {
-                String[] industryCsrcs = industryCsrc.split("-");
+            String industry = null;
+            if ("csrc".equals(type)) {
+                industry = company.getIndustrycsrc1();
+            }
+            if ("em".equals(type)) {
+                industry = company.getEm2016();
+            }
+            if (StringUtils.isNotEmpty(industry)) {
+                String[] industrys = industry.split("-");
+                for (int i = 0; i < industrys.length; i++) {
+                    int level = i + 1;
+                    String name = industrys[i];
+                    String shortName = name.replace("业", "");
+                    String mergeName = "";
+                    for (int j = 0; j <= i; j++) {
+                        if (StringUtils.isNotEmpty(mergeName)) {
+                            mergeName = mergeName + "-" + industrys[j];
+                        } else {
+                            mergeName = industrys[j];
+                        }
+                    }
+                    InvIndustry invIndustry = new InvIndustry();
+                    invIndustry.setShortName(shortName);
+                    invIndustry.setName(name);
+                    invIndustry.setType(type);
+                    invIndustry.setLevel(level);
+                    invIndustry.setMergeName(mergeName);
+                    RyTask.invIndustrySet.add(invIndustry);
+                }
+            }
+        } catch (Exception e) {
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                invIndustryTask(company, type, count);
+            } else {
+                log.error(">>>异常:", e);
+            }
+        }
+    }
+
+    /**
+     * 公司所属行业
+     */
+    public void invCompanyIndustry(InvCompany company, Map<String, InvIndustry> invIndustryMap, String type, AtomicInteger count) {
+        try {
+            String industry = null;
+            if ("csrc".equals(type)) {
+                industry = company.getIndustrycsrc1();
+            }
+            if ("em".equals(type)) {
+                industry = company.getEm2016();
+            }
+            if (StringUtils.isNotEmpty(industry)) {
+                InvCompanyIndustry invCompanyIndustry = new InvCompanyIndustry();
+                invCompanyIndustry.setCode(company.getCode());
+                invCompanyIndustry.setType(type);
+                List<InvCompanyIndustry> invCompanyIndustries = invCompanyIndustryMapper.selectInvCompanyIndustryList(invCompanyIndustry);
+
+                String[] industryCsrcs = industry.split("-");
                 for (int i = 0; i < industryCsrcs.length; i++) {
                     int level = i + 1;
-                    String name = industryCsrcs[i];
-                    String fullPinyin = StringUtils.getFullPinyin(name);
-                    String pinyinInitial = StringUtils.getPinyinInitial(name);
-                    String shortName = name.replace("业", "");
                     String mergeName = "";
                     for (int j = 0; j <= i; j++) {
                         if (StringUtils.isNotEmpty(mergeName)) {
@@ -154,234 +204,70 @@ public class InvestmentDataAsyncTask {
                         }
                     }
 
-                    InvIndustryCsrc invIndustryCsrc = new InvIndustryCsrc();
-                    invIndustryCsrc.setShortName(shortName);
-                    invIndustryCsrc.setName(name);
-                    invIndustryCsrc.setLevel(level);
-                    invIndustryCsrc.setMergeName(mergeName);
-                    invIndustryCsrc.setPinyin(fullPinyin);
-                    invIndustryCsrc.setFirst(pinyinInitial);
-
-                    RyTask.invIndustryCsrcSet.add(invIndustryCsrc);
-                }
-            }
-        } catch (Exception e) {
-            if (count.get() > 0) {
-                count.decrementAndGet();
-                invIndustryCsrcTask(company, count);
-            } else {
-                log.error(">>>异常:", e);
-            }
-        }
-    }
-
-    /**
-     * 异步执行 东财行业
-     */
-    public void invIndustryEmTask(InvCompany company, AtomicInteger count) {
-        try {
-            String industryEm = company.getEm2016();
-            if (StringUtils.isNotEmpty(industryEm)) {
-                String[] industryEms = industryEm.split("-");
-                for (int i = 0; i < industryEms.length; i++) {
-                    int level = i + 1;
-                    String name = industryEms[i];
-                    String fullPinyin = StringUtils.getFullPinyin(name);
-                    String pinyinInitial = StringUtils.getPinyinInitial(name);
-                    String shortName = name.replace("业", "");
-                    String mergeName = "";
-                    for (int j = 0; j <= i; j++) {
-                        if (StringUtils.isNotEmpty(mergeName)) {
-                            mergeName = mergeName + "-" + industryEms[j];
-                        } else {
-                            mergeName = industryEms[j];
+                    String key = mergeName + type + level;
+                    if (invIndustryMap.containsKey(key)) {
+                        Integer invIndustryId = invIndustryMap.get(key).getId();
+                        if (level == 1) {
+                            invCompanyIndustry.setLevel1(invIndustryId);
+                        }
+                        if (level == 2) {
+                            invCompanyIndustry.setLevel2(invIndustryId);
+                        }
+                        if (level == 3) {
+                            invCompanyIndustry.setLevel3(invIndustryId);
+                        }
+                        if (level == 4) {
+                            invCompanyIndustry.setLevel4(invIndustryId);
                         }
                     }
-
-                    InvIndustryEm invIndustryEm = new InvIndustryEm();
-                    invIndustryEm.setShortName(shortName);
-                    invIndustryEm.setName(name);
-                    invIndustryEm.setLevel(level);
-                    invIndustryEm.setMergeName(mergeName);
-                    invIndustryEm.setPinyin(fullPinyin);
-                    invIndustryEm.setFirst(pinyinInitial);
-
-                    RyTask.invIndustryEmSet.add(invIndustryEm);
                 }
-            }
-        } catch (Exception e) {
-            if (count.get() > 0) {
-                count.decrementAndGet();
-                invIndustryEmTask(company, count);
-            } else {
-                log.error(">>>异常:", e);
-            }
-        }
-    }
 
-    /**
-     * 公司所属证监会行业
-     */
-    public void invCompanyIndustryCsrc(InvCompany company, Map<String, InvIndustryCsrc> invIndustryCsrcMap, AtomicInteger count) {
-        try {
-            String industryCsrc = company.getIndustrycsrc1();
-            if (StringUtils.isNotEmpty(industryCsrc)) {
-                String[] industryCsrcs = industryCsrc.split("-");
-                for (int i = 0; i < industryCsrcs.length; i++) {
-                    String mergeName = "";
-                    for (int j = 0; j <= i; j++) {
-                        if (StringUtils.isNotEmpty(mergeName)) {
-                            mergeName = mergeName + "-" + industryCsrcs[j];
-                        } else {
-                            mergeName = industryCsrcs[j];
-                        }
-                    }
-                    int level = i + 1;
-                    String invIndustryCsrcMapKey = mergeName + level;
-                    if (invIndustryCsrcMap.containsKey(invIndustryCsrcMapKey)) {
-                        InvCompanyIndustryCsrc invCompanyIndustryCsrc = new InvCompanyIndustryCsrc();
-                        invCompanyIndustryCsrc.setCode(company.getCode());
-                        invCompanyIndustryCsrc.setLevel(level);
-                        invCompanyIndustryCsrc.setIndustryCsrcId(invIndustryCsrcMap.get(invIndustryCsrcMapKey).getId());
-                        invCompanyIndustryCsrcMapper.deleteInvCompanyIndustryCsrc(invCompanyIndustryCsrc);
-                        invCompanyIndustryCsrcMapper.insertInvCompanyIndustryCsrc(invCompanyIndustryCsrc);
+                if (null==invCompanyIndustries || invCompanyIndustries.size()==0){
+                    invCompanyIndustryMapper.insertInvCompanyIndustry(invCompanyIndustry);
+                }else{
+                    InvCompanyIndustry has = invCompanyIndustries.get(0);
+                    if (!has.equals(invCompanyIndustry)){
+                        has.setLevel1(invCompanyIndustry.getLevel1());
+                        has.setLevel2(invCompanyIndustry.getLevel2());
+                        has.setLevel3(invCompanyIndustry.getLevel3());
+                        has.setLevel4(invCompanyIndustry.getLevel4());
+                        invCompanyIndustryMapper.updateInvCompanyIndustry(has);
                     }
                 }
             }
         } catch (Exception e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
-                invCompanyIndustryCsrc(company, invIndustryCsrcMap, count);
+                invCompanyIndustry(company, invIndustryMap, type, count);
             } else {
                 log.error(">>>异常:", e);
             }
         }
     }
-
-    /**
-     * 公司所属东财行业
-     */
-    public void invCompanyIndustryEm(InvCompany company, Map<String, InvIndustryEm> invIndustryEmMap, AtomicInteger count) {
-        try {
-            String industryEm = company.getEm2016();
-            if (StringUtils.isNotEmpty(industryEm)) {
-                String[] industryEms = industryEm.split("-");
-                Set<InvCompanyIndustryEm> insertSet = new HashSet<>();
-                for (int i = 0; i < industryEms.length; i++) {
-                    String mergeName = "";
-                    for (int j = 0; j <= i; j++) {
-                        if (StringUtils.isNotEmpty(mergeName)) {
-                            mergeName = mergeName + "-" + industryEms[j];
-                        } else {
-                            mergeName = industryEms[j];
-                        }
-                    }
-                    int level = i + 1;
-                    String invIndustryEmMapKey = mergeName + level;
-                    if (invIndustryEmMap.containsKey(invIndustryEmMapKey)) {
-                        InvCompanyIndustryEm invCompanyIndustryEm = new InvCompanyIndustryEm();
-                        invCompanyIndustryEm.setCode(company.getCode());
-                        invCompanyIndustryEm.setLevel(level);
-                        invCompanyIndustryEm.setIndustryEmId(invIndustryEmMap.get(invIndustryEmMapKey).getId());
-                        invCompanyIndustryEmMapper.deleteInvCompanyIndustryEm(invCompanyIndustryEm);
-                        invCompanyIndustryEmMapper.insertInvCompanyIndustryEm(invCompanyIndustryEm);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            if (count.get() > 0) {
-                count.decrementAndGet();
-                invCompanyIndustryEm(company, invIndustryEmMap, count);
-            } else {
-                log.error(">>>异常:", e);
-            }
-        }
-    }
-
 
     /**
      * 公司办公地址、注册地址
      */
     public void invCompanyAddress(InvCompany company, Map<String, SysArea> sysAreasMap, AtomicInteger count) {
         try {
-            Map<String, String> provinceMap = new HashMap<>();
-            Map<String, String> cityMap = new HashMap<>();
-            String workAddress = company.getAddress();
-            String regAddress = company.getRegAddress();
-            if (StringUtils.isNotEmpty(workAddress)) {
-                for (String address : workAddress.split(",")) {
-                    String province = address.substring(0, address.indexOf("省") + 1).replace("中国", "");
-                    if (StringUtils.isNotEmpty(province)){
-                        provinceMap.put(province, "WOR");
-                    }
-                    String city = address.substring(address.indexOf("省") + 1, address.indexOf("市") + 1);
-                    if (StringUtils.isNotEmpty(province)){
-                        cityMap.put(city, "WOR");
-                    }
-                }
+            InvCompanyAddress invCompanyAddress = new InvCompanyAddress();
+            invCompanyAddress.setCode(company.getCode());
+            invCompanyAddress.setType("W");
+            List<InvCompanyAddress> invCompanyAddresses = invCompanyAddressMapper.selectInvCompanyAddressList(invCompanyAddress);
+
+            String provinceName = company.getProvince();
+            String provinceShortKey = provinceName + "1";
+            if (sysAreasMap.containsKey(provinceShortKey)){
+                SysArea sysArea = sysAreasMap.get(provinceShortKey);
+                invCompanyAddress.setProvince(sysArea.getId());
             }
-            if (StringUtils.isNotEmpty(regAddress)) {
-                for (String address : regAddress.split(",")) {
-                    String province = address.substring(0, address.indexOf("省") + 1).replace("中国", "");
-                    if (StringUtils.isNotEmpty(province)){
-                        provinceMap.put(province, "WOR");
-                    }
-                    String city = address.substring(address.indexOf("省") + 1, address.indexOf("市") + 1);
-                    if (StringUtils.isNotEmpty(province)){
-                        cityMap.put(city, "WOR");
-                    }
-                }
-            }
-            if (provinceMap.values().contains("WOR")){
-                InvCompanyAddress invCompanyAddress = new InvCompanyAddress();
-                invCompanyAddress.setCode(company.getCode());
-                invCompanyAddress.setType("WOR");
-                invCompanyAddress.setLevel(1);
-                invCompanyAddressMapper.deleteInvCompanyAddress(invCompanyAddress);
-            }
-            if (provinceMap.values().contains("REG")){
-                InvCompanyAddress invCompanyAddress = new InvCompanyAddress();
-                invCompanyAddress.setCode(company.getCode());
-                invCompanyAddress.setType("REG");
-                invCompanyAddress.setLevel(1);
-                invCompanyAddressMapper.deleteInvCompanyAddress(invCompanyAddress);
-            }
-            if (cityMap.values().contains("WOR")){
-                InvCompanyAddress invCompanyAddress = new InvCompanyAddress();
-                invCompanyAddress.setCode(company.getCode());
-                invCompanyAddress.setType("WOR");
-                invCompanyAddress.setLevel(2);
-                invCompanyAddressMapper.deleteInvCompanyAddress(invCompanyAddress);
-            }
-            if (cityMap.values().contains("REG")){
-                InvCompanyAddress invCompanyAddress = new InvCompanyAddress();
-                invCompanyAddress.setCode(company.getCode());
-                invCompanyAddress.setType("REG");
-                invCompanyAddress.setLevel(2);
-                invCompanyAddressMapper.deleteInvCompanyAddress(invCompanyAddress);
-            }
-            for (String province : provinceMap.keySet()) {
-                int level = 1;
-                String key = province + level;
-                if (sysAreasMap.containsKey(key)) {
-                    InvCompanyAddress invCompanyAddress = new InvCompanyAddress();
-                    invCompanyAddress.setCode(company.getCode());
-                    invCompanyAddress.setType(provinceMap.get(province));
-                    invCompanyAddress.setLevel(level);
-                    invCompanyAddress.setAreaId(sysAreasMap.get(key).getId());
-                    invCompanyAddressMapper.insertInvCompanyAddress(invCompanyAddress);
-                }
-            }
-            for (String city : cityMap.keySet()) {
-                int level = 2;
-                String key = city + level;
-                if (sysAreasMap.containsKey(key)) {
-                    InvCompanyAddress invCompanyAddress = new InvCompanyAddress();
-                    invCompanyAddress.setCode(company.getCode());
-                    invCompanyAddress.setType(provinceMap.get(city));
-                    invCompanyAddress.setLevel(level);
-                    invCompanyAddress.setAreaId(sysAreasMap.get(key).getId());
-                    invCompanyAddressMapper.insertInvCompanyAddress(invCompanyAddress);
+            if (null==invCompanyAddresses || invCompanyAddresses.size()==0){
+                invCompanyAddressMapper.insertInvCompanyAddress(invCompanyAddress);
+            }else{
+                InvCompanyAddress has = invCompanyAddresses.get(0);
+                if (!has.equals(invCompanyAddress)){
+                    has.setProvince(invCompanyAddress.getProvince());
+                    invCompanyAddressMapper.updateInvCompanyAddress(has);
                 }
             }
         } catch (Exception e) {
@@ -389,13 +275,13 @@ public class InvestmentDataAsyncTask {
                 count.decrementAndGet();
                 invCompanyAddress(company, sysAreasMap, count);
             } else {
-                log.error(">>>异常:", e);
+                log.error(">>>异常:" + company.getCode(), e);
             }
         }
     }
 
     /**
-     * 异步执行 财务分析-报告日期 任务
+     * 财务分析-报告日期 任务
      */
     public void invFinanceReportDateTask(InvStock stock, String url, String financeType, String reportType, AtomicInteger count) {
         String urlStr = url;
@@ -485,7 +371,7 @@ public class InvestmentDataAsyncTask {
     }
 
     /**
-     * 异步执行 财务分析-重要指标 任务
+     * 财务分析-重要指标 任务
      */
     public void invFinanceZyzbTask(InvStock stock, String url, String reportType, AtomicInteger count) {
         String urlStr = url;
@@ -556,7 +442,7 @@ public class InvestmentDataAsyncTask {
     }
 
     /**
-     * 异步执行 财务分析-杜邦分析 任务
+     * 财务分析-杜邦分析 任务
      */
     public void invFinanceDbfxTask(InvStock stock, String url, AtomicInteger count) {
         String urlStr = url;
@@ -624,7 +510,7 @@ public class InvestmentDataAsyncTask {
     }
 
     /**
-     * 异步执行 财务分析-资产负债 任务
+     * 财务分析-资产负债 任务
      */
     public void invFinanceZcfzTask(InvStock stock, String url, String financeType, String reportType, List<SysDictData> dictDatas, AtomicInteger count) {
         String urlStr = url;
@@ -760,7 +646,7 @@ public class InvestmentDataAsyncTask {
     }
 
     /**
-     * 异步执行 财务分析-利润 任务
+     * 财务分析-利润 任务
      */
     public void invFinanceLrTask(InvStock stock, String url, String financeType, String reportType, List<SysDictData> dictDatas, AtomicInteger count) {
         String urlStr = url;
@@ -896,7 +782,7 @@ public class InvestmentDataAsyncTask {
     }
 
     /**
-     * 异步执行 财务分析-现金流量 任务
+     * 财务分析-现金流量 任务
      */
     public void invFinanceXjllTask(InvStock stock, String url, String financeType, String reportType, List<SysDictData> dictDatas, AtomicInteger count) {
         String urlStr = url;
@@ -1032,7 +918,7 @@ public class InvestmentDataAsyncTask {
     }
 
     /**
-     * 异步执行 财务分析-百分比 任务
+     * 财务分析-百分比 任务
      */
     public void invFinanceBfbTask(InvStock stock, String url, String reportType, AtomicInteger count) {
         String urlStr = url;
@@ -1131,4 +1017,15 @@ public class InvestmentDataAsyncTask {
         if (StringUtils.isNotEmpty(htmlUrl)) TaskUtils.getHtmlKey(stock, htmlUrl, name);
     }
 
+    public static void main(String[] args) {
+        String address = "北京市海淀区宝盛南路一号院奥北科技园26号楼领智中心A座7层;江苏省苏州市工业园区星海街200号星海国际广场12层";
+
+        int 省 = address.indexOf("省");
+        int 市 = address.indexOf("市");
+
+        String province = address.substring(0, address.indexOf("省") + 1).replace("中国", "");
+        String city = address.substring(address.indexOf("省") + 1, address.indexOf("市") + 1);
+        System.out.println(province);
+        System.out.println(city);
+    }
 }

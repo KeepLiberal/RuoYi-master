@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.investment.mapper.InvIndustryMapper">
+    
+    <resultMap type="InvIndustry" id="InvIndustryResult">
+        <result property="id"    column="id"    />
+        <result property="pid"    column="pid"    />
+        <result property="type"    column="type"    />
+        <result property="level"    column="level"    />
+        <result property="shortName"    column="short_name"    />
+        <result property="name"    column="name"    />
+        <result property="mergeName"    column="merge_name"    />
+    </resultMap>
+
+    <sql id="selectInvIndustryVo">
+        select id, pid, type, level, short_name, name, merge_name from inv_industry
+    </sql>
+
+    <select id="selectInvIndustryList" parameterType="InvIndustry" resultMap="InvIndustryResult">
+        <include refid="selectInvIndustryVo"/>
+        <where>  
+            <if test="pid != null "> and pid = #{pid}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="level != null "> and level = #{level}</if>
+            <if test="shortName != null  and shortName != ''"> and short_name like concat('%', #{shortName}, '%')</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="mergeName != null  and mergeName != ''"> and merge_name like concat('%', #{mergeName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectInvIndustryById" parameterType="Integer" resultMap="InvIndustryResult">
+        <include refid="selectInvIndustryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInvIndustry" parameterType="InvIndustry" useGeneratedKeys="true" keyProperty="id">
+        insert into inv_industry
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="pid != null">pid,</if>
+            <if test="type != null and type != ''">type,</if>
+            <if test="level != null">level,</if>
+            <if test="shortName != null and shortName != ''">short_name,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="mergeName != null and mergeName != ''">merge_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="pid != null">#{pid},</if>
+            <if test="type != null and type != ''">#{type},</if>
+            <if test="level != null">#{level},</if>
+            <if test="shortName != null and shortName != ''">#{shortName},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="mergeName != null and mergeName != ''">#{mergeName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInvIndustry" parameterType="InvIndustry">
+        update inv_industry
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pid != null">pid = #{pid},</if>
+            <if test="type != null and type != ''">type = #{type},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="shortName != null and shortName != ''">short_name = #{shortName},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="mergeName != null and mergeName != ''">merge_name = #{mergeName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInvIndustryById" parameterType="Integer">
+        delete from inv_industry where id = #{id}
+    </delete>
+
+    <delete id="deleteInvIndustryByIds" parameterType="String">
+        delete from inv_industry where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectMaxId" resultMap="InvIndustryResult">
+        select max(id) as id from inv_industry
+    </select>
+
+</mapper>

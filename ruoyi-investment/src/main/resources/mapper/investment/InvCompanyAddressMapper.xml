@@ -8,12 +8,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="code"    column="code"    />
         <result property="type"    column="type"    />
-        <result property="level"    column="level"    />
-        <result property="areaId"    column="area_id"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="district"    column="district"    />
+        <result property="detail"    column="detail"    />
     </resultMap>
 
     <sql id="selectInvCompanyAddressVo">
-        select id, code, type, level, area_id from inv_company_address
+        select id, code, type, province, city, district, detail from inv_company_address
     </sql>
 
     <select id="selectInvCompanyAddressList" parameterType="InvCompanyAddress" resultMap="InvCompanyAddressResult">
@@ -21,8 +23,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="code != null  and code != ''"> and code = #{code}</if>
             <if test="type != null  and type != ''"> and type = #{type}</if>
-            <if test="level != null "> and level = #{level}</if>
-            <if test="areaId != null "> and area_id = #{areaId}</if>
+            <if test="province != null "> and province = #{province}</if>
+            <if test="city != null "> and city = #{city}</if>
+            <if test="district != null "> and district = #{district}</if>
+            <if test="detail != null  and detail != ''"> and detail = #{detail}</if>
         </where>
     </select>
     
@@ -36,14 +40,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="code != null and code != ''">code,</if>
             <if test="type != null and type != ''">type,</if>
-            <if test="level != null">level,</if>
-            <if test="areaId != null">area_id,</if>
+            <if test="province != null">province,</if>
+            <if test="city != null">city,</if>
+            <if test="district != null">district,</if>
+            <if test="detail != null">detail,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="code != null and code != ''">#{code},</if>
             <if test="type != null and type != ''">#{type},</if>
-            <if test="level != null">#{level},</if>
-            <if test="areaId != null">#{areaId},</if>
+            <if test="province != null">#{province},</if>
+            <if test="city != null">#{city},</if>
+            <if test="district != null">#{district},</if>
+            <if test="detail != null">#{detail},</if>
          </trim>
     </insert>
 
@@ -52,8 +60,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="code != null and code != ''">code = #{code},</if>
             <if test="type != null and type != ''">type = #{type},</if>
-            <if test="level != null">level = #{level},</if>
-            <if test="areaId != null">area_id = #{areaId},</if>
+            <if test="province != null">province = #{province},</if>
+            <if test="city != null">city = #{city},</if>
+            <if test="district != null">district = #{district},</if>
+            <if test="detail != null">detail = #{detail},</if>
         </trim>
         where id = #{id}
     </update>
@@ -67,15 +77,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
-    </delete>
-
-    <delete id="deleteInvCompanyAddress" parameterType="InvCompanyAddress">
-        delete from inv_company_address
-        <where>
-            <if test="code != null  and code != ''"> and code = #{code}</if>
-            <if test="type != null  and type != ''"> and type = #{type}</if>
-            <if test="level != null "> and level = #{level}</if>
-        </where>
     </delete>
 
 </mapper>

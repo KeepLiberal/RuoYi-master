@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.investment.mapper.InvCompanyIndustryMapper">
+    
+    <resultMap type="InvCompanyIndustry" id="InvCompanyIndustryResult">
+        <result property="id"    column="id"    />
+        <result property="code"    column="code"    />
+        <result property="type"    column="type"    />
+        <result property="level1"    column="level1"    />
+        <result property="level2"    column="level2"    />
+        <result property="level3"    column="level3"    />
+        <result property="level4"    column="level4"    />
+    </resultMap>
+
+    <sql id="selectInvCompanyIndustryVo">
+        select id, code, type, level1, level2, level3, level4 from inv_company_industry
+    </sql>
+
+    <select id="selectInvCompanyIndustryList" parameterType="InvCompanyIndustry" resultMap="InvCompanyIndustryResult">
+        <include refid="selectInvCompanyIndustryVo"/>
+        <where>  
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="level1 != null "> and level1 = #{level1}</if>
+            <if test="level2 != null "> and level2 = #{level2}</if>
+            <if test="level3 != null "> and level3 = #{level3}</if>
+            <if test="level4 != null "> and level4 = #{level4}</if>
+        </where>
+    </select>
+    
+    <select id="selectInvCompanyIndustryById" parameterType="Integer" resultMap="InvCompanyIndustryResult">
+        <include refid="selectInvCompanyIndustryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInvCompanyIndustry" parameterType="InvCompanyIndustry" useGeneratedKeys="true" keyProperty="id">
+        insert into inv_company_industry
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">code,</if>
+            <if test="type != null and type != ''">type,</if>
+            <if test="level1 != null">level1,</if>
+            <if test="level2 != null">level2,</if>
+            <if test="level3 != null">level3,</if>
+            <if test="level4 != null">level4,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">#{code},</if>
+            <if test="type != null and type != ''">#{type},</if>
+            <if test="level1 != null">#{level1},</if>
+            <if test="level2 != null">#{level2},</if>
+            <if test="level3 != null">#{level3},</if>
+            <if test="level4 != null">#{level4},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInvCompanyIndustry" parameterType="InvCompanyIndustry">
+        update inv_company_industry
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null and code != ''">code = #{code},</if>
+            <if test="type != null and type != ''">type = #{type},</if>
+            <if test="level1 != null">level1 = #{level1},</if>
+            <if test="level2 != null">level2 = #{level2},</if>
+            <if test="level3 != null">level3 = #{level3},</if>
+            <if test="level4 != null">level4 = #{level4},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInvCompanyIndustryById" parameterType="Integer">
+        delete from inv_company_industry where id = #{id}
+    </delete>
+
+    <delete id="deleteInvCompanyIndustryByIds" parameterType="String">
+        delete from inv_company_industry where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -5,9 +5,9 @@ DROP TABLE IF EXISTS `sys_area`;
 CREATE TABLE `sys_area` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `pid` int DEFAULT NULL COMMENT '父id',
-  `shortname` varchar(100) DEFAULT NULL COMMENT '简称',
+  `short_name` varchar(100) DEFAULT NULL COMMENT '简称',
   `name` varchar(100) DEFAULT NULL COMMENT '名称',
-  `mergename` varchar(255) DEFAULT NULL COMMENT '全称',
+  `merge_name` varchar(255) DEFAULT NULL COMMENT '全称',
   `level` int DEFAULT NULL COMMENT '层级 0:省 1:市区 2:县',
   `pinyin` varchar(100) DEFAULT NULL COMMENT '拼音',
   `code` varchar(100) DEFAULT NULL COMMENT '长途区号',

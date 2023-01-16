@@ -40,9 +40,7 @@ public class RyTask {
     @Resource
     private InvCompanyMapper invCompanyMapper;
     @Resource
-    private InvIndustryCsrcMapper invIndustryCsrcMapper;
-    @Resource
-    private InvIndustryEmMapper invIndustryEmMapper;
+    private InvIndustryMapper invIndustryMapper;
     @Resource
     private InvCompanyAddressMapper invCompanyAddressMapper;
     @Resource
@@ -67,13 +65,9 @@ public class RyTask {
      */
     public static LinkedHashMap<String, String> sqlOfHtmlMap = new LinkedHashMap<>();
     /**
-     * 存放证监会行业
+     * 存放行业
      */
-    public static LinkedHashSet<InvIndustryCsrc> invIndustryCsrcSet = new LinkedHashSet<>();
-    /**
-     * 存放东财行业
-     */
-    public static LinkedHashSet<InvIndustryEm> invIndustryEmSet = new LinkedHashSet<>();
+    public static LinkedHashSet<InvIndustry> invIndustrySet = new LinkedHashSet<>();
 
     ///////////////////////////////////////////////////////个股信息//////////////////////////////////////////////////////
 
@@ -152,184 +146,103 @@ public class RyTask {
         log.info("========沪深A股-公司概况 任务开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
         for (InvStock stock : stockList) {
-            //investmentDataAsyncTask.invCompanyTask(stock, ev.getProperty("inv.company-company-ajax"), new AtomicInteger(10));
+            investmentDataAsyncTask.invCompanyTask(stock, ev.getProperty("inv.company-company-ajax"), new AtomicInteger(10));
         }
         isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========沪深A股-公司概况 任务完成=========");
 
         List<InvCompany> companyList = invCompanyMapper.selectInvCompanyShortList();
-        invIndustryCsrc(companyList);
-        invIndustryEm(companyList);
-        invCompanyIndustryCsrc(companyList);
-        invCompanyIndustryEm(companyList);
+        invIndustry(companyList);
+        invCompanyIndustry(companyList);
         invCompanyAddress(companyList);
     }
 
     /**
-     * 证监会行业
+     * 行业
      */
-    private void invIndustryCsrc(List<InvCompany> companyList) {
+    private void invIndustry(List<InvCompany> companyList) {
         try {
-            log.info("========证监会行业 任务开始=========");
+            log.info("========行业 任务开始=========");
             for (InvCompany company : companyList) {
-                investmentDataAsyncTask.invIndustryCsrcTask(company, new AtomicInteger(10));
+                investmentDataAsyncTask.invIndustryTask(company, "csrc", new AtomicInteger(10));
+                investmentDataAsyncTask.invIndustryTask(company, "em", new AtomicInteger(10));
             }
             isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-            List<InvIndustryCsrc> invIndustryCsrcs = invIndustryCsrcMapper.selectInvIndustryCsrcList();
-            for (InvIndustryCsrc invIndustryCsrc : invIndustryCsrcSet) {
-                for (InvIndustryCsrc csrc : invIndustryCsrcs) {
-                    if (invIndustryCsrc.equals(csrc)) {
-                        invIndustryCsrc.setId(csrc.getId());
-                        invIndustryCsrc.setPid(csrc.getPid());
+
+            List<InvIndustry> hasInvIndustrys = invIndustryMapper.selectInvIndustryList(null);
+            List<InvIndustry> invIndustryList = new ArrayList<>();
+            for (InvIndustry newIndustry : invIndustrySet) {
+                for (InvIndustry hasInvIndustry : hasInvIndustrys) {
+                    if (newIndustry.equals(hasInvIndustry)) {
+                        newIndustry.setId(hasInvIndustry.getId());
+                        newIndustry.setPid(hasInvIndustry.getPid());
+                        invIndustryList.add(newIndustry);
                     }
                 }
             }
-            int id = 10000;
-            InvIndustryCsrc icsrc = invIndustryCsrcMapper.selectMaxId();
-            if (null != icsrc) {
-                id = icsrc.getId();
-            }
+            InvIndustry max = invIndustryMapper.selectMaxId();
+            int id = null != max ? max.getId() : 10000;
+
             for (int i = 1; i < 5; i++) {
-                for (InvIndustryCsrc invIndustryCsrc : invIndustryCsrcSet) {
-                    if (invIndustryCsrc.getLevel() == i) {
+                for (InvIndustry invIndustryZ : invIndustrySet) {
+                    if (invIndustryZ.getLevel() == i) {
                         id++;
-                        if (null == invIndustryCsrc.getId()) {
-                            invIndustryCsrc.setId(id);
+                        if (null == invIndustryZ.getId()) {
+                            invIndustryZ.setId(id);
                         }
-                        if (null == invIndustryCsrc.getPid()) {
+                        if (null == invIndustryZ.getPid()) {
                             if (i == 1) {
-                                invIndustryCsrc.setPid(0);
-                            } else {
-                                for (InvIndustryCsrc industryCsrc : invIndustryCsrcSet) {
-                                    if (industryCsrc.getLevel() == i - 1) {
-                                        String pMergeName = industryCsrc.getMergeName();
-                                        String mergeName = invIndustryCsrc.getMergeName();
-                                        String name = invIndustryCsrc.getName();
-                                        String cName = mergeName.substring(0, mergeName.lastIndexOf(name) - 1);
-                                        if (cName.equals(pMergeName)) {
-                                            invIndustryCsrc.setPid(industryCsrc.getId());
+                                invIndustryZ.setPid(0);
+                            }
+                            if (i != 1) {
+                                for (InvIndustry invIndustryF : invIndustrySet) {
+                                    if (invIndustryF.getLevel() == i - 1) {
+                                        String nameZ = invIndustryZ.getName();
+                                        String mergeNameZ = invIndustryZ.getMergeName();
+                                        String mergeNameF = invIndustryF.getMergeName();
+                                        mergeNameZ = mergeNameZ.substring(0, mergeNameZ.lastIndexOf(nameZ) - 1);
+                                        if (mergeNameZ.equals(mergeNameF)) {
+                                            invIndustryZ.setPid(invIndustryF.getId());
                                         }
                                     }
                                 }
                             }
                         }
+                        invIndustryList.add(invIndustryZ);
                     }
                 }
             }
-            for (InvIndustryCsrc invIndustryCsrc : invIndustryCsrcSet) {
-                if (!invIndustryCsrcs.contains(invIndustryCsrc)) {
-                    invIndustryCsrcMapper.insertInvIndustryCsrc(invIndustryCsrc);
+            for (InvIndustry invIndustry : invIndustryList) {
+                if (!hasInvIndustrys.contains(invIndustry)) {
+                    invIndustryMapper.insertInvIndustry(invIndustry);
                 }
             }
-            invIndustryCsrcSet.clear();
-            log.info("========证监会行业 任务完成=========");
+            log.info("========行业 任务完成=========");
         } catch (Exception e) {
             log.error(">>>异常:", e);
+        }finally {
+            invIndustrySet.clear();
         }
     }
 
     /**
-     * 东财行业
+     * 公司所属行业
      */
-    private void invIndustryEm(List<InvCompany> companyList) {
+    private void invCompanyIndustry(List<InvCompany> companyList) {
         try {
-            log.info("========东财行业 任务开始=========");
-            for (InvCompany company : companyList) {
-                investmentDataAsyncTask.invIndustryEmTask(company, new AtomicInteger(10));
-            }
-            isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-            List<InvIndustryEm> invIndustryEms = invIndustryEmMapper.selectInvIndustryEmList();
-            for (InvIndustryEm invIndustryEm : invIndustryEmSet) {
-                for (InvIndustryEm em : invIndustryEms) {
-                    if (invIndustryEms.equals(em)) {
-                        invIndustryEm.setId(em.getId());
-                        invIndustryEm.setPid(em.getPid());
-                    }
-                }
-            }
-            int id = 10000;
-            InvIndustryEm iem = invIndustryEmMapper.selectMaxId();
-            if (null != iem) {
-                id = iem.getId();
-            }
-            for (int i = 1; i < 5; i++) {
-                for (InvIndustryEm invIndustryEm : invIndustryEmSet) {
-                    if (invIndustryEm.getLevel() == i) {
-                        id++;
-                        if (null == invIndustryEm.getId()) {
-                            invIndustryEm.setId(id);
-                        }
-                        if (null == invIndustryEm.getPid()) {
-                            if (i == 1) {
-                                invIndustryEm.setPid(0);
-                            } else {
-                                for (InvIndustryEm industryEm : invIndustryEmSet) {
-                                    if (industryEm.getLevel() == i - 1) {
-                                        String pMergeName = industryEm.getMergeName();
-                                        String mergeName = invIndustryEm.getMergeName();
-                                        String name = invIndustryEm.getName();
-                                        String cName = mergeName.substring(0, mergeName.lastIndexOf(name) - 1);
-                                        if (cName.equals(pMergeName)) {
-                                            invIndustryEm.setPid(industryEm.getId());
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            for (InvIndustryEm invIndustryEm : invIndustryEmSet) {
-                if (!invIndustryEms.contains(invIndustryEm)) {
-                    invIndustryEmMapper.insertInvIndustryEm(invIndustryEm);
-                }
-            }
-            invIndustryEmSet.clear();
-            log.info("========东财行业 任务完成=========");
-        } catch (Exception e) {
-            log.error(">>>异常:", e);
-        }
-    }
-
-    /**
-     * 公司所属证监会行业
-     */
-    private void invCompanyIndustryCsrc(List<InvCompany> companyList) {
-        try {
-            log.info("========公司所属证监会行业 任务开始=========");
-            List<InvIndustryCsrc> invIndustryCsrcs = invIndustryCsrcMapper.selectInvIndustryCsrcList();
-            Map<String, InvIndustryCsrc> invIndustryCsrcMap = new HashMap<>();
-            for (InvIndustryCsrc invIndustryCsrc : invIndustryCsrcs) {
-                String key = invIndustryCsrc.getMergeName() + invIndustryCsrc.getLevel();
-                invIndustryCsrcMap.put(key, invIndustryCsrc);
+            log.info("========公司所属行业 任务开始=========");
+            List<InvIndustry> invIndustrys = invIndustryMapper.selectInvIndustryList(null);
+            Map<String, InvIndustry> invIndustryMap = new HashMap<>();
+            for (InvIndustry invIndustry : invIndustrys) {
+                String key = invIndustry.getMergeName() + invIndustry.getType() + invIndustry.getLevel();
+                invIndustryMap.put(key, invIndustry);
             }
             for (InvCompany company : companyList) {
-                investmentDataAsyncTask.invCompanyIndustryCsrc(company, invIndustryCsrcMap, new AtomicInteger(10));
+                investmentDataAsyncTask.invCompanyIndustry(company, invIndustryMap, "csrc", new AtomicInteger(10));
+                investmentDataAsyncTask.invCompanyIndustry(company, invIndustryMap, "em", new AtomicInteger(10));
             }
             isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-            log.info("========公司所属证监会行业 任务完成=========");
-        } catch (Exception e) {
-            log.error(">>>异常:", e);
-        }
-    }
-
-    /**
-     * 公司所属东财行业
-     */
-    private void invCompanyIndustryEm(List<InvCompany> companyList) {
-        try {
-            log.info("========公司所属东财行业 任务开始=========");
-            List<InvIndustryEm> invIndustryEms = invIndustryEmMapper.selectInvIndustryEmList();
-            Map<String, InvIndustryEm> invIndustryEmMap = new HashMap<>();
-            for (InvIndustryEm invIndustryEm : invIndustryEms) {
-                String key = invIndustryEm.getMergeName() + invIndustryEm.getLevel();
-                invIndustryEmMap.put(key, invIndustryEm);
-            }
-            for (InvCompany company : companyList) {
-                investmentDataAsyncTask.invCompanyIndustryEm(company, invIndustryEmMap, new AtomicInteger(10));
-            }
-            isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-            log.info("========公司所属东财行业 任务完成=========");
+            log.info("========公司所属行业 任务完成=========");
         } catch (Exception e) {
             log.error(">>>异常:", e);
         }
@@ -344,7 +257,7 @@ public class RyTask {
             List<SysArea> sysAreas = sysAreaMapper.selectSysAreaList();
             Map<String, SysArea> sysAreasMap = new HashMap<>();
             for (SysArea sysArea : sysAreas) {
-                String key = sysArea.getName() + sysArea.getLevel();
+                String key = sysArea.getShortName() + sysArea.getLevel();
                 sysAreasMap.put(key, sysArea);
             }
             for (InvCompany company : companyList) {
@@ -356,7 +269,6 @@ public class RyTask {
             log.error(">>>异常:", e);
         }
     }
-
 
     /**
      * 财务分析
@@ -444,7 +356,7 @@ public class RyTask {
 
         invStock();
         invCompany();
-        //invFinance();
+        invFinance();
 
         log.info("================数据初始化任务 完成=================");
     }

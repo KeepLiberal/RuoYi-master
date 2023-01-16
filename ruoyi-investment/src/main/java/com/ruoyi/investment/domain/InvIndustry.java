@@ -8,12 +8,12 @@ import com.ruoyi.common.core.domain.BaseEntity;
 import java.util.Objects;
 
 /**
- * 东财行业对象 inv_industry_em
+ * 行业对象 inv_industry
  * 
  * @author yangwenyang
- * @date 2023-01-11
+ * @date 2023-01-16
  */
-public class InvIndustryEm extends BaseEntity{
+public class InvIndustry extends BaseEntity{
     private static final long serialVersionUID = 1L;
 
     /** id */
@@ -22,6 +22,14 @@ public class InvIndustryEm extends BaseEntity{
     /** 父id */
     @Excel(name = "父id")
     private Integer pid;
+
+    /** 类型 csrc:证监会行业 em:东财行业 */
+    @Excel(name = "类型 csrc:证监会行业 em:东财行业")
+    private String type;
+
+    /** 层级 1-4 */
+    @Excel(name = "层级 1-4")
+    private Integer level;
 
     /** 简称 */
     @Excel(name = "简称")
@@ -35,23 +43,17 @@ public class InvIndustryEm extends BaseEntity{
     @Excel(name = "全称")
     private String mergeName;
 
-    /** 层级 1-4 */
-    @Excel(name = "层级 1-4")
-    private Integer level;
-
-    /** 拼音 */
-    @Excel(name = "拼音")
-    private String pinyin;
-
-    /** 首字母 */
-    @Excel(name = "首字母")
-    private String first;
-
     public void setId(Integer id){this.id = id;}
     public Integer getId(){return id;}
 
     public void setPid(Integer pid){this.pid = pid;}
     public Integer getPid(){return pid;}
+
+    public void setType(String type){this.type = type;}
+    public String getType(){return type;}
+
+    public void setLevel(Integer level){this.level = level;}
+    public Integer getLevel(){return level;}
 
     public void setShortName(String shortName){this.shortName = shortName;}
     public String getShortName(){return shortName;}
@@ -62,26 +64,17 @@ public class InvIndustryEm extends BaseEntity{
     public void setMergeName(String mergeName){this.mergeName = mergeName;}
     public String getMergeName(){return mergeName;}
 
-    public void setLevel(Integer level){this.level = level;}
-    public Integer getLevel(){return level;}
-
-    public void setPinyin(String pinyin){this.pinyin = pinyin;}
-    public String getPinyin(){return pinyin;}
-
-    public void setFirst(String first){this.first = first;}
-    public String getFirst(){return first;}
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof InvIndustryEm)) return false;
-        InvIndustryEm that = (InvIndustryEm) o;
-        return Objects.equals(shortName, that.shortName) && Objects.equals(name, that.name) && Objects.equals(mergeName, that.mergeName) && Objects.equals(level, that.level) && Objects.equals(pinyin, that.pinyin) && Objects.equals(first, that.first);
+        if (!(o instanceof InvIndustry)) return false;
+        InvIndustry that = (InvIndustry) o;
+        return Objects.equals(type, that.type) && Objects.equals(level, that.level) && Objects.equals(shortName, that.shortName) && Objects.equals(name, that.name) && Objects.equals(mergeName, that.mergeName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(shortName, name, mergeName, level, pinyin, first);
+        return Objects.hash(type, level, shortName, name, mergeName);
     }
 
     @Override
@@ -89,12 +82,11 @@ public class InvIndustryEm extends BaseEntity{
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
             .append("pid", getPid())
+            .append("type", getType())
+            .append("level", getLevel())
             .append("shortName", getShortName())
             .append("name", getName())
             .append("mergeName", getMergeName())
-            .append("level", getLevel())
-            .append("pinyin", getPinyin())
-            .append("first", getFirst())
             .toString();
     }
 }
