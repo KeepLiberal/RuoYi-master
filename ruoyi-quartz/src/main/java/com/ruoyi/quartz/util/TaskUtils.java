@@ -61,7 +61,7 @@ public class TaskUtils {
                 }
             }
             String result = HttpUtils.sendGet(dataUrl, new AtomicInteger(10));
-            if (StringUtils.isNotEmpty(result)) {
+            if (StringUtils.isNotEmpty(result) && !result.contains("<title>无F10资料</title>")) {
                 JSONObject jsonObject = JSONObject.parseObject(result);
                 Set<String> keySet = jsonObject.keySet();
                 for (String key : keySet) {
@@ -79,7 +79,7 @@ public class TaskUtils {
                 }
             }
         } catch (Exception e) {
-            log.error(">>>TaskUtils.getInterfaceKey 异常:{}", e);
+            log.error(">>>dataUrl:{} 异常:",dataUrl, e);
         }
     }
 
@@ -116,10 +116,10 @@ public class TaskUtils {
             }
 
             if (size == 0) {
-                log.error("htmlUrl:{} name:{} 无匹配项，请检查网页源码修正代码", "view-source:" + htmlUrl, name);
+                log.error("htmlUrl:{} name:{} 无匹配项，请检查网页源码修正代码", htmlUrl, name);
             }
         } catch (Exception e) {
-            log.error(">>>TaskUtils.getHtmlKey htmlUrl:{} name:{} 异常:{}", htmlUrl, name, e);
+            log.error(">>>htmlUrl:{} name:{} 异常", htmlUrl, name, e);
         }
     }
 
@@ -152,7 +152,7 @@ public class TaskUtils {
                 }
             }
         } catch (Exception e) {
-            log.error(">>>TaskUtils.getHtmlKey_company 异常:{}", e);
+            log.error("异常:", e);
         }
         return size;
     }
@@ -190,7 +190,7 @@ public class TaskUtils {
                 }
             }
         } catch (Exception e) {
-            log.error(">>>TaskUtils.getHtmlKey_zyzb 异常:{}", e);
+            log.error(">>>异常:", e);
         }
         return size;
     }
@@ -230,7 +230,7 @@ public class TaskUtils {
                 }
             }
         } catch (Exception e) {
-            log.error(">>>TaskUtils.getHtmlKey_dbfx 异常:{}", e);
+            log.error(">>>异常:", e);
         }
         return size;
     }
@@ -241,7 +241,7 @@ public class TaskUtils {
     private static int getHtmlKey_zcfz(Document doc) {
         int size = 0;
         try {
-            List<String> ids = Arrays.asList("zcfzb_qy", "zcfzb_qy_tb", "zcfzb_yh", "zcfzb_yh_tb");
+            List<String> ids = Arrays.asList("zcfzb_qy", "zcfzb_qy_tb", "zcfzb_yh", "zcfzb_yh_tb", "zcfzb_qs", "zcfzb_qs_tb", "zcfzb_bx", "zcfzb_bx_tb");
             List<String> elementStrs = new ArrayList<>();
             for (String id : ids) {
                 Element element = doc.getElementById(id);
@@ -274,7 +274,7 @@ public class TaskUtils {
             }
             size = elementStrs.size();
         } catch (Exception e) {
-            log.error(">>>TaskUtils.getHtmlKey_zcfz 异常:{}", e);
+            log.error(">>>异常:", e);
         }
         return size;
     }
@@ -285,7 +285,7 @@ public class TaskUtils {
     private static int getHtmlKey_lr(Document doc) {
         int size = 0;
         try {
-            List<String> ids = Arrays.asList("lrb_qy", "lrb_qy_tb", "lrb_qy_hb", "lrb_yh", "lrb_yh_tb", "lrb_yh_hb");
+            List<String> ids = Arrays.asList("lrb_qy", "lrb_qy_tb", "lrb_qy_hb", "lrb_yh", "lrb_yh_tb", "lrb_yh_hb", "lrb_qs", "lrb_qs_tb", "lrb_qs_hb", "lrb_bx", "lrb_bx_tb", "lrb_bx_hb");
             List<String> elementStrs = new ArrayList<>();
             for (String id : ids) {
                 Element element = doc.getElementById(id);
@@ -318,7 +318,7 @@ public class TaskUtils {
             }
             size = elementStrs.size();
         } catch (Exception e) {
-            log.error(">>>TaskUtils.getHtmlKey_lr 异常:{}", e);
+            log.error(">>>异常:", e);
         }
         return size;
     }
@@ -329,7 +329,7 @@ public class TaskUtils {
     private static int getHtmlKey_xjll(Document doc) {
         int size = 0;
         try {
-            List<String> ids = Arrays.asList("xjllb_qy", "xjllb_qy_tb", "xjllb_qy_hb", "xjllb_yh", "xjllb_yh_tb", "xjllb_yh_hb");
+            List<String> ids = Arrays.asList("xjllb_qy", "xjllb_qy_tb", "xjllb_qy_hb", "xjllb_yh", "xjllb_yh_tb", "xjllb_yh_hb", "xjllb_qs", "xjllb_qs_tb", "xjllb_qs_hb", "xjllb_bx", "xjllb_bx_tb", "xjllb_bx_hb");
             List<String> elementStrs = new ArrayList<>();
             for (String id : ids) {
                 Element element = doc.getElementById(id);
@@ -362,7 +362,7 @@ public class TaskUtils {
             }
             size = elementStrs.size();
         } catch (Exception e) {
-            log.error(">>>TaskUtils.getHtmlKey_xjll 异常:{}", e);
+            log.error(">>>异常:", e);
         }
         return size;
     }
@@ -398,7 +398,7 @@ public class TaskUtils {
             }
             size = elementStrs.size();
         } catch (Exception e) {
-            log.error(">>>TaskUtils.getHtmlKey_bfb 异常:{}", e);
+            log.error(">>>异常:", e);
         }
         return size;
     }
@@ -430,7 +430,7 @@ public class TaskUtils {
             bw.flush();
             bw.close();
         } catch (Exception e) {
-            log.error(">>>TaskUtils.writeKeysOfInterface 异常:{}", e);
+            log.error(">>>异常:", e);
         } finally {
             if (null != bw) {
                 try {
@@ -495,7 +495,7 @@ public class TaskUtils {
                 HttpUtils.downloadFile(imageUrl, "/Users/yay/WorkSpace/RuoYi/RuoYi-master/devFile/" + imageUrl.substring(imageUrl.indexOf("db_w_")), new AtomicInteger(10));
             }
         } catch (Exception e) {
-            log.error(">>>TaskUtils.writeSqlFileOfHtml 异常:{}", e);
+            log.error(">>>异常:", e);
         } finally {
             if (null != bw) {
                 try {
@@ -557,7 +557,7 @@ public class TaskUtils {
             bw.flush();
             bw.close();
         } catch (Exception e) {
-            log.error(">>>TaskUtils.writeCompareKeyFile 异常:{}", e);
+            log.error(">>>异常:", e);
         } finally {
             if (null != bw) {
                 try {
