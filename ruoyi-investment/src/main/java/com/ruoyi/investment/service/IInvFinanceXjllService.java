@@ -7,7 +7,7 @@ import com.ruoyi.investment.domain.InvFinanceXjll;
  * 财务分析-现金流量Service接口
  * 
  * @author yangwenyang
- * @date 2022-12-31
+ * @date 2023-01-19
  */
 public interface IInvFinanceXjllService {
     /**
@@ -16,7 +16,7 @@ public interface IInvFinanceXjllService {
      * @param id 财务分析-现金流量主键
      * @return 财务分析-现金流量
      */
-    public InvFinanceXjll selectInvFinanceXjllById(Long id);
+    public InvFinanceXjll selectInvFinanceXjllById(Integer id);
 
     /**
      * 查询财务分析-现金流量列表
@@ -56,5 +56,5 @@ public interface IInvFinanceXjllService {
      * @param id 财务分析-现金流量主键
      * @return 结果
      */
-    public int deleteInvFinanceXjllById(Long id);
+    public int deleteInvFinanceXjllById(Integer id);
 }

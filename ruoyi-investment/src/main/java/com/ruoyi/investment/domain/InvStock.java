@@ -11,35 +11,65 @@ import java.util.Objects;
  * A股基本信息对象 inv_stock
  * 
  * @author yangwenyang
- * @date 2022-10-18
+ * @date 2023-01-19
  */
-public class InvStock extends BaseEntity
-{
+public class InvStock extends BaseEntity{
     private static final long serialVersionUID = 1L;
 
+    /** ID */
+    private Integer id;
+
     /** 股票代码 */
+    @Excel(name = "股票代码")
     private String code;
 
     /** 股票简称 */
     @Excel(name = "股票简称")
     private String name;
 
-    /** 股票分类 */
-    @Excel(name = "股票分类")
-    private String stockType;
-
     /** 股票市场 */
     @Excel(name = "股票市场")
     private String market;
+
+    /** 股票分类 */
+    @Excel(name = "股票分类")
+    private String stockType;
 
     /** 组织代码 */
     @Excel(name = "组织代码")
     private String orgCode;
 
-    /** 全量分类代码 */
-    @Excel(name = "全量分类代码")
+    /** 组织简称 */
+    @Excel(name = "组织简称")
+    private String orgType;
+
+    /** 股票分类代码 */
+    @Excel(name = "股票分类代码")
     private String securityTypeCode;
 
+    public void setId(Integer id){this.id = id;}
+    public Integer getId(){return id;}
+
+    public void setCode(String code){this.code = code;}
+    public String getCode(){return code;}
+
+    public void setName(String name){this.name = name;}
+    public String getName(){return name;}
+
+    public void setMarket(String market){this.market = market;}
+    public String getMarket(){return market;}
+
+    public void setStockType(String stockType){this.stockType = stockType;}
+    public String getStockType(){return stockType;}
+
+    public void setOrgCode(String orgCode){this.orgCode = orgCode;}
+    public String getOrgCode(){return orgCode;}
+
+    public void setOrgType(String orgType){this.orgType = orgType;}
+    public String getOrgType(){return orgType;}
+
+    public void setSecurityTypeCode(String securityTypeCode){this.securityTypeCode = securityTypeCode;}
+    public String getSecurityTypeCode(){return securityTypeCode;}
 
     public InvStock() {
         super();
@@ -56,78 +86,12 @@ public class InvStock extends BaseEntity
         if (this == o) return true;
         if (!(o instanceof InvStock)) return false;
         InvStock invStock = (InvStock) o;
-        return Objects.equals(code, invStock.code) && Objects.equals(name, invStock.name) && Objects.equals(market, invStock.market);
+        return Objects.equals(code, invStock.code) && Objects.equals(name, invStock.name) && Objects.equals(market, invStock.market) && Objects.equals(stockType, invStock.stockType) && Objects.equals(orgCode, invStock.orgCode) && Objects.equals(orgType, invStock.orgType) && Objects.equals(securityTypeCode, invStock.securityTypeCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, name, market);
+        return Objects.hash(code, name, market, stockType, orgCode, orgType, securityTypeCode);
     }
 
-    public void setCode(String code)
-    {
-        this.code = code;
-    }
-
-    public String getCode() 
-    {
-        return code;
-    }
-    public void setName(String name) 
-    {
-        this.name = name;
-    }
-
-    public String getName() 
-    {
-        return name;
-    }
-    public void setStockType(String stockType) 
-    {
-        this.stockType = stockType;
-    }
-
-    public String getStockType() 
-    {
-        return stockType;
-    }
-    public void setMarket(String market) 
-    {
-        this.market = market;
-    }
-
-    public String getMarket() 
-    {
-        return market;
-    }
-    public void setOrgCode(String orgCode) 
-    {
-        this.orgCode = orgCode;
-    }
-
-    public String getOrgCode() 
-    {
-        return orgCode;
-    }
-    public void setSecurityTypeCode(String securityTypeCode) 
-    {
-        this.securityTypeCode = securityTypeCode;
-    }
-
-    public String getSecurityTypeCode() 
-    {
-        return securityTypeCode;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("code", getCode())
-            .append("name", getName())
-            .append("stockType", getStockType())
-            .append("market", getMarket())
-            .append("orgCode", getOrgCode())
-            .append("securityTypeCode", getSecurityTypeCode())
-            .toString();
-    }
 }

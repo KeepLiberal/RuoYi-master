@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
         
-    <insert id="insertInvIndustry" parameterType="InvIndustry" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertInvIndustry" parameterType="InvIndustry">
         insert into inv_industry
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>

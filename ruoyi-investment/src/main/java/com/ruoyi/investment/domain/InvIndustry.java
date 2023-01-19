@@ -11,7 +11,7 @@ import java.util.Objects;
  * 行业对象 inv_industry
  * 
  * @author yangwenyang
- * @date 2023-01-16
+ * @date 2023-01-19
  */
 public class InvIndustry extends BaseEntity{
     private static final long serialVersionUID = 1L;
@@ -69,24 +69,12 @@ public class InvIndustry extends BaseEntity{
         if (this == o) return true;
         if (!(o instanceof InvIndustry)) return false;
         InvIndustry that = (InvIndustry) o;
-        return Objects.equals(type, that.type) && Objects.equals(level, that.level) && Objects.equals(shortName, that.shortName) && Objects.equals(name, that.name) && Objects.equals(mergeName, that.mergeName);
+        return Objects.equals(pid, that.pid) && Objects.equals(type, that.type) && Objects.equals(level, that.level) && Objects.equals(shortName, that.shortName) && Objects.equals(name, that.name) && Objects.equals(mergeName, that.mergeName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, level, shortName, name, mergeName);
+        return Objects.hash(pid, type, level, shortName, name, mergeName);
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("pid", getPid())
-            .append("type", getType())
-            .append("level", getLevel())
-            .append("shortName", getShortName())
-            .append("name", getName())
-            .append("mergeName", getMergeName())
-            .toString();
-    }
 }

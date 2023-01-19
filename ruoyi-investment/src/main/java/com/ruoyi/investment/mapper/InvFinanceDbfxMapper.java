@@ -7,17 +7,16 @@ import com.ruoyi.investment.domain.InvFinanceDbfx;
  * 财务分析-杜邦分析Mapper接口
  * 
  * @author yangwenyang
- * @date 2022-10-18
+ * @date 2023-01-19
  */
-public interface InvFinanceDbfxMapper 
-{
+public interface InvFinanceDbfxMapper {
     /**
      * 查询财务分析-杜邦分析
      * 
      * @param id 财务分析-杜邦分析主键
      * @return 财务分析-杜邦分析
      */
-    public InvFinanceDbfx selectInvFinanceDbfxById(Long id);
+    public InvFinanceDbfx selectInvFinanceDbfxById(Integer id);
 
     /**
      * 查询财务分析-杜邦分析列表
@@ -49,7 +48,7 @@ public interface InvFinanceDbfxMapper
      * @param id 财务分析-杜邦分析主键
      * @return 结果
      */
-    public int deleteInvFinanceDbfxById(Long id);
+    public int deleteInvFinanceDbfxById(Integer id);
 
     /**
      * 批量删除财务分析-杜邦分析

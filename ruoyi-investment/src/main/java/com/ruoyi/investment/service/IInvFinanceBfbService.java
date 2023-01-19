@@ -7,7 +7,7 @@ import com.ruoyi.investment.domain.InvFinanceBfb;
  * 财务分析-百分比Service接口
  * 
  * @author yangwenyang
- * @date 2023-01-01
+ * @date 2023-01-19
  */
 public interface IInvFinanceBfbService {
     /**
@@ -16,7 +16,7 @@ public interface IInvFinanceBfbService {
      * @param id 财务分析-百分比主键
      * @return 财务分析-百分比
      */
-    public InvFinanceBfb selectInvFinanceBfbById(Long id);
+    public InvFinanceBfb selectInvFinanceBfbById(Integer id);
 
     /**
      * 查询财务分析-百分比列表
@@ -56,5 +56,5 @@ public interface IInvFinanceBfbService {
      * @param id 财务分析-百分比主键
      * @return 结果
      */
-    public int deleteInvFinanceBfbById(Long id);
+    public int deleteInvFinanceBfbById(Integer id);
 }

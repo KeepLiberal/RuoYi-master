@@ -8,10 +8,11 @@
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-invCompany-edit" th:object="${invCompany}">
-            <div class="form-group">
-                <label class="col-sm-3 control-label">股票代码：</label>
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">股票代码：</label>
                 <div class="col-sm-8">
-                    <textarea name="code" class="form-control">[[*{code}]]</textarea>
+                    <input name="code" th:field="*{code}" class="form-control" type="text" required>
                 </div>
             </div>
             <div class="form-group">
@@ -200,16 +201,16 @@
                     <input name="tatolnumber" th:field="*{tatolnumber}" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group">    
                 <label class="col-sm-3 control-label">律师事务所：</label>
                 <div class="col-sm-8">
-                    <textarea name="lawFirm" class="form-control">[[*{lawFirm}]]</textarea>
+                    <input name="lawFirm" th:field="*{lawFirm}" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group">    
                 <label class="col-sm-3 control-label">会计师事务所：</label>
                 <div class="col-sm-8">
-                    <textarea name="accountfirmName" class="form-control">[[*{accountfirmName}]]</textarea>
+                    <input name="accountfirmName" th:field="*{accountfirmName}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
@@ -259,10 +260,10 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group">    
                 <label class="col-sm-3 control-label">发行方式：</label>
                 <div class="col-sm-8">
-                    <textarea name="issueWay" class="form-control">[[*{issueWay}]]</textarea>
+                    <input name="issueWay" th:field="*{issueWay}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    

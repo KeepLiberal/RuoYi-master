@@ -12,7 +12,7 @@ import com.ruoyi.common.core.text.Convert;
  * 财务分析-现金流量Service业务层处理
  * 
  * @author yangwenyang
- * @date 2022-12-31
+ * @date 2023-01-19
  */
 @Service
 public class InvFinanceXjllServiceImpl implements IInvFinanceXjllService {
@@ -26,7 +26,7 @@ public class InvFinanceXjllServiceImpl implements IInvFinanceXjllService {
      * @return 财务分析-现金流量
      */
     @Override
-    public InvFinanceXjll selectInvFinanceXjllById(Long id) {
+    public InvFinanceXjll selectInvFinanceXjllById(Integer id) {
         return invFinanceXjllMapper.selectInvFinanceXjllById(id);
     }
 
@@ -81,7 +81,7 @@ public class InvFinanceXjllServiceImpl implements IInvFinanceXjllService {
      * @return 结果
      */
     @Override
-    public int deleteInvFinanceXjllById(Long id) {
+    public int deleteInvFinanceXjllById(Integer id) {
         return invFinanceXjllMapper.deleteInvFinanceXjllById(id);
     }
 }

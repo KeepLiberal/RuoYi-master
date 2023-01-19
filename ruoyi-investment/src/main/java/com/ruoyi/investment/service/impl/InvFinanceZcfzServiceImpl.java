@@ -1,7 +1,7 @@
 package com.ruoyi.investment.service.impl;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import com.ruoyi.investment.mapper.InvFinanceZcfzMapper;
 import com.ruoyi.investment.domain.InvFinanceZcfz;
@@ -12,12 +12,11 @@ import com.ruoyi.common.core.text.Convert;
  * 财务分析-资产负债Service业务层处理
  * 
  * @author yangwenyang
- * @date 2022-10-18
+ * @date 2023-01-19
  */
 @Service
-public class InvFinanceZcfzServiceImpl implements IInvFinanceZcfzService 
-{
-    @Autowired
+public class InvFinanceZcfzServiceImpl implements IInvFinanceZcfzService {
+    @Resource
     private InvFinanceZcfzMapper invFinanceZcfzMapper;
 
     /**
@@ -27,8 +26,7 @@ public class InvFinanceZcfzServiceImpl implements IInvFinanceZcfzService
      * @return 财务分析-资产负债
      */
     @Override
-    public InvFinanceZcfz selectInvFinanceZcfzById(Long id)
-    {
+    public InvFinanceZcfz selectInvFinanceZcfzById(Integer id) {
         return invFinanceZcfzMapper.selectInvFinanceZcfzById(id);
     }
 
@@ -39,8 +37,7 @@ public class InvFinanceZcfzServiceImpl implements IInvFinanceZcfzService
      * @return 财务分析-资产负债
      */
     @Override
-    public List<InvFinanceZcfz> selectInvFinanceZcfzList(InvFinanceZcfz invFinanceZcfz)
-    {
+    public List<InvFinanceZcfz> selectInvFinanceZcfzList(InvFinanceZcfz invFinanceZcfz) {
         return invFinanceZcfzMapper.selectInvFinanceZcfzList(invFinanceZcfz);
     }
 
@@ -51,8 +48,7 @@ public class InvFinanceZcfzServiceImpl implements IInvFinanceZcfzService
      * @return 结果
      */
     @Override
-    public int insertInvFinanceZcfz(InvFinanceZcfz invFinanceZcfz)
-    {
+    public int insertInvFinanceZcfz(InvFinanceZcfz invFinanceZcfz) {
         return invFinanceZcfzMapper.insertInvFinanceZcfz(invFinanceZcfz);
     }
 
@@ -63,8 +59,7 @@ public class InvFinanceZcfzServiceImpl implements IInvFinanceZcfzService
      * @return 结果
      */
     @Override
-    public int updateInvFinanceZcfz(InvFinanceZcfz invFinanceZcfz)
-    {
+    public int updateInvFinanceZcfz(InvFinanceZcfz invFinanceZcfz) {
         return invFinanceZcfzMapper.updateInvFinanceZcfz(invFinanceZcfz);
     }
 
@@ -75,8 +70,7 @@ public class InvFinanceZcfzServiceImpl implements IInvFinanceZcfzService
      * @return 结果
      */
     @Override
-    public int deleteInvFinanceZcfzByIds(String ids)
-    {
+    public int deleteInvFinanceZcfzByIds(String ids) {
         return invFinanceZcfzMapper.deleteInvFinanceZcfzByIds(Convert.toStrArray(ids));
     }
 
@@ -87,8 +81,7 @@ public class InvFinanceZcfzServiceImpl implements IInvFinanceZcfzService
      * @return 结果
      */
     @Override
-    public int deleteInvFinanceZcfzById(Long id)
-    {
+    public int deleteInvFinanceZcfzById(Integer id) {
         return invFinanceZcfzMapper.deleteInvFinanceZcfzById(id);
     }
 }

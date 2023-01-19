@@ -12,7 +12,7 @@ import com.ruoyi.common.core.text.Convert;
  * 公司所属行业Service业务层处理
  * 
  * @author yangwenyang
- * @date 2023-01-16
+ * @date 2023-01-19
  */
 @Service
 public class InvCompanyIndustryServiceImpl implements IInvCompanyIndustryService {

@@ -10,16 +10,16 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * 财务分析-重要指标对象 inv_finance_zyzb
+ * 财务分析-主要指标对象 inv_finance_zyzb
  * 
  * @author yangwenyang
- * @date 2023-01-09
+ * @date 2023-01-19
  */
 public class InvFinanceZyzb extends BaseEntity{
     private static final long serialVersionUID = 1L;
 
-    /** id */
-    private Long id;
+    /** ID */
+    private Integer id;
 
     /** 股票代码 */
     @Excel(name = "股票代码")
@@ -322,8 +322,8 @@ public class InvFinanceZyzb extends BaseEntity{
     @Excel(name = "净利率(%)")
     private Double netProfitRatio;
 
-    public void setId(Long id){this.id = id;}
-    public Long getId(){return id;}
+    public void setId(Integer id){this.id = id;}
+    public Integer getId(){return id;}
 
     public void setSecurityCode(String securityCode){this.securityCode = securityCode;}
     public String getSecurityCode(){return securityCode;}
@@ -572,85 +572,4 @@ public class InvFinanceZyzb extends BaseEntity{
         return Objects.hash(securityCode, reportType, reportDate, epsjb, epskcjb, epsxs, bps, mgzbgj, mgwfplr, mgjyxjje, totaloperatereve, mlr, parentnetprofit, kcfjcxsyjlr, totaloperaterevetz, parentnetprofittz, kcfjcxsyjlrtz, yyzsrgdhbzc, netprofitrphbzc, kfjlrgdhbzc, roejq, roekcjq, zzcjll, xsmll, xsjll, yszkyysr, xsjxlyysr, jyxjlyysr, taxrate, ld, sd, xjllb, zcfzl, qycs, cqbl, zzczzts, chzzts, yszkzzts, toazzl, chzzl, yszkzzl, totaldeposits, grossloans, ltdrr, newcapitalader, hxyjbczl, nonperloan, bldkbbl, nzbje, totalRoi, netRoi, earnedPremium, compensateExpense, surrenderRateLife, solvencyAr, jzb, jzc, jzbjzc, zygpgmjzc, zygdsylzqjzb, yyfxzb, jjywfxzb, zqzyywfxzb, zqcxywfxzb, rzrqywfxzb, perCapitalReserve, perUnassignProfit, perNetcash, grossProfit, deduParentProfit, dpnpYoyRatio, roeDiluted, jroa, grossProfitRatio, netProfitRatio);
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("securityCode", getSecurityCode())
-            .append("reportType", getReportType())
-            .append("reportDate", getReportDate())
-            .append("epsjb", getEpsjb())
-            .append("epskcjb", getEpskcjb())
-            .append("epsxs", getEpsxs())
-            .append("bps", getBps())
-            .append("mgzbgj", getMgzbgj())
-            .append("mgwfplr", getMgwfplr())
-            .append("mgjyxjje", getMgjyxjje())
-            .append("totaloperatereve", getTotaloperatereve())
-            .append("mlr", getMlr())
-            .append("parentnetprofit", getParentnetprofit())
-            .append("kcfjcxsyjlr", getKcfjcxsyjlr())
-            .append("totaloperaterevetz", getTotaloperaterevetz())
-            .append("parentnetprofittz", getParentnetprofittz())
-            .append("kcfjcxsyjlrtz", getKcfjcxsyjlrtz())
-            .append("yyzsrgdhbzc", getYyzsrgdhbzc())
-            .append("netprofitrphbzc", getNetprofitrphbzc())
-            .append("kfjlrgdhbzc", getKfjlrgdhbzc())
-            .append("roejq", getRoejq())
-            .append("roekcjq", getRoekcjq())
-            .append("zzcjll", getZzcjll())
-            .append("xsmll", getXsmll())
-            .append("xsjll", getXsjll())
-            .append("yszkyysr", getYszkyysr())
-            .append("xsjxlyysr", getXsjxlyysr())
-            .append("jyxjlyysr", getJyxjlyysr())
-            .append("taxrate", getTaxrate())
-            .append("ld", getLd())
-            .append("sd", getSd())
-            .append("xjllb", getXjllb())
-            .append("zcfzl", getZcfzl())
-            .append("qycs", getQycs())
-            .append("cqbl", getCqbl())
-            .append("zzczzts", getZzczzts())
-            .append("chzzts", getChzzts())
-            .append("yszkzzts", getYszkzzts())
-            .append("toazzl", getToazzl())
-            .append("chzzl", getChzzl())
-            .append("yszkzzl", getYszkzzl())
-            .append("totaldeposits", getTotaldeposits())
-            .append("grossloans", getGrossloans())
-            .append("ltdrr", getLtdrr())
-            .append("newcapitalader", getNewcapitalader())
-            .append("hxyjbczl", getHxyjbczl())
-            .append("nonperloan", getNonperloan())
-            .append("bldkbbl", getBldkbbl())
-            .append("nzbje", getNzbje())
-            .append("totalRoi", getTotalRoi())
-            .append("netRoi", getNetRoi())
-            .append("earnedPremium", getEarnedPremium())
-            .append("compensateExpense", getCompensateExpense())
-            .append("surrenderRateLife", getSurrenderRateLife())
-            .append("solvencyAr", getSolvencyAr())
-            .append("jzb", getJzb())
-            .append("jzc", getJzc())
-            .append("jzbjzc", getJzbjzc())
-            .append("zygpgmjzc", getZygpgmjzc())
-            .append("zygdsylzqjzb", getZygdsylzqjzb())
-            .append("yyfxzb", getYyfxzb())
-            .append("jjywfxzb", getJjywfxzb())
-            .append("zqzyywfxzb", getZqzyywfxzb())
-            .append("zqcxywfxzb", getZqcxywfxzb())
-            .append("rzrqywfxzb", getRzrqywfxzb())
-            .append("perCapitalReserve", getPerCapitalReserve())
-            .append("perUnassignProfit", getPerUnassignProfit())
-            .append("perNetcash", getPerNetcash())
-            .append("grossProfit", getGrossProfit())
-            .append("deduParentProfit", getDeduParentProfit())
-            .append("dpnpYoyRatio", getDpnpYoyRatio())
-            .append("roeDiluted", getRoeDiluted())
-            .append("jroa", getJroa())
-            .append("grossProfitRatio", getGrossProfitRatio())
-            .append("netProfitRatio", getNetProfitRatio())
-            .toString();
-    }
 }

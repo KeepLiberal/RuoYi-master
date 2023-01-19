@@ -12,7 +12,7 @@ import com.ruoyi.common.core.text.Convert;
  * 公司概况Service业务层处理
  * 
  * @author yangwenyang
- * @date 2023-01-09
+ * @date 2023-01-19
  */
 @Service
 public class InvCompanyServiceImpl implements IInvCompanyService {
@@ -22,12 +22,12 @@ public class InvCompanyServiceImpl implements IInvCompanyService {
     /**
      * 查询公司概况
      * 
-     * @param code 公司概况主键
+     * @param id 公司概况主键
      * @return 公司概况
      */
     @Override
-    public InvCompany selectInvCompanyByCode(String code) {
-        return invCompanyMapper.selectInvCompanyByCode(code);
+    public InvCompany selectInvCompanyById(Integer id) {
+        return invCompanyMapper.selectInvCompanyById(id);
     }
 
     /**
@@ -66,22 +66,22 @@ public class InvCompanyServiceImpl implements IInvCompanyService {
     /**
      * 批量删除公司概况
      * 
-     * @param codes 需要删除的公司概况主键
+     * @param ids 需要删除的公司概况主键
      * @return 结果
      */
     @Override
-    public int deleteInvCompanyByCodes(String codes) {
-        return invCompanyMapper.deleteInvCompanyByCodes(Convert.toStrArray(codes));
+    public int deleteInvCompanyByIds(String ids) {
+        return invCompanyMapper.deleteInvCompanyByIds(Convert.toStrArray(ids));
     }
 
     /**
      * 删除公司概况信息
      * 
-     * @param code 公司概况主键
+     * @param id 公司概况主键
      * @return 结果
      */
     @Override
-    public int deleteInvCompanyByCode(String code) {
-        return invCompanyMapper.deleteInvCompanyByCode(code);
+    public int deleteInvCompanyById(Integer id) {
+        return invCompanyMapper.deleteInvCompanyById(id);
     }
 }

@@ -32,255 +32,279 @@
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">营业收入：</label>
+                <label class="col-sm-3 control-label">总资产：</label>
+                <div class="col-sm-8">
+                    <input name="totalAssets" th:field="*{totalAssets}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">一、营业收入(元)：</label>
                 <div class="col-sm-8">
                     <input name="operateIncome" th:field="*{operateIncome}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">营业收入(占比%)：</label>
+                <label class="col-sm-3 control-label">流动资产：</label>
                 <div class="col-sm-8">
-                    <input name="operateIncomeYoy" th:field="*{operateIncomeYoy}" class="form-control" type="text">
+                    <input name="totalCurrentAssets" th:field="*{totalCurrentAssets}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">利息净收入：</label>
+                <label class="col-sm-3 control-label">利息净收入(元)：</label>
                 <div class="col-sm-8">
                     <input name="interestNi" th:field="*{interestNi}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">利息净收入(占比%)：</label>
-                <div class="col-sm-8">
-                    <input name="interestNiYoy" th:field="*{interestNiYoy}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">手续费及佣金净收入：</label>
+                <label class="col-sm-3 control-label">手续费及佣金净收入(元)：</label>
                 <div class="col-sm-8">
                     <input name="feeCommissionNi" th:field="*{feeCommissionNi}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">手续费及佣金净收入(占比%)：</label>
+                <label class="col-sm-3 control-label">非流动资产：</label>
                 <div class="col-sm-8">
-                    <input name="feeCommissionNiYoy" th:field="*{feeCommissionNiYoy}" class="form-control" type="text">
+                    <input name="totalNoncurrentAssets" th:field="*{totalNoncurrentAssets}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">投资收益：</label>
+                <label class="col-sm-3 control-label">投资收益(元)：</label>
                 <div class="col-sm-8">
                     <input name="investIncome" th:field="*{investIncome}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">投资收益(占比%)：</label>
+                <label class="col-sm-3 control-label">总负债金额：</label>
                 <div class="col-sm-8">
-                    <input name="investIncomeYoy" th:field="*{investIncomeYoy}" class="form-control" type="text">
+                    <input name="totalLiabilities" th:field="*{totalLiabilities}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">公允价值变动收益：</label>
+                <label class="col-sm-3 control-label">公允价值变动收益(元)：</label>
                 <div class="col-sm-8">
                     <input name="fairvalueChangeIncome" th:field="*{fairvalueChangeIncome}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">公允价值变动收益(占比%)：</label>
+                <label class="col-sm-3 control-label">流动负债：</label>
                 <div class="col-sm-8">
-                    <input name="fairvalueChangeIncomeYoy" th:field="*{fairvalueChangeIncomeYoy}" class="form-control" type="text">
+                    <input name="totalCurrentLiab" th:field="*{totalCurrentLiab}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">汇兑收益：</label>
+                <label class="col-sm-3 control-label">汇兑收益(元)：</label>
                 <div class="col-sm-8">
                     <input name="exchangeIncome" th:field="*{exchangeIncome}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">汇兑收益(占比%)：</label>
-                <div class="col-sm-8">
-                    <input name="exchangeIncomeYoy" th:field="*{exchangeIncomeYoy}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">其他业务收入：</label>
+                <label class="col-sm-3 control-label">其他业务收入(元)：</label>
                 <div class="col-sm-8">
                     <input name="otherBusinessIncome" th:field="*{otherBusinessIncome}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">其他业务收入(占比%)：</label>
+                <label class="col-sm-3 control-label">非流动负债：</label>
                 <div class="col-sm-8">
-                    <input name="otherBusinessIncomeYoy" th:field="*{otherBusinessIncomeYoy}" class="form-control" type="text">
+                    <input name="totalNoncurrentLiab" th:field="*{totalNoncurrentLiab}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">资产处置收益：</label>
+                <label class="col-sm-3 control-label">资产处置收益(元)：</label>
                 <div class="col-sm-8">
                     <input name="assetDisposalIncome" th:field="*{assetDisposalIncome}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">资产处置收益(占比%)：</label>
-                <div class="col-sm-8">
-                    <input name="assetDisposalIncomeYoy" th:field="*{assetDisposalIncomeYoy}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">其他收益：</label>
+                <label class="col-sm-3 control-label">其他收益(元)：</label>
                 <div class="col-sm-8">
                     <input name="otherIncome" th:field="*{otherIncome}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">其他收益(占比%)：</label>
-                <div class="col-sm-8">
-                    <input name="otherIncomeYoy" th:field="*{otherIncomeYoy}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">营业支出：</label>
+                <label class="col-sm-3 control-label">二、营业支出(元)：</label>
                 <div class="col-sm-8">
                     <input name="operateExpense" th:field="*{operateExpense}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">营业支出(占比%)：</label>
-                <div class="col-sm-8">
-                    <input name="operateExpenseYoy" th:field="*{operateExpenseYoy}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">税金及附加：</label>
+                <label class="col-sm-3 control-label">税金及附加(元)：</label>
                 <div class="col-sm-8">
                     <input name="operateTaxAdd" th:field="*{operateTaxAdd}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">税金及附加(占比%)：</label>
-                <div class="col-sm-8">
-                    <input name="operateTaxAddYoy" th:field="*{operateTaxAddYoy}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">业务及管理费：</label>
+                <label class="col-sm-3 control-label">业务及管理费(元)：</label>
                 <div class="col-sm-8">
                     <input name="businessManageExpense" th:field="*{businessManageExpense}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">业务及管理费(占比%)：</label>
-                <div class="col-sm-8">
-                    <input name="businessManageExpenseYoy" th:field="*{businessManageExpenseYoy}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">资产减值损失：</label>
+                <label class="col-sm-3 control-label">资产减值损失(元)：</label>
                 <div class="col-sm-8">
                     <input name="assetImpairmentLoss" th:field="*{assetImpairmentLoss}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">资产减值损失(占比%)：</label>
-                <div class="col-sm-8">
-                    <input name="assetImpairmentLossYoy" th:field="*{assetImpairmentLossYoy}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">信用减值损失：</label>
+                <label class="col-sm-3 control-label">信用减值损失(元)：</label>
                 <div class="col-sm-8">
                     <input name="creditImpairmentLoss" th:field="*{creditImpairmentLoss}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">信用减值损失(占比%)：</label>
-                <div class="col-sm-8">
-                    <input name="creditImpairmentLossYoy" th:field="*{creditImpairmentLossYoy}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">其他业务成本：</label>
+                <label class="col-sm-3 control-label">其他业务成本(元)：</label>
                 <div class="col-sm-8">
                     <input name="otherBusinessCost" th:field="*{otherBusinessCost}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">其他业务成本(占比%)：</label>
-                <div class="col-sm-8">
-                    <input name="otherBusinessCostYoy" th:field="*{otherBusinessCostYoy}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">营业利润：</label>
+                <label class="col-sm-3 control-label">三、营业利润(元)：</label>
                 <div class="col-sm-8">
                     <input name="operateProfit" th:field="*{operateProfit}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">营业利润(占比%)：</label>
-                <div class="col-sm-8">
-                    <input name="operateProfitYoy" th:field="*{operateProfitYoy}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">营业外收入：</label>
+                <label class="col-sm-3 control-label">加:营业外收入(元)：</label>
                 <div class="col-sm-8">
                     <input name="nonbusinessIncome" th:field="*{nonbusinessIncome}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">营业外收入(占比%)：</label>
-                <div class="col-sm-8">
-                    <input name="nonbusinessIncomeYoy" th:field="*{nonbusinessIncomeYoy}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">营业外支出：</label>
+                <label class="col-sm-3 control-label">减:营业外支出(元)：</label>
                 <div class="col-sm-8">
                     <input name="nonbusinessExpense" th:field="*{nonbusinessExpense}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">营业外支出(占比%)：</label>
-                <div class="col-sm-8">
-                    <input name="nonbusinessExpenseYoy" th:field="*{nonbusinessExpenseYoy}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">利润总额：</label>
+                <label class="col-sm-3 control-label">四、利润总额(元)：</label>
                 <div class="col-sm-8">
                     <input name="totalProfit" th:field="*{totalProfit}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">利润总额(占比%)：</label>
-                <div class="col-sm-8">
-                    <input name="totalProfitYoy" th:field="*{totalProfitYoy}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">所得税费用：</label>
+                <label class="col-sm-3 control-label">减:所得税费用(元)：</label>
                 <div class="col-sm-8">
                     <input name="incomeTax" th:field="*{incomeTax}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">所得税费用(占比%)：</label>
-                <div class="col-sm-8">
-                    <input name="incomeTaxYoy" th:field="*{incomeTaxYoy}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">净利润：</label>
+                <label class="col-sm-3 control-label">五、净利润(元)：</label>
                 <div class="col-sm-8">
                     <input name="netprofit" th:field="*{netprofit}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">净利润(占比%)：</label>
+                <label class="col-sm-3 control-label">一、营业总收入(元)：</label>
                 <div class="col-sm-8">
-                    <input name="netprofitYoy" th:field="*{netprofitYoy}" class="form-control" type="text">
+                    <input name="totalOperateIncome" th:field="*{totalOperateIncome}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">二、营业总成本(元)：</label>
+                <div class="col-sm-8">
+                    <input name="totalOperateCost" th:field="*{totalOperateCost}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">营业成本(元)：</label>
+                <div class="col-sm-8">
+                    <input name="operateCost" th:field="*{operateCost}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">期间费用(元)：</label>
+                <div class="col-sm-8">
+                    <input name="totalExpense" th:field="*{totalExpense}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">销售费用(元)：</label>
+                <div class="col-sm-8">
+                    <input name="saleExpense" th:field="*{saleExpense}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">管理费用(元)：</label>
+                <div class="col-sm-8">
+                    <input name="manageExpense" th:field="*{manageExpense}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">研发费用(元)：</label>
+                <div class="col-sm-8">
+                    <input name="researchExpense" th:field="*{researchExpense}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">财务费用(元)：</label>
+                <div class="col-sm-8">
+                    <input name="financeExpense" th:field="*{financeExpense}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">信用减值损失(元)：</label>
+                <div class="col-sm-8">
+                    <input name="creditImpairmentIncome" th:field="*{creditImpairmentIncome}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">资产减值损失(元)：</label>
+                <div class="col-sm-8">
+                    <input name="assetImpairmentIncome" th:field="*{assetImpairmentIncome}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">已赚保费(元)：</label>
+                <div class="col-sm-8">
+                    <input name="earnedPremium" th:field="*{earnedPremium}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">公允价值变动收益(元)：</label>
+                <div class="col-sm-8">
+                    <input name="fairvalueChange" th:field="*{fairvalueChange}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">退保金(元)：</label>
+                <div class="col-sm-8">
+                    <input name="surrenderValue" th:field="*{surrenderValue}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">赔付支出(元)：</label>
+                <div class="col-sm-8">
+                    <input name="compensateExpense" th:field="*{compensateExpense}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">减:摊回赔付支出(元)：</label>
+                <div class="col-sm-8">
+                    <input name="amortizeCompensateExpense" th:field="*{amortizeCompensateExpense}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">提取保险责任准备金(元)：</label>
+                <div class="col-sm-8">
+                    <input name="extractInsuranceReserve" th:field="*{extractInsuranceReserve}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">减:摊回保险责任准备金(元)：</label>
+                <div class="col-sm-8">
+                    <input name="amortizeInsuranceReserve" th:field="*{amortizeInsuranceReserve}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">保单红利支出(元)：</label>
+                <div class="col-sm-8">
+                    <input name="policyBonusExpense" th:field="*{policyBonusExpense}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">手续费及佣金支出(元)：</label>
+                <div class="col-sm-8">
+                    <input name="feeCommissionExpense" th:field="*{feeCommissionExpense}" class="form-control" type="text">
                 </div>
             </div>
         </form>

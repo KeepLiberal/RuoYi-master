@@ -23,7 +23,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 财务分析-现金流量Controller
  * 
  * @author yangwenyang
- * @date 2022-12-31
+ * @date 2023-01-19
  */
 @Controller
 @RequestMapping("/investment/invFinanceXjll")
@@ -90,7 +90,7 @@ public class InvFinanceXjllController extends BaseController {
      */
     @RequiresPermissions("investment:invFinanceXjll:edit")
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, ModelMap mmap) {
+    public String edit(@PathVariable("id") Integer id, ModelMap mmap) {
         InvFinanceXjll invFinanceXjll = invFinanceXjllService.selectInvFinanceXjllById(id);
         mmap.put("invFinanceXjll", invFinanceXjll);
         return prefix + "/edit";

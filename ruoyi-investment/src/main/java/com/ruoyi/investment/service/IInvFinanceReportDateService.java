@@ -7,17 +7,16 @@ import com.ruoyi.investment.domain.InvFinanceReportDate;
  * 财务分析-报告日期Service接口
  * 
  * @author yangwenyang
- * @date 2022-10-18
+ * @date 2023-01-19
  */
-public interface IInvFinanceReportDateService 
-{
+public interface IInvFinanceReportDateService {
     /**
      * 查询财务分析-报告日期
      * 
      * @param id 财务分析-报告日期主键
      * @return 财务分析-报告日期
      */
-    public InvFinanceReportDate selectInvFinanceReportDateById(Long id);
+    public InvFinanceReportDate selectInvFinanceReportDateById(Integer id);
 
     /**
      * 查询财务分析-报告日期列表
@@ -57,5 +56,5 @@ public interface IInvFinanceReportDateService
      * @param id 财务分析-报告日期主键
      * @return 结果
      */
-    public int deleteInvFinanceReportDateById(Long id);
+    public int deleteInvFinanceReportDateById(Integer id);
 }

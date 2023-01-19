@@ -1,7 +1,7 @@
 package com.ruoyi.investment.service.impl;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import com.ruoyi.investment.mapper.InvFinanceReportDateMapper;
 import com.ruoyi.investment.domain.InvFinanceReportDate;
@@ -12,12 +12,11 @@ import com.ruoyi.common.core.text.Convert;
  * 财务分析-报告日期Service业务层处理
  * 
  * @author yangwenyang
- * @date 2022-10-18
+ * @date 2023-01-19
  */
 @Service
-public class InvFinanceReportDateServiceImpl implements IInvFinanceReportDateService 
-{
-    @Autowired
+public class InvFinanceReportDateServiceImpl implements IInvFinanceReportDateService {
+    @Resource
     private InvFinanceReportDateMapper invFinanceReportDateMapper;
 
     /**
@@ -27,8 +26,7 @@ public class InvFinanceReportDateServiceImpl implements IInvFinanceReportDateSer
      * @return 财务分析-报告日期
      */
     @Override
-    public InvFinanceReportDate selectInvFinanceReportDateById(Long id)
-    {
+    public InvFinanceReportDate selectInvFinanceReportDateById(Integer id) {
         return invFinanceReportDateMapper.selectInvFinanceReportDateById(id);
     }
 
@@ -39,8 +37,7 @@ public class InvFinanceReportDateServiceImpl implements IInvFinanceReportDateSer
      * @return 财务分析-报告日期
      */
     @Override
-    public List<InvFinanceReportDate> selectInvFinanceReportDateList(InvFinanceReportDate invFinanceReportDate)
-    {
+    public List<InvFinanceReportDate> selectInvFinanceReportDateList(InvFinanceReportDate invFinanceReportDate) {
         return invFinanceReportDateMapper.selectInvFinanceReportDateList(invFinanceReportDate);
     }
 
@@ -51,8 +48,7 @@ public class InvFinanceReportDateServiceImpl implements IInvFinanceReportDateSer
      * @return 结果
      */
     @Override
-    public int insertInvFinanceReportDate(InvFinanceReportDate invFinanceReportDate)
-    {
+    public int insertInvFinanceReportDate(InvFinanceReportDate invFinanceReportDate) {
         return invFinanceReportDateMapper.insertInvFinanceReportDate(invFinanceReportDate);
     }
 
@@ -63,8 +59,7 @@ public class InvFinanceReportDateServiceImpl implements IInvFinanceReportDateSer
      * @return 结果
      */
     @Override
-    public int updateInvFinanceReportDate(InvFinanceReportDate invFinanceReportDate)
-    {
+    public int updateInvFinanceReportDate(InvFinanceReportDate invFinanceReportDate) {
         return invFinanceReportDateMapper.updateInvFinanceReportDate(invFinanceReportDate);
     }
 
@@ -75,8 +70,7 @@ public class InvFinanceReportDateServiceImpl implements IInvFinanceReportDateSer
      * @return 结果
      */
     @Override
-    public int deleteInvFinanceReportDateByIds(String ids)
-    {
+    public int deleteInvFinanceReportDateByIds(String ids) {
         return invFinanceReportDateMapper.deleteInvFinanceReportDateByIds(Convert.toStrArray(ids));
     }
 
@@ -87,8 +81,7 @@ public class InvFinanceReportDateServiceImpl implements IInvFinanceReportDateSer
      * @return 结果
      */
     @Override
-    public int deleteInvFinanceReportDateById(Long id)
-    {
+    public int deleteInvFinanceReportDateById(Integer id) {
         return invFinanceReportDateMapper.deleteInvFinanceReportDateById(id);
     }
 }

@@ -1,7 +1,7 @@
 package com.ruoyi.investment.service.impl;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import com.ruoyi.investment.mapper.InvFinanceDbfxMapper;
 import com.ruoyi.investment.domain.InvFinanceDbfx;
@@ -12,12 +12,11 @@ import com.ruoyi.common.core.text.Convert;
  * 财务分析-杜邦分析Service业务层处理
  * 
  * @author yangwenyang
- * @date 2022-10-18
+ * @date 2023-01-19
  */
 @Service
-public class InvFinanceDbfxServiceImpl implements IInvFinanceDbfxService 
-{
-    @Autowired
+public class InvFinanceDbfxServiceImpl implements IInvFinanceDbfxService {
+    @Resource
     private InvFinanceDbfxMapper invFinanceDbfxMapper;
 
     /**
@@ -27,8 +26,7 @@ public class InvFinanceDbfxServiceImpl implements IInvFinanceDbfxService
      * @return 财务分析-杜邦分析
      */
     @Override
-    public InvFinanceDbfx selectInvFinanceDbfxById(Long id)
-    {
+    public InvFinanceDbfx selectInvFinanceDbfxById(Integer id) {
         return invFinanceDbfxMapper.selectInvFinanceDbfxById(id);
     }
 
@@ -39,8 +37,7 @@ public class InvFinanceDbfxServiceImpl implements IInvFinanceDbfxService
      * @return 财务分析-杜邦分析
      */
     @Override
-    public List<InvFinanceDbfx> selectInvFinanceDbfxList(InvFinanceDbfx invFinanceDbfx)
-    {
+    public List<InvFinanceDbfx> selectInvFinanceDbfxList(InvFinanceDbfx invFinanceDbfx) {
         return invFinanceDbfxMapper.selectInvFinanceDbfxList(invFinanceDbfx);
     }
 
@@ -51,8 +48,7 @@ public class InvFinanceDbfxServiceImpl implements IInvFinanceDbfxService
      * @return 结果
      */
     @Override
-    public int insertInvFinanceDbfx(InvFinanceDbfx invFinanceDbfx)
-    {
+    public int insertInvFinanceDbfx(InvFinanceDbfx invFinanceDbfx) {
         return invFinanceDbfxMapper.insertInvFinanceDbfx(invFinanceDbfx);
     }
 
@@ -63,8 +59,7 @@ public class InvFinanceDbfxServiceImpl implements IInvFinanceDbfxService
      * @return 结果
      */
     @Override
-    public int updateInvFinanceDbfx(InvFinanceDbfx invFinanceDbfx)
-    {
+    public int updateInvFinanceDbfx(InvFinanceDbfx invFinanceDbfx) {
         return invFinanceDbfxMapper.updateInvFinanceDbfx(invFinanceDbfx);
     }
 
@@ -75,8 +70,7 @@ public class InvFinanceDbfxServiceImpl implements IInvFinanceDbfxService
      * @return 结果
      */
     @Override
-    public int deleteInvFinanceDbfxByIds(String ids)
-    {
+    public int deleteInvFinanceDbfxByIds(String ids) {
         return invFinanceDbfxMapper.deleteInvFinanceDbfxByIds(Convert.toStrArray(ids));
     }
 
@@ -87,8 +81,7 @@ public class InvFinanceDbfxServiceImpl implements IInvFinanceDbfxService
      * @return 结果
      */
     @Override
-    public int deleteInvFinanceDbfxById(Long id)
-    {
+    public int deleteInvFinanceDbfxById(Integer id) {
         return invFinanceDbfxMapper.deleteInvFinanceDbfxById(id);
     }
 }

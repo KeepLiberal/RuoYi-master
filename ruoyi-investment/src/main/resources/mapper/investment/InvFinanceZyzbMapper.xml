@@ -168,7 +168,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectInvFinanceZyzbById" parameterType="Long" resultMap="InvFinanceZyzbResult">
+    <select id="selectInvFinanceZyzbById" parameterType="Integer" resultMap="InvFinanceZyzbResult">
         <include refid="selectInvFinanceZyzbVo"/>
         where id = #{id}
     </select>
@@ -413,7 +413,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
-    <delete id="deleteInvFinanceZyzbById" parameterType="Long">
+    <delete id="deleteInvFinanceZyzbById" parameterType="Integer">
         delete from inv_finance_zyzb where id = #{id}
     </delete>
 

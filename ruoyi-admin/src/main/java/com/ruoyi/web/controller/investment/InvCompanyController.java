@@ -23,7 +23,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 公司概况Controller
  * 
  * @author yangwenyang
- * @date 2023-01-09
+ * @date 2023-01-19
  */
 @Controller
 @RequestMapping("/investment/invCompany")
@@ -89,9 +89,9 @@ public class InvCompanyController extends BaseController {
      * 修改公司概况
      */
     @RequiresPermissions("investment:invCompany:edit")
-    @GetMapping("/edit/{code}")
-    public String edit(@PathVariable("code") String code, ModelMap mmap) {
-        InvCompany invCompany = invCompanyService.selectInvCompanyByCode(code);
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") Integer id, ModelMap mmap) {
+        InvCompany invCompany = invCompanyService.selectInvCompanyById(id);
         mmap.put("invCompany", invCompany);
         return prefix + "/edit";
     }
@@ -115,6 +115,6 @@ public class InvCompanyController extends BaseController {
     @PostMapping( "/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {
-        return toAjax(invCompanyService.deleteInvCompanyByCodes(ids));
+        return toAjax(invCompanyService.deleteInvCompanyByIds(ids));
     }
 }

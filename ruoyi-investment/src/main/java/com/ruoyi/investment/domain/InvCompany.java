@@ -13,12 +13,16 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 公司概况对象 inv_company
  * 
  * @author yangwenyang
- * @date 2023-01-09
+ * @date 2023-01-19
  */
 public class InvCompany extends BaseEntity{
     private static final long serialVersionUID = 1L;
 
+    /** ID */
+    private Integer id;
+
     /** 股票代码 */
+    @Excel(name = "股票代码")
     private String code;
 
     /** 公司名称 */
@@ -236,6 +240,9 @@ public class InvCompany extends BaseEntity{
     @Excel(name = "定价中签率")
     private Double onlineIssueLwr;
 
+    public void setId(Integer id){this.id = id;}
+    public Integer getId(){return id;}
+
     public void setCode(String code){this.code = code;}
     public String getCode(){return code;}
 
@@ -419,63 +426,4 @@ public class InvCompany extends BaseEntity{
         return Objects.hash(code, orgName, orgNameEn, strCodea, strNamea, expandNameAbbr, formername, strCodeb, strNameb, strCodeh, strNameh, securityType, em2016, tradeMarket, industrycsrc1, president, legalPerson, secretary, chairman, secpresent, indedirectors, orgTel, orgEmail, orgFax, orgWeb, address, regAddress, province, addressPostcode, regCapital, regNum, empNum, tatolnumber, lawFirm, accountfirmName, orgProfile, businessScope, foundDate, listingDate, afterIssuePe, onlineIssueDate, issueWay, parValue, totalIssueNum, issuePrice, decSumissuefee, totalFunds, netRaiseFunds, openPrice, closePrice, turnoverrate, highPrice, offlineVapRatio, onlineIssueLwr);
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("code", getCode())
-            .append("orgName", getOrgName())
-            .append("orgNameEn", getOrgNameEn())
-            .append("strCodea", getStrCodea())
-            .append("strNamea", getStrNamea())
-            .append("expandNameAbbr", getExpandNameAbbr())
-            .append("formername", getFormername())
-            .append("strCodeb", getStrCodeb())
-            .append("strNameb", getStrNameb())
-            .append("strCodeh", getStrCodeh())
-            .append("strNameh", getStrNameh())
-            .append("securityType", getSecurityType())
-            .append("em2016", getEm2016())
-            .append("tradeMarket", getTradeMarket())
-            .append("industrycsrc1", getIndustrycsrc1())
-            .append("president", getPresident())
-            .append("legalPerson", getLegalPerson())
-            .append("secretary", getSecretary())
-            .append("chairman", getChairman())
-            .append("secpresent", getSecpresent())
-            .append("indedirectors", getIndedirectors())
-            .append("orgTel", getOrgTel())
-            .append("orgEmail", getOrgEmail())
-            .append("orgFax", getOrgFax())
-            .append("orgWeb", getOrgWeb())
-            .append("address", getAddress())
-            .append("regAddress", getRegAddress())
-            .append("province", getProvince())
-            .append("addressPostcode", getAddressPostcode())
-            .append("regCapital", getRegCapital())
-            .append("regNum", getRegNum())
-            .append("empNum", getEmpNum())
-            .append("tatolnumber", getTatolnumber())
-            .append("lawFirm", getLawFirm())
-            .append("accountfirmName", getAccountfirmName())
-            .append("orgProfile", getOrgProfile())
-            .append("businessScope", getBusinessScope())
-            .append("foundDate", getFoundDate())
-            .append("listingDate", getListingDate())
-            .append("afterIssuePe", getAfterIssuePe())
-            .append("onlineIssueDate", getOnlineIssueDate())
-            .append("issueWay", getIssueWay())
-            .append("parValue", getParValue())
-            .append("totalIssueNum", getTotalIssueNum())
-            .append("issuePrice", getIssuePrice())
-            .append("decSumissuefee", getDecSumissuefee())
-            .append("totalFunds", getTotalFunds())
-            .append("netRaiseFunds", getNetRaiseFunds())
-            .append("openPrice", getOpenPrice())
-            .append("closePrice", getClosePrice())
-            .append("turnoverrate", getTurnoverrate())
-            .append("highPrice", getHighPrice())
-            .append("offlineVapRatio", getOfflineVapRatio())
-            .append("onlineIssueLwr", getOnlineIssueLwr())
-            .toString();
-    }
 }

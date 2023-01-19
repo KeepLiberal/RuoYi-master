@@ -17,65 +17,65 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="totalAssetsTr"    column="total_assets_tr"    />
         <result property="debtAssetRatio"    column="debt_asset_ratio"    />
         <result property="netprofit"    column="netprofit"    />
-        <result property="totalOperateIncome"    column="total_operate_income"    />
         <result property="totalAssets"    column="total_assets"    />
         <result property="totalLiabilities"    column="total_liabilities"    />
         <result property="totalIncome"    column="total_income"    />
         <result property="totalCost"    column="total_cost"    />
         <result property="totalCurrentAssets"    column="total_current_assets"    />
         <result property="totalNoncurrentAssets"    column="total_noncurrent_assets"    />
-        <result property="investIncome"    column="invest_income"    />
-        <result property="assetDisposalIncome"    column="asset_disposal_income"    />
         <result property="operateCost"    column="operate_cost"    />
-        <result property="operateTaxAdd"    column="operate_tax_add"    />
-        <result property="incomeTax"    column="income_tax"    />
-        <result property="assetImpairmentIncome"    column="asset_impairment_income"    />
-        <result property="creditImpairmentIncome"    column="credit_impairment_income"    />
-        <result property="nonbusinessExpense"    column="nonbusiness_expense"    />
         <result property="totalExpense"    column="total_expense"    />
-        <result property="financeExpense"    column="finance_expense"    />
-        <result property="saleExpense"    column="sale_expense"    />
-        <result property="manageExpense"    column="manage_expense"    />
-        <result property="researchExpense"    column="research_expense"    />
         <result property="monetaryfunds"    column="monetaryfunds"    />
-        <result property="noteRece"    column="note_rece"    />
-        <result property="accountsRece"    column="accounts_rece"    />
-        <result property="financeRece"    column="finance_rece"    />
-        <result property="otherRece"    column="other_rece"    />
-        <result property="inventory"    column="inventory"    />
-        <result property="otherEquityInvest"    column="other_equity_invest"    />
-        <result property="longRece"    column="long_rece"    />
-        <result property="longEquityInvest"    column="long_equity_invest"    />
-        <result property="fixedAsset"    column="fixed_asset"    />
-        <result property="cip"    column="cip"    />
+        <result property="creditorInvest"    column="creditor_invest"    />
         <result property="userightAsset"    column="useright_asset"    />
+        <result property="totalOperateIncome"    column="total_operate_income"    />
+        <result property="investIncome"    column="invest_income"    />
+        <result property="operateTaxAdd"    column="operate_tax_add"    />
+        <result property="tradeFinasset"    column="trade_finasset"    />
+        <result property="otherCreditorInvest"    column="other_creditor_invest"    />
         <result property="intangibleAsset"    column="intangible_asset"    />
-        <result property="developExpense"    column="develop_expense"    />
-        <result property="goodwill"    column="goodwill"    />
-        <result property="longPrepaidExpense"    column="long_prepaid_expense"    />
-        <result property="deferTaxAsset"    column="defer_tax_asset"    />
-        <result property="availableSaleFinasset"    column="available_sale_finasset"    />
-        <result property="interestNi"    column="interest_ni"    />
-        <result property="feeCommissionNi"    column="fee_commission_ni"    />
         <result property="fairvalueChangeIncome"    column="fairvalue_change_income"    />
+        <result property="incomeTax"    column="income_tax"    />
+        <result property="financeExpense"    column="finance_expense"    />
+        <result property="noteRece"    column="note_rece"    />
+        <result property="otherEquityInvest"    column="other_equity_invest"    />
+        <result property="developExpense"    column="develop_expense"    />
+        <result property="assetDisposalIncome"    column="asset_disposal_income"    />
+        <result property="assetImpairmentIncome"    column="asset_impairment_income"    />
+        <result property="saleExpense"    column="sale_expense"    />
+        <result property="accountsRece"    column="accounts_rece"    />
+        <result property="longRece"    column="long_rece"    />
+        <result property="goodwill"    column="goodwill"    />
         <result property="exchangeIncome"    column="exchange_income"    />
-        <result property="businessManageExpense"    column="business_manage_expense"    />
+        <result property="creditImpairmentIncome"    column="credit_impairment_income"    />
+        <result property="manageExpense"    column="manage_expense"    />
+        <result property="financeRece"    column="finance_rece"    />
+        <result property="longEquityInvest"    column="long_equity_invest"    />
+        <result property="longPrepaidExpense"    column="long_prepaid_expense"    />
+        <result property="nonbusinessExpense"    column="nonbusiness_expense"    />
+        <result property="researchExpense"    column="research_expense"    />
+        <result property="otherRece"    column="other_rece"    />
+        <result property="investRealestate"    column="invest_realestate"    />
+        <result property="deferTaxAsset"    column="defer_tax_asset"    />
+        <result property="inventory"    column="inventory"    />
+        <result property="fixedAsset"    column="fixed_asset"    />
+        <result property="availableSaleFinasset"    column="available_sale_finasset"    />
+        <result property="cip"    column="cip"    />
+        <result property="holdMaturityInvest"    column="hold_maturity_invest"    />
         <result property="earnedPremium"    column="earned_premium"    />
         <result property="surrenderValue"    column="surrender_value"    />
         <result property="netCompensateExpense"    column="net_compensate_expense"    />
         <result property="netContractReserve"    column="net_contract_reserve"    />
         <result property="policyBonusExpense"    column="policy_bonus_expense"    />
-        <result property="creditorInvest"    column="creditor_invest"    />
-        <result property="investRealestate"    column="invest_realestate"    />
+        <result property="interestNi"    column="interest_ni"    />
+        <result property="feeCommissionNi"    column="fee_commission_ni"    />
+        <result property="businessManageExpense"    column="business_manage_expense"    />
         <result property="feeCommissionExpense"    column="fee_commission_expense"    />
-        <result property="holdMaturityInvest"    column="hold_maturity_invest"    />
-        <result property="tradeFinasset"    column="trade_finasset"    />
-        <result property="otherCreditorInvest"    column="other_creditor_invest"    />
         <result property="parentNetprofit"    column="parent_netprofit"    />
     </resultMap>
 
     <sql id="selectInvFinanceDbfxVo">
-        select id, security_code, report_type, report_date, roe, jroa, parent_netprofit_ratio, equity_multiplier, sale_npr, total_assets_tr, debt_asset_ratio, netprofit, total_operate_income, total_assets, total_liabilities, total_income, total_cost, total_current_assets, total_noncurrent_assets, invest_income, asset_disposal_income, operate_cost, operate_tax_add, income_tax, asset_impairment_income, credit_impairment_income, nonbusiness_expense, total_expense, finance_expense, sale_expense, manage_expense, research_expense, monetaryfunds, note_rece, accounts_rece, finance_rece, other_rece, inventory, other_equity_invest, long_rece, long_equity_invest, fixed_asset, cip, useright_asset, intangible_asset, develop_expense, goodwill, long_prepaid_expense, defer_tax_asset, available_sale_finasset, interest_ni, fee_commission_ni, fairvalue_change_income, exchange_income, business_manage_expense, earned_premium, surrender_value, net_compensate_expense, net_contract_reserve, policy_bonus_expense, creditor_invest, invest_realestate, fee_commission_expense, hold_maturity_invest, trade_finasset, other_creditor_invest, parent_netprofit from inv_finance_dbfx
+        select id, security_code, report_type, report_date, roe, jroa, parent_netprofit_ratio, equity_multiplier, sale_npr, total_assets_tr, debt_asset_ratio, netprofit, total_assets, total_liabilities, total_income, total_cost, total_current_assets, total_noncurrent_assets, operate_cost, total_expense, monetaryfunds, creditor_invest, useright_asset, total_operate_income, invest_income, operate_tax_add, trade_finasset, other_creditor_invest, intangible_asset, fairvalue_change_income, income_tax, finance_expense, note_rece, other_equity_invest, develop_expense, asset_disposal_income, asset_impairment_income, sale_expense, accounts_rece, long_rece, goodwill, exchange_income, credit_impairment_income, manage_expense, finance_rece, long_equity_invest, long_prepaid_expense, nonbusiness_expense, research_expense, other_rece, invest_realestate, defer_tax_asset, inventory, fixed_asset, available_sale_finasset, cip, hold_maturity_invest, earned_premium, surrender_value, net_compensate_expense, net_contract_reserve, policy_bonus_expense, interest_ni, fee_commission_ni, business_manage_expense, fee_commission_expense, parent_netprofit from inv_finance_dbfx
     </sql>
 
     <select id="selectInvFinanceDbfxList" parameterType="InvFinanceDbfx" resultMap="InvFinanceDbfxResult">
@@ -92,65 +92,65 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="totalAssetsTr != null "> and total_assets_tr = #{totalAssetsTr}</if>
             <if test="debtAssetRatio != null "> and debt_asset_ratio = #{debtAssetRatio}</if>
             <if test="netprofit != null "> and netprofit = #{netprofit}</if>
-            <if test="totalOperateIncome != null "> and total_operate_income = #{totalOperateIncome}</if>
             <if test="totalAssets != null "> and total_assets = #{totalAssets}</if>
             <if test="totalLiabilities != null "> and total_liabilities = #{totalLiabilities}</if>
             <if test="totalIncome != null "> and total_income = #{totalIncome}</if>
             <if test="totalCost != null "> and total_cost = #{totalCost}</if>
             <if test="totalCurrentAssets != null "> and total_current_assets = #{totalCurrentAssets}</if>
             <if test="totalNoncurrentAssets != null "> and total_noncurrent_assets = #{totalNoncurrentAssets}</if>
-            <if test="investIncome != null "> and invest_income = #{investIncome}</if>
-            <if test="assetDisposalIncome != null "> and asset_disposal_income = #{assetDisposalIncome}</if>
             <if test="operateCost != null "> and operate_cost = #{operateCost}</if>
-            <if test="operateTaxAdd != null "> and operate_tax_add = #{operateTaxAdd}</if>
-            <if test="incomeTax != null "> and income_tax = #{incomeTax}</if>
-            <if test="assetImpairmentIncome != null "> and asset_impairment_income = #{assetImpairmentIncome}</if>
-            <if test="creditImpairmentIncome != null "> and credit_impairment_income = #{creditImpairmentIncome}</if>
-            <if test="nonbusinessExpense != null "> and nonbusiness_expense = #{nonbusinessExpense}</if>
             <if test="totalExpense != null "> and total_expense = #{totalExpense}</if>
-            <if test="financeExpense != null "> and finance_expense = #{financeExpense}</if>
-            <if test="saleExpense != null "> and sale_expense = #{saleExpense}</if>
-            <if test="manageExpense != null "> and manage_expense = #{manageExpense}</if>
-            <if test="researchExpense != null "> and research_expense = #{researchExpense}</if>
             <if test="monetaryfunds != null "> and monetaryfunds = #{monetaryfunds}</if>
-            <if test="noteRece != null "> and note_rece = #{noteRece}</if>
-            <if test="accountsRece != null "> and accounts_rece = #{accountsRece}</if>
-            <if test="financeRece != null "> and finance_rece = #{financeRece}</if>
-            <if test="otherRece != null "> and other_rece = #{otherRece}</if>
-            <if test="inventory != null "> and inventory = #{inventory}</if>
-            <if test="otherEquityInvest != null "> and other_equity_invest = #{otherEquityInvest}</if>
-            <if test="longRece != null "> and long_rece = #{longRece}</if>
-            <if test="longEquityInvest != null "> and long_equity_invest = #{longEquityInvest}</if>
-            <if test="fixedAsset != null "> and fixed_asset = #{fixedAsset}</if>
-            <if test="cip != null "> and cip = #{cip}</if>
+            <if test="creditorInvest != null "> and creditor_invest = #{creditorInvest}</if>
             <if test="userightAsset != null "> and useright_asset = #{userightAsset}</if>
+            <if test="totalOperateIncome != null "> and total_operate_income = #{totalOperateIncome}</if>
+            <if test="investIncome != null "> and invest_income = #{investIncome}</if>
+            <if test="operateTaxAdd != null "> and operate_tax_add = #{operateTaxAdd}</if>
+            <if test="tradeFinasset != null "> and trade_finasset = #{tradeFinasset}</if>
+            <if test="otherCreditorInvest != null "> and other_creditor_invest = #{otherCreditorInvest}</if>
             <if test="intangibleAsset != null "> and intangible_asset = #{intangibleAsset}</if>
-            <if test="developExpense != null "> and develop_expense = #{developExpense}</if>
-            <if test="goodwill != null "> and goodwill = #{goodwill}</if>
-            <if test="longPrepaidExpense != null "> and long_prepaid_expense = #{longPrepaidExpense}</if>
-            <if test="deferTaxAsset != null "> and defer_tax_asset = #{deferTaxAsset}</if>
-            <if test="availableSaleFinasset != null "> and available_sale_finasset = #{availableSaleFinasset}</if>
-            <if test="interestNi != null "> and interest_ni = #{interestNi}</if>
-            <if test="feeCommissionNi != null "> and fee_commission_ni = #{feeCommissionNi}</if>
             <if test="fairvalueChangeIncome != null "> and fairvalue_change_income = #{fairvalueChangeIncome}</if>
+            <if test="incomeTax != null "> and income_tax = #{incomeTax}</if>
+            <if test="financeExpense != null "> and finance_expense = #{financeExpense}</if>
+            <if test="noteRece != null "> and note_rece = #{noteRece}</if>
+            <if test="otherEquityInvest != null "> and other_equity_invest = #{otherEquityInvest}</if>
+            <if test="developExpense != null "> and develop_expense = #{developExpense}</if>
+            <if test="assetDisposalIncome != null "> and asset_disposal_income = #{assetDisposalIncome}</if>
+            <if test="assetImpairmentIncome != null "> and asset_impairment_income = #{assetImpairmentIncome}</if>
+            <if test="saleExpense != null "> and sale_expense = #{saleExpense}</if>
+            <if test="accountsRece != null "> and accounts_rece = #{accountsRece}</if>
+            <if test="longRece != null "> and long_rece = #{longRece}</if>
+            <if test="goodwill != null "> and goodwill = #{goodwill}</if>
             <if test="exchangeIncome != null "> and exchange_income = #{exchangeIncome}</if>
-            <if test="businessManageExpense != null "> and business_manage_expense = #{businessManageExpense}</if>
+            <if test="creditImpairmentIncome != null "> and credit_impairment_income = #{creditImpairmentIncome}</if>
+            <if test="manageExpense != null "> and manage_expense = #{manageExpense}</if>
+            <if test="financeRece != null "> and finance_rece = #{financeRece}</if>
+            <if test="longEquityInvest != null "> and long_equity_invest = #{longEquityInvest}</if>
+            <if test="longPrepaidExpense != null "> and long_prepaid_expense = #{longPrepaidExpense}</if>
+            <if test="nonbusinessExpense != null "> and nonbusiness_expense = #{nonbusinessExpense}</if>
+            <if test="researchExpense != null "> and research_expense = #{researchExpense}</if>
+            <if test="otherRece != null "> and other_rece = #{otherRece}</if>
+            <if test="investRealestate != null "> and invest_realestate = #{investRealestate}</if>
+            <if test="deferTaxAsset != null "> and defer_tax_asset = #{deferTaxAsset}</if>
+            <if test="inventory != null "> and inventory = #{inventory}</if>
+            <if test="fixedAsset != null "> and fixed_asset = #{fixedAsset}</if>
+            <if test="availableSaleFinasset != null "> and available_sale_finasset = #{availableSaleFinasset}</if>
+            <if test="cip != null "> and cip = #{cip}</if>
+            <if test="holdMaturityInvest != null "> and hold_maturity_invest = #{holdMaturityInvest}</if>
             <if test="earnedPremium != null "> and earned_premium = #{earnedPremium}</if>
             <if test="surrenderValue != null "> and surrender_value = #{surrenderValue}</if>
             <if test="netCompensateExpense != null "> and net_compensate_expense = #{netCompensateExpense}</if>
             <if test="netContractReserve != null "> and net_contract_reserve = #{netContractReserve}</if>
             <if test="policyBonusExpense != null "> and policy_bonus_expense = #{policyBonusExpense}</if>
-            <if test="creditorInvest != null "> and creditor_invest = #{creditorInvest}</if>
-            <if test="investRealestate != null "> and invest_realestate = #{investRealestate}</if>
+            <if test="interestNi != null "> and interest_ni = #{interestNi}</if>
+            <if test="feeCommissionNi != null "> and fee_commission_ni = #{feeCommissionNi}</if>
+            <if test="businessManageExpense != null "> and business_manage_expense = #{businessManageExpense}</if>
             <if test="feeCommissionExpense != null "> and fee_commission_expense = #{feeCommissionExpense}</if>
-            <if test="holdMaturityInvest != null "> and hold_maturity_invest = #{holdMaturityInvest}</if>
-            <if test="tradeFinasset != null "> and trade_finasset = #{tradeFinasset}</if>
-            <if test="otherCreditorInvest != null "> and other_creditor_invest = #{otherCreditorInvest}</if>
             <if test="parentNetprofit != null "> and parent_netprofit = #{parentNetprofit}</if>
         </where>
     </select>
     
-    <select id="selectInvFinanceDbfxById" parameterType="Long" resultMap="InvFinanceDbfxResult">
+    <select id="selectInvFinanceDbfxById" parameterType="Integer" resultMap="InvFinanceDbfxResult">
         <include refid="selectInvFinanceDbfxVo"/>
         where id = #{id}
     </select>
@@ -169,60 +169,60 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="totalAssetsTr != null">total_assets_tr,</if>
             <if test="debtAssetRatio != null">debt_asset_ratio,</if>
             <if test="netprofit != null">netprofit,</if>
-            <if test="totalOperateIncome != null">total_operate_income,</if>
             <if test="totalAssets != null">total_assets,</if>
             <if test="totalLiabilities != null">total_liabilities,</if>
             <if test="totalIncome != null">total_income,</if>
             <if test="totalCost != null">total_cost,</if>
             <if test="totalCurrentAssets != null">total_current_assets,</if>
             <if test="totalNoncurrentAssets != null">total_noncurrent_assets,</if>
-            <if test="investIncome != null">invest_income,</if>
-            <if test="assetDisposalIncome != null">asset_disposal_income,</if>
             <if test="operateCost != null">operate_cost,</if>
-            <if test="operateTaxAdd != null">operate_tax_add,</if>
-            <if test="incomeTax != null">income_tax,</if>
-            <if test="assetImpairmentIncome != null">asset_impairment_income,</if>
-            <if test="creditImpairmentIncome != null">credit_impairment_income,</if>
-            <if test="nonbusinessExpense != null">nonbusiness_expense,</if>
             <if test="totalExpense != null">total_expense,</if>
-            <if test="financeExpense != null">finance_expense,</if>
-            <if test="saleExpense != null">sale_expense,</if>
-            <if test="manageExpense != null">manage_expense,</if>
-            <if test="researchExpense != null">research_expense,</if>
             <if test="monetaryfunds != null">monetaryfunds,</if>
-            <if test="noteRece != null">note_rece,</if>
-            <if test="accountsRece != null">accounts_rece,</if>
-            <if test="financeRece != null">finance_rece,</if>
-            <if test="otherRece != null">other_rece,</if>
-            <if test="inventory != null">inventory,</if>
-            <if test="otherEquityInvest != null">other_equity_invest,</if>
-            <if test="longRece != null">long_rece,</if>
-            <if test="longEquityInvest != null">long_equity_invest,</if>
-            <if test="fixedAsset != null">fixed_asset,</if>
-            <if test="cip != null">cip,</if>
+            <if test="creditorInvest != null">creditor_invest,</if>
             <if test="userightAsset != null">useright_asset,</if>
+            <if test="totalOperateIncome != null">total_operate_income,</if>
+            <if test="investIncome != null">invest_income,</if>
+            <if test="operateTaxAdd != null">operate_tax_add,</if>
+            <if test="tradeFinasset != null">trade_finasset,</if>
+            <if test="otherCreditorInvest != null">other_creditor_invest,</if>
             <if test="intangibleAsset != null">intangible_asset,</if>
-            <if test="developExpense != null">develop_expense,</if>
-            <if test="goodwill != null">goodwill,</if>
-            <if test="longPrepaidExpense != null">long_prepaid_expense,</if>
-            <if test="deferTaxAsset != null">defer_tax_asset,</if>
-            <if test="availableSaleFinasset != null">available_sale_finasset,</if>
-            <if test="interestNi != null">interest_ni,</if>
-            <if test="feeCommissionNi != null">fee_commission_ni,</if>
             <if test="fairvalueChangeIncome != null">fairvalue_change_income,</if>
+            <if test="incomeTax != null">income_tax,</if>
+            <if test="financeExpense != null">finance_expense,</if>
+            <if test="noteRece != null">note_rece,</if>
+            <if test="otherEquityInvest != null">other_equity_invest,</if>
+            <if test="developExpense != null">develop_expense,</if>
+            <if test="assetDisposalIncome != null">asset_disposal_income,</if>
+            <if test="assetImpairmentIncome != null">asset_impairment_income,</if>
+            <if test="saleExpense != null">sale_expense,</if>
+            <if test="accountsRece != null">accounts_rece,</if>
+            <if test="longRece != null">long_rece,</if>
+            <if test="goodwill != null">goodwill,</if>
             <if test="exchangeIncome != null">exchange_income,</if>
-            <if test="businessManageExpense != null">business_manage_expense,</if>
+            <if test="creditImpairmentIncome != null">credit_impairment_income,</if>
+            <if test="manageExpense != null">manage_expense,</if>
+            <if test="financeRece != null">finance_rece,</if>
+            <if test="longEquityInvest != null">long_equity_invest,</if>
+            <if test="longPrepaidExpense != null">long_prepaid_expense,</if>
+            <if test="nonbusinessExpense != null">nonbusiness_expense,</if>
+            <if test="researchExpense != null">research_expense,</if>
+            <if test="otherRece != null">other_rece,</if>
+            <if test="investRealestate != null">invest_realestate,</if>
+            <if test="deferTaxAsset != null">defer_tax_asset,</if>
+            <if test="inventory != null">inventory,</if>
+            <if test="fixedAsset != null">fixed_asset,</if>
+            <if test="availableSaleFinasset != null">available_sale_finasset,</if>
+            <if test="cip != null">cip,</if>
+            <if test="holdMaturityInvest != null">hold_maturity_invest,</if>
             <if test="earnedPremium != null">earned_premium,</if>
             <if test="surrenderValue != null">surrender_value,</if>
             <if test="netCompensateExpense != null">net_compensate_expense,</if>
             <if test="netContractReserve != null">net_contract_reserve,</if>
             <if test="policyBonusExpense != null">policy_bonus_expense,</if>
-            <if test="creditorInvest != null">creditor_invest,</if>
-            <if test="investRealestate != null">invest_realestate,</if>
+            <if test="interestNi != null">interest_ni,</if>
+            <if test="feeCommissionNi != null">fee_commission_ni,</if>
+            <if test="businessManageExpense != null">business_manage_expense,</if>
             <if test="feeCommissionExpense != null">fee_commission_expense,</if>
-            <if test="holdMaturityInvest != null">hold_maturity_invest,</if>
-            <if test="tradeFinasset != null">trade_finasset,</if>
-            <if test="otherCreditorInvest != null">other_creditor_invest,</if>
             <if test="parentNetprofit != null">parent_netprofit,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -237,60 +237,60 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="totalAssetsTr != null">#{totalAssetsTr},</if>
             <if test="debtAssetRatio != null">#{debtAssetRatio},</if>
             <if test="netprofit != null">#{netprofit},</if>
-            <if test="totalOperateIncome != null">#{totalOperateIncome},</if>
             <if test="totalAssets != null">#{totalAssets},</if>
             <if test="totalLiabilities != null">#{totalLiabilities},</if>
             <if test="totalIncome != null">#{totalIncome},</if>
             <if test="totalCost != null">#{totalCost},</if>
             <if test="totalCurrentAssets != null">#{totalCurrentAssets},</if>
             <if test="totalNoncurrentAssets != null">#{totalNoncurrentAssets},</if>
-            <if test="investIncome != null">#{investIncome},</if>
-            <if test="assetDisposalIncome != null">#{assetDisposalIncome},</if>
             <if test="operateCost != null">#{operateCost},</if>
-            <if test="operateTaxAdd != null">#{operateTaxAdd},</if>
-            <if test="incomeTax != null">#{incomeTax},</if>
-            <if test="assetImpairmentIncome != null">#{assetImpairmentIncome},</if>
-            <if test="creditImpairmentIncome != null">#{creditImpairmentIncome},</if>
-            <if test="nonbusinessExpense != null">#{nonbusinessExpense},</if>
             <if test="totalExpense != null">#{totalExpense},</if>
-            <if test="financeExpense != null">#{financeExpense},</if>
-            <if test="saleExpense != null">#{saleExpense},</if>
-            <if test="manageExpense != null">#{manageExpense},</if>
-            <if test="researchExpense != null">#{researchExpense},</if>
             <if test="monetaryfunds != null">#{monetaryfunds},</if>
-            <if test="noteRece != null">#{noteRece},</if>
-            <if test="accountsRece != null">#{accountsRece},</if>
-            <if test="financeRece != null">#{financeRece},</if>
-            <if test="otherRece != null">#{otherRece},</if>
-            <if test="inventory != null">#{inventory},</if>
-            <if test="otherEquityInvest != null">#{otherEquityInvest},</if>
-            <if test="longRece != null">#{longRece},</if>
-            <if test="longEquityInvest != null">#{longEquityInvest},</if>
-            <if test="fixedAsset != null">#{fixedAsset},</if>
-            <if test="cip != null">#{cip},</if>
+            <if test="creditorInvest != null">#{creditorInvest},</if>
             <if test="userightAsset != null">#{userightAsset},</if>
+            <if test="totalOperateIncome != null">#{totalOperateIncome},</if>
+            <if test="investIncome != null">#{investIncome},</if>
+            <if test="operateTaxAdd != null">#{operateTaxAdd},</if>
+            <if test="tradeFinasset != null">#{tradeFinasset},</if>
+            <if test="otherCreditorInvest != null">#{otherCreditorInvest},</if>
             <if test="intangibleAsset != null">#{intangibleAsset},</if>
-            <if test="developExpense != null">#{developExpense},</if>
-            <if test="goodwill != null">#{goodwill},</if>
-            <if test="longPrepaidExpense != null">#{longPrepaidExpense},</if>
-            <if test="deferTaxAsset != null">#{deferTaxAsset},</if>
-            <if test="availableSaleFinasset != null">#{availableSaleFinasset},</if>
-            <if test="interestNi != null">#{interestNi},</if>
-            <if test="feeCommissionNi != null">#{feeCommissionNi},</if>
             <if test="fairvalueChangeIncome != null">#{fairvalueChangeIncome},</if>
+            <if test="incomeTax != null">#{incomeTax},</if>
+            <if test="financeExpense != null">#{financeExpense},</if>
+            <if test="noteRece != null">#{noteRece},</if>
+            <if test="otherEquityInvest != null">#{otherEquityInvest},</if>
+            <if test="developExpense != null">#{developExpense},</if>
+            <if test="assetDisposalIncome != null">#{assetDisposalIncome},</if>
+            <if test="assetImpairmentIncome != null">#{assetImpairmentIncome},</if>
+            <if test="saleExpense != null">#{saleExpense},</if>
+            <if test="accountsRece != null">#{accountsRece},</if>
+            <if test="longRece != null">#{longRece},</if>
+            <if test="goodwill != null">#{goodwill},</if>
             <if test="exchangeIncome != null">#{exchangeIncome},</if>
-            <if test="businessManageExpense != null">#{businessManageExpense},</if>
+            <if test="creditImpairmentIncome != null">#{creditImpairmentIncome},</if>
+            <if test="manageExpense != null">#{manageExpense},</if>
+            <if test="financeRece != null">#{financeRece},</if>
+            <if test="longEquityInvest != null">#{longEquityInvest},</if>
+            <if test="longPrepaidExpense != null">#{longPrepaidExpense},</if>
+            <if test="nonbusinessExpense != null">#{nonbusinessExpense},</if>
+            <if test="researchExpense != null">#{researchExpense},</if>
+            <if test="otherRece != null">#{otherRece},</if>
+            <if test="investRealestate != null">#{investRealestate},</if>
+            <if test="deferTaxAsset != null">#{deferTaxAsset},</if>
+            <if test="inventory != null">#{inventory},</if>
+            <if test="fixedAsset != null">#{fixedAsset},</if>
+            <if test="availableSaleFinasset != null">#{availableSaleFinasset},</if>
+            <if test="cip != null">#{cip},</if>
+            <if test="holdMaturityInvest != null">#{holdMaturityInvest},</if>
             <if test="earnedPremium != null">#{earnedPremium},</if>
             <if test="surrenderValue != null">#{surrenderValue},</if>
             <if test="netCompensateExpense != null">#{netCompensateExpense},</if>
             <if test="netContractReserve != null">#{netContractReserve},</if>
             <if test="policyBonusExpense != null">#{policyBonusExpense},</if>
-            <if test="creditorInvest != null">#{creditorInvest},</if>
-            <if test="investRealestate != null">#{investRealestate},</if>
+            <if test="interestNi != null">#{interestNi},</if>
+            <if test="feeCommissionNi != null">#{feeCommissionNi},</if>
+            <if test="businessManageExpense != null">#{businessManageExpense},</if>
             <if test="feeCommissionExpense != null">#{feeCommissionExpense},</if>
-            <if test="holdMaturityInvest != null">#{holdMaturityInvest},</if>
-            <if test="tradeFinasset != null">#{tradeFinasset},</if>
-            <if test="otherCreditorInvest != null">#{otherCreditorInvest},</if>
             <if test="parentNetprofit != null">#{parentNetprofit},</if>
          </trim>
     </insert>
@@ -309,66 +309,66 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="totalAssetsTr != null">total_assets_tr = #{totalAssetsTr},</if>
             <if test="debtAssetRatio != null">debt_asset_ratio = #{debtAssetRatio},</if>
             <if test="netprofit != null">netprofit = #{netprofit},</if>
-            <if test="totalOperateIncome != null">total_operate_income = #{totalOperateIncome},</if>
             <if test="totalAssets != null">total_assets = #{totalAssets},</if>
             <if test="totalLiabilities != null">total_liabilities = #{totalLiabilities},</if>
             <if test="totalIncome != null">total_income = #{totalIncome},</if>
             <if test="totalCost != null">total_cost = #{totalCost},</if>
             <if test="totalCurrentAssets != null">total_current_assets = #{totalCurrentAssets},</if>
             <if test="totalNoncurrentAssets != null">total_noncurrent_assets = #{totalNoncurrentAssets},</if>
-            <if test="investIncome != null">invest_income = #{investIncome},</if>
-            <if test="assetDisposalIncome != null">asset_disposal_income = #{assetDisposalIncome},</if>
             <if test="operateCost != null">operate_cost = #{operateCost},</if>
-            <if test="operateTaxAdd != null">operate_tax_add = #{operateTaxAdd},</if>
-            <if test="incomeTax != null">income_tax = #{incomeTax},</if>
-            <if test="assetImpairmentIncome != null">asset_impairment_income = #{assetImpairmentIncome},</if>
-            <if test="creditImpairmentIncome != null">credit_impairment_income = #{creditImpairmentIncome},</if>
-            <if test="nonbusinessExpense != null">nonbusiness_expense = #{nonbusinessExpense},</if>
             <if test="totalExpense != null">total_expense = #{totalExpense},</if>
-            <if test="financeExpense != null">finance_expense = #{financeExpense},</if>
-            <if test="saleExpense != null">sale_expense = #{saleExpense},</if>
-            <if test="manageExpense != null">manage_expense = #{manageExpense},</if>
-            <if test="researchExpense != null">research_expense = #{researchExpense},</if>
             <if test="monetaryfunds != null">monetaryfunds = #{monetaryfunds},</if>
-            <if test="noteRece != null">note_rece = #{noteRece},</if>
-            <if test="accountsRece != null">accounts_rece = #{accountsRece},</if>
-            <if test="financeRece != null">finance_rece = #{financeRece},</if>
-            <if test="otherRece != null">other_rece = #{otherRece},</if>
-            <if test="inventory != null">inventory = #{inventory},</if>
-            <if test="otherEquityInvest != null">other_equity_invest = #{otherEquityInvest},</if>
-            <if test="longRece != null">long_rece = #{longRece},</if>
-            <if test="longEquityInvest != null">long_equity_invest = #{longEquityInvest},</if>
-            <if test="fixedAsset != null">fixed_asset = #{fixedAsset},</if>
-            <if test="cip != null">cip = #{cip},</if>
+            <if test="creditorInvest != null">creditor_invest = #{creditorInvest},</if>
             <if test="userightAsset != null">useright_asset = #{userightAsset},</if>
+            <if test="totalOperateIncome != null">total_operate_income = #{totalOperateIncome},</if>
+            <if test="investIncome != null">invest_income = #{investIncome},</if>
+            <if test="operateTaxAdd != null">operate_tax_add = #{operateTaxAdd},</if>
+            <if test="tradeFinasset != null">trade_finasset = #{tradeFinasset},</if>
+            <if test="otherCreditorInvest != null">other_creditor_invest = #{otherCreditorInvest},</if>
             <if test="intangibleAsset != null">intangible_asset = #{intangibleAsset},</if>
-            <if test="developExpense != null">develop_expense = #{developExpense},</if>
-            <if test="goodwill != null">goodwill = #{goodwill},</if>
-            <if test="longPrepaidExpense != null">long_prepaid_expense = #{longPrepaidExpense},</if>
-            <if test="deferTaxAsset != null">defer_tax_asset = #{deferTaxAsset},</if>
-            <if test="availableSaleFinasset != null">available_sale_finasset = #{availableSaleFinasset},</if>
-            <if test="interestNi != null">interest_ni = #{interestNi},</if>
-            <if test="feeCommissionNi != null">fee_commission_ni = #{feeCommissionNi},</if>
             <if test="fairvalueChangeIncome != null">fairvalue_change_income = #{fairvalueChangeIncome},</if>
+            <if test="incomeTax != null">income_tax = #{incomeTax},</if>
+            <if test="financeExpense != null">finance_expense = #{financeExpense},</if>
+            <if test="noteRece != null">note_rece = #{noteRece},</if>
+            <if test="otherEquityInvest != null">other_equity_invest = #{otherEquityInvest},</if>
+            <if test="developExpense != null">develop_expense = #{developExpense},</if>
+            <if test="assetDisposalIncome != null">asset_disposal_income = #{assetDisposalIncome},</if>
+            <if test="assetImpairmentIncome != null">asset_impairment_income = #{assetImpairmentIncome},</if>
+            <if test="saleExpense != null">sale_expense = #{saleExpense},</if>
+            <if test="accountsRece != null">accounts_rece = #{accountsRece},</if>
+            <if test="longRece != null">long_rece = #{longRece},</if>
+            <if test="goodwill != null">goodwill = #{goodwill},</if>
             <if test="exchangeIncome != null">exchange_income = #{exchangeIncome},</if>
-            <if test="businessManageExpense != null">business_manage_expense = #{businessManageExpense},</if>
+            <if test="creditImpairmentIncome != null">credit_impairment_income = #{creditImpairmentIncome},</if>
+            <if test="manageExpense != null">manage_expense = #{manageExpense},</if>
+            <if test="financeRece != null">finance_rece = #{financeRece},</if>
+            <if test="longEquityInvest != null">long_equity_invest = #{longEquityInvest},</if>
+            <if test="longPrepaidExpense != null">long_prepaid_expense = #{longPrepaidExpense},</if>
+            <if test="nonbusinessExpense != null">nonbusiness_expense = #{nonbusinessExpense},</if>
+            <if test="researchExpense != null">research_expense = #{researchExpense},</if>
+            <if test="otherRece != null">other_rece = #{otherRece},</if>
+            <if test="investRealestate != null">invest_realestate = #{investRealestate},</if>
+            <if test="deferTaxAsset != null">defer_tax_asset = #{deferTaxAsset},</if>
+            <if test="inventory != null">inventory = #{inventory},</if>
+            <if test="fixedAsset != null">fixed_asset = #{fixedAsset},</if>
+            <if test="availableSaleFinasset != null">available_sale_finasset = #{availableSaleFinasset},</if>
+            <if test="cip != null">cip = #{cip},</if>
+            <if test="holdMaturityInvest != null">hold_maturity_invest = #{holdMaturityInvest},</if>
             <if test="earnedPremium != null">earned_premium = #{earnedPremium},</if>
             <if test="surrenderValue != null">surrender_value = #{surrenderValue},</if>
             <if test="netCompensateExpense != null">net_compensate_expense = #{netCompensateExpense},</if>
             <if test="netContractReserve != null">net_contract_reserve = #{netContractReserve},</if>
             <if test="policyBonusExpense != null">policy_bonus_expense = #{policyBonusExpense},</if>
-            <if test="creditorInvest != null">creditor_invest = #{creditorInvest},</if>
-            <if test="investRealestate != null">invest_realestate = #{investRealestate},</if>
+            <if test="interestNi != null">interest_ni = #{interestNi},</if>
+            <if test="feeCommissionNi != null">fee_commission_ni = #{feeCommissionNi},</if>
+            <if test="businessManageExpense != null">business_manage_expense = #{businessManageExpense},</if>
             <if test="feeCommissionExpense != null">fee_commission_expense = #{feeCommissionExpense},</if>
-            <if test="holdMaturityInvest != null">hold_maturity_invest = #{holdMaturityInvest},</if>
-            <if test="tradeFinasset != null">trade_finasset = #{tradeFinasset},</if>
-            <if test="otherCreditorInvest != null">other_creditor_invest = #{otherCreditorInvest},</if>
             <if test="parentNetprofit != null">parent_netprofit = #{parentNetprofit},</if>
         </trim>
         where id = #{id}
     </update>
 
-    <delete id="deleteInvFinanceDbfxById" parameterType="Long">
+    <delete id="deleteInvFinanceDbfxById" parameterType="Integer">
         delete from inv_finance_dbfx where id = #{id}
     </delete>
 

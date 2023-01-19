@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('沪深A股基本信息列表')" />
+    <th:block th:include="include :: header('A股基本信息列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -19,29 +19,16 @@
                                 <input type="text" name="name"/>
                             </li>
                             <li>
+                                <label>股票市场：</label>
+                                <input type="text" name="market"/>
+                            </li>
+                            <li>
                                 <label>股票分类：</label>
                                 <select name="stockType" th:with="type=${@dict.getType('stock_type')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
                             </li>
-                            <li>
-                                <label>股票市场：</label>
-                                <select name="market" th:with="type=${@dict.getType('market_type')}">
-                                    <option value="">所有</option>
-                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
-                                </select>
-                            </li>
-                            <!--
-                            <li>
-                                <label>组织代码：</label>
-                                <input type="text" name="orgCode"/>
-                            </li>
-                            <li>
-                                <label>全量分类代码：</label>
-                                <input type="text" name="securityTypeCode"/>
-                            </li>
-                            -->
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
@@ -74,8 +61,8 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('investment:invStock:edit')}]];
         var removeFlag = [[${@permission.hasPermi('investment:invStock:remove')}]];
-        var stockTypeDatas = [[${@dict.getType('stock_type')}]];
         var marketDatas = [[${@dict.getType('market_type')}]];
+        var stockTypeDatas = [[${@dict.getType('stock_type')}]];
         var prefix = ctx + "investment/invStock";
 
         $(function() {
@@ -85,9 +72,14 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "沪深A股基本信息",
+                modalName: "A股基本信息",
                 columns: [{
                     checkbox: true
+                },
+                {
+                    field: 'id',
+                    title: 'ID',
+                    visible: false
                 },
                 {
                     field: 'code',
@@ -98,13 +90,6 @@
                     title: '股票简称'
                 },
                 {
-                    field: 'stockType',
-                    title: '股票分类',
-                    formatter: function(value, row, index) {
-                       return $.table.selectDictLabel(stockTypeDatas, value);
-                    }
-                },
-                {
                     field: 'market',
                     title: '股票市场',
                     formatter: function(value, row, index) {
@@ -112,20 +97,31 @@
                     }
                 },
                 {
+                    field: 'stockType',
+                    title: '股票分类',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(stockTypeDatas, value);
+                    }
+                },
+                {
                     field: 'orgCode',
                     title: '组织代码'
                 },
                 {
+                    field: 'orgType',
+                    title: '组织简称'
+                },
+                {
                     field: 'securityTypeCode',
-                    title: '全量分类代码'
+                    title: '股票分类代码'
                 },
                 {
                     title: '操作',
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.code + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.code + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }
                 }]

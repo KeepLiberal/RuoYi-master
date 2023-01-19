@@ -4,7 +4,7 @@
 drop table if exists inv_finance_zyzb;
 create table inv_finance_zyzb
 (
-    id                  bigint      not null auto_increment comment 'id',
+    id                  int         not null auto_increment comment 'ID',
     security_code       varchar(10) not null comment '股票代码',
     report_type         varchar(10) not null comment '报告类型',
     report_date         datetime    not null comment '报告日期',

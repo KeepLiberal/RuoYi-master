@@ -7,17 +7,16 @@ import com.ruoyi.investment.domain.InvFinanceLr;
  * 财务分析-利润Service接口
  * 
  * @author yangwenyang
- * @date 2022-11-05
+ * @date 2023-01-19
  */
-public interface IInvFinanceLrService 
-{
+public interface IInvFinanceLrService {
     /**
      * 查询财务分析-利润
      * 
      * @param id 财务分析-利润主键
      * @return 财务分析-利润
      */
-    public InvFinanceLr selectInvFinanceLrById(Long id);
+    public InvFinanceLr selectInvFinanceLrById(Integer id);
 
     /**
      * 查询财务分析-利润列表
@@ -57,5 +56,5 @@ public interface IInvFinanceLrService
      * @param id 财务分析-利润主键
      * @return 结果
      */
-    public int deleteInvFinanceLrById(Long id);
+    public int deleteInvFinanceLrById(Integer id);
 }

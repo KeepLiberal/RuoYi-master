@@ -7,17 +7,16 @@ import com.ruoyi.investment.domain.InvStock;
  * A股基本信息Mapper接口
  * 
  * @author yangwenyang
- * @date 2022-10-14
+ * @date 2023-01-19
  */
-public interface InvStockMapper 
-{
+public interface InvStockMapper {
     /**
      * 查询A股基本信息
      * 
-     * @param code A股基本信息主键
+     * @param id A股基本信息主键
      * @return A股基本信息
      */
-    public InvStock selectInvStockByCode(String code);
+    public InvStock selectInvStockById(Integer id);
 
     /**
      * 查询A股基本信息列表
@@ -46,18 +45,18 @@ public interface InvStockMapper
     /**
      * 删除A股基本信息
      * 
-     * @param code A股基本信息主键
+     * @param id A股基本信息主键
      * @return 结果
      */
-    public int deleteInvStockByCode(String code);
+    public int deleteInvStockById(Integer id);
 
     /**
      * 批量删除A股基本信息
      * 
-     * @param codes 需要删除的数据主键集合
+     * @param ids 需要删除的数据主键集合
      * @return 结果
      */
-    public int deleteInvStockByCodes(String[] codes);
+    public int deleteInvStockByIds(String[] ids);
 
     /**
      * 查询所有未退市股票

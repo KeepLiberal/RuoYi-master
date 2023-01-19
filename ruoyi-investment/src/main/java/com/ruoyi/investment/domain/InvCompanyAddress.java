@@ -11,7 +11,7 @@ import java.util.Objects;
  * 公司地址对象 inv_company_address
  * 
  * @author yangwenyang
- * @date 2023-01-16
+ * @date 2023-01-19
  */
 public class InvCompanyAddress extends BaseEntity{
     private static final long serialVersionUID = 1L;
@@ -77,16 +77,4 @@ public class InvCompanyAddress extends BaseEntity{
         return Objects.hash(code, type, province, city, district, detail);
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("code", getCode())
-            .append("type", getType())
-            .append("province", getProvince())
-            .append("city", getCity())
-            .append("district", getDistrict())
-            .append("detail", getDetail())
-            .toString();
-    }
 }

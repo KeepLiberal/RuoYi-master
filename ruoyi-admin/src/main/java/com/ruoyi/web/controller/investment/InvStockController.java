@@ -20,15 +20,14 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
- * 沪深A股基本信息Controller
+ * A股基本信息Controller
  * 
  * @author yangwenyang
- * @date 2022-10-18
+ * @date 2023-01-19
  */
 @Controller
 @RequestMapping("/investment/invStock")
-public class InvStockController extends BaseController
-{
+public class InvStockController extends BaseController {
     private String prefix = "investment/invStock";
 
     @Autowired
@@ -42,34 +41,32 @@ public class InvStockController extends BaseController
     }
 
     /**
-     * 查询沪深A股基本信息列表
+     * 查询A股基本信息列表
      */
     @RequiresPermissions("investment:invStock:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(InvStock invStock)
-    {
+    public TableDataInfo list(InvStock invStock) {
         startPage();
         List<InvStock> list = invStockService.selectInvStockList(invStock);
         return getDataTable(list);
     }
 
     /**
-     * 导出沪深A股基本信息列表
+     * 导出A股基本信息列表
      */
     @RequiresPermissions("investment:invStock:export")
-    @Log(title = "沪深A股基本信息", businessType = BusinessType.EXPORT)
+    @Log(title = "A股基本信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(InvStock invStock)
-    {
+    public AjaxResult export(InvStock invStock) {
         List<InvStock> list = invStockService.selectInvStockList(invStock);
         ExcelUtil<InvStock> util = new ExcelUtil<InvStock>(InvStock.class);
-        return util.exportExcel(list, "沪深A股基本信息数据");
+        return util.exportExcel(list, "A股基本信息数据");
     }
 
     /**
-     * 新增沪深A股基本信息
+     * 新增A股基本信息
      */
     @GetMapping("/add")
     public String add()
@@ -78,50 +75,46 @@ public class InvStockController extends BaseController
     }
 
     /**
-     * 新增保存沪深A股基本信息
+     * 新增保存A股基本信息
      */
     @RequiresPermissions("investment:invStock:add")
-    @Log(title = "沪深A股基本信息", businessType = BusinessType.INSERT)
+    @Log(title = "A股基本信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(InvStock invStock)
-    {
+    public AjaxResult addSave(InvStock invStock) {
         return toAjax(invStockService.insertInvStock(invStock));
     }
 
     /**
-     * 修改沪深A股基本信息
+     * 修改A股基本信息
      */
     @RequiresPermissions("investment:invStock:edit")
-    @GetMapping("/edit/{code}")
-    public String edit(@PathVariable("code") String code, ModelMap mmap)
-    {
-        InvStock invStock = invStockService.selectInvStockByCode(code);
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") Integer id, ModelMap mmap) {
+        InvStock invStock = invStockService.selectInvStockById(id);
         mmap.put("invStock", invStock);
         return prefix + "/edit";
     }
 
     /**
-     * 修改保存沪深A股基本信息
+     * 修改保存A股基本信息
      */
     @RequiresPermissions("investment:invStock:edit")
-    @Log(title = "沪深A股基本信息", businessType = BusinessType.UPDATE)
+    @Log(title = "A股基本信息", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(InvStock invStock)
-    {
+    public AjaxResult editSave(InvStock invStock) {
         return toAjax(invStockService.updateInvStock(invStock));
     }
 
     /**
-     * 删除沪深A股基本信息
+     * 删除A股基本信息
      */
     @RequiresPermissions("investment:invStock:remove")
-    @Log(title = "沪深A股基本信息", businessType = BusinessType.DELETE)
+    @Log(title = "A股基本信息", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
-    {
-        return toAjax(invStockService.deleteInvStockByCodes(ids));
+    public AjaxResult remove(String ids) {
+        return toAjax(invStockService.deleteInvStockByIds(ids));
     }
 }

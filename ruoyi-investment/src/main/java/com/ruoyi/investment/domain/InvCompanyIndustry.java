@@ -11,7 +11,7 @@ import java.util.Objects;
  * 公司所属行业对象 inv_company_industry
  * 
  * @author yangwenyang
- * @date 2023-01-16
+ * @date 2023-01-19
  */
 public class InvCompanyIndustry extends BaseEntity{
     private static final long serialVersionUID = 1L;
@@ -77,16 +77,4 @@ public class InvCompanyIndustry extends BaseEntity{
         return Objects.hash(code, type, level1, level2, level3, level4);
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("code", getCode())
-            .append("type", getType())
-            .append("level1", getLevel1())
-            .append("level2", getLevel2())
-            .append("level3", getLevel3())
-            .append("level4", getLevel4())
-            .toString();
-    }
 }

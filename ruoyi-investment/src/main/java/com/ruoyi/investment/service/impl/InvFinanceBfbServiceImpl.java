@@ -12,7 +12,7 @@ import com.ruoyi.common.core.text.Convert;
  * 财务分析-百分比Service业务层处理
  * 
  * @author yangwenyang
- * @date 2023-01-01
+ * @date 2023-01-19
  */
 @Service
 public class InvFinanceBfbServiceImpl implements IInvFinanceBfbService {
@@ -26,7 +26,7 @@ public class InvFinanceBfbServiceImpl implements IInvFinanceBfbService {
      * @return 财务分析-百分比
      */
     @Override
-    public InvFinanceBfb selectInvFinanceBfbById(Long id) {
+    public InvFinanceBfb selectInvFinanceBfbById(Integer id) {
         return invFinanceBfbMapper.selectInvFinanceBfbById(id);
     }
 
@@ -81,7 +81,7 @@ public class InvFinanceBfbServiceImpl implements IInvFinanceBfbService {
      * @return 结果
      */
     @Override
-    public int deleteInvFinanceBfbById(Long id) {
+    public int deleteInvFinanceBfbById(Integer id) {
         return invFinanceBfbMapper.deleteInvFinanceBfbById(id);
     }
 }

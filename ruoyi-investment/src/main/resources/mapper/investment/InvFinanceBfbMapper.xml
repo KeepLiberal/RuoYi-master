@@ -9,52 +9,56 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="securityCode"    column="security_code"    />
         <result property="reportType"    column="report_type"    />
         <result property="reportDate"    column="report_date"    />
+        <result property="totalAssets"    column="total_assets"    />
         <result property="operateIncome"    column="operate_income"    />
-        <result property="operateIncomeYoy"    column="operate_income_yoy"    />
+        <result property="totalCurrentAssets"    column="total_current_assets"    />
         <result property="interestNi"    column="interest_ni"    />
-        <result property="interestNiYoy"    column="interest_ni_yoy"    />
         <result property="feeCommissionNi"    column="fee_commission_ni"    />
-        <result property="feeCommissionNiYoy"    column="fee_commission_ni_yoy"    />
+        <result property="totalNoncurrentAssets"    column="total_noncurrent_assets"    />
         <result property="investIncome"    column="invest_income"    />
-        <result property="investIncomeYoy"    column="invest_income_yoy"    />
+        <result property="totalLiabilities"    column="total_liabilities"    />
         <result property="fairvalueChangeIncome"    column="fairvalue_change_income"    />
-        <result property="fairvalueChangeIncomeYoy"    column="fairvalue_change_income_yoy"    />
+        <result property="totalCurrentLiab"    column="total_current_liab"    />
         <result property="exchangeIncome"    column="exchange_income"    />
-        <result property="exchangeIncomeYoy"    column="exchange_income_yoy"    />
         <result property="otherBusinessIncome"    column="other_business_income"    />
-        <result property="otherBusinessIncomeYoy"    column="other_business_income_yoy"    />
+        <result property="totalNoncurrentLiab"    column="total_noncurrent_liab"    />
         <result property="assetDisposalIncome"    column="asset_disposal_income"    />
-        <result property="assetDisposalIncomeYoy"    column="asset_disposal_income_yoy"    />
         <result property="otherIncome"    column="other_income"    />
-        <result property="otherIncomeYoy"    column="other_income_yoy"    />
         <result property="operateExpense"    column="operate_expense"    />
-        <result property="operateExpenseYoy"    column="operate_expense_yoy"    />
         <result property="operateTaxAdd"    column="operate_tax_add"    />
-        <result property="operateTaxAddYoy"    column="operate_tax_add_yoy"    />
         <result property="businessManageExpense"    column="business_manage_expense"    />
-        <result property="businessManageExpenseYoy"    column="business_manage_expense_yoy"    />
         <result property="assetImpairmentLoss"    column="asset_impairment_loss"    />
-        <result property="assetImpairmentLossYoy"    column="asset_impairment_loss_yoy"    />
         <result property="creditImpairmentLoss"    column="credit_impairment_loss"    />
-        <result property="creditImpairmentLossYoy"    column="credit_impairment_loss_yoy"    />
         <result property="otherBusinessCost"    column="other_business_cost"    />
-        <result property="otherBusinessCostYoy"    column="other_business_cost_yoy"    />
         <result property="operateProfit"    column="operate_profit"    />
-        <result property="operateProfitYoy"    column="operate_profit_yoy"    />
         <result property="nonbusinessIncome"    column="nonbusiness_income"    />
-        <result property="nonbusinessIncomeYoy"    column="nonbusiness_income_yoy"    />
         <result property="nonbusinessExpense"    column="nonbusiness_expense"    />
-        <result property="nonbusinessExpenseYoy"    column="nonbusiness_expense_yoy"    />
         <result property="totalProfit"    column="total_profit"    />
-        <result property="totalProfitYoy"    column="total_profit_yoy"    />
         <result property="incomeTax"    column="income_tax"    />
-        <result property="incomeTaxYoy"    column="income_tax_yoy"    />
         <result property="netprofit"    column="netprofit"    />
-        <result property="netprofitYoy"    column="netprofit_yoy"    />
+        <result property="totalOperateIncome"    column="total_operate_income"    />
+        <result property="totalOperateCost"    column="total_operate_cost"    />
+        <result property="operateCost"    column="operate_cost"    />
+        <result property="totalExpense"    column="total_expense"    />
+        <result property="saleExpense"    column="sale_expense"    />
+        <result property="manageExpense"    column="manage_expense"    />
+        <result property="researchExpense"    column="research_expense"    />
+        <result property="financeExpense"    column="finance_expense"    />
+        <result property="creditImpairmentIncome"    column="credit_impairment_income"    />
+        <result property="assetImpairmentIncome"    column="asset_impairment_income"    />
+        <result property="earnedPremium"    column="earned_premium"    />
+        <result property="fairvalueChange"    column="fairvalue_change"    />
+        <result property="surrenderValue"    column="surrender_value"    />
+        <result property="compensateExpense"    column="compensate_expense"    />
+        <result property="amortizeCompensateExpense"    column="amortize_compensate_expense"    />
+        <result property="extractInsuranceReserve"    column="extract_insurance_reserve"    />
+        <result property="amortizeInsuranceReserve"    column="amortize_insurance_reserve"    />
+        <result property="policyBonusExpense"    column="policy_bonus_expense"    />
+        <result property="feeCommissionExpense"    column="fee_commission_expense"    />
     </resultMap>
 
     <sql id="selectInvFinanceBfbVo">
-        select id, security_code, report_type, report_date, operate_income, operate_income_yoy, interest_ni, interest_ni_yoy, fee_commission_ni, fee_commission_ni_yoy, invest_income, invest_income_yoy, fairvalue_change_income, fairvalue_change_income_yoy, exchange_income, exchange_income_yoy, other_business_income, other_business_income_yoy, asset_disposal_income, asset_disposal_income_yoy, other_income, other_income_yoy, operate_expense, operate_expense_yoy, operate_tax_add, operate_tax_add_yoy, business_manage_expense, business_manage_expense_yoy, asset_impairment_loss, asset_impairment_loss_yoy, credit_impairment_loss, credit_impairment_loss_yoy, other_business_cost, other_business_cost_yoy, operate_profit, operate_profit_yoy, nonbusiness_income, nonbusiness_income_yoy, nonbusiness_expense, nonbusiness_expense_yoy, total_profit, total_profit_yoy, income_tax, income_tax_yoy, netprofit, netprofit_yoy from inv_finance_bfb
+        select id, security_code, report_type, report_date, total_assets, operate_income, total_current_assets, interest_ni, fee_commission_ni, total_noncurrent_assets, invest_income, total_liabilities, fairvalue_change_income, total_current_liab, exchange_income, other_business_income, total_noncurrent_liab, asset_disposal_income, other_income, operate_expense, operate_tax_add, business_manage_expense, asset_impairment_loss, credit_impairment_loss, other_business_cost, operate_profit, nonbusiness_income, nonbusiness_expense, total_profit, income_tax, netprofit, total_operate_income, total_operate_cost, operate_cost, total_expense, sale_expense, manage_expense, research_expense, finance_expense, credit_impairment_income, asset_impairment_income, earned_premium, fairvalue_change, surrender_value, compensate_expense, amortize_compensate_expense, extract_insurance_reserve, amortize_insurance_reserve, policy_bonus_expense, fee_commission_expense from inv_finance_bfb
     </sql>
 
     <select id="selectInvFinanceBfbList" parameterType="InvFinanceBfb" resultMap="InvFinanceBfbResult">
@@ -63,52 +67,56 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="securityCode != null  and securityCode != ''"> and security_code = #{securityCode}</if>
             <if test="reportType != null  and reportType != ''"> and report_type = #{reportType}</if>
             <if test="reportDate != null "> and report_date = #{reportDate}</if>
+            <if test="totalAssets != null "> and total_assets = #{totalAssets}</if>
             <if test="operateIncome != null "> and operate_income = #{operateIncome}</if>
-            <if test="operateIncomeYoy != null "> and operate_income_yoy = #{operateIncomeYoy}</if>
+            <if test="totalCurrentAssets != null "> and total_current_assets = #{totalCurrentAssets}</if>
             <if test="interestNi != null "> and interest_ni = #{interestNi}</if>
-            <if test="interestNiYoy != null "> and interest_ni_yoy = #{interestNiYoy}</if>
             <if test="feeCommissionNi != null "> and fee_commission_ni = #{feeCommissionNi}</if>
-            <if test="feeCommissionNiYoy != null "> and fee_commission_ni_yoy = #{feeCommissionNiYoy}</if>
+            <if test="totalNoncurrentAssets != null "> and total_noncurrent_assets = #{totalNoncurrentAssets}</if>
             <if test="investIncome != null "> and invest_income = #{investIncome}</if>
-            <if test="investIncomeYoy != null "> and invest_income_yoy = #{investIncomeYoy}</if>
+            <if test="totalLiabilities != null "> and total_liabilities = #{totalLiabilities}</if>
             <if test="fairvalueChangeIncome != null "> and fairvalue_change_income = #{fairvalueChangeIncome}</if>
-            <if test="fairvalueChangeIncomeYoy != null "> and fairvalue_change_income_yoy = #{fairvalueChangeIncomeYoy}</if>
+            <if test="totalCurrentLiab != null "> and total_current_liab = #{totalCurrentLiab}</if>
             <if test="exchangeIncome != null "> and exchange_income = #{exchangeIncome}</if>
-            <if test="exchangeIncomeYoy != null "> and exchange_income_yoy = #{exchangeIncomeYoy}</if>
             <if test="otherBusinessIncome != null "> and other_business_income = #{otherBusinessIncome}</if>
-            <if test="otherBusinessIncomeYoy != null "> and other_business_income_yoy = #{otherBusinessIncomeYoy}</if>
+            <if test="totalNoncurrentLiab != null "> and total_noncurrent_liab = #{totalNoncurrentLiab}</if>
             <if test="assetDisposalIncome != null "> and asset_disposal_income = #{assetDisposalIncome}</if>
-            <if test="assetDisposalIncomeYoy != null "> and asset_disposal_income_yoy = #{assetDisposalIncomeYoy}</if>
             <if test="otherIncome != null "> and other_income = #{otherIncome}</if>
-            <if test="otherIncomeYoy != null "> and other_income_yoy = #{otherIncomeYoy}</if>
             <if test="operateExpense != null "> and operate_expense = #{operateExpense}</if>
-            <if test="operateExpenseYoy != null "> and operate_expense_yoy = #{operateExpenseYoy}</if>
             <if test="operateTaxAdd != null "> and operate_tax_add = #{operateTaxAdd}</if>
-            <if test="operateTaxAddYoy != null "> and operate_tax_add_yoy = #{operateTaxAddYoy}</if>
             <if test="businessManageExpense != null "> and business_manage_expense = #{businessManageExpense}</if>
-            <if test="businessManageExpenseYoy != null "> and business_manage_expense_yoy = #{businessManageExpenseYoy}</if>
             <if test="assetImpairmentLoss != null "> and asset_impairment_loss = #{assetImpairmentLoss}</if>
-            <if test="assetImpairmentLossYoy != null "> and asset_impairment_loss_yoy = #{assetImpairmentLossYoy}</if>
             <if test="creditImpairmentLoss != null "> and credit_impairment_loss = #{creditImpairmentLoss}</if>
-            <if test="creditImpairmentLossYoy != null "> and credit_impairment_loss_yoy = #{creditImpairmentLossYoy}</if>
             <if test="otherBusinessCost != null "> and other_business_cost = #{otherBusinessCost}</if>
-            <if test="otherBusinessCostYoy != null "> and other_business_cost_yoy = #{otherBusinessCostYoy}</if>
             <if test="operateProfit != null "> and operate_profit = #{operateProfit}</if>
-            <if test="operateProfitYoy != null "> and operate_profit_yoy = #{operateProfitYoy}</if>
             <if test="nonbusinessIncome != null "> and nonbusiness_income = #{nonbusinessIncome}</if>
-            <if test="nonbusinessIncomeYoy != null "> and nonbusiness_income_yoy = #{nonbusinessIncomeYoy}</if>
             <if test="nonbusinessExpense != null "> and nonbusiness_expense = #{nonbusinessExpense}</if>
-            <if test="nonbusinessExpenseYoy != null "> and nonbusiness_expense_yoy = #{nonbusinessExpenseYoy}</if>
             <if test="totalProfit != null "> and total_profit = #{totalProfit}</if>
-            <if test="totalProfitYoy != null "> and total_profit_yoy = #{totalProfitYoy}</if>
             <if test="incomeTax != null "> and income_tax = #{incomeTax}</if>
-            <if test="incomeTaxYoy != null "> and income_tax_yoy = #{incomeTaxYoy}</if>
             <if test="netprofit != null "> and netprofit = #{netprofit}</if>
-            <if test="netprofitYoy != null "> and netprofit_yoy = #{netprofitYoy}</if>
+            <if test="totalOperateIncome != null "> and total_operate_income = #{totalOperateIncome}</if>
+            <if test="totalOperateCost != null "> and total_operate_cost = #{totalOperateCost}</if>
+            <if test="operateCost != null "> and operate_cost = #{operateCost}</if>
+            <if test="totalExpense != null "> and total_expense = #{totalExpense}</if>
+            <if test="saleExpense != null "> and sale_expense = #{saleExpense}</if>
+            <if test="manageExpense != null "> and manage_expense = #{manageExpense}</if>
+            <if test="researchExpense != null "> and research_expense = #{researchExpense}</if>
+            <if test="financeExpense != null "> and finance_expense = #{financeExpense}</if>
+            <if test="creditImpairmentIncome != null "> and credit_impairment_income = #{creditImpairmentIncome}</if>
+            <if test="assetImpairmentIncome != null "> and asset_impairment_income = #{assetImpairmentIncome}</if>
+            <if test="earnedPremium != null "> and earned_premium = #{earnedPremium}</if>
+            <if test="fairvalueChange != null "> and fairvalue_change = #{fairvalueChange}</if>
+            <if test="surrenderValue != null "> and surrender_value = #{surrenderValue}</if>
+            <if test="compensateExpense != null "> and compensate_expense = #{compensateExpense}</if>
+            <if test="amortizeCompensateExpense != null "> and amortize_compensate_expense = #{amortizeCompensateExpense}</if>
+            <if test="extractInsuranceReserve != null "> and extract_insurance_reserve = #{extractInsuranceReserve}</if>
+            <if test="amortizeInsuranceReserve != null "> and amortize_insurance_reserve = #{amortizeInsuranceReserve}</if>
+            <if test="policyBonusExpense != null "> and policy_bonus_expense = #{policyBonusExpense}</if>
+            <if test="feeCommissionExpense != null "> and fee_commission_expense = #{feeCommissionExpense}</if>
         </where>
     </select>
     
-    <select id="selectInvFinanceBfbById" parameterType="Long" resultMap="InvFinanceBfbResult">
+    <select id="selectInvFinanceBfbById" parameterType="Integer" resultMap="InvFinanceBfbResult">
         <include refid="selectInvFinanceBfbVo"/>
         where id = #{id}
     </select>
@@ -119,95 +127,103 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="securityCode != null and securityCode != ''">security_code,</if>
             <if test="reportType != null and reportType != ''">report_type,</if>
             <if test="reportDate != null">report_date,</if>
+            <if test="totalAssets != null">total_assets,</if>
             <if test="operateIncome != null">operate_income,</if>
-            <if test="operateIncomeYoy != null">operate_income_yoy,</if>
+            <if test="totalCurrentAssets != null">total_current_assets,</if>
             <if test="interestNi != null">interest_ni,</if>
-            <if test="interestNiYoy != null">interest_ni_yoy,</if>
             <if test="feeCommissionNi != null">fee_commission_ni,</if>
-            <if test="feeCommissionNiYoy != null">fee_commission_ni_yoy,</if>
+            <if test="totalNoncurrentAssets != null">total_noncurrent_assets,</if>
             <if test="investIncome != null">invest_income,</if>
-            <if test="investIncomeYoy != null">invest_income_yoy,</if>
+            <if test="totalLiabilities != null">total_liabilities,</if>
             <if test="fairvalueChangeIncome != null">fairvalue_change_income,</if>
-            <if test="fairvalueChangeIncomeYoy != null">fairvalue_change_income_yoy,</if>
+            <if test="totalCurrentLiab != null">total_current_liab,</if>
             <if test="exchangeIncome != null">exchange_income,</if>
-            <if test="exchangeIncomeYoy != null">exchange_income_yoy,</if>
             <if test="otherBusinessIncome != null">other_business_income,</if>
-            <if test="otherBusinessIncomeYoy != null">other_business_income_yoy,</if>
+            <if test="totalNoncurrentLiab != null">total_noncurrent_liab,</if>
             <if test="assetDisposalIncome != null">asset_disposal_income,</if>
-            <if test="assetDisposalIncomeYoy != null">asset_disposal_income_yoy,</if>
             <if test="otherIncome != null">other_income,</if>
-            <if test="otherIncomeYoy != null">other_income_yoy,</if>
             <if test="operateExpense != null">operate_expense,</if>
-            <if test="operateExpenseYoy != null">operate_expense_yoy,</if>
             <if test="operateTaxAdd != null">operate_tax_add,</if>
-            <if test="operateTaxAddYoy != null">operate_tax_add_yoy,</if>
             <if test="businessManageExpense != null">business_manage_expense,</if>
-            <if test="businessManageExpenseYoy != null">business_manage_expense_yoy,</if>
             <if test="assetImpairmentLoss != null">asset_impairment_loss,</if>
-            <if test="assetImpairmentLossYoy != null">asset_impairment_loss_yoy,</if>
             <if test="creditImpairmentLoss != null">credit_impairment_loss,</if>
-            <if test="creditImpairmentLossYoy != null">credit_impairment_loss_yoy,</if>
             <if test="otherBusinessCost != null">other_business_cost,</if>
-            <if test="otherBusinessCostYoy != null">other_business_cost_yoy,</if>
             <if test="operateProfit != null">operate_profit,</if>
-            <if test="operateProfitYoy != null">operate_profit_yoy,</if>
             <if test="nonbusinessIncome != null">nonbusiness_income,</if>
-            <if test="nonbusinessIncomeYoy != null">nonbusiness_income_yoy,</if>
             <if test="nonbusinessExpense != null">nonbusiness_expense,</if>
-            <if test="nonbusinessExpenseYoy != null">nonbusiness_expense_yoy,</if>
             <if test="totalProfit != null">total_profit,</if>
-            <if test="totalProfitYoy != null">total_profit_yoy,</if>
             <if test="incomeTax != null">income_tax,</if>
-            <if test="incomeTaxYoy != null">income_tax_yoy,</if>
             <if test="netprofit != null">netprofit,</if>
-            <if test="netprofitYoy != null">netprofit_yoy,</if>
+            <if test="totalOperateIncome != null">total_operate_income,</if>
+            <if test="totalOperateCost != null">total_operate_cost,</if>
+            <if test="operateCost != null">operate_cost,</if>
+            <if test="totalExpense != null">total_expense,</if>
+            <if test="saleExpense != null">sale_expense,</if>
+            <if test="manageExpense != null">manage_expense,</if>
+            <if test="researchExpense != null">research_expense,</if>
+            <if test="financeExpense != null">finance_expense,</if>
+            <if test="creditImpairmentIncome != null">credit_impairment_income,</if>
+            <if test="assetImpairmentIncome != null">asset_impairment_income,</if>
+            <if test="earnedPremium != null">earned_premium,</if>
+            <if test="fairvalueChange != null">fairvalue_change,</if>
+            <if test="surrenderValue != null">surrender_value,</if>
+            <if test="compensateExpense != null">compensate_expense,</if>
+            <if test="amortizeCompensateExpense != null">amortize_compensate_expense,</if>
+            <if test="extractInsuranceReserve != null">extract_insurance_reserve,</if>
+            <if test="amortizeInsuranceReserve != null">amortize_insurance_reserve,</if>
+            <if test="policyBonusExpense != null">policy_bonus_expense,</if>
+            <if test="feeCommissionExpense != null">fee_commission_expense,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="securityCode != null and securityCode != ''">#{securityCode},</if>
             <if test="reportType != null and reportType != ''">#{reportType},</if>
             <if test="reportDate != null">#{reportDate},</if>
+            <if test="totalAssets != null">#{totalAssets},</if>
             <if test="operateIncome != null">#{operateIncome},</if>
-            <if test="operateIncomeYoy != null">#{operateIncomeYoy},</if>
+            <if test="totalCurrentAssets != null">#{totalCurrentAssets},</if>
             <if test="interestNi != null">#{interestNi},</if>
-            <if test="interestNiYoy != null">#{interestNiYoy},</if>
             <if test="feeCommissionNi != null">#{feeCommissionNi},</if>
-            <if test="feeCommissionNiYoy != null">#{feeCommissionNiYoy},</if>
+            <if test="totalNoncurrentAssets != null">#{totalNoncurrentAssets},</if>
             <if test="investIncome != null">#{investIncome},</if>
-            <if test="investIncomeYoy != null">#{investIncomeYoy},</if>
+            <if test="totalLiabilities != null">#{totalLiabilities},</if>
             <if test="fairvalueChangeIncome != null">#{fairvalueChangeIncome},</if>
-            <if test="fairvalueChangeIncomeYoy != null">#{fairvalueChangeIncomeYoy},</if>
+            <if test="totalCurrentLiab != null">#{totalCurrentLiab},</if>
             <if test="exchangeIncome != null">#{exchangeIncome},</if>
-            <if test="exchangeIncomeYoy != null">#{exchangeIncomeYoy},</if>
             <if test="otherBusinessIncome != null">#{otherBusinessIncome},</if>
-            <if test="otherBusinessIncomeYoy != null">#{otherBusinessIncomeYoy},</if>
+            <if test="totalNoncurrentLiab != null">#{totalNoncurrentLiab},</if>
             <if test="assetDisposalIncome != null">#{assetDisposalIncome},</if>
-            <if test="assetDisposalIncomeYoy != null">#{assetDisposalIncomeYoy},</if>
             <if test="otherIncome != null">#{otherIncome},</if>
-            <if test="otherIncomeYoy != null">#{otherIncomeYoy},</if>
             <if test="operateExpense != null">#{operateExpense},</if>
-            <if test="operateExpenseYoy != null">#{operateExpenseYoy},</if>
             <if test="operateTaxAdd != null">#{operateTaxAdd},</if>
-            <if test="operateTaxAddYoy != null">#{operateTaxAddYoy},</if>
             <if test="businessManageExpense != null">#{businessManageExpense},</if>
-            <if test="businessManageExpenseYoy != null">#{businessManageExpenseYoy},</if>
             <if test="assetImpairmentLoss != null">#{assetImpairmentLoss},</if>
-            <if test="assetImpairmentLossYoy != null">#{assetImpairmentLossYoy},</if>
             <if test="creditImpairmentLoss != null">#{creditImpairmentLoss},</if>
-            <if test="creditImpairmentLossYoy != null">#{creditImpairmentLossYoy},</if>
             <if test="otherBusinessCost != null">#{otherBusinessCost},</if>
-            <if test="otherBusinessCostYoy != null">#{otherBusinessCostYoy},</if>
             <if test="operateProfit != null">#{operateProfit},</if>
-            <if test="operateProfitYoy != null">#{operateProfitYoy},</if>
             <if test="nonbusinessIncome != null">#{nonbusinessIncome},</if>
-            <if test="nonbusinessIncomeYoy != null">#{nonbusinessIncomeYoy},</if>
             <if test="nonbusinessExpense != null">#{nonbusinessExpense},</if>
-            <if test="nonbusinessExpenseYoy != null">#{nonbusinessExpenseYoy},</if>
             <if test="totalProfit != null">#{totalProfit},</if>
-            <if test="totalProfitYoy != null">#{totalProfitYoy},</if>
             <if test="incomeTax != null">#{incomeTax},</if>
-            <if test="incomeTaxYoy != null">#{incomeTaxYoy},</if>
             <if test="netprofit != null">#{netprofit},</if>
-            <if test="netprofitYoy != null">#{netprofitYoy},</if>
+            <if test="totalOperateIncome != null">#{totalOperateIncome},</if>
+            <if test="totalOperateCost != null">#{totalOperateCost},</if>
+            <if test="operateCost != null">#{operateCost},</if>
+            <if test="totalExpense != null">#{totalExpense},</if>
+            <if test="saleExpense != null">#{saleExpense},</if>
+            <if test="manageExpense != null">#{manageExpense},</if>
+            <if test="researchExpense != null">#{researchExpense},</if>
+            <if test="financeExpense != null">#{financeExpense},</if>
+            <if test="creditImpairmentIncome != null">#{creditImpairmentIncome},</if>
+            <if test="assetImpairmentIncome != null">#{assetImpairmentIncome},</if>
+            <if test="earnedPremium != null">#{earnedPremium},</if>
+            <if test="fairvalueChange != null">#{fairvalueChange},</if>
+            <if test="surrenderValue != null">#{surrenderValue},</if>
+            <if test="compensateExpense != null">#{compensateExpense},</if>
+            <if test="amortizeCompensateExpense != null">#{amortizeCompensateExpense},</if>
+            <if test="extractInsuranceReserve != null">#{extractInsuranceReserve},</if>
+            <if test="amortizeInsuranceReserve != null">#{amortizeInsuranceReserve},</if>
+            <if test="policyBonusExpense != null">#{policyBonusExpense},</if>
+            <if test="feeCommissionExpense != null">#{feeCommissionExpense},</if>
          </trim>
     </insert>
 
@@ -217,53 +233,57 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="securityCode != null and securityCode != ''">security_code = #{securityCode},</if>
             <if test="reportType != null and reportType != ''">report_type = #{reportType},</if>
             <if test="reportDate != null">report_date = #{reportDate},</if>
+            <if test="totalAssets != null">total_assets = #{totalAssets},</if>
             <if test="operateIncome != null">operate_income = #{operateIncome},</if>
-            <if test="operateIncomeYoy != null">operate_income_yoy = #{operateIncomeYoy},</if>
+            <if test="totalCurrentAssets != null">total_current_assets = #{totalCurrentAssets},</if>
             <if test="interestNi != null">interest_ni = #{interestNi},</if>
-            <if test="interestNiYoy != null">interest_ni_yoy = #{interestNiYoy},</if>
             <if test="feeCommissionNi != null">fee_commission_ni = #{feeCommissionNi},</if>
-            <if test="feeCommissionNiYoy != null">fee_commission_ni_yoy = #{feeCommissionNiYoy},</if>
+            <if test="totalNoncurrentAssets != null">total_noncurrent_assets = #{totalNoncurrentAssets},</if>
             <if test="investIncome != null">invest_income = #{investIncome},</if>
-            <if test="investIncomeYoy != null">invest_income_yoy = #{investIncomeYoy},</if>
+            <if test="totalLiabilities != null">total_liabilities = #{totalLiabilities},</if>
             <if test="fairvalueChangeIncome != null">fairvalue_change_income = #{fairvalueChangeIncome},</if>
-            <if test="fairvalueChangeIncomeYoy != null">fairvalue_change_income_yoy = #{fairvalueChangeIncomeYoy},</if>
+            <if test="totalCurrentLiab != null">total_current_liab = #{totalCurrentLiab},</if>
             <if test="exchangeIncome != null">exchange_income = #{exchangeIncome},</if>
-            <if test="exchangeIncomeYoy != null">exchange_income_yoy = #{exchangeIncomeYoy},</if>
             <if test="otherBusinessIncome != null">other_business_income = #{otherBusinessIncome},</if>
-            <if test="otherBusinessIncomeYoy != null">other_business_income_yoy = #{otherBusinessIncomeYoy},</if>
+            <if test="totalNoncurrentLiab != null">total_noncurrent_liab = #{totalNoncurrentLiab},</if>
             <if test="assetDisposalIncome != null">asset_disposal_income = #{assetDisposalIncome},</if>
-            <if test="assetDisposalIncomeYoy != null">asset_disposal_income_yoy = #{assetDisposalIncomeYoy},</if>
             <if test="otherIncome != null">other_income = #{otherIncome},</if>
-            <if test="otherIncomeYoy != null">other_income_yoy = #{otherIncomeYoy},</if>
             <if test="operateExpense != null">operate_expense = #{operateExpense},</if>
-            <if test="operateExpenseYoy != null">operate_expense_yoy = #{operateExpenseYoy},</if>
             <if test="operateTaxAdd != null">operate_tax_add = #{operateTaxAdd},</if>
-            <if test="operateTaxAddYoy != null">operate_tax_add_yoy = #{operateTaxAddYoy},</if>
             <if test="businessManageExpense != null">business_manage_expense = #{businessManageExpense},</if>
-            <if test="businessManageExpenseYoy != null">business_manage_expense_yoy = #{businessManageExpenseYoy},</if>
             <if test="assetImpairmentLoss != null">asset_impairment_loss = #{assetImpairmentLoss},</if>
-            <if test="assetImpairmentLossYoy != null">asset_impairment_loss_yoy = #{assetImpairmentLossYoy},</if>
             <if test="creditImpairmentLoss != null">credit_impairment_loss = #{creditImpairmentLoss},</if>
-            <if test="creditImpairmentLossYoy != null">credit_impairment_loss_yoy = #{creditImpairmentLossYoy},</if>
             <if test="otherBusinessCost != null">other_business_cost = #{otherBusinessCost},</if>
-            <if test="otherBusinessCostYoy != null">other_business_cost_yoy = #{otherBusinessCostYoy},</if>
             <if test="operateProfit != null">operate_profit = #{operateProfit},</if>
-            <if test="operateProfitYoy != null">operate_profit_yoy = #{operateProfitYoy},</if>
             <if test="nonbusinessIncome != null">nonbusiness_income = #{nonbusinessIncome},</if>
-            <if test="nonbusinessIncomeYoy != null">nonbusiness_income_yoy = #{nonbusinessIncomeYoy},</if>
             <if test="nonbusinessExpense != null">nonbusiness_expense = #{nonbusinessExpense},</if>
-            <if test="nonbusinessExpenseYoy != null">nonbusiness_expense_yoy = #{nonbusinessExpenseYoy},</if>
             <if test="totalProfit != null">total_profit = #{totalProfit},</if>
-            <if test="totalProfitYoy != null">total_profit_yoy = #{totalProfitYoy},</if>
             <if test="incomeTax != null">income_tax = #{incomeTax},</if>
-            <if test="incomeTaxYoy != null">income_tax_yoy = #{incomeTaxYoy},</if>
             <if test="netprofit != null">netprofit = #{netprofit},</if>
-            <if test="netprofitYoy != null">netprofit_yoy = #{netprofitYoy},</if>
+            <if test="totalOperateIncome != null">total_operate_income = #{totalOperateIncome},</if>
+            <if test="totalOperateCost != null">total_operate_cost = #{totalOperateCost},</if>
+            <if test="operateCost != null">operate_cost = #{operateCost},</if>
+            <if test="totalExpense != null">total_expense = #{totalExpense},</if>
+            <if test="saleExpense != null">sale_expense = #{saleExpense},</if>
+            <if test="manageExpense != null">manage_expense = #{manageExpense},</if>
+            <if test="researchExpense != null">research_expense = #{researchExpense},</if>
+            <if test="financeExpense != null">finance_expense = #{financeExpense},</if>
+            <if test="creditImpairmentIncome != null">credit_impairment_income = #{creditImpairmentIncome},</if>
+            <if test="assetImpairmentIncome != null">asset_impairment_income = #{assetImpairmentIncome},</if>
+            <if test="earnedPremium != null">earned_premium = #{earnedPremium},</if>
+            <if test="fairvalueChange != null">fairvalue_change = #{fairvalueChange},</if>
+            <if test="surrenderValue != null">surrender_value = #{surrenderValue},</if>
+            <if test="compensateExpense != null">compensate_expense = #{compensateExpense},</if>
+            <if test="amortizeCompensateExpense != null">amortize_compensate_expense = #{amortizeCompensateExpense},</if>
+            <if test="extractInsuranceReserve != null">extract_insurance_reserve = #{extractInsuranceReserve},</if>
+            <if test="amortizeInsuranceReserve != null">amortize_insurance_reserve = #{amortizeInsuranceReserve},</if>
+            <if test="policyBonusExpense != null">policy_bonus_expense = #{policyBonusExpense},</if>
+            <if test="feeCommissionExpense != null">fee_commission_expense = #{feeCommissionExpense},</if>
         </trim>
         where id = #{id}
     </update>
 
-    <delete id="deleteInvFinanceBfbById" parameterType="Long">
+    <delete id="deleteInvFinanceBfbById" parameterType="Integer">
         delete from inv_finance_bfb where id = #{id}
     </delete>
 

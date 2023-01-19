@@ -23,12 +23,11 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 财务分析-杜邦分析Controller
  * 
  * @author yangwenyang
- * @date 2022-10-18
+ * @date 2023-01-19
  */
 @Controller
 @RequestMapping("/investment/invFinanceDbfx")
-public class InvFinanceDbfxController extends BaseController
-{
+public class InvFinanceDbfxController extends BaseController {
     private String prefix = "investment/invFinanceDbfx";
 
     @Autowired
@@ -47,8 +46,7 @@ public class InvFinanceDbfxController extends BaseController
     @RequiresPermissions("investment:invFinanceDbfx:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(InvFinanceDbfx invFinanceDbfx)
-    {
+    public TableDataInfo list(InvFinanceDbfx invFinanceDbfx) {
         startPage();
         List<InvFinanceDbfx> list = invFinanceDbfxService.selectInvFinanceDbfxList(invFinanceDbfx);
         return getDataTable(list);
@@ -61,8 +59,7 @@ public class InvFinanceDbfxController extends BaseController
     @Log(title = "财务分析-杜邦分析", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(InvFinanceDbfx invFinanceDbfx)
-    {
+    public AjaxResult export(InvFinanceDbfx invFinanceDbfx) {
         List<InvFinanceDbfx> list = invFinanceDbfxService.selectInvFinanceDbfxList(invFinanceDbfx);
         ExcelUtil<InvFinanceDbfx> util = new ExcelUtil<InvFinanceDbfx>(InvFinanceDbfx.class);
         return util.exportExcel(list, "财务分析-杜邦分析数据");
@@ -84,8 +81,7 @@ public class InvFinanceDbfxController extends BaseController
     @Log(title = "财务分析-杜邦分析", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(InvFinanceDbfx invFinanceDbfx)
-    {
+    public AjaxResult addSave(InvFinanceDbfx invFinanceDbfx) {
         return toAjax(invFinanceDbfxService.insertInvFinanceDbfx(invFinanceDbfx));
     }
 
@@ -94,8 +90,7 @@ public class InvFinanceDbfxController extends BaseController
      */
     @RequiresPermissions("investment:invFinanceDbfx:edit")
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, ModelMap mmap)
-    {
+    public String edit(@PathVariable("id") Integer id, ModelMap mmap) {
         InvFinanceDbfx invFinanceDbfx = invFinanceDbfxService.selectInvFinanceDbfxById(id);
         mmap.put("invFinanceDbfx", invFinanceDbfx);
         return prefix + "/edit";
@@ -108,8 +103,7 @@ public class InvFinanceDbfxController extends BaseController
     @Log(title = "财务分析-杜邦分析", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(InvFinanceDbfx invFinanceDbfx)
-    {
+    public AjaxResult editSave(InvFinanceDbfx invFinanceDbfx) {
         return toAjax(invFinanceDbfxService.updateInvFinanceDbfx(invFinanceDbfx));
     }
 
@@ -120,8 +114,7 @@ public class InvFinanceDbfxController extends BaseController
     @Log(title = "财务分析-杜邦分析", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
-    {
+    public AjaxResult remove(String ids) {
         return toAjax(invFinanceDbfxService.deleteInvFinanceDbfxByIds(ids));
     }
 }

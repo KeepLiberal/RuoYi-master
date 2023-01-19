@@ -7,17 +7,16 @@ import com.ruoyi.investment.domain.InvFinanceZcfz;
  * 财务分析-资产负债Service接口
  * 
  * @author yangwenyang
- * @date 2022-10-18
+ * @date 2023-01-19
  */
-public interface IInvFinanceZcfzService 
-{
+public interface IInvFinanceZcfzService {
     /**
      * 查询财务分析-资产负债
      * 
      * @param id 财务分析-资产负债主键
      * @return 财务分析-资产负债
      */
-    public InvFinanceZcfz selectInvFinanceZcfzById(Long id);
+    public InvFinanceZcfz selectInvFinanceZcfzById(Integer id);
 
     /**
      * 查询财务分析-资产负债列表
@@ -57,5 +56,5 @@ public interface IInvFinanceZcfzService
      * @param id 财务分析-资产负债主键
      * @return 结果
      */
-    public int deleteInvFinanceZcfzById(Long id);
+    public int deleteInvFinanceZcfzById(Integer id);
 }

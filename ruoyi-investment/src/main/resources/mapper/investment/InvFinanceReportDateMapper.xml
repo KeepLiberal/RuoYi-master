@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectInvFinanceReportDateById" parameterType="Long" resultMap="InvFinanceReportDateResult">
+    <select id="selectInvFinanceReportDateById" parameterType="Integer" resultMap="InvFinanceReportDateResult">
         <include refid="selectInvFinanceReportDateVo"/>
         where id = #{id}
     </select>
@@ -34,15 +34,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertInvFinanceReportDate" parameterType="InvFinanceReportDate" useGeneratedKeys="true" keyProperty="id">
         insert into inv_finance_report_date
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="securityCode != null and securityCode != ''">security_code,</if>
-            <if test="financeType != null and financeType != ''">finance_type,</if>
-            <if test="reportType != null and reportType != ''">report_type,</if>
+            <if test="securityCode != null">security_code,</if>
+            <if test="financeType != null">finance_type,</if>
+            <if test="reportType != null">report_type,</if>
             <if test="reportDate != null">report_date,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="securityCode != null and securityCode != ''">#{securityCode},</if>
-            <if test="financeType != null and financeType != ''">#{financeType},</if>
-            <if test="reportType != null and reportType != ''">#{reportType},</if>
+            <if test="securityCode != null">#{securityCode},</if>
+            <if test="financeType != null">#{financeType},</if>
+            <if test="reportType != null">#{reportType},</if>
             <if test="reportDate != null">#{reportDate},</if>
          </trim>
     </insert>
@@ -50,15 +50,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateInvFinanceReportDate" parameterType="InvFinanceReportDate">
         update inv_finance_report_date
         <trim prefix="SET" suffixOverrides=",">
-            <if test="securityCode != null and securityCode != ''">security_code = #{securityCode},</if>
-            <if test="financeType != null and financeType != ''">finance_type = #{financeType},</if>
-            <if test="reportType != null and reportType != ''">report_type = #{reportType},</if>
+            <if test="securityCode != null">security_code = #{securityCode},</if>
+            <if test="financeType != null">finance_type = #{financeType},</if>
+            <if test="reportType != null">report_type = #{reportType},</if>
             <if test="reportDate != null">report_date = #{reportDate},</if>
         </trim>
         where id = #{id}
     </update>
 
-    <delete id="deleteInvFinanceReportDateById" parameterType="Long">
+    <delete id="deleteInvFinanceReportDateById" parameterType="Integer">
         delete from inv_finance_report_date where id = #{id}
     </delete>
 
