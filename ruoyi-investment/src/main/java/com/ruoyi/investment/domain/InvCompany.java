@@ -10,7 +10,7 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * 公司概况对象 inv_company
+ * 沪深A股公司概况对象 inv_company
  * 
  * @author yangwenyang
  * @date 2023-01-19

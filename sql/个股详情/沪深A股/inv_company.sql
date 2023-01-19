@@ -1,5 +1,5 @@
 /*
- 公司概况
+ 沪深A股公司概况
 */
 drop table if exists inv_company;
 create table inv_company
@@ -60,4 +60,4 @@ create table inv_company
     offline_vap_ratio double        default null comment '网下配售中签率',
     online_issue_lwr  double        default null comment '定价中签率',
     primary key (id) using btree
-) engine=innodb default charset=utf8mb4 collate=utf8mb4_general_ci comment='公司概况';
+) engine=innodb default charset=utf8mb4 collate=utf8mb4_general_ci comment='沪深A股公司概况';

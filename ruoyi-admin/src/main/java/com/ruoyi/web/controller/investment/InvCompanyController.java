@@ -20,7 +20,7 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
- * 公司概况Controller
+ * 沪深A股公司概况Controller
  * 
  * @author yangwenyang
  * @date 2023-01-19
@@ -41,7 +41,7 @@ public class InvCompanyController extends BaseController {
     }
 
     /**
-     * 查询公司概况列表
+     * 查询沪深A股公司概况列表
      */
     @RequiresPermissions("investment:invCompany:list")
     @PostMapping("/list")
@@ -53,20 +53,20 @@ public class InvCompanyController extends BaseController {
     }
 
     /**
-     * 导出公司概况列表
+     * 导出沪深A股公司概况列表
      */
     @RequiresPermissions("investment:invCompany:export")
-    @Log(title = "公司概况", businessType = BusinessType.EXPORT)
+    @Log(title = "沪深A股公司概况", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(InvCompany invCompany) {
         List<InvCompany> list = invCompanyService.selectInvCompanyList(invCompany);
         ExcelUtil<InvCompany> util = new ExcelUtil<InvCompany>(InvCompany.class);
-        return util.exportExcel(list, "公司概况数据");
+        return util.exportExcel(list, "沪深A股公司概况数据");
     }
 
     /**
-     * 新增公司概况
+     * 新增沪深A股公司概况
      */
     @GetMapping("/add")
     public String add()
@@ -75,10 +75,10 @@ public class InvCompanyController extends BaseController {
     }
 
     /**
-     * 新增保存公司概况
+     * 新增保存沪深A股公司概况
      */
     @RequiresPermissions("investment:invCompany:add")
-    @Log(title = "公司概况", businessType = BusinessType.INSERT)
+    @Log(title = "沪深A股公司概况", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(InvCompany invCompany) {
@@ -86,7 +86,7 @@ public class InvCompanyController extends BaseController {
     }
 
     /**
-     * 修改公司概况
+     * 修改沪深A股公司概况
      */
     @RequiresPermissions("investment:invCompany:edit")
     @GetMapping("/edit/{id}")
@@ -97,10 +97,10 @@ public class InvCompanyController extends BaseController {
     }
 
     /**
-     * 修改保存公司概况
+     * 修改保存沪深A股公司概况
      */
     @RequiresPermissions("investment:invCompany:edit")
-    @Log(title = "公司概况", businessType = BusinessType.UPDATE)
+    @Log(title = "沪深A股公司概况", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(InvCompany invCompany) {
@@ -108,10 +108,10 @@ public class InvCompanyController extends BaseController {
     }
 
     /**
-     * 删除公司概况
+     * 删除沪深A股公司概况
      */
     @RequiresPermissions("investment:invCompany:remove")
-    @Log(title = "公司概况", businessType = BusinessType.DELETE)
+    @Log(title = "沪深A股公司概况", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {

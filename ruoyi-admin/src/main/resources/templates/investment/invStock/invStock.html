@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('A股基本信息列表')" />
+    <th:block th:include="include :: header('沪深A股基本信息列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -72,7 +72,7 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "A股基本信息",
+                modalName: "沪深A股基本信息",
                 columns: [{
                     checkbox: true
                 },

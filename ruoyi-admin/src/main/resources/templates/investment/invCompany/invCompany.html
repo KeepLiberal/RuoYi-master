@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('公司概况列表')" />
+    <th:block th:include="include :: header('沪深A股公司概况列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -11,11 +11,11 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>A股代码：</label>
+                                <label>股票代码：</label>
                                 <input type="text" name="code"/>
                             </li>
                             <li>
-                                <label>A股简称：</label>
+                                <label>股票简称：</label>
                                 <input type="text" name="strNamea"/>
                             </li>
                             <li>
@@ -59,7 +59,7 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "公司概况",
+                modalName: "沪深A股公司概况",
                 columns: [{
                     checkbox: true
                 },

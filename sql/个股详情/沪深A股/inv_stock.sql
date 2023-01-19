@@ -1,5 +1,5 @@
 /*
- A股基本信息
+ 沪深A股基本信息
 */
 drop table if exists inv_stock;
 create table inv_stock
@@ -13,4 +13,4 @@ create table inv_stock
     org_type           varchar(10) default null comment '组织简称',
     security_type_code varchar(10) default null comment '股票分类代码',
     primary key (id) using btree
-) engine=innodb default charset=utf8mb4 collate=utf8mb4_general_ci comment='A股基本信息';
+) engine=innodb default charset=utf8mb4 collate=utf8mb4_general_ci comment='沪深A股基本信息';

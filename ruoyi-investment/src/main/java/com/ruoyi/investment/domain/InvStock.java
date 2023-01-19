@@ -8,7 +8,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 import java.util.Objects;
 
 /**
- * A股基本信息对象 inv_stock
+ * 沪深A股基本信息对象 inv_stock
  * 
  * @author yangwenyang
  * @date 2023-01-19

@@ -9,7 +9,7 @@ import com.ruoyi.investment.service.IInvCompanyService;
 import com.ruoyi.common.core.text.Convert;
 
 /**
- * 公司概况Service业务层处理
+ * 沪深A股公司概况Service业务层处理
  * 
  * @author yangwenyang
  * @date 2023-01-19
@@ -20,10 +20,10 @@ public class InvCompanyServiceImpl implements IInvCompanyService {
     private InvCompanyMapper invCompanyMapper;
 
     /**
-     * 查询公司概况
+     * 查询沪深A股公司概况
      * 
-     * @param id 公司概况主键
-     * @return 公司概况
+     * @param id 沪深A股公司概况主键
+     * @return 沪深A股公司概况
      */
     @Override
     public InvCompany selectInvCompanyById(Integer id) {
@@ -31,10 +31,10 @@ public class InvCompanyServiceImpl implements IInvCompanyService {
     }
 
     /**
-     * 查询公司概况列表
+     * 查询沪深A股公司概况列表
      * 
-     * @param invCompany 公司概况
-     * @return 公司概况
+     * @param invCompany 沪深A股公司概况
+     * @return 沪深A股公司概况
      */
     @Override
     public List<InvCompany> selectInvCompanyList(InvCompany invCompany) {
@@ -42,9 +42,9 @@ public class InvCompanyServiceImpl implements IInvCompanyService {
     }
 
     /**
-     * 新增公司概况
+     * 新增沪深A股公司概况
      * 
-     * @param invCompany 公司概况
+     * @param invCompany 沪深A股公司概况
      * @return 结果
      */
     @Override
@@ -53,9 +53,9 @@ public class InvCompanyServiceImpl implements IInvCompanyService {
     }
 
     /**
-     * 修改公司概况
+     * 修改沪深A股公司概况
      * 
-     * @param invCompany 公司概况
+     * @param invCompany 沪深A股公司概况
      * @return 结果
      */
     @Override
@@ -64,9 +64,9 @@ public class InvCompanyServiceImpl implements IInvCompanyService {
     }
 
     /**
-     * 批量删除公司概况
+     * 批量删除沪深A股公司概况
      * 
-     * @param ids 需要删除的公司概况主键
+     * @param ids 需要删除的沪深A股公司概况主键
      * @return 结果
      */
     @Override
@@ -75,9 +75,9 @@ public class InvCompanyServiceImpl implements IInvCompanyService {
     }
 
     /**
-     * 删除公司概况信息
+     * 删除沪深A股公司概况信息
      * 
-     * @param id 公司概况主键
+     * @param id 沪深A股公司概况主键
      * @return 结果
      */
     @Override

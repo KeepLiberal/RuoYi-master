@@ -140,7 +140,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectInvCompanyVo"/>
         where code = #{code}
     </select>
-        
+
     <insert id="insertInvCompany" parameterType="InvCompany" useGeneratedKeys="true" keyProperty="id">
         insert into inv_company
         <trim prefix="(" suffix=")" suffixOverrides=",">

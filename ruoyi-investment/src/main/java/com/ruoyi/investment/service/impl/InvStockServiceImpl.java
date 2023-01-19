@@ -9,7 +9,7 @@ import com.ruoyi.investment.service.IInvStockService;
 import com.ruoyi.common.core.text.Convert;
 
 /**
- * A股基本信息Service业务层处理
+ * 沪深A股基本信息Service业务层处理
  * 
  * @author yangwenyang
  * @date 2023-01-19
@@ -20,10 +20,10 @@ public class InvStockServiceImpl implements IInvStockService {
     private InvStockMapper invStockMapper;
 
     /**
-     * 查询A股基本信息
+     * 查询沪深A股基本信息
      * 
-     * @param id A股基本信息主键
-     * @return A股基本信息
+     * @param id 沪深A股基本信息主键
+     * @return 沪深A股基本信息
      */
     @Override
     public InvStock selectInvStockById(Integer id) {
@@ -31,10 +31,10 @@ public class InvStockServiceImpl implements IInvStockService {
     }
 
     /**
-     * 查询A股基本信息列表
+     * 查询沪深A股基本信息列表
      * 
-     * @param invStock A股基本信息
-     * @return A股基本信息
+     * @param invStock 沪深A股基本信息
+     * @return 沪深A股基本信息
      */
     @Override
     public List<InvStock> selectInvStockList(InvStock invStock) {
@@ -42,9 +42,9 @@ public class InvStockServiceImpl implements IInvStockService {
     }
 
     /**
-     * 新增A股基本信息
+     * 新增沪深A股基本信息
      * 
-     * @param invStock A股基本信息
+     * @param invStock 沪深A股基本信息
      * @return 结果
      */
     @Override
@@ -53,9 +53,9 @@ public class InvStockServiceImpl implements IInvStockService {
     }
 
     /**
-     * 修改A股基本信息
+     * 修改沪深A股基本信息
      * 
-     * @param invStock A股基本信息
+     * @param invStock 沪深A股基本信息
      * @return 结果
      */
     @Override
@@ -64,9 +64,9 @@ public class InvStockServiceImpl implements IInvStockService {
     }
 
     /**
-     * 批量删除A股基本信息
+     * 批量删除沪深A股基本信息
      * 
-     * @param ids 需要删除的A股基本信息主键
+     * @param ids 需要删除的沪深A股基本信息主键
      * @return 结果
      */
     @Override
@@ -75,9 +75,9 @@ public class InvStockServiceImpl implements IInvStockService {
     }
 
     /**
-     * 删除A股基本信息信息
+     * 删除沪深A股基本信息信息
      * 
-     * @param id A股基本信息主键
+     * @param id 沪深A股基本信息主键
      * @return 结果
      */
     @Override
