@@ -85,7 +85,7 @@ public class RyTask {
         try {
             log.info("========沪深A股-基础数据 任务开始=========");
             SysDictData dictData = new SysDictData();
-            dictData.setDictType("market_type");
+            dictData.setDictType("market_start");
             List<SysDictData> dictDatas = dictDataMapper.selectDictDataList(dictData);
 
             String url = ev.getProperty("inv.stock-list");
@@ -116,7 +116,7 @@ public class RyTask {
                                     }
                                 }
                                 if (StringUtils.isEmpty(market)) {
-                                    log.error(">>>invStockTask任务:" + code + " " + name + " [" + code.substring(0, 3) + "]对应的股票市场不在字典表market_type内，请添加");
+                                    log.error(">>>invStockTask任务:" + code + " " + name + " [" + code.substring(0, 3) + "]对应的市场前缀不在字典表market_start内，请添加");
                                 }
                                 InvStock stock = new InvStock(code, name, market);
                                 if (stockMap.containsKey(code)) {
