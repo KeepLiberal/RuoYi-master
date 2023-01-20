@@ -277,6 +277,7 @@ public class RyTask {
         log.info("========财务分析-报告日期 任务开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
         for (InvStock stock : stockList) {
+                investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-zcfz-date-bgq"), "zcfz", "bgq", new AtomicInteger(10));
             investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-zcfz-date-bgq"), "zcfz", "bgq", new AtomicInteger(10));
             investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-zcfz-date-nd"), "zcfz", "nd", new AtomicInteger(10));
 

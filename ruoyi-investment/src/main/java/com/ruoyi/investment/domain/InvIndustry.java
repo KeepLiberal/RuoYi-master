@@ -69,12 +69,11 @@ public class InvIndustry extends BaseEntity{
         if (this == o) return true;
         if (!(o instanceof InvIndustry)) return false;
         InvIndustry that = (InvIndustry) o;
-        return Objects.equals(pid, that.pid) && Objects.equals(type, that.type) && Objects.equals(level, that.level) && Objects.equals(shortName, that.shortName) && Objects.equals(name, that.name) && Objects.equals(mergeName, that.mergeName);
+        return Objects.equals(type, that.type) && Objects.equals(level, that.level) && Objects.equals(shortName, that.shortName) && Objects.equals(name, that.name) && Objects.equals(mergeName, that.mergeName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pid, type, level, shortName, name, mergeName);
+        return Objects.hash(type, level, shortName, name, mergeName);
     }
-
 }

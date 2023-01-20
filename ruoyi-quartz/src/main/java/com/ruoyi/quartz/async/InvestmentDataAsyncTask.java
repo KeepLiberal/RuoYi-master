@@ -12,8 +12,6 @@ import com.ruoyi.investment.mapper.*;
 import com.ruoyi.quartz.task.RyTask;
 import com.ruoyi.quartz.util.TaskUtils;
 import com.ruoyi.system.domain.SysArea;
-import com.ruoyi.system.mapper.SysAreaMapper;
-import com.ruoyi.system.mapper.SysDictDataMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -66,7 +64,7 @@ public class InvestmentDataAsyncTask {
         try {
             url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
             String result = HttpUtils.sendGet(url, new AtomicInteger(10));
-            if (StringUtils.isNotEmpty(result)) {
+            if (StringUtils.isNotEmpty(result) && !result.contains("<title>无F10资料</title>")) {
                 JSONObject jsonObject = JSONObject.parseObject(result);
                 Set<String> keySetOut = jsonObject.keySet();
                 Map<String, String> map = new HashMap<>();
@@ -222,11 +220,11 @@ public class InvestmentDataAsyncTask {
                     }
                 }
 
-                if (null==invCompanyIndustries || invCompanyIndustries.size()==0){
+                if (null == invCompanyIndustries || invCompanyIndustries.size() == 0) {
                     invCompanyIndustryMapper.insertInvCompanyIndustry(invCompanyIndustry);
-                }else{
+                } else {
                     InvCompanyIndustry has = invCompanyIndustries.get(0);
-                    if (!has.equals(invCompanyIndustry)){
+                    if (!has.equals(invCompanyIndustry)) {
                         has.setLevel1(invCompanyIndustry.getLevel1());
                         has.setLevel2(invCompanyIndustry.getLevel2());
                         has.setLevel3(invCompanyIndustry.getLevel3());
@@ -257,15 +255,15 @@ public class InvestmentDataAsyncTask {
 
             String provinceName = company.getProvince();
             String provinceShortKey = provinceName + "1";
-            if (sysAreasMap.containsKey(provinceShortKey)){
+            if (sysAreasMap.containsKey(provinceShortKey)) {
                 SysArea sysArea = sysAreasMap.get(provinceShortKey);
                 invCompanyAddress.setProvince(sysArea.getId());
             }
-            if (null==invCompanyAddresses || invCompanyAddresses.size()==0){
+            if (null == invCompanyAddresses || invCompanyAddresses.size() == 0) {
                 invCompanyAddressMapper.insertInvCompanyAddress(invCompanyAddress);
-            }else{
+            } else {
                 InvCompanyAddress has = invCompanyAddresses.get(0);
-                if (!has.equals(invCompanyAddress)){
+                if (!has.equals(invCompanyAddress)) {
                     has.setProvince(invCompanyAddress.getProvince());
                     invCompanyAddressMapper.updateInvCompanyAddress(has);
                 }
@@ -295,7 +293,7 @@ public class InvestmentDataAsyncTask {
                 url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
                 url = url.replace("companyType=", "companyType=" + companyType);
                 String result = HttpUtils.sendGet(url, new AtomicInteger(10));
-                if (StringUtils.isNotEmpty(result)) {
+                if (StringUtils.isNotEmpty(result) && !result.contains("<title>无F10资料</title>")) {
                     JSONObject jsonObject = JSONObject.parseObject(result);
                     Set<String> keySet = jsonObject.keySet();
                     for (String key : keySet) {
@@ -324,11 +322,11 @@ public class InvestmentDataAsyncTask {
             } else {
                 for (int i = 1; i < 20; i++) {//目前财富通为1-4类
                     url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
-                    url = url.replace("companyType=", "companyType=" + String.valueOf(i));
+                    url = url.replace("companyType=", "companyType=" + i);
                     String result = HttpUtils.sendGet(url, new AtomicInteger(10));
                     //调用完接口链接后回退到原始链接
-                    url = url.replace("companyType=" + i, "companyType=");
-                    if (StringUtils.isNotEmpty(result)) {
+                    url = urlStr;
+                    if (StringUtils.isNotEmpty(result) && !result.contains("<title>无F10资料</title>")) {
                         JSONObject jsonObject = JSONObject.parseObject(result);
                         Set<String> keySet = jsonObject.keySet();
                         for (String key : keySet) {
@@ -378,7 +376,7 @@ public class InvestmentDataAsyncTask {
         try {
             url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
             String result = HttpUtils.sendGet(url, new AtomicInteger(10));
-            if (StringUtils.isNotEmpty(result)) {
+            if (StringUtils.isNotEmpty(result) && !result.contains("<title>无F10资料</title>")) {
                 JSONObject jsonObject = JSONObject.parseObject(result);
                 Set<String> keySet = jsonObject.keySet();
                 for (String key : keySet) {
@@ -449,7 +447,7 @@ public class InvestmentDataAsyncTask {
         try {
             url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
             String result = HttpUtils.sendGet(url, new AtomicInteger(10));
-            if (StringUtils.isNotEmpty(result)) {
+            if (StringUtils.isNotEmpty(result) && !result.contains("<title>无F10资料</title>")) {
                 JSONObject jsonObject = JSONObject.parseObject(result);
                 Set<String> reportTypes = jsonObject.keySet();
                 for (String reportType : reportTypes) {
@@ -520,15 +518,15 @@ public class InvestmentDataAsyncTask {
             2.超过5期的其他的如果数据库不存在则新增，如果存在则不再同步
             */
             String companyType = stock.getStockType();
-            List<String> dateList = new ArrayList<String>();
+            List<String> dateList = new ArrayList<>();
             List<InvFinanceReportDate> reportDateList = invFinanceReportDateMapper.selectInvFinanceReportDateList(new InvFinanceReportDate(stock.getCode(), financeType, reportType));
             for (InvFinanceReportDate reportDate : reportDateList) {
                 dateList.add(DateUtils.dateTime(reportDate.getReportDate()));
             }
             if (null != companyType && dateList.size() > 0) {
-                List<InvFinanceZcfz> entityList = new ArrayList<InvFinanceZcfz>();
+                List<InvFinanceZcfz> entityList = new ArrayList<>();
                 entityList.addAll(invFinanceZcfzMapper.selectInvFinanceZcfzList(new InvFinanceZcfz(stock.getCode(), reportType)));
-                Map<String, InvFinanceZcfz> entityMap = new HashMap<String, InvFinanceZcfz>();
+                Map<String, InvFinanceZcfz> entityMap = new HashMap<>();
                 for (int i = 0; i < entityList.size(); i++) {
                     InvFinanceZcfz zcfz = entityList.get(i);
                     if (i < 5) {
@@ -556,8 +554,8 @@ public class InvestmentDataAsyncTask {
                     url = url.replace("dates=", "dates=" + datesSb);
                     String result = HttpUtils.sendGet(url, new AtomicInteger(10));
                     //调用完接口链接后回退到原始链接
-                    url = url.replace("dates=" + datesSb, "dates=");
-                    if (StringUtils.isNotEmpty(result)) {
+                    url = urlStr;
+                    if (StringUtils.isNotEmpty(result) && !result.contains("<title>无F10资料</title>")) {
                         JSONObject jsonObject = JSONObject.parseObject(result);
                         Set<String> keySet = jsonObject.keySet();
                         for (String key : keySet) {
@@ -656,15 +654,15 @@ public class InvestmentDataAsyncTask {
             2.超过5期的其他的如果数据库不存在则新增，如果存在则不再同步
             */
             String companyType = stock.getStockType();
-            List<String> dateList = new ArrayList<String>();
+            List<String> dateList = new ArrayList<>();
             List<InvFinanceReportDate> reportDateList = invFinanceReportDateMapper.selectInvFinanceReportDateList(new InvFinanceReportDate(stock.getCode(), financeType, reportType));
             for (InvFinanceReportDate reportDate : reportDateList) {
                 dateList.add(DateUtils.dateTime(reportDate.getReportDate()));
             }
             if (null != companyType && dateList.size() > 0) {
-                List<InvFinanceLr> entityList = new ArrayList<InvFinanceLr>();
+                List<InvFinanceLr> entityList = new ArrayList<>();
                 entityList.addAll(invFinanceLrMapper.selectInvFinanceLrList(new InvFinanceLr(stock.getCode(), reportType)));
-                Map<String, InvFinanceLr> entityMap = new HashMap<String, InvFinanceLr>();
+                Map<String, InvFinanceLr> entityMap = new HashMap<>();
                 for (int i = 0; i < entityList.size(); i++) {
                     InvFinanceLr lr = entityList.get(i);
                     if (i < 5) {
@@ -692,8 +690,8 @@ public class InvestmentDataAsyncTask {
                     url = url.replace("dates=", "dates=" + datesSb);
                     String result = HttpUtils.sendGet(url, new AtomicInteger(10));
                     //调用完接口链接后回退到原始链接
-                    url = url.replace("dates=" + datesSb, "dates=");
-                    if (StringUtils.isNotEmpty(result)) {
+                    url = urlStr;
+                    if (StringUtils.isNotEmpty(result) && !result.contains("<title>无F10资料</title>")) {
                         JSONObject jsonObject = JSONObject.parseObject(result);
                         Set<String> keySet = jsonObject.keySet();
                         for (String key : keySet) {
@@ -792,15 +790,15 @@ public class InvestmentDataAsyncTask {
             2.超过5期的其他的如果数据库不存在则新增，如果存在则不再同步
             */
             String companyType = stock.getStockType();
-            List<String> dateList = new ArrayList<String>();
+            List<String> dateList = new ArrayList<>();
             List<InvFinanceReportDate> reportDateList = invFinanceReportDateMapper.selectInvFinanceReportDateList(new InvFinanceReportDate(stock.getCode(), financeType, reportType));
             for (InvFinanceReportDate reportDate : reportDateList) {
                 dateList.add(DateUtils.dateTime(reportDate.getReportDate()));
             }
             if (null != companyType && dateList.size() > 0) {
-                List<InvFinanceXjll> entityList = new ArrayList<InvFinanceXjll>();
+                List<InvFinanceXjll> entityList = new ArrayList<>();
                 entityList.addAll(invFinanceXjllMapper.selectInvFinanceXjllList(new InvFinanceXjll(stock.getCode(), reportType)));
-                Map<String, InvFinanceXjll> entityMap = new HashMap<String, InvFinanceXjll>();
+                Map<String, InvFinanceXjll> entityMap = new HashMap<>();
                 for (int i = 0; i < entityList.size(); i++) {
                     InvFinanceXjll xjll = entityList.get(i);
                     if (i < 5) {
@@ -828,8 +826,8 @@ public class InvestmentDataAsyncTask {
                     url = url.replace("dates=", "dates=" + datesSb);
                     String result = HttpUtils.sendGet(url, new AtomicInteger(10));
                     //调用完接口链接后回退到原始链接
-                    url = url.replace("dates=" + datesSb, "dates=");
-                    if (StringUtils.isNotEmpty(result)) {
+                    url = urlStr;
+                    if (StringUtils.isNotEmpty(result) && !result.contains("<title>无F10资料</title>")) {
                         JSONObject jsonObject = JSONObject.parseObject(result);
                         Set<String> keySet = jsonObject.keySet();
                         for (String key : keySet) {
@@ -926,7 +924,7 @@ public class InvestmentDataAsyncTask {
             url = url.replace("code=", "code=" + stock.getMarket() + stock.getCode());
             url = url.replace("ctype=", "ctype=" + stock.getStockType());
             String result = HttpUtils.sendGet(url, new AtomicInteger(10));
-            if (StringUtils.isNotEmpty(result)) {
+            if (StringUtils.isNotEmpty(result) && !result.contains("<title>无F10资料</title>")) {
                 JSONObject jsonObject = JSONObject.parseObject(result);
                 Set<String> keySet = jsonObject.keySet();
                 for (String key : keySet) {
