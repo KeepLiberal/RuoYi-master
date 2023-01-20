@@ -86,12 +86,11 @@ public class InvStock extends BaseEntity{
         if (this == o) return true;
         if (!(o instanceof InvStock)) return false;
         InvStock invStock = (InvStock) o;
-        return Objects.equals(code, invStock.code) && Objects.equals(name, invStock.name) && Objects.equals(market, invStock.market) && Objects.equals(stockType, invStock.stockType) && Objects.equals(orgCode, invStock.orgCode) && Objects.equals(orgType, invStock.orgType) && Objects.equals(securityTypeCode, invStock.securityTypeCode);
+        return Objects.equals(code, invStock.code) && Objects.equals(name, invStock.name) && Objects.equals(market, invStock.market);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, name, market, stockType, orgCode, orgType, securityTypeCode);
+        return Objects.hash(code, name, market);
     }
-
 }

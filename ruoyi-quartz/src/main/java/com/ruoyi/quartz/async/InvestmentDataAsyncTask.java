@@ -570,6 +570,10 @@ public class InvestmentDataAsyncTask {
                                         stock.setOrgCode(jsonObj.getString("ORG_CODE"));
                                         updateStockFlag = true;
                                     }
+                                    if (StringUtils.isEmpty(stock.getOrgType())) {
+                                        stock.setOrgCode(jsonObj.getString("ORG_TYPE"));
+                                        updateStockFlag = true;
+                                    }
                                     if (StringUtils.isEmpty(stock.getSecurityTypeCode())) {
                                         stock.setSecurityTypeCode(jsonObj.getString("SECURITY_TYPE_CODE"));
                                         updateStockFlag = true;
@@ -706,6 +710,10 @@ public class InvestmentDataAsyncTask {
                                         stock.setOrgCode(jsonObj.getString("ORG_CODE"));
                                         updateStockFlag = true;
                                     }
+                                    if (StringUtils.isEmpty(stock.getOrgType())) {
+                                        stock.setOrgCode(jsonObj.getString("ORG_TYPE"));
+                                        updateStockFlag = true;
+                                    }
                                     if (StringUtils.isEmpty(stock.getSecurityTypeCode())) {
                                         stock.setSecurityTypeCode(jsonObj.getString("SECURITY_TYPE_CODE"));
                                         updateStockFlag = true;
@@ -840,6 +848,10 @@ public class InvestmentDataAsyncTask {
                                     JSONObject jsonObj = (JSONObject) jsonArray.get(0);
                                     if (StringUtils.isEmpty(stock.getOrgCode())) {
                                         stock.setOrgCode(jsonObj.getString("ORG_CODE"));
+                                        updateStockFlag = true;
+                                    }
+                                    if (StringUtils.isEmpty(stock.getOrgType())) {
+                                        stock.setOrgCode(jsonObj.getString("ORG_TYPE"));
                                         updateStockFlag = true;
                                     }
                                     if (StringUtils.isEmpty(stock.getSecurityTypeCode())) {
