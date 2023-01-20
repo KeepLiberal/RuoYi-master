@@ -20,7 +20,10 @@
                             </li>
                             <li>
                                 <label>股票市场：</label>
-                                <input type="text" name="market"/>
+                                <select name="market" th:with="type=${@dict.getType('market_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
                             </li>
                             <li>
                                 <label>股票分类：</label>
