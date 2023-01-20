@@ -97,7 +97,12 @@ public class InvestmentDataAsyncTask {
                     if (!"code".equals(fieldName) && StringUtils.isNotEmpty(valueString)) {
                         if ("class java.lang.Double".equals(genericType)) {
                             Double value = NumFormatUtil.toDouble(valueString);
-                            field.set(invCompany, value);
+                            if ("regCapital".equals(fieldName) && null != value) {
+                                //注册资本比较特殊
+                                field.set(invCompany, value * 10000);
+                            } else {
+                                field.set(invCompany, value);
+                            }
                         }
                         if ("class java.util.Date".equals(genericType)) {
                             Date value = DateUtils.parseDate(valueString);
@@ -571,7 +576,7 @@ public class InvestmentDataAsyncTask {
                                         updateStockFlag = true;
                                     }
                                     if (StringUtils.isEmpty(stock.getOrgType())) {
-                                        stock.setOrgCode(jsonObj.getString("ORG_TYPE"));
+                                        stock.setOrgType(jsonObj.getString("ORG_TYPE"));
                                         updateStockFlag = true;
                                     }
                                     if (StringUtils.isEmpty(stock.getSecurityTypeCode())) {
@@ -711,7 +716,7 @@ public class InvestmentDataAsyncTask {
                                         updateStockFlag = true;
                                     }
                                     if (StringUtils.isEmpty(stock.getOrgType())) {
-                                        stock.setOrgCode(jsonObj.getString("ORG_TYPE"));
+                                        stock.setOrgType(jsonObj.getString("ORG_TYPE"));
                                         updateStockFlag = true;
                                     }
                                     if (StringUtils.isEmpty(stock.getSecurityTypeCode())) {
@@ -851,7 +856,7 @@ public class InvestmentDataAsyncTask {
                                         updateStockFlag = true;
                                     }
                                     if (StringUtils.isEmpty(stock.getOrgType())) {
-                                        stock.setOrgCode(jsonObj.getString("ORG_TYPE"));
+                                        stock.setOrgType(jsonObj.getString("ORG_TYPE"));
                                         updateStockFlag = true;
                                     }
                                     if (StringUtils.isEmpty(stock.getSecurityTypeCode())) {

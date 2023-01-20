@@ -1,13 +1,11 @@
 package com.ruoyi.investment.domain;
 
-import java.util.Date;
-import java.util.Objects;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+
+import java.util.Date;
+import java.util.Objects;
 
 /**
  * 沪深A股公司概况对象 inv_company
