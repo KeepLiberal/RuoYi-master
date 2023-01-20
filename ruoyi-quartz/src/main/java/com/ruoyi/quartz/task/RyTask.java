@@ -121,7 +121,9 @@ public class RyTask {
                                 InvStock stock = new InvStock(code, name, market);
                                 if (stockMap.containsKey(code)) {
                                     //数据库存在，但数据不一致，进行更新
-                                    if (!stockMap.get(code).equals(stock)) {
+                                    InvStock compare = stockMap.get(code);
+                                    if (!compare.equals(stock)) {
+                                        stock.setId(compare.getId());
                                         invStockMapper.updateInvStock(stock);
                                     }
                                 } else {

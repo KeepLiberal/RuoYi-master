@@ -99,10 +99,9 @@ public class InvestmentDataAsyncTask {
                             Double value = NumFormatUtil.toDouble(valueString);
                             if ("regCapital".equals(fieldName) && null != value) {
                                 //注册资本比较特殊
-                                field.set(invCompany, value * 10000);
-                            } else {
-                                field.set(invCompany, value);
+                                value = value * 10000;
                             }
+                            field.set(invCompany, value);
                         }
                         if ("class java.util.Date".equals(genericType)) {
                             Date value = DateUtils.parseDate(valueString);
@@ -118,6 +117,7 @@ public class InvestmentDataAsyncTask {
                     invCompanyMapper.insertInvCompany(invCompany);
                 } else {
                     if (!invCompany.equals(compare)) {
+                        invCompany.setId(compare.getId());
                         invCompanyMapper.updateInvCompany(invCompany);
                     }
                 }
@@ -228,13 +228,10 @@ public class InvestmentDataAsyncTask {
                 if (null == invCompanyIndustries || invCompanyIndustries.size() == 0) {
                     invCompanyIndustryMapper.insertInvCompanyIndustry(invCompanyIndustry);
                 } else {
-                    InvCompanyIndustry has = invCompanyIndustries.get(0);
-                    if (!has.equals(invCompanyIndustry)) {
-                        has.setLevel1(invCompanyIndustry.getLevel1());
-                        has.setLevel2(invCompanyIndustry.getLevel2());
-                        has.setLevel3(invCompanyIndustry.getLevel3());
-                        has.setLevel4(invCompanyIndustry.getLevel4());
-                        invCompanyIndustryMapper.updateInvCompanyIndustry(has);
+                    InvCompanyIndustry compare = invCompanyIndustries.get(0);
+                    if (!compare.equals(invCompanyIndustry)) {
+                        invCompanyIndustry.setId(compare.getId());
+                        invCompanyIndustryMapper.updateInvCompanyIndustry(invCompanyIndustry);
                     }
                 }
             }
@@ -267,10 +264,10 @@ public class InvestmentDataAsyncTask {
             if (null == invCompanyAddresses || invCompanyAddresses.size() == 0) {
                 invCompanyAddressMapper.insertInvCompanyAddress(invCompanyAddress);
             } else {
-                InvCompanyAddress has = invCompanyAddresses.get(0);
-                if (!has.equals(invCompanyAddress)) {
-                    has.setProvince(invCompanyAddress.getProvince());
-                    invCompanyAddressMapper.updateInvCompanyAddress(has);
+                InvCompanyAddress compare = invCompanyAddresses.get(0);
+                if (!compare.equals(invCompanyAddress)) {
+                    invCompanyAddress.setId(compare.getId());
+                    invCompanyAddressMapper.updateInvCompanyAddress(invCompanyAddress);
                 }
             }
         } catch (Exception e) {
@@ -421,9 +418,9 @@ public class InvestmentDataAsyncTask {
                                     }
                                 }
                                 if (entityMap.containsKey(entity.getReportDate().toString())) {//数据库已有code指定日期报告
-                                    InvFinanceZyzb companies = entityMap.get(entity.getReportDate().toString());
-                                    if (!companies.equals(entity)) {//报告数据不相同，以最新获取为准更新数据库
-                                        entity.setId(companies.getId());
+                                    InvFinanceZyzb compare = entityMap.get(entity.getReportDate().toString());
+                                    if (!compare.equals(entity)) {//报告数据不相同，以最新获取为准更新数据库
+                                        entity.setId(compare.getId());
                                         invFinanceZyzbMapper.updateInvFinanceZyzb(entity);
                                     }
                                 } else {//数据库没有code指定日期报告，插入
@@ -490,9 +487,9 @@ public class InvestmentDataAsyncTask {
                                 }
                             }
                             if (entityMap.containsKey(entity.getReportDate().toString())) {//数据库已有code指定日期报告
-                                InvFinanceDbfx companies = entityMap.get(entity.getReportDate().toString());
-                                if (!companies.equals(entity)) {//报告数据不相同，以最新获取为准更新数据库
-                                    entity.setId(companies.getId());
+                                InvFinanceDbfx compare = entityMap.get(entity.getReportDate().toString());
+                                if (!compare.equals(entity)) {//报告数据不相同，以最新获取为准更新数据库
+                                    entity.setId(compare.getId());
                                     invFinanceDbfxMapper.updateInvFinanceDbfx(entity);
                                 }
                             } else {//数据库没有code指定日期报告，插入
@@ -627,9 +624,9 @@ public class InvestmentDataAsyncTask {
                                             }
                                         }
                                         if (entityMap.containsKey(entity.getReportDate().toString())) {//数据库已有code指定日期报告
-                                            InvFinanceZcfz companies = entityMap.get(entity.getReportDate().toString());
-                                            if (!companies.equals(entity)) {//报告数据不相同，以最新获取为准更新数据库
-                                                entity.setId(companies.getId());
+                                            InvFinanceZcfz compare = entityMap.get(entity.getReportDate().toString());
+                                            if (!compare.equals(entity)) {//报告数据不相同，以最新获取为准更新数据库
+                                                entity.setId(compare.getId());
                                                 invFinanceZcfzMapper.updateInvFinanceZcfz(entity);
                                             }
                                         } else {//数据库没有code指定日期报告，插入
@@ -767,9 +764,9 @@ public class InvestmentDataAsyncTask {
                                             }
                                         }
                                         if (entityMap.containsKey(entity.getReportDate().toString())) {//数据库已有code指定日期报告
-                                            InvFinanceLr companies = entityMap.get(entity.getReportDate().toString());
-                                            if (!companies.equals(entity)) {//报告数据不相同，以最新获取为准更新数据库
-                                                entity.setId(companies.getId());
+                                            InvFinanceLr compare = entityMap.get(entity.getReportDate().toString());
+                                            if (!compare.equals(entity)) {//报告数据不相同，以最新获取为准更新数据库
+                                                entity.setId(compare.getId());
                                                 invFinanceLrMapper.updateInvFinanceLr(entity);
                                             }
                                         } else {//数据库没有code指定日期报告，插入
@@ -907,9 +904,9 @@ public class InvestmentDataAsyncTask {
                                             }
                                         }
                                         if (entityMap.containsKey(entity.getReportDate().toString())) {//数据库已有code指定日期报告
-                                            InvFinanceXjll companies = entityMap.get(entity.getReportDate().toString());
-                                            if (!companies.equals(entity)) {//报告数据不相同，以最新获取为准更新数据库
-                                                entity.setId(companies.getId());
+                                            InvFinanceXjll compare = entityMap.get(entity.getReportDate().toString());
+                                            if (!compare.equals(entity)) {//报告数据不相同，以最新获取为准更新数据库
+                                                entity.setId(compare.getId());
                                                 invFinanceXjllMapper.updateInvFinanceXjll(entity);
                                             }
                                         } else {//数据库没有code指定日期报告，插入
@@ -993,9 +990,9 @@ public class InvestmentDataAsyncTask {
                             }
                             for (InvFinanceBfb ent : entityList) {
                                 if (entityMap.containsKey(ent.getReportDate().toString())) {//数据库已有code指定日期报告
-                                    InvFinanceBfb companies = entityMap.get(ent.getReportDate().toString());
-                                    if (!companies.equals(ent)) {//报告数据不相同，以最新获取为准更新数据库
-                                        ent.setId(companies.getId());
+                                    InvFinanceBfb compare = entityMap.get(ent.getReportDate().toString());
+                                    if (!compare.equals(ent)) {//报告数据不相同，以最新获取为准更新数据库
+                                        ent.setId(compare.getId());
                                         invFinanceBfbMapper.updateInvFinanceBfb(ent);
                                     }
                                 } else {//数据库没有code指定日期报告，插入
