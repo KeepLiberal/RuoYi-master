@@ -1,5 +1,5 @@
 ==========================================
-RuoYi-Master 快速开发系统
+数据反映本质 指标引领投资
 Application Version: ${ruoyi.version}
 Spring Boot Version: ${spring-boot.version}
 ==========================================
