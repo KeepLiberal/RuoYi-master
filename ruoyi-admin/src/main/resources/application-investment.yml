@@ -10,7 +10,6 @@ inv:
   company-company-ajax: https://emweb.eastmoney.com/PC_HSF10/CompanySurvey/PageAjax?code=
   #########################################################公司概况 结束##################################################
 
-
   #########################################################财务分析 开始##################################################
   #财务分析所在页面
   finance-web: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/Index?type=web&code=
@@ -44,3 +43,15 @@ inv:
   finance-bfb-ajax-nd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/bfbbbAjaxNew?ctype=&type=1&code=
   finance-bfb-ajax-jd: https://emweb.eastmoney.com/PC_HSF10/NewFinanceAnalysis/bfbbbAjaxNew?ctype=&type=2&code=
   #########################################################财务分析 结束##################################################
+
+  #########################################################公司大事 开始##################################################
+  #融资融券
+  #大宗交易-每日明细
+  dzjy-mrmx: https://datacenter-web.eastmoney.com/api/data/v1/get?sortColumns=TRADE_DATE%2CDEAL_AMT&sortTypes=1%2C-1&filter=(SECURITY_CODE%3D%22code=%22)&columns=ALL&source=WEB&client=WEB&reportName=RPT_DATA_BLOCKTRADE&pageSize=&pageNumber=1
+  #融资融券
+  rzrq: https://datapc.eastmoney.com/emdatacenter/rzrq/tradelist?p=&ps=-1&st=DATE&sr=-1&code=
+
+
+  #########################################################公司大事 结束##################################################
+
+

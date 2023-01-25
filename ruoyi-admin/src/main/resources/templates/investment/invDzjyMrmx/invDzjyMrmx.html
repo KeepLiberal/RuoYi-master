@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('大宗交易-每日明细列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>股票代码：</label>
+                                <input type="text" name="securityCode"/>
+                            </li>
+                            <li>
+                                <label>交易日期：</label>
+                                <input type="text" class="time-input" placeholder="请选择交易日期" name="tradeDate"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="investment:invDzjyMrmx:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="investment:invDzjyMrmx:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="investment:invDzjyMrmx:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="investment:invDzjyMrmx:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('investment:invDzjyMrmx:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('investment:invDzjyMrmx:remove')}]];
+        var prefix = ctx + "investment/invDzjyMrmx";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "大宗交易-每日明细",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'id',
+                    title: 'ID',
+                    visible: false
+                },
+                {
+                    field: 'securityCode',
+                    title: '股票代码'
+                },
+                {
+                    field: 'num',
+                    title: '序号'
+                },
+                {
+                    field: 'tradeDate',
+                    title: '交易日期'
+                },
+                {
+                    field: 'changeRate',
+                    title: '涨跌幅(%)'
+                },
+                {
+                    field: 'closePrice',
+                    title: '收盘价(元)'
+                },
+                {
+                    field: 'dealPrice',
+                    title: '成交价(元)'
+                },
+                {
+                    field: 'premiumRatio',
+                    title: '折溢率(%)'
+                },
+                {
+                    field: 'dealVolume',
+                    title: '成交量(万股)'
+                },
+                {
+                    field: 'dealAmt',
+                    title: '成交额(万元)'
+                },
+                {
+                    field: 'turnoverRate',
+                    title: '成交额/流通市值'
+                },
+                {
+                    field: 'buyerCode',
+                    title: '买方营业部代码'
+                },
+                {
+                    field: 'buyerName',
+                    title: '买方营业部'
+                },
+                {
+                    field: 'sellerCode',
+                    title: '卖方营业部代码'
+                },
+                {
+                    field: 'sellerName',
+                    title: '卖方营业部'
+                },
+                {
+                    field: 'changeRate1days',
+                    title: '上榜后1日涨跌幅(%)'
+                },
+                {
+                    field: 'changeRate5days',
+                    title: '上榜后5日涨跌幅(%)'
+                },
+                {
+                    field: 'changeRate10days',
+                    title: '上榜后10日涨跌幅(%)'
+                },
+                {
+                    field: 'changeRate20days',
+                    title: '上榜后20日涨跌幅(%)'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

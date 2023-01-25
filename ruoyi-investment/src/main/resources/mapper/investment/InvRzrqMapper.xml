@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.investment.mapper.InvRzrqMapper">
+    
+    <resultMap type="InvRzrq" id="InvRzrqResult">
+        <result property="id"    column="id"    />
+        <result property="securityCode"    column="security_code"    />
+        <result property="date"    column="date"    />
+        <result property="rzye"    column="rzye"    />
+        <result property="rqye"    column="rqye"    />
+        <result property="rzmre"    column="rzmre"    />
+        <result property="rzche"    column="rzche"    />
+        <result property="rzjme"    column="rzjme"    />
+        <result property="rqyl"    column="rqyl"    />
+        <result property="rqmcl"    column="rqmcl"    />
+        <result property="rqchl"    column="rqchl"    />
+        <result property="rzrqye"    column="rzrqye"    />
+    </resultMap>
+
+    <sql id="selectInvRzrqVo">
+        select id, security_code, date, rzye, rqye, rzmre, rzche, rzjme, rqyl, rqmcl, rqchl, rzrqye from inv_rzrq
+    </sql>
+
+    <select id="selectInvRzrqList" parameterType="InvRzrq" resultMap="InvRzrqResult">
+        <include refid="selectInvRzrqVo"/>
+        <where>  
+            <if test="securityCode != null  and securityCode != ''"> and security_code = #{securityCode}</if>
+            <if test="date != null "> and date = #{date}</if>
+            <if test="rzye != null "> and rzye = #{rzye}</if>
+            <if test="rqye != null "> and rqye = #{rqye}</if>
+            <if test="rzmre != null "> and rzmre = #{rzmre}</if>
+            <if test="rzche != null "> and rzche = #{rzche}</if>
+            <if test="rzjme != null "> and rzjme = #{rzjme}</if>
+            <if test="rqyl != null "> and rqyl = #{rqyl}</if>
+            <if test="rqmcl != null "> and rqmcl = #{rqmcl}</if>
+            <if test="rqchl != null "> and rqchl = #{rqchl}</if>
+            <if test="rzrqye != null "> and rzrqye = #{rzrqye}</if>
+        </where>
+    </select>
+    
+    <select id="selectInvRzrqById" parameterType="Integer" resultMap="InvRzrqResult">
+        <include refid="selectInvRzrqVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInvRzrq" parameterType="InvRzrq" useGeneratedKeys="true" keyProperty="id">
+        insert into inv_rzrq
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code,</if>
+            <if test="date != null">date,</if>
+            <if test="rzye != null">rzye,</if>
+            <if test="rqye != null">rqye,</if>
+            <if test="rzmre != null">rzmre,</if>
+            <if test="rzche != null">rzche,</if>
+            <if test="rzjme != null">rzjme,</if>
+            <if test="rqyl != null">rqyl,</if>
+            <if test="rqmcl != null">rqmcl,</if>
+            <if test="rqchl != null">rqchl,</if>
+            <if test="rzrqye != null">rzrqye,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">#{securityCode},</if>
+            <if test="date != null">#{date},</if>
+            <if test="rzye != null">#{rzye},</if>
+            <if test="rqye != null">#{rqye},</if>
+            <if test="rzmre != null">#{rzmre},</if>
+            <if test="rzche != null">#{rzche},</if>
+            <if test="rzjme != null">#{rzjme},</if>
+            <if test="rqyl != null">#{rqyl},</if>
+            <if test="rqmcl != null">#{rqmcl},</if>
+            <if test="rqchl != null">#{rqchl},</if>
+            <if test="rzrqye != null">#{rzrqye},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInvRzrq" parameterType="InvRzrq">
+        update inv_rzrq
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code = #{securityCode},</if>
+            <if test="date != null">date = #{date},</if>
+            <if test="rzye != null">rzye = #{rzye},</if>
+            <if test="rqye != null">rqye = #{rqye},</if>
+            <if test="rzmre != null">rzmre = #{rzmre},</if>
+            <if test="rzche != null">rzche = #{rzche},</if>
+            <if test="rzjme != null">rzjme = #{rzjme},</if>
+            <if test="rqyl != null">rqyl = #{rqyl},</if>
+            <if test="rqmcl != null">rqmcl = #{rqmcl},</if>
+            <if test="rqchl != null">rqchl = #{rqchl},</if>
+            <if test="rzrqye != null">rzrqye = #{rzrqye},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInvRzrqById" parameterType="Integer">
+        delete from inv_rzrq where id = #{id}
+    </delete>
+
+    <delete id="deleteInvRzrqByIds" parameterType="String">
+        delete from inv_rzrq where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

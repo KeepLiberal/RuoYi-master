@@ -222,7 +222,7 @@ public class RyTask {
             log.info("========行业 任务完成=========");
         } catch (Exception e) {
             log.error(">>>异常:", e);
-        }finally {
+        } finally {
             invIndustrySet.clear();
         }
     }
@@ -279,7 +279,7 @@ public class RyTask {
         log.info("========财务分析-报告日期 任务开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
         for (InvStock stock : stockList) {
-                investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-zcfz-date-bgq"), "zcfz", "bgq", new AtomicInteger(10));
+            investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-zcfz-date-bgq"), "zcfz", "bgq", new AtomicInteger(10));
             investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-zcfz-date-bgq"), "zcfz", "bgq", new AtomicInteger(10));
             investmentDataAsyncTask.invFinanceReportDateTask(stock, ev.getProperty("inv.finance-zcfz-date-nd"), "zcfz", "nd", new AtomicInteger(10));
 
@@ -350,6 +350,30 @@ public class RyTask {
     }
 
     /**
+     * 公司大事
+     */
+    private void invCompanyBigNews() {
+        log.info("========公司大事 任务开始=========");
+        log.info("========大宗交易-每日明细 任务开始=========");
+        List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
+        for (InvStock stock : stockList) {
+            investmentDataAsyncTask.invDzjyMrmxTask(stock, ev.getProperty("inv.dzjy-mrmx"), 1, 1, 500, new AtomicInteger(10));
+        }
+        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        log.info("========大宗交易-每日明细 任务结束=========");
+
+        log.info("========融资融券 任务开始=========");
+        for (InvStock stock : stockList) {
+            investmentDataAsyncTask.invRzrqTask(stock, ev.getProperty("inv.rzrq"), 1, 1, new AtomicInteger(10));
+        }
+        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        log.info("========融资融券 任务完成=========");
+
+
+        log.info("========公司大事 任务完成=========");
+    }
+
+    /**
      * 财务分析数据抓取
      */
     public void initDataTask() {
@@ -360,6 +384,8 @@ public class RyTask {
         invStock();
         invCompany();
         invFinance();
+        invCompanyBigNews();
+
 
         log.info("================数据初始化任务 完成=================");
     }

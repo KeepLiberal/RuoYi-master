@@ -54,6 +54,10 @@ public class InvestmentDataAsyncTask {
     private InvFinanceXjllMapper invFinanceXjllMapper;
     @Resource
     private InvFinanceBfbMapper invFinanceBfbMapper;
+    @Resource
+    private InvDzjyMrmxMapper invDzjyMrmxMapper;
+    @Resource
+    private InvRzrqMapper invRzrqMapper;
 
 
     /**
@@ -394,7 +398,6 @@ public class InvestmentDataAsyncTask {
                             Iterator<Object> iterator = jsonArray.iterator();
                             while (iterator.hasNext()) {
                                 JSONObject next = (JSONObject) iterator.next();
-                                //反射赋值
                                 InvFinanceZyzb entity = new InvFinanceZyzb(stock.getCode(), reportType);
                                 Class<? extends InvFinanceZyzb> clazz = entity.getClass();
                                 Field[] declaredFields = clazz.getDeclaredFields();
@@ -417,13 +420,13 @@ public class InvestmentDataAsyncTask {
                                         }
                                     }
                                 }
-                                if (entityMap.containsKey(entity.getReportDate().toString())) {//数据库已有code指定日期报告
+                                if (entityMap.containsKey(entity.getReportDate().toString())) {
                                     InvFinanceZyzb compare = entityMap.get(entity.getReportDate().toString());
-                                    if (!compare.equals(entity)) {//报告数据不相同，以最新获取为准更新数据库
+                                    if (!compare.equals(entity)) {
                                         entity.setId(compare.getId());
                                         invFinanceZyzbMapper.updateInvFinanceZyzb(entity);
                                     }
-                                } else {//数据库没有code指定日期报告，插入
+                                } else {
                                     invFinanceZyzbMapper.insertInvFinanceZyzb(entity);
                                 }
                             }
@@ -463,7 +466,6 @@ public class InvestmentDataAsyncTask {
                         Iterator<Object> iterator = jsonArray.iterator();
                         while (iterator.hasNext()) {
                             JSONObject next = (JSONObject) iterator.next();
-                            //反射赋值
                             InvFinanceDbfx entity = new InvFinanceDbfx(stock.getCode(), reportType);
                             Class<? extends InvFinanceDbfx> clazz = entity.getClass();
                             Field[] declaredFields = clazz.getDeclaredFields();
@@ -486,13 +488,13 @@ public class InvestmentDataAsyncTask {
                                     }
                                 }
                             }
-                            if (entityMap.containsKey(entity.getReportDate().toString())) {//数据库已有code指定日期报告
+                            if (entityMap.containsKey(entity.getReportDate().toString())) {
                                 InvFinanceDbfx compare = entityMap.get(entity.getReportDate().toString());
-                                if (!compare.equals(entity)) {//报告数据不相同，以最新获取为准更新数据库
+                                if (!compare.equals(entity)) {
                                     entity.setId(compare.getId());
                                     invFinanceDbfxMapper.updateInvFinanceDbfx(entity);
                                 }
-                            } else {//数据库没有code指定日期报告，插入
+                            } else {
                                 invFinanceDbfxMapper.insertInvFinanceDbfx(entity);
                             }
                         }
@@ -587,7 +589,6 @@ public class InvestmentDataAsyncTask {
                                     //2.保存资产负债数据
                                     Iterator<Object> iterator = jsonArray.iterator();
                                     while (iterator.hasNext()) {
-                                        //反射赋值
                                         InvFinanceZcfz entity = new InvFinanceZcfz(stock.getCode(), reportType);
                                         Class<? extends InvFinanceZcfz> clazz = entity.getClass();
                                         Field[] declaredFields = clazz.getDeclaredFields();
@@ -623,13 +624,13 @@ public class InvestmentDataAsyncTask {
                                                 }
                                             }
                                         }
-                                        if (entityMap.containsKey(entity.getReportDate().toString())) {//数据库已有code指定日期报告
+                                        if (entityMap.containsKey(entity.getReportDate().toString())) {
                                             InvFinanceZcfz compare = entityMap.get(entity.getReportDate().toString());
-                                            if (!compare.equals(entity)) {//报告数据不相同，以最新获取为准更新数据库
+                                            if (!compare.equals(entity)) {
                                                 entity.setId(compare.getId());
                                                 invFinanceZcfzMapper.updateInvFinanceZcfz(entity);
                                             }
-                                        } else {//数据库没有code指定日期报告，插入
+                                        } else {
                                             invFinanceZcfzMapper.insertInvFinanceZcfz(entity);
                                         }
                                     }
@@ -727,7 +728,6 @@ public class InvestmentDataAsyncTask {
                                     //2.保存利润数据
                                     Iterator<Object> iterator = jsonArray.iterator();
                                     while (iterator.hasNext()) {
-                                        //反射赋值
                                         InvFinanceLr entity = new InvFinanceLr(stock.getCode(), reportType);
                                         Class<? extends InvFinanceLr> clazz = entity.getClass();
                                         Field[] declaredFields = clazz.getDeclaredFields();
@@ -763,13 +763,13 @@ public class InvestmentDataAsyncTask {
                                                 }
                                             }
                                         }
-                                        if (entityMap.containsKey(entity.getReportDate().toString())) {//数据库已有code指定日期报告
+                                        if (entityMap.containsKey(entity.getReportDate().toString())) {
                                             InvFinanceLr compare = entityMap.get(entity.getReportDate().toString());
-                                            if (!compare.equals(entity)) {//报告数据不相同，以最新获取为准更新数据库
+                                            if (!compare.equals(entity)) {
                                                 entity.setId(compare.getId());
                                                 invFinanceLrMapper.updateInvFinanceLr(entity);
                                             }
-                                        } else {//数据库没有code指定日期报告，插入
+                                        } else {
                                             invFinanceLrMapper.insertInvFinanceLr(entity);
                                         }
                                     }
@@ -867,7 +867,6 @@ public class InvestmentDataAsyncTask {
                                     //2.保存利润数据
                                     Iterator<Object> iterator = jsonArray.iterator();
                                     while (iterator.hasNext()) {
-                                        //反射赋值
                                         InvFinanceXjll entity = new InvFinanceXjll(stock.getCode(), reportType);
                                         Class<? extends InvFinanceXjll> clazz = entity.getClass();
                                         Field[] declaredFields = clazz.getDeclaredFields();
@@ -903,13 +902,13 @@ public class InvestmentDataAsyncTask {
                                                 }
                                             }
                                         }
-                                        if (entityMap.containsKey(entity.getReportDate().toString())) {//数据库已有code指定日期报告
+                                        if (entityMap.containsKey(entity.getReportDate().toString())) {
                                             InvFinanceXjll compare = entityMap.get(entity.getReportDate().toString());
-                                            if (!compare.equals(entity)) {//报告数据不相同，以最新获取为准更新数据库
+                                            if (!compare.equals(entity)) {
                                                 entity.setId(compare.getId());
                                                 invFinanceXjllMapper.updateInvFinanceXjll(entity);
                                             }
-                                        } else {//数据库没有code指定日期报告，插入
+                                        } else {
                                             invFinanceXjllMapper.insertInvFinanceXjll(entity);
                                         }
                                     }
@@ -951,12 +950,10 @@ public class InvestmentDataAsyncTask {
                             for (InvFinanceBfb entity : entitys) {
                                 entityMap.put(entity.getReportDate().toString(), entity);
                             }
-                            //反射赋值
                             List<InvFinanceBfb> entityList = new ArrayList<>();
                             for (int i = 0; i < jsonArray.size() - 1; i += 2) {
                                 InvFinanceBfb entity = new InvFinanceBfb(stock.getCode(), reportType);
                                 Class<? extends InvFinanceBfb> clazz = entity.getClass();
-
                                 JSONObject next1 = jsonArray.getJSONObject(i);
                                 JSONObject next2 = jsonArray.getJSONObject(i + 1);
                                 Field[] declaredFields = clazz.getDeclaredFields();
@@ -989,13 +986,13 @@ public class InvestmentDataAsyncTask {
                                 entityList.add(entity);
                             }
                             for (InvFinanceBfb ent : entityList) {
-                                if (entityMap.containsKey(ent.getReportDate().toString())) {//数据库已有code指定日期报告
+                                if (entityMap.containsKey(ent.getReportDate().toString())) {
                                     InvFinanceBfb compare = entityMap.get(ent.getReportDate().toString());
-                                    if (!compare.equals(ent)) {//报告数据不相同，以最新获取为准更新数据库
+                                    if (!compare.equals(ent)) {
                                         ent.setId(compare.getId());
                                         invFinanceBfbMapper.updateInvFinanceBfb(ent);
                                     }
-                                } else {//数据库没有code指定日期报告，插入
+                                } else {
                                     invFinanceBfbMapper.insertInvFinanceBfb(ent);
                                 }
                             }
@@ -1007,6 +1004,152 @@ public class InvestmentDataAsyncTask {
             if (count.get() > 0) {
                 count.decrementAndGet();
                 invFinanceBfbTask(stock, urlStr, reportType, count);
+            } else {
+                log.error(">>>异常:", e);
+            }
+        }
+    }
+
+    /**
+     * 公司大事-大宗交易-每日明细 任务
+     */
+    public void invDzjyMrmxTask(InvStock stock, String url, int currentPages, int pages, int pageSize, AtomicInteger count) {
+        String urlStr = url;
+        try {
+            url = url.replace("code=", stock.getCode());
+            url = url.replace("pageSize=", "pageSize=" + pageSize);
+            url = url.replace("pageNumber=", "pageNumber=" + currentPages);
+            String result = HttpUtils.sendGet(url, new AtomicInteger(10));
+            if (StringUtils.isNotEmpty(result) && !result.contains("返回数据为空")) {
+                JSONObject jsonObject = JSONObject.parseObject(result);
+                pages = (Integer) jsonObject.getJSONObject("result").get("pages");
+                JSONArray dataArray = jsonObject.getJSONObject("result").getJSONArray("data");
+                if (!dataArray.isEmpty()) {
+                    List<InvDzjyMrmx> entityList = invDzjyMrmxMapper.selectInvDzjyMrmxList(new InvDzjyMrmx(stock.getCode()));
+                    Map<String, InvDzjyMrmx> entityMap = new HashMap<>();
+                    for (InvDzjyMrmx entity : entityList) {
+                        entityMap.put(entity.getNum().toString(), entity);
+                    }
+                    Iterator<Object> iterator = dataArray.iterator();
+                    int num = (currentPages - 1) * pageSize;
+                    while (iterator.hasNext()) {
+                        num++;
+                        JSONObject next = (JSONObject) iterator.next();
+                        InvDzjyMrmx entity = new InvDzjyMrmx(stock.getCode());
+                        entity.setNum(num);
+                        Class<? extends InvDzjyMrmx> clazz = entity.getClass();
+                        Field[] declaredFields = clazz.getDeclaredFields();
+                        for (Field field : declaredFields) {
+                            field.setAccessible(true);
+                            String genericType = field.getGenericType().toString();
+                            String fieldName = field.getName();
+                            if (!"securityCode".equals(fieldName)) {
+                                String upperFieldName = StringUtils.toUnderScoreCase(fieldName).toUpperCase();
+                                upperFieldName = upperFieldName.replace("1DAYS","_1DAYS").replace("5DAYS","_5DAYS").replace("10DAYS","_10DAYS").replace("20DAYS","_20DAYS");
+                                String valueString = next.getString(upperFieldName);
+                                if ("class java.lang.Double".equals(genericType)) {
+                                    Double value = NumFormatUtil.toDouble(valueString);
+                                    field.set(entity, value);
+                                }
+                                if ("class java.util.Date".equals(genericType)) {
+                                    Date value = DateUtils.parseDate(valueString);
+                                    field.set(entity, value);
+                                }
+                                if ("class java.lang.String".equals(genericType)) {
+                                    field.set(entity, valueString);
+                                }
+                            }
+                        }
+                        if (entityMap.containsKey(entity.getNum().toString())) {
+                            InvDzjyMrmx compare = entityMap.get(entity.getNum().toString());
+                            if (!compare.equals(entity)) {
+                                entity.setId(compare.getId());
+                                invDzjyMrmxMapper.updateInvDzjyMrmx(entity);
+                            }
+                        } else {
+                            invDzjyMrmxMapper.insertInvDzjyMrmx(entity);
+                        }
+                    }
+                }
+            }
+            currentPages++;
+            if (currentPages <= pages) {
+                invDzjyMrmxTask(stock, urlStr, currentPages, pages, pageSize, count);
+            }
+        } catch (Exception e) {
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                invDzjyMrmxTask(stock, urlStr, currentPages, pages, pageSize, count);
+            } else {
+                log.error(">>>异常:", e);
+            }
+        }
+    }
+
+    /**
+     * 公司大事-融资融券 任务
+     */
+    public void invRzrqTask(InvStock stock, String url, int currentPages, int pages, AtomicInteger count) {
+        String urlStr = url;
+        try {
+            url = url.replace("p=", "p=" + currentPages);
+            url = url.replace("code=", "code=" + stock.getCode());
+            String result = HttpUtils.sendGet(url, new AtomicInteger(10));
+            if (StringUtils.isNotEmpty(result) && !result.contains("返回数据为空")) {
+                JSONObject jsonObject = JSONObject.parseObject(result);
+                pages = (Integer) jsonObject.getJSONObject("result").get("pages");
+                JSONArray dataArray = jsonObject.getJSONObject("result").getJSONArray("data");
+                if (!dataArray.isEmpty()) {
+                    List<InvRzrq> entityList = invRzrqMapper.selectInvRzrqList(new InvRzrq(stock.getCode()));
+                    Map<String, InvRzrq> entityMap = new HashMap<>();
+                    for (InvRzrq entity : entityList) {
+                        entityMap.put(entity.getDate().toString(), entity);
+                    }
+                    Iterator<Object> iterator = dataArray.iterator();
+                    while (iterator.hasNext()) {
+                        JSONObject next = (JSONObject) iterator.next();
+                        InvRzrq entity = new InvRzrq(stock.getCode());
+                        Class<? extends InvRzrq> clazz = entity.getClass();
+                        Field[] declaredFields = clazz.getDeclaredFields();
+                        for (Field field : declaredFields) {
+                            field.setAccessible(true);
+                            String genericType = field.getGenericType().toString();
+                            String fieldName = field.getName();
+                            if (!"securityCode".equals(fieldName)) {
+                                String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
+                                if ("class java.lang.Double".equals(genericType)) {
+                                    Double value = NumFormatUtil.toDouble(valueString);
+                                    field.set(entity, value);
+                                }
+                                if ("class java.util.Date".equals(genericType)) {
+                                    Date value = DateUtils.parseDate(valueString);
+                                    field.set(entity, value);
+                                }
+                                if ("class java.lang.String".equals(genericType)) {
+                                    field.set(entity, valueString);
+                                }
+                            }
+                        }
+                        if (entityMap.containsKey(entity.getDate().toString())) {
+                            InvRzrq compare = entityMap.get(entity.getDate().toString());
+                            if (!compare.equals(entity)) {
+                                entity.setId(compare.getId());
+                                invRzrqMapper.updateInvRzrq(entity);
+                            }
+                        } else {
+                            invRzrqMapper.insertInvRzrq(entity);
+                        }
+                    }
+                }
+            }
+            currentPages++;
+            if (currentPages <= pages) {
+                invRzrqTask(stock, urlStr, currentPages, pages, count);
+            }
+        } catch (Exception e) {
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                invRzrqTask(stock, urlStr, currentPages, pages, count);
             } else {
                 log.error(">>>异常:", e);
             }

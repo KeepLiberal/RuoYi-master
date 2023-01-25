@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.investment.mapper.InvDzjyMrmxMapper">
+    
+    <resultMap type="InvDzjyMrmx" id="InvDzjyMrmxResult">
+        <result property="id"    column="id"    />
+        <result property="securityCode"    column="security_code"    />
+        <result property="num"    column="num"    />
+        <result property="tradeDate"    column="trade_date"    />
+        <result property="changeRate"    column="change_rate"    />
+        <result property="closePrice"    column="close_price"    />
+        <result property="dealPrice"    column="deal_price"    />
+        <result property="premiumRatio"    column="premium_ratio"    />
+        <result property="dealVolume"    column="deal_volume"    />
+        <result property="dealAmt"    column="deal_amt"    />
+        <result property="turnoverRate"    column="turnover_rate"    />
+        <result property="buyerCode"    column="buyer_code"    />
+        <result property="buyerName"    column="buyer_name"    />
+        <result property="sellerCode"    column="seller_code"    />
+        <result property="sellerName"    column="seller_name"    />
+        <result property="changeRate1days"    column="change_rate_1days"    />
+        <result property="changeRate5days"    column="change_rate_5days"    />
+        <result property="changeRate10days"    column="change_rate_10days"    />
+        <result property="changeRate20days"    column="change_rate_20days"    />
+    </resultMap>
+
+    <sql id="selectInvDzjyMrmxVo">
+        select id, security_code, num, trade_date, change_rate, close_price, deal_price, premium_ratio, deal_volume, deal_amt, turnover_rate, buyer_code, buyer_name, seller_code, seller_name, change_rate_1days, change_rate_5days, change_rate_10days, change_rate_20days from inv_dzjy_mrmx
+    </sql>
+
+    <select id="selectInvDzjyMrmxList" parameterType="InvDzjyMrmx" resultMap="InvDzjyMrmxResult">
+        <include refid="selectInvDzjyMrmxVo"/>
+        <where>  
+            <if test="securityCode != null  and securityCode != ''"> and security_code = #{securityCode}</if>
+            <if test="num != null "> and num = #{num}</if>
+            <if test="tradeDate != null "> and trade_date = #{tradeDate}</if>
+            <if test="changeRate != null "> and change_rate = #{changeRate}</if>
+            <if test="closePrice != null "> and close_price = #{closePrice}</if>
+            <if test="dealPrice != null "> and deal_price = #{dealPrice}</if>
+            <if test="premiumRatio != null "> and premium_ratio = #{premiumRatio}</if>
+            <if test="dealVolume != null "> and deal_volume = #{dealVolume}</if>
+            <if test="dealAmt != null "> and deal_amt = #{dealAmt}</if>
+            <if test="turnoverRate != null "> and turnover_rate = #{turnoverRate}</if>
+            <if test="buyerCode != null  and buyerCode != ''"> and buyer_code = #{buyerCode}</if>
+            <if test="buyerName != null  and buyerName != ''"> and buyer_name like concat('%', #{buyerName}, '%')</if>
+            <if test="sellerCode != null  and sellerCode != ''"> and seller_code = #{sellerCode}</if>
+            <if test="sellerName != null  and sellerName != ''"> and seller_name like concat('%', #{sellerName}, '%')</if>
+            <if test="changeRate1days != null "> and change_rate_1days = #{changeRate1days}</if>
+            <if test="changeRate5days != null "> and change_rate_5days = #{changeRate5days}</if>
+            <if test="changeRate10days != null "> and change_rate_10days = #{changeRate10days}</if>
+            <if test="changeRate20days != null "> and change_rate_20days = #{changeRate20days}</if>
+        </where>
+        order by num desc
+    </select>
+    
+    <select id="selectInvDzjyMrmxById" parameterType="Integer" resultMap="InvDzjyMrmxResult">
+        <include refid="selectInvDzjyMrmxVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInvDzjyMrmx" parameterType="InvDzjyMrmx" useGeneratedKeys="true" keyProperty="id">
+        insert into inv_dzjy_mrmx
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code,</if>
+            <if test="num != null">num,</if>
+            <if test="tradeDate != null">trade_date,</if>
+            <if test="changeRate != null">change_rate,</if>
+            <if test="closePrice != null">close_price,</if>
+            <if test="dealPrice != null">deal_price,</if>
+            <if test="premiumRatio != null">premium_ratio,</if>
+            <if test="dealVolume != null">deal_volume,</if>
+            <if test="dealAmt != null">deal_amt,</if>
+            <if test="turnoverRate != null">turnover_rate,</if>
+            <if test="buyerCode != null and buyerCode != ''">buyer_code,</if>
+            <if test="buyerName != null and buyerName != ''">buyer_name,</if>
+            <if test="sellerCode != null and sellerCode != ''">seller_code,</if>
+            <if test="sellerName != null and sellerName != ''">seller_name,</if>
+            <if test="changeRate1days != null">change_rate_1days,</if>
+            <if test="changeRate5days != null">change_rate_5days,</if>
+            <if test="changeRate10days != null">change_rate_10days,</if>
+            <if test="changeRate20days != null">change_rate_20days,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">#{securityCode},</if>
+            <if test="num != null">#{num},</if>
+            <if test="tradeDate != null">#{tradeDate},</if>
+            <if test="changeRate != null">#{changeRate},</if>
+            <if test="closePrice != null">#{closePrice},</if>
+            <if test="dealPrice != null">#{dealPrice},</if>
+            <if test="premiumRatio != null">#{premiumRatio},</if>
+            <if test="dealVolume != null">#{dealVolume},</if>
+            <if test="dealAmt != null">#{dealAmt},</if>
+            <if test="turnoverRate != null">#{turnoverRate},</if>
+            <if test="buyerCode != null and buyerCode != ''">#{buyerCode},</if>
+            <if test="buyerName != null and buyerName != ''">#{buyerName},</if>
+            <if test="sellerCode != null and sellerCode != ''">#{sellerCode},</if>
+            <if test="sellerName != null and sellerName != ''">#{sellerName},</if>
+            <if test="changeRate1days != null">#{changeRate1days},</if>
+            <if test="changeRate5days != null">#{changeRate5days},</if>
+            <if test="changeRate10days != null">#{changeRate10days},</if>
+            <if test="changeRate20days != null">#{changeRate20days},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInvDzjyMrmx" parameterType="InvDzjyMrmx">
+        update inv_dzjy_mrmx
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code = #{securityCode},</if>
+            <if test="num != null">num = #{num},</if>
+            <if test="tradeDate != null">trade_date = #{tradeDate},</if>
+            <if test="changeRate != null">change_rate = #{changeRate},</if>
+            <if test="closePrice != null">close_price = #{closePrice},</if>
+            <if test="dealPrice != null">deal_price = #{dealPrice},</if>
+            <if test="premiumRatio != null">premium_ratio = #{premiumRatio},</if>
+            <if test="dealVolume != null">deal_volume = #{dealVolume},</if>
+            <if test="dealAmt != null">deal_amt = #{dealAmt},</if>
+            <if test="turnoverRate != null">turnover_rate = #{turnoverRate},</if>
+            <if test="buyerCode != null and buyerCode != ''">buyer_code = #{buyerCode},</if>
+            <if test="buyerName != null and buyerName != ''">buyer_name = #{buyerName},</if>
+            <if test="sellerCode != null and sellerCode != ''">seller_code = #{sellerCode},</if>
+            <if test="sellerName != null and sellerName != ''">seller_name = #{sellerName},</if>
+            <if test="changeRate1days != null">change_rate_1days = #{changeRate1days},</if>
+            <if test="changeRate5days != null">change_rate_5days = #{changeRate5days},</if>
+            <if test="changeRate10days != null">change_rate_10days = #{changeRate10days},</if>
+            <if test="changeRate20days != null">change_rate_20days = #{changeRate20days},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInvDzjyMrmxById" parameterType="Integer">
+        delete from inv_dzjy_mrmx where id = #{id}
+    </delete>
+
+    <delete id="deleteInvDzjyMrmxByIds" parameterType="String">
+        delete from inv_dzjy_mrmx where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
