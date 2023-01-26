@@ -42,11 +42,11 @@ public class RyTask {
     @Resource
     private InvIndustryMapper invIndustryMapper;
     @Resource
-    private InvCompanyAddressMapper invCompanyAddressMapper;
-    @Resource
     private SysDictDataMapper dictDataMapper;
     @Resource
     private SysAreaMapper sysAreaMapper;
+    @Resource
+    private InvStockExchangeMapper invStockExchangeMapper;
 
     /**
      * 容器中的线程池
@@ -68,6 +68,11 @@ public class RyTask {
      * 存放行业
      */
     public static LinkedHashSet<InvIndustry> invIndustrySet = new LinkedHashSet<>();
+    /**
+     * 存放证券交易所
+     */
+    public static LinkedHashSet<InvStockExchange> invStockExchangeSet = new LinkedHashSet<>();
+
 
     ///////////////////////////////////////////////////////个股信息//////////////////////////////////////////////////////
 
@@ -361,6 +366,32 @@ public class RyTask {
         }
         isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========大宗交易-每日明细 任务结束=========");
+        log.info("========证券交易所 任务开始=========");
+        List<InvStockExchange> invStockExchanges = invStockExchangeMapper.selectInvStockExchangeList(null);
+        Map<String, InvStockExchange> entityMap = new HashMap<>();
+        for (InvStockExchange entity : invStockExchanges) {
+            entityMap.put(entity.getCode(), entity);
+        }
+        for (InvStockExchange entity : invStockExchangeSet) {
+            if (entityMap.containsKey(entity.getCode())) {
+                InvStockExchange compare = entityMap.get(entity.getCode());
+                if (!compare.equals(entity)) {
+                    entity.setId(compare.getId());
+                    invStockExchangeMapper.updateInvStockExchange(entity);
+                }
+            } else {
+                invStockExchangeMapper.insertInvStockExchange(entity);
+            }
+        }
+        log.info("========证券交易所 任务结束=========");
+
+        log.info("========大宗交易-每日统计 任务开始=========");
+        for (InvStock stock : stockList) {
+            investmentDataAsyncTask.invDzjyMrtjTask(stock, ev.getProperty("inv.dzjy-mrtj"), 1, 1, new AtomicInteger(10));
+        }
+        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        log.info("========大宗交易-每日统计 任务结束=========");
+
 
         log.info("========融资融券 任务开始=========");
         for (InvStock stock : stockList) {
@@ -381,9 +412,9 @@ public class RyTask {
         isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("================数据初始化任务 开始=================");
 
-        invStock();
-        invCompany();
-        invFinance();
+//        invStock();
+//        invCompany();
+//        invFinance();
         invCompanyBigNews();
 
 

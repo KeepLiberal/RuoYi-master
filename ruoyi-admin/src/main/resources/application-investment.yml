@@ -47,7 +47,9 @@ inv:
   #########################################################公司大事 开始##################################################
   #融资融券
   #大宗交易-每日明细
-  dzjy-mrmx: https://datacenter-web.eastmoney.com/api/data/v1/get?sortColumns=TRADE_DATE%2CDEAL_AMT&sortTypes=1%2C-1&filter=(SECURITY_CODE%3D%22code=%22)&columns=ALL&source=WEB&client=WEB&reportName=RPT_DATA_BLOCKTRADE&pageSize=&pageNumber=1
+  dzjy-mrmx: https://datacenter-web.eastmoney.com/api/data/v1/get?sortColumns=TRADE_DATE%2CDEAL_AMT&sortTypes=1%2C-1&filter=(SECURITY_CODE%3D%22code=%22)&columns=ALL&source=WEB&client=WEB&reportName=RPT_DATA_BLOCKTRADE&pageSize=&pageNumber=
+  #大宗交易-每日统计
+  dzjy-mrtj: https://datacenter-web.eastmoney.com/api/data/v1/get?sortColumns=TRADE_DATE&sortTypes=-1&filter=(SECURITY_CODE%3D%22code=%22)&columns=ALL&source=WEB&client=WEB&reportName=RPT_BLOCKTRADE_STA&pageSize=-1&pageNumber=
   #融资融券
   rzrq: https://datapc.eastmoney.com/emdatacenter/rzrq/tradelist?p=&ps=-1&st=DATE&sr=-1&code=
 

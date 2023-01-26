@@ -57,6 +57,8 @@ public class InvestmentDataAsyncTask {
     @Resource
     private InvDzjyMrmxMapper invDzjyMrmxMapper;
     @Resource
+    private InvDzjyMrtjMapper invDzjyMrtjMapper;
+    @Resource
     private InvRzrqMapper invRzrqMapper;
 
 
@@ -1043,21 +1045,19 @@ public class InvestmentDataAsyncTask {
                             field.setAccessible(true);
                             String genericType = field.getGenericType().toString();
                             String fieldName = field.getName();
-                            if (!"securityCode".equals(fieldName)) {
-                                String upperFieldName = StringUtils.toUnderScoreCase(fieldName).toUpperCase();
-                                upperFieldName = upperFieldName.replace("1DAYS","_1DAYS").replace("5DAYS","_5DAYS").replace("10DAYS","_10DAYS").replace("20DAYS","_20DAYS");
-                                String valueString = next.getString(upperFieldName);
-                                if ("class java.lang.Double".equals(genericType)) {
-                                    Double value = NumFormatUtil.toDouble(valueString);
-                                    field.set(entity, value);
-                                }
-                                if ("class java.util.Date".equals(genericType)) {
-                                    Date value = DateUtils.parseDate(valueString);
-                                    field.set(entity, value);
-                                }
-                                if ("class java.lang.String".equals(genericType)) {
-                                    field.set(entity, valueString);
-                                }
+                            String upperFieldName = StringUtils.toUnderScoreCase(fieldName).toUpperCase();
+                            upperFieldName = upperFieldName.replace("1DAYS", "_1DAYS").replace("5DAYS", "_5DAYS").replace("10DAYS", "_10DAYS").replace("20DAYS", "_20DAYS");
+                            String valueString = next.getString(upperFieldName);
+                            if ("class java.lang.Double".equals(genericType)) {
+                                Double value = NumFormatUtil.toDouble(valueString);
+                                field.set(entity, value);
+                            }
+                            if ("class java.util.Date".equals(genericType)) {
+                                Date value = DateUtils.parseDate(valueString);
+                                field.set(entity, value);
+                            }
+                            if ("class java.lang.String".equals(genericType)) {
+                                field.set(entity, valueString);
                             }
                         }
                         if (entityMap.containsKey(entity.getNum().toString())) {
@@ -1068,6 +1068,12 @@ public class InvestmentDataAsyncTask {
                             }
                         } else {
                             invDzjyMrmxMapper.insertInvDzjyMrmx(entity);
+                        }
+                        if (StringUtils.isNotEmpty(entity.getBuyerCode()) && StringUtils.isNotEmpty(entity.getBuyerName())) {
+                            RyTask.invStockExchangeSet.add(new InvStockExchange(entity.getBuyerCode(), entity.getBuyerName()));
+                        }
+                        if (StringUtils.isNotEmpty(entity.getSellerCode()) && StringUtils.isNotEmpty(entity.getSellerName())) {
+                            RyTask.invStockExchangeSet.add(new InvStockExchange(entity.getSellerCode(), entity.getSellerName()));
                         }
                     }
                 }
@@ -1080,6 +1086,76 @@ public class InvestmentDataAsyncTask {
             if (count.get() > 0) {
                 count.decrementAndGet();
                 invDzjyMrmxTask(stock, urlStr, currentPages, pages, pageSize, count);
+            } else {
+                log.error(">>>异常:", e);
+            }
+        }
+    }
+
+    /**
+     * 公司大事-大宗交易-每日统计 任务
+     */
+    public void invDzjyMrtjTask(InvStock stock, String url, int currentPages, int pages, AtomicInteger count) {
+        String urlStr = url;
+        try {
+            url = url.replace("code=", stock.getCode());
+            url = url.replace("pageNumber=", "pageNumber=" + currentPages);
+            String result = HttpUtils.sendGet(url, new AtomicInteger(10));
+            if (StringUtils.isNotEmpty(result) && !result.contains("返回数据为空")) {
+                JSONObject jsonObject = JSONObject.parseObject(result);
+                pages = (Integer) jsonObject.getJSONObject("result").get("pages");
+                JSONArray dataArray = jsonObject.getJSONObject("result").getJSONArray("data");
+                if (!dataArray.isEmpty()) {
+                    List<InvDzjyMrtj> entityList = invDzjyMrtjMapper.selectInvDzjyMrtjList(new InvDzjyMrtj(stock.getCode()));
+                    Map<String, InvDzjyMrtj> entityMap = new HashMap<>();
+                    for (InvDzjyMrtj entity : entityList) {
+                        entityMap.put(entity.getTradeDate().toString(), entity);
+                    }
+                    Iterator<Object> iterator = dataArray.iterator();
+                    while (iterator.hasNext()) {
+                        JSONObject next = (JSONObject) iterator.next();
+                        InvDzjyMrtj entity = new InvDzjyMrtj(stock.getCode());
+                        Class<? extends InvDzjyMrtj> clazz = entity.getClass();
+                        Field[] declaredFields = clazz.getDeclaredFields();
+                        for (Field field : declaredFields) {
+                            field.setAccessible(true);
+                            String genericType = field.getGenericType().toString();
+                            String fieldName = field.getName();
+                            String upperFieldName = StringUtils.toUnderScoreCase(fieldName).toUpperCase();
+                            //upperFieldName = upperFieldName.replace("D1", "D1_").replace("D5", "D5_").replace("D10", "D10_").replace("D20", "D20_");
+                            String valueString = next.getString(upperFieldName);
+                            if ("class java.lang.Double".equals(genericType)) {
+                                Double value = NumFormatUtil.toDouble(valueString);
+                                field.set(entity, value);
+                            }
+                            if ("class java.util.Date".equals(genericType)) {
+                                Date value = DateUtils.parseDate(valueString);
+                                field.set(entity, value);
+                            }
+                            if ("class java.lang.String".equals(genericType)) {
+                                field.set(entity, valueString);
+                            }
+                        }
+                        if (entityMap.containsKey(entity.getTradeDate().toString())) {
+                            InvDzjyMrtj compare = entityMap.get(entity.getTradeDate().toString());
+                            if (!compare.equals(entity)) {
+                                entity.setId(compare.getId());
+                                invDzjyMrtjMapper.updateInvDzjyMrtj(entity);
+                            }
+                        } else {
+                            invDzjyMrtjMapper.insertInvDzjyMrtj(entity);
+                        }
+                    }
+                }
+            }
+            currentPages++;
+            if (currentPages <= pages) {
+                invDzjyMrtjTask(stock, urlStr, currentPages, pages, count);
+            }
+        } catch (Exception e) {
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                invDzjyMrtjTask(stock, urlStr, currentPages, pages, count);
             } else {
                 log.error(">>>异常:", e);
             }

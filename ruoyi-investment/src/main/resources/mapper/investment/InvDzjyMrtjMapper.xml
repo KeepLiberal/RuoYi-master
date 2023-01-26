@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.investment.mapper.InvDzjyMrtjMapper">
+    
+    <resultMap type="InvDzjyMrtj" id="InvDzjyMrtjResult">
+        <result property="id"    column="id"    />
+        <result property="securityCode"    column="security_code"    />
+        <result property="tradeDate"    column="trade_date"    />
+        <result property="changeRate"    column="change_rate"    />
+        <result property="closePrice"    column="close_price"    />
+        <result property="averagePrice"    column="average_price"    />
+        <result property="premiumRatio"    column="premium_ratio"    />
+        <result property="dealNum"    column="deal_num"    />
+        <result property="volume"    column="volume"    />
+        <result property="dealAmt"    column="deal_amt"    />
+        <result property="turnoverrate"    column="turnoverrate"    />
+        <result property="d1CloseAdjchrate"    column="d1_close_adjchrate"    />
+        <result property="d5CloseAdjchrate"    column="d5_close_adjchrate"    />
+        <result property="d10CloseAdjchrate"    column="d10_close_adjchrate"    />
+        <result property="d20CloseAdjchrate"    column="d20_close_adjchrate"    />
+    </resultMap>
+
+    <sql id="selectInvDzjyMrtjVo">
+        select id, security_code, trade_date, change_rate, close_price, average_price, premium_ratio, deal_num, volume, deal_amt, turnoverrate, d1_close_adjchrate, d5_close_adjchrate, d10_close_adjchrate, d20_close_adjchrate from inv_dzjy_mrtj
+    </sql>
+
+    <select id="selectInvDzjyMrtjList" parameterType="InvDzjyMrtj" resultMap="InvDzjyMrtjResult">
+        <include refid="selectInvDzjyMrtjVo"/>
+        <where>  
+            <if test="securityCode != null  and securityCode != ''"> and security_code = #{securityCode}</if>
+            <if test="tradeDate != null "> and trade_date = #{tradeDate}</if>
+            <if test="changeRate != null "> and change_rate = #{changeRate}</if>
+            <if test="closePrice != null "> and close_price = #{closePrice}</if>
+            <if test="averagePrice != null "> and average_price = #{averagePrice}</if>
+            <if test="premiumRatio != null "> and premium_ratio = #{premiumRatio}</if>
+            <if test="dealNum != null "> and deal_num = #{dealNum}</if>
+            <if test="volume != null "> and volume = #{volume}</if>
+            <if test="dealAmt != null "> and deal_amt = #{dealAmt}</if>
+            <if test="turnoverrate != null "> and turnoverrate = #{turnoverrate}</if>
+            <if test="d1CloseAdjchrate != null "> and d1_close_adjchrate = #{d1CloseAdjchrate}</if>
+            <if test="d5CloseAdjchrate != null "> and d5_close_adjchrate = #{d5CloseAdjchrate}</if>
+            <if test="d10CloseAdjchrate != null "> and d10_close_adjchrate = #{d10CloseAdjchrate}</if>
+            <if test="d20CloseAdjchrate != null "> and d20_close_adjchrate = #{d20CloseAdjchrate}</if>
+        </where>
+        order by trade_date desc
+    </select>
+    
+    <select id="selectInvDzjyMrtjById" parameterType="Integer" resultMap="InvDzjyMrtjResult">
+        <include refid="selectInvDzjyMrtjVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInvDzjyMrtj" parameterType="InvDzjyMrtj" useGeneratedKeys="true" keyProperty="id">
+        insert into inv_dzjy_mrtj
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code,</if>
+            <if test="tradeDate != null">trade_date,</if>
+            <if test="changeRate != null">change_rate,</if>
+            <if test="closePrice != null">close_price,</if>
+            <if test="averagePrice != null">average_price,</if>
+            <if test="premiumRatio != null">premium_ratio,</if>
+            <if test="dealNum != null">deal_num,</if>
+            <if test="volume != null">volume,</if>
+            <if test="dealAmt != null">deal_amt,</if>
+            <if test="turnoverrate != null">turnoverrate,</if>
+            <if test="d1CloseAdjchrate != null">d1_close_adjchrate,</if>
+            <if test="d5CloseAdjchrate != null">d5_close_adjchrate,</if>
+            <if test="d10CloseAdjchrate != null">d10_close_adjchrate,</if>
+            <if test="d20CloseAdjchrate != null">d20_close_adjchrate,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">#{securityCode},</if>
+            <if test="tradeDate != null">#{tradeDate},</if>
+            <if test="changeRate != null">#{changeRate},</if>
+            <if test="closePrice != null">#{closePrice},</if>
+            <if test="averagePrice != null">#{averagePrice},</if>
+            <if test="premiumRatio != null">#{premiumRatio},</if>
+            <if test="dealNum != null">#{dealNum},</if>
+            <if test="volume != null">#{volume},</if>
+            <if test="dealAmt != null">#{dealAmt},</if>
+            <if test="turnoverrate != null">#{turnoverrate},</if>
+            <if test="d1CloseAdjchrate != null">#{d1CloseAdjchrate},</if>
+            <if test="d5CloseAdjchrate != null">#{d5CloseAdjchrate},</if>
+            <if test="d10CloseAdjchrate != null">#{d10CloseAdjchrate},</if>
+            <if test="d20CloseAdjchrate != null">#{d20CloseAdjchrate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInvDzjyMrtj" parameterType="InvDzjyMrtj">
+        update inv_dzjy_mrtj
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code = #{securityCode},</if>
+            <if test="tradeDate != null">trade_date = #{tradeDate},</if>
+            <if test="changeRate != null">change_rate = #{changeRate},</if>
+            <if test="closePrice != null">close_price = #{closePrice},</if>
+            <if test="averagePrice != null">average_price = #{averagePrice},</if>
+            <if test="premiumRatio != null">premium_ratio = #{premiumRatio},</if>
+            <if test="dealNum != null">deal_num = #{dealNum},</if>
+            <if test="volume != null">volume = #{volume},</if>
+            <if test="dealAmt != null">deal_amt = #{dealAmt},</if>
+            <if test="turnoverrate != null">turnoverrate = #{turnoverrate},</if>
+            <if test="d1CloseAdjchrate != null">d1_close_adjchrate = #{d1CloseAdjchrate},</if>
+            <if test="d5CloseAdjchrate != null">d5_close_adjchrate = #{d5CloseAdjchrate},</if>
+            <if test="d10CloseAdjchrate != null">d10_close_adjchrate = #{d10CloseAdjchrate},</if>
+            <if test="d20CloseAdjchrate != null">d20_close_adjchrate = #{d20CloseAdjchrate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInvDzjyMrtjById" parameterType="Integer">
+        delete from inv_dzjy_mrtj where id = #{id}
+    </delete>
+
+    <delete id="deleteInvDzjyMrtjByIds" parameterType="String">
+        delete from inv_dzjy_mrtj where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
