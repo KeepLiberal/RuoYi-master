@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增个股龙虎榜')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-invLhbStock-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">股票代码：</label>
+                <div class="col-sm-8">
+                    <input name="securityCode" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">日期：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="tradeDate" class="form-control" placeholder="yyyy-MM-dd" type="text" required>
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">龙虎榜类型类型：</label>
+                <div class="col-sm-8">
+                    <input name="explanation" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">交易营业部代码：</label>
+                <div class="col-sm-8">
+                    <input name="operatedeptCode" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">交易营业部名称：</label>
+                <div class="col-sm-8">
+                    <input name="operatedeptName" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">买入金额(元)：</label>
+                <div class="col-sm-8">
+                    <input name="buy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">占总成交比例：</label>
+                <div class="col-sm-8">
+                    <input name="totalBuyrio" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">卖出金额(元)：</label>
+                <div class="col-sm-8">
+                    <input name="sell" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">占总成交比例：</label>
+                <div class="col-sm-8">
+                    <input name="totalSellrio" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">净额(元)：</label>
+                <div class="col-sm-8">
+                    <input name="net" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">(买入前5名与卖出前5名)买入金额合计(元)：</label>
+                <div class="col-sm-8">
+                    <input name="totalBuy" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">(买入前5名与卖出前5名)卖出金额合计(元)：</label>
+                <div class="col-sm-8">
+                    <input name="totalSell" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">(买入前5名与卖出前5名)占总成交比例：</label>
+                <div class="col-sm-8">
+                    <input name="totalBuyriotop" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">(买入前5名与卖出前5名)净额合计(元)：</label>
+                <div class="col-sm-8">
+                    <input name="totalNet" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "investment/invLhbStock"
+        $("#form-invLhbStock-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-invLhbStock-add').serialize());
+            }
+        }
+
+        $("input[name='tradeDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

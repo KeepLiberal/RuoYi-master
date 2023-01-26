@@ -60,6 +60,10 @@ public class InvestmentDataAsyncTask {
     private InvDzjyMrtjMapper invDzjyMrtjMapper;
     @Resource
     private InvRzrqMapper invRzrqMapper;
+    @Resource
+    private InvLhbReportDateMapper invLhbReportDateMapper;
+    @Resource
+    private InvLhbStockMapper invLhbStockMapper;
 
 
     /**
@@ -100,6 +104,7 @@ public class InvestmentDataAsyncTask {
                     String genericType = field.getGenericType().toString();
                     String fieldName = field.getName();
                     String valueString = map.get(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
+                    valueString = StringUtils.isNotEmpty(valueString) ? valueString.trim() : null;
                     if (!"code".equals(fieldName) && StringUtils.isNotEmpty(valueString)) {
                         if ("class java.lang.Double".equals(genericType)) {
                             Double value = NumFormatUtil.toDouble(valueString);
@@ -409,6 +414,7 @@ public class InvestmentDataAsyncTask {
                                     String fieldName = field.getName();
                                     if (!"reportType".equals(fieldName)) {
                                         String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
+                                        valueString = StringUtils.isNotEmpty(valueString) ? valueString.trim() : null;
                                         if ("class java.lang.Double".equals(genericType)) {
                                             Double value = NumFormatUtil.toDouble(valueString);
                                             field.set(entity, value);
@@ -477,6 +483,7 @@ public class InvestmentDataAsyncTask {
                                 String fieldName = field.getName();
                                 if (!"reportType".equals(fieldName)) {
                                     String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
+                                    valueString = StringUtils.isNotEmpty(valueString) ? valueString.trim() : null;
                                     if ("class java.lang.Double".equals(genericType)) {
                                         Double value = NumFormatUtil.toDouble(valueString);
                                         field.set(entity, value);
@@ -601,6 +608,7 @@ public class InvestmentDataAsyncTask {
                                             String fieldName = field.getName();
                                             if (!"reportType".equals(fieldName)) {
                                                 String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
+                                                valueString = StringUtils.isNotEmpty(valueString) ? valueString.trim() : null;
                                                 if ("class java.lang.Double".equals(genericType)) {
                                                     Double value = NumFormatUtil.toDouble(valueString);
                                                     field.set(entity, value);
@@ -740,6 +748,7 @@ public class InvestmentDataAsyncTask {
                                             String fieldName = field.getName();
                                             if (!"reportType".equals(fieldName)) {
                                                 String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
+                                                valueString = StringUtils.isNotEmpty(valueString) ? valueString.trim() : null;
                                                 if ("class java.lang.Double".equals(genericType)) {
                                                     Double value = NumFormatUtil.toDouble(valueString);
                                                     field.set(entity, value);
@@ -879,6 +888,7 @@ public class InvestmentDataAsyncTask {
                                             String fieldName = field.getName();
                                             if (!"reportType".equals(fieldName)) {
                                                 String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
+                                                valueString = StringUtils.isNotEmpty(valueString) ? valueString.trim() : null;
                                                 if ("class java.lang.Double".equals(genericType)) {
                                                     Double value = NumFormatUtil.toDouble(valueString);
                                                     field.set(entity, value);
@@ -972,6 +982,7 @@ public class InvestmentDataAsyncTask {
                                         if (fieldName.endsWith("_YOY")) {//占比
                                             valueString = next2.getString(fieldName.replace("_YOY", ""));
                                         }
+                                        valueString = StringUtils.isNotEmpty(valueString) ? valueString.trim() : null;
                                         if ("class java.lang.Double".equals(genericType)) {
                                             Double value = NumFormatUtil.toDouble(valueString);
                                             field.set(entity, value);
@@ -1012,6 +1023,165 @@ public class InvestmentDataAsyncTask {
         }
     }
 
+
+    /**
+     * 公司大事-龙虎榜单日期 任务
+     */
+    public void invLhbReportTask(InvStock stock, String url, int currentPages, int pages, AtomicInteger count) {
+        String urlStr = url;
+        try {
+            url = url.replace("code=", stock.getCode());
+            url = url.replace("pageNumber=", "pageNumber=" + currentPages);
+            String result = HttpUtils.sendGet(url, new AtomicInteger(10));
+            if (StringUtils.isNotEmpty(result)) {
+                JSONObject jsonObject = JSONObject.parseObject(result);
+                Boolean success = (Boolean) jsonObject.get("success");
+                if (success) {
+                    pages = (Integer) jsonObject.getJSONObject("result").get("pages");
+                    JSONArray dataArray = jsonObject.getJSONObject("result").getJSONArray("data");
+                    if (!dataArray.isEmpty()) {
+                        List<InvLhbReportDate> entityList = invLhbReportDateMapper.selectInvLhbReportDateList(new InvLhbReportDate(stock.getCode()));
+                        Map<String, InvLhbReportDate> entityMap = new HashMap<>();
+                        for (InvLhbReportDate entity : entityList) {
+                            entityMap.put(entity.getSecurityCode(), entity);
+                        }
+                        Iterator<Object> iterator = dataArray.iterator();
+                        while (iterator.hasNext()) {
+                            JSONObject next = (JSONObject) iterator.next();
+                            InvLhbReportDate entity = new InvLhbReportDate(stock.getCode());
+                            Class<? extends InvLhbReportDate> clazz = entity.getClass();
+                            Field[] declaredFields = clazz.getDeclaredFields();
+                            for (Field field : declaredFields) {
+                                field.setAccessible(true);
+                                String genericType = field.getGenericType().toString();
+                                String fieldName = field.getName();
+                                String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
+                                valueString = StringUtils.isNotEmpty(valueString) ? valueString.trim() : null;
+                                if ("class java.util.Date".equals(genericType)) {
+                                    Date value = DateUtils.parseDate(valueString);
+                                    field.set(entity, value);
+                                }
+                                if ("class java.lang.String".equals(genericType)) {
+                                    field.set(entity, valueString);
+                                }
+                            }
+                            if (entityMap.containsKey(entity.getSecurityCode())) {
+                                InvLhbReportDate compare = entityMap.get(entity.getSecurityCode());
+                                if (!compare.equals(entity)) {
+                                    entity.setId(compare.getId());
+                                    invLhbReportDateMapper.updateInvLhbReportDate(entity);
+                                }
+                            } else {
+                                invLhbReportDateMapper.insertInvLhbReportDate(entity);
+                            }
+                        }
+                    }
+                }
+            }
+            currentPages++;
+            if (currentPages <= pages) {
+                invLhbReportTask(stock, urlStr, currentPages, pages, count);
+            }
+        } catch (Exception e) {
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                invLhbReportTask(stock, urlStr, currentPages, pages, count);
+            } else {
+                log.error(">>>异常:", e);
+            }
+        }
+    }
+
+    /**
+     * 公司大事-个股龙虎榜单 任务
+     */
+    public void invLhbStockTask(InvStock stock, String url, Date reportDate, String reportDateStr, String type, int currentPages, int pages, AtomicInteger count) {
+        String urlStr = url;
+        try {
+            url = url.replace("code=", stock.getCode());
+            url = url.replace("reportDate=", reportDateStr);
+            url = url.replace("pageNumber=", "pageNumber=" + currentPages);
+            String result = HttpUtils.sendGet(url, new AtomicInteger(10));
+            if (StringUtils.isNotEmpty(result)) {
+                JSONObject jsonObject = JSONObject.parseObject(result);
+                Boolean success = (Boolean) jsonObject.get("success");
+                if (success) {
+                    pages = (Integer) jsonObject.getJSONObject("result").get("pages");
+                    JSONArray dataArray = jsonObject.getJSONObject("result").getJSONArray("data");
+                    if (!dataArray.isEmpty()) {
+                        List<InvLhbStock> entityList = invLhbStockMapper.selectInvLhbStockList(new InvLhbStock(stock.getCode(), reportDate, type));
+                        Map<String, InvLhbStock> entityMap = new HashMap<>();
+                        for (InvLhbStock entity : entityList) {
+                            if ("B".equals(type) || "S".equals(type)) {
+                                entityMap.put(entity.getOperatedeptCode(), entity);
+                            }
+                        }
+                        Iterator<Object> iterator = dataArray.iterator();
+                        while (iterator.hasNext()) {
+                            JSONObject next = (JSONObject) iterator.next();
+                            InvLhbStock entity = new InvLhbStock(stock.getCode());
+                            Class<? extends InvLhbStock> clazz = entity.getClass();
+                            Field[] declaredFields = clazz.getDeclaredFields();
+                            for (Field field : declaredFields) {
+                                field.setAccessible(true);
+                                String genericType = field.getGenericType().toString();
+                                String fieldName = field.getName();
+                                String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
+                                valueString = StringUtils.isNotEmpty(valueString) ? valueString.trim() : null;
+                                if ("class java.lang.Double".equals(genericType)) {
+                                    Double value = NumFormatUtil.toDouble(valueString);
+                                    field.set(entity, value);
+                                }
+                                if ("class java.util.Date".equals(genericType)) {
+                                    Date value = DateUtils.parseDate(valueString);
+                                    field.set(entity, value);
+                                }
+                                if ("class java.lang.String".equals(genericType)) {
+                                    field.set(entity, valueString);
+                                }
+                            }
+                            entity.setType(type);
+                            if ("B".equals(type) || "S".equals(type)) {
+                                if (entityMap.containsKey(entity.getOperatedeptCode())) {
+                                    InvLhbStock compare = entityMap.get(entity.getOperatedeptCode());
+                                    if (!compare.equals(entity)) {
+                                        entity.setId(compare.getId());
+                                        invLhbStockMapper.updateInvLhbStock(entity);
+                                    }
+                                } else {
+                                    invLhbStockMapper.insertInvLhbStock(entity);
+                                }
+                            }
+                            if ("T".equals(type)) {
+                                if (null == entityList || entityList.size() == 0) {
+                                    invLhbStockMapper.insertInvLhbStock(entity);
+                                } else {
+                                    InvLhbStock compare = entityList.get(0);
+                                    if (!compare.equals(entity)) {
+                                        entity.setId(compare.getId());
+                                        invLhbStockMapper.updateInvLhbStock(entity);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            currentPages++;
+            if (currentPages <= pages) {
+                invLhbStockTask(stock, urlStr, reportDate, reportDateStr, type, currentPages, pages, count);
+            }
+        } catch (Exception e) {
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                invLhbStockTask(stock, urlStr, reportDate, reportDateStr, type, currentPages, pages, count);
+            } else {
+                log.error(">>>异常:", e);
+            }
+        }
+    }
+
+
     /**
      * 公司大事-大宗交易-每日明细 任务
      */
@@ -1022,58 +1192,62 @@ public class InvestmentDataAsyncTask {
             url = url.replace("pageSize=", "pageSize=" + pageSize);
             url = url.replace("pageNumber=", "pageNumber=" + currentPages);
             String result = HttpUtils.sendGet(url, new AtomicInteger(10));
-            if (StringUtils.isNotEmpty(result) && !result.contains("返回数据为空")) {
+            if (StringUtils.isNotEmpty(result)) {
                 JSONObject jsonObject = JSONObject.parseObject(result);
-                pages = (Integer) jsonObject.getJSONObject("result").get("pages");
-                JSONArray dataArray = jsonObject.getJSONObject("result").getJSONArray("data");
-                if (!dataArray.isEmpty()) {
-                    List<InvDzjyMrmx> entityList = invDzjyMrmxMapper.selectInvDzjyMrmxList(new InvDzjyMrmx(stock.getCode()));
-                    Map<String, InvDzjyMrmx> entityMap = new HashMap<>();
-                    for (InvDzjyMrmx entity : entityList) {
-                        entityMap.put(entity.getNum().toString(), entity);
-                    }
-                    Iterator<Object> iterator = dataArray.iterator();
-                    int num = (currentPages - 1) * pageSize;
-                    while (iterator.hasNext()) {
-                        num++;
-                        JSONObject next = (JSONObject) iterator.next();
-                        InvDzjyMrmx entity = new InvDzjyMrmx(stock.getCode());
-                        entity.setNum(num);
-                        Class<? extends InvDzjyMrmx> clazz = entity.getClass();
-                        Field[] declaredFields = clazz.getDeclaredFields();
-                        for (Field field : declaredFields) {
-                            field.setAccessible(true);
-                            String genericType = field.getGenericType().toString();
-                            String fieldName = field.getName();
-                            String upperFieldName = StringUtils.toUnderScoreCase(fieldName).toUpperCase();
-                            upperFieldName = upperFieldName.replace("1DAYS", "_1DAYS").replace("5DAYS", "_5DAYS").replace("10DAYS", "_10DAYS").replace("20DAYS", "_20DAYS");
-                            String valueString = next.getString(upperFieldName);
-                            if ("class java.lang.Double".equals(genericType)) {
-                                Double value = NumFormatUtil.toDouble(valueString);
-                                field.set(entity, value);
-                            }
-                            if ("class java.util.Date".equals(genericType)) {
-                                Date value = DateUtils.parseDate(valueString);
-                                field.set(entity, value);
-                            }
-                            if ("class java.lang.String".equals(genericType)) {
-                                field.set(entity, valueString);
-                            }
+                Boolean success = (Boolean) jsonObject.get("success");
+                if (success) {
+                    pages = (Integer) jsonObject.getJSONObject("result").get("pages");
+                    JSONArray dataArray = jsonObject.getJSONObject("result").getJSONArray("data");
+                    if (!dataArray.isEmpty()) {
+                        List<InvDzjyMrmx> entityList = invDzjyMrmxMapper.selectInvDzjyMrmxList(new InvDzjyMrmx(stock.getCode()));
+                        Map<String, InvDzjyMrmx> entityMap = new HashMap<>();
+                        for (InvDzjyMrmx entity : entityList) {
+                            entityMap.put(entity.getNum().toString(), entity);
                         }
-                        if (entityMap.containsKey(entity.getNum().toString())) {
-                            InvDzjyMrmx compare = entityMap.get(entity.getNum().toString());
-                            if (!compare.equals(entity)) {
-                                entity.setId(compare.getId());
-                                invDzjyMrmxMapper.updateInvDzjyMrmx(entity);
+                        Iterator<Object> iterator = dataArray.iterator();
+                        int num = (currentPages - 1) * pageSize;
+                        while (iterator.hasNext()) {
+                            num++;
+                            JSONObject next = (JSONObject) iterator.next();
+                            InvDzjyMrmx entity = new InvDzjyMrmx(stock.getCode());
+                            entity.setNum(num);
+                            Class<? extends InvDzjyMrmx> clazz = entity.getClass();
+                            Field[] declaredFields = clazz.getDeclaredFields();
+                            for (Field field : declaredFields) {
+                                field.setAccessible(true);
+                                String genericType = field.getGenericType().toString();
+                                String fieldName = field.getName();
+                                String upperFieldName = StringUtils.toUnderScoreCase(fieldName).toUpperCase();
+                                upperFieldName = upperFieldName.replace("1DAYS", "_1DAYS").replace("5DAYS", "_5DAYS").replace("10DAYS", "_10DAYS").replace("20DAYS", "_20DAYS");
+                                String valueString = next.getString(upperFieldName);
+                                valueString = StringUtils.isNotEmpty(valueString) ? valueString.trim() : null;
+                                if ("class java.lang.Double".equals(genericType)) {
+                                    Double value = NumFormatUtil.toDouble(valueString);
+                                    field.set(entity, value);
+                                }
+                                if ("class java.util.Date".equals(genericType)) {
+                                    Date value = DateUtils.parseDate(valueString);
+                                    field.set(entity, value);
+                                }
+                                if ("class java.lang.String".equals(genericType)) {
+                                    field.set(entity, valueString);
+                                }
                             }
-                        } else {
-                            invDzjyMrmxMapper.insertInvDzjyMrmx(entity);
-                        }
-                        if (StringUtils.isNotEmpty(entity.getBuyerCode()) && StringUtils.isNotEmpty(entity.getBuyerName())) {
-                            RyTask.invStockExchangeSet.add(new InvStockExchange(entity.getBuyerCode(), entity.getBuyerName()));
-                        }
-                        if (StringUtils.isNotEmpty(entity.getSellerCode()) && StringUtils.isNotEmpty(entity.getSellerName())) {
-                            RyTask.invStockExchangeSet.add(new InvStockExchange(entity.getSellerCode(), entity.getSellerName()));
+                            if (entityMap.containsKey(entity.getNum().toString())) {
+                                InvDzjyMrmx compare = entityMap.get(entity.getNum().toString());
+                                if (!compare.equals(entity)) {
+                                    entity.setId(compare.getId());
+                                    invDzjyMrmxMapper.updateInvDzjyMrmx(entity);
+                                }
+                            } else {
+                                invDzjyMrmxMapper.insertInvDzjyMrmx(entity);
+                            }
+                            if (StringUtils.isNotEmpty(entity.getBuyerCode()) && StringUtils.isNotEmpty(entity.getBuyerName())) {
+                                RyTask.invStockExchangeMap.put(entity.getBuyerCode(), new InvStockExchange(entity.getBuyerCode(), entity.getBuyerName()));
+                            }
+                            if (StringUtils.isNotEmpty(entity.getSellerCode()) && StringUtils.isNotEmpty(entity.getSellerName())) {
+                                RyTask.invStockExchangeMap.put(entity.getSellerCode(), new InvStockExchange(entity.getSellerCode(), entity.getSellerName()));
+                            }
                         }
                     }
                 }
@@ -1101,49 +1275,52 @@ public class InvestmentDataAsyncTask {
             url = url.replace("code=", stock.getCode());
             url = url.replace("pageNumber=", "pageNumber=" + currentPages);
             String result = HttpUtils.sendGet(url, new AtomicInteger(10));
-            if (StringUtils.isNotEmpty(result) && !result.contains("返回数据为空")) {
+            if (StringUtils.isNotEmpty(result)) {
                 JSONObject jsonObject = JSONObject.parseObject(result);
-                pages = (Integer) jsonObject.getJSONObject("result").get("pages");
-                JSONArray dataArray = jsonObject.getJSONObject("result").getJSONArray("data");
-                if (!dataArray.isEmpty()) {
-                    List<InvDzjyMrtj> entityList = invDzjyMrtjMapper.selectInvDzjyMrtjList(new InvDzjyMrtj(stock.getCode()));
-                    Map<String, InvDzjyMrtj> entityMap = new HashMap<>();
-                    for (InvDzjyMrtj entity : entityList) {
-                        entityMap.put(entity.getTradeDate().toString(), entity);
-                    }
-                    Iterator<Object> iterator = dataArray.iterator();
-                    while (iterator.hasNext()) {
-                        JSONObject next = (JSONObject) iterator.next();
-                        InvDzjyMrtj entity = new InvDzjyMrtj(stock.getCode());
-                        Class<? extends InvDzjyMrtj> clazz = entity.getClass();
-                        Field[] declaredFields = clazz.getDeclaredFields();
-                        for (Field field : declaredFields) {
-                            field.setAccessible(true);
-                            String genericType = field.getGenericType().toString();
-                            String fieldName = field.getName();
-                            String upperFieldName = StringUtils.toUnderScoreCase(fieldName).toUpperCase();
-                            //upperFieldName = upperFieldName.replace("D1", "D1_").replace("D5", "D5_").replace("D10", "D10_").replace("D20", "D20_");
-                            String valueString = next.getString(upperFieldName);
-                            if ("class java.lang.Double".equals(genericType)) {
-                                Double value = NumFormatUtil.toDouble(valueString);
-                                field.set(entity, value);
-                            }
-                            if ("class java.util.Date".equals(genericType)) {
-                                Date value = DateUtils.parseDate(valueString);
-                                field.set(entity, value);
-                            }
-                            if ("class java.lang.String".equals(genericType)) {
-                                field.set(entity, valueString);
-                            }
+                Boolean success = (Boolean) jsonObject.get("success");
+                if (success) {
+                    pages = (Integer) jsonObject.getJSONObject("result").get("pages");
+                    JSONArray dataArray = jsonObject.getJSONObject("result").getJSONArray("data");
+                    if (!dataArray.isEmpty()) {
+                        List<InvDzjyMrtj> entityList = invDzjyMrtjMapper.selectInvDzjyMrtjList(new InvDzjyMrtj(stock.getCode()));
+                        Map<String, InvDzjyMrtj> entityMap = new HashMap<>();
+                        for (InvDzjyMrtj entity : entityList) {
+                            entityMap.put(entity.getTradeDate().toString(), entity);
                         }
-                        if (entityMap.containsKey(entity.getTradeDate().toString())) {
-                            InvDzjyMrtj compare = entityMap.get(entity.getTradeDate().toString());
-                            if (!compare.equals(entity)) {
-                                entity.setId(compare.getId());
-                                invDzjyMrtjMapper.updateInvDzjyMrtj(entity);
+                        Iterator<Object> iterator = dataArray.iterator();
+                        while (iterator.hasNext()) {
+                            JSONObject next = (JSONObject) iterator.next();
+                            InvDzjyMrtj entity = new InvDzjyMrtj(stock.getCode());
+                            Class<? extends InvDzjyMrtj> clazz = entity.getClass();
+                            Field[] declaredFields = clazz.getDeclaredFields();
+                            for (Field field : declaredFields) {
+                                field.setAccessible(true);
+                                String genericType = field.getGenericType().toString();
+                                String fieldName = field.getName();
+                                String upperFieldName = StringUtils.toUnderScoreCase(fieldName).toUpperCase();
+                                String valueString = next.getString(upperFieldName);
+                                valueString = StringUtils.isNotEmpty(valueString) ? valueString.trim() : null;
+                                if ("class java.lang.Double".equals(genericType)) {
+                                    Double value = NumFormatUtil.toDouble(valueString);
+                                    field.set(entity, value);
+                                }
+                                if ("class java.util.Date".equals(genericType)) {
+                                    Date value = DateUtils.parseDate(valueString);
+                                    field.set(entity, value);
+                                }
+                                if ("class java.lang.String".equals(genericType)) {
+                                    field.set(entity, valueString);
+                                }
                             }
-                        } else {
-                            invDzjyMrtjMapper.insertInvDzjyMrtj(entity);
+                            if (entityMap.containsKey(entity.getTradeDate().toString())) {
+                                InvDzjyMrtj compare = entityMap.get(entity.getTradeDate().toString());
+                                if (!compare.equals(entity)) {
+                                    entity.setId(compare.getId());
+                                    invDzjyMrtjMapper.updateInvDzjyMrtj(entity);
+                                }
+                            } else {
+                                invDzjyMrtjMapper.insertInvDzjyMrtj(entity);
+                            }
                         }
                     }
                 }
@@ -1171,49 +1348,53 @@ public class InvestmentDataAsyncTask {
             url = url.replace("p=", "p=" + currentPages);
             url = url.replace("code=", "code=" + stock.getCode());
             String result = HttpUtils.sendGet(url, new AtomicInteger(10));
-            if (StringUtils.isNotEmpty(result) && !result.contains("返回数据为空")) {
+            if (StringUtils.isNotEmpty(result)) {
                 JSONObject jsonObject = JSONObject.parseObject(result);
-                pages = (Integer) jsonObject.getJSONObject("result").get("pages");
-                JSONArray dataArray = jsonObject.getJSONObject("result").getJSONArray("data");
-                if (!dataArray.isEmpty()) {
-                    List<InvRzrq> entityList = invRzrqMapper.selectInvRzrqList(new InvRzrq(stock.getCode()));
-                    Map<String, InvRzrq> entityMap = new HashMap<>();
-                    for (InvRzrq entity : entityList) {
-                        entityMap.put(entity.getDate().toString(), entity);
-                    }
-                    Iterator<Object> iterator = dataArray.iterator();
-                    while (iterator.hasNext()) {
-                        JSONObject next = (JSONObject) iterator.next();
-                        InvRzrq entity = new InvRzrq(stock.getCode());
-                        Class<? extends InvRzrq> clazz = entity.getClass();
-                        Field[] declaredFields = clazz.getDeclaredFields();
-                        for (Field field : declaredFields) {
-                            field.setAccessible(true);
-                            String genericType = field.getGenericType().toString();
-                            String fieldName = field.getName();
-                            if (!"securityCode".equals(fieldName)) {
-                                String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
-                                if ("class java.lang.Double".equals(genericType)) {
-                                    Double value = NumFormatUtil.toDouble(valueString);
-                                    field.set(entity, value);
-                                }
-                                if ("class java.util.Date".equals(genericType)) {
-                                    Date value = DateUtils.parseDate(valueString);
-                                    field.set(entity, value);
-                                }
-                                if ("class java.lang.String".equals(genericType)) {
-                                    field.set(entity, valueString);
-                                }
-                            }
+                Boolean success = (Boolean) jsonObject.get("success");
+                if (success) {
+                    pages = (Integer) jsonObject.getJSONObject("result").get("pages");
+                    JSONArray dataArray = jsonObject.getJSONObject("result").getJSONArray("data");
+                    if (!dataArray.isEmpty()) {
+                        List<InvRzrq> entityList = invRzrqMapper.selectInvRzrqList(new InvRzrq(stock.getCode()));
+                        Map<String, InvRzrq> entityMap = new HashMap<>();
+                        for (InvRzrq entity : entityList) {
+                            entityMap.put(entity.getDate().toString(), entity);
                         }
-                        if (entityMap.containsKey(entity.getDate().toString())) {
-                            InvRzrq compare = entityMap.get(entity.getDate().toString());
-                            if (!compare.equals(entity)) {
-                                entity.setId(compare.getId());
-                                invRzrqMapper.updateInvRzrq(entity);
+                        Iterator<Object> iterator = dataArray.iterator();
+                        while (iterator.hasNext()) {
+                            JSONObject next = (JSONObject) iterator.next();
+                            InvRzrq entity = new InvRzrq(stock.getCode());
+                            Class<? extends InvRzrq> clazz = entity.getClass();
+                            Field[] declaredFields = clazz.getDeclaredFields();
+                            for (Field field : declaredFields) {
+                                field.setAccessible(true);
+                                String genericType = field.getGenericType().toString();
+                                String fieldName = field.getName();
+                                if (!"securityCode".equals(fieldName)) {
+                                    String valueString = next.getString(StringUtils.toUnderScoreCase(fieldName).toUpperCase());
+                                    valueString = StringUtils.isNotEmpty(valueString) ? valueString.trim() : null;
+                                    if ("class java.lang.Double".equals(genericType)) {
+                                        Double value = NumFormatUtil.toDouble(valueString);
+                                        field.set(entity, value);
+                                    }
+                                    if ("class java.util.Date".equals(genericType)) {
+                                        Date value = DateUtils.parseDate(valueString);
+                                        field.set(entity, value);
+                                    }
+                                    if ("class java.lang.String".equals(genericType)) {
+                                        field.set(entity, valueString);
+                                    }
+                                }
                             }
-                        } else {
-                            invRzrqMapper.insertInvRzrq(entity);
+                            if (entityMap.containsKey(entity.getDate().toString())) {
+                                InvRzrq compare = entityMap.get(entity.getDate().toString());
+                                if (!compare.equals(entity)) {
+                                    entity.setId(compare.getId());
+                                    invRzrqMapper.updateInvRzrq(entity);
+                                }
+                            } else {
+                                invRzrqMapper.insertInvRzrq(entity);
+                            }
                         }
                     }
                 }

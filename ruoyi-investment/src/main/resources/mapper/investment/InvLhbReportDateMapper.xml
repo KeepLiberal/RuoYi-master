@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.investment.mapper.InvLhbReportDateMapper">
+    
+    <resultMap type="InvLhbReportDate" id="InvLhbReportDateResult">
+        <result property="id"    column="id"    />
+        <result property="securityCode"    column="security_code"    />
+        <result property="tradeDate"    column="trade_date"    />
+    </resultMap>
+
+    <sql id="selectInvLhbReportDateVo">
+        select id, security_code, trade_date from inv_lhb_report_date
+    </sql>
+
+    <select id="selectInvLhbReportDateList" parameterType="InvLhbReportDate" resultMap="InvLhbReportDateResult">
+        <include refid="selectInvLhbReportDateVo"/>
+        <where>  
+            <if test="securityCode != null  and securityCode != ''"> and security_code = #{securityCode}</if>
+            <if test="tradeDate != null "> and trade_date = #{tradeDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectInvLhbReportDateById" parameterType="Integer" resultMap="InvLhbReportDateResult">
+        <include refid="selectInvLhbReportDateVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInvLhbReportDate" parameterType="InvLhbReportDate" useGeneratedKeys="true" keyProperty="id">
+        insert into inv_lhb_report_date
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code,</if>
+            <if test="tradeDate != null">trade_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">#{securityCode},</if>
+            <if test="tradeDate != null">#{tradeDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInvLhbReportDate" parameterType="InvLhbReportDate">
+        update inv_lhb_report_date
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code = #{securityCode},</if>
+            <if test="tradeDate != null">trade_date = #{tradeDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInvLhbReportDateById" parameterType="Integer">
+        delete from inv_lhb_report_date where id = #{id}
+    </delete>
+
+    <delete id="deleteInvLhbReportDateByIds" parameterType="String">
+        delete from inv_lhb_report_date where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

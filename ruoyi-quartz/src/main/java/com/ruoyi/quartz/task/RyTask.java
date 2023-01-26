@@ -3,6 +3,7 @@ package com.ruoyi.quartz.task;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.domain.entity.SysDictData;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.common.utils.spring.SpringUtils;
@@ -47,6 +48,8 @@ public class RyTask {
     private SysAreaMapper sysAreaMapper;
     @Resource
     private InvStockExchangeMapper invStockExchangeMapper;
+    @Resource
+    private InvLhbReportDateMapper invLhbReportDateMapper;
 
     /**
      * 容器中的线程池
@@ -67,11 +70,11 @@ public class RyTask {
     /**
      * 存放行业
      */
-    public static LinkedHashSet<InvIndustry> invIndustrySet = new LinkedHashSet<>();
+    public static Set<InvIndustry> invIndustrySet = new HashSet<>();
     /**
      * 存放证券交易所
      */
-    public static LinkedHashSet<InvStockExchange> invStockExchangeSet = new LinkedHashSet<>();
+    public static Map<String, InvStockExchange> invStockExchangeMap = new HashMap<>();
 
 
     ///////////////////////////////////////////////////////个股信息//////////////////////////////////////////////////////
@@ -359,8 +362,30 @@ public class RyTask {
      */
     private void invCompanyBigNews() {
         log.info("========公司大事 任务开始=========");
-        log.info("========大宗交易-每日明细 任务开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
+
+        log.info("========龙虎榜单日期 任务开始=========");
+        for (InvStock stock : stockList) {
+            //investmentDataAsyncTask.invLhbReportTask(stock, ev.getProperty("inv.lhb-rq"), 1, 1, new AtomicInteger(10));
+        }
+        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        log.info("========龙虎榜单日期 任务完成=========");
+
+        log.info("========个股龙虎榜单 任务开始=========");
+        for (InvStock stock : stockList) {
+            List<InvLhbReportDate> invLhbReportDates = invLhbReportDateMapper.selectInvLhbReportDateList(new InvLhbReportDate(stock.getCode()));
+            for (InvLhbReportDate invLhbReportDate : invLhbReportDates) {
+                Date reportDate = invLhbReportDate.getTradeDate();
+                String reportDateStr = DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD, reportDate);
+                investmentDataAsyncTask.invLhbStockTask(stock, ev.getProperty("inv.lhb-buy"), reportDate, reportDateStr, "B", 1, 1, new AtomicInteger(10));
+                investmentDataAsyncTask.invLhbStockTask(stock, ev.getProperty("inv.lhb-sell"), reportDate, reportDateStr, "S", 1, 1, new AtomicInteger(10));
+                investmentDataAsyncTask.invLhbStockTask(stock, ev.getProperty("inv.lhb-total"), reportDate, reportDateStr, "T", 1, 1, new AtomicInteger(10));
+            }
+        }
+        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        log.info("========个股龙虎榜单 任务完成=========");
+
+        log.info("========大宗交易-每日明细 任务开始=========");
         for (InvStock stock : stockList) {
             investmentDataAsyncTask.invDzjyMrmxTask(stock, ev.getProperty("inv.dzjy-mrmx"), 1, 1, 500, new AtomicInteger(10));
         }
@@ -372,7 +397,7 @@ public class RyTask {
         for (InvStockExchange entity : invStockExchanges) {
             entityMap.put(entity.getCode(), entity);
         }
-        for (InvStockExchange entity : invStockExchangeSet) {
+        for (InvStockExchange entity : invStockExchangeMap.values()) {
             if (entityMap.containsKey(entity.getCode())) {
                 InvStockExchange compare = entityMap.get(entity.getCode());
                 if (!compare.equals(entity)) {
