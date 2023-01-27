@@ -366,7 +366,7 @@ public class RyTask {
 
         log.info("========龙虎榜单日期 任务开始=========");
         for (InvStock stock : stockList) {
-            //investmentDataAsyncTask.invLhbReportTask(stock, ev.getProperty("inv.lhb-rq"), 1, 1, new AtomicInteger(10));
+            investmentDataAsyncTask.invLhbReportTask(stock, ev.getProperty("inv.lhb-rq"), 1, 1, new AtomicInteger(10));
         }
         isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========龙虎榜单日期 任务完成=========");
@@ -391,6 +391,7 @@ public class RyTask {
         }
         isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========大宗交易-每日明细 任务结束=========");
+
         log.info("========证券交易所 任务开始=========");
         List<InvStockExchange> invStockExchanges = invStockExchangeMapper.selectInvStockExchangeList(null);
         Map<String, InvStockExchange> entityMap = new HashMap<>();
@@ -417,7 +418,6 @@ public class RyTask {
         isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========大宗交易-每日统计 任务结束=========");
 
-
         log.info("========融资融券 任务开始=========");
         for (InvStock stock : stockList) {
             investmentDataAsyncTask.invRzrqTask(stock, ev.getProperty("inv.rzrq"), 1, 1, new AtomicInteger(10));
@@ -437,9 +437,9 @@ public class RyTask {
         isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("================数据初始化任务 开始=================");
 
-//        invStock();
-//        invCompany();
-//        invFinance();
+        invStock();
+        invCompany();
+        invFinance();
         invCompanyBigNews();
 
 

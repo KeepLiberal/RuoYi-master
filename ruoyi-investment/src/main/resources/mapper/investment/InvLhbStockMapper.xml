@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="securityCode"    column="security_code"    />
         <result property="tradeDate"    column="trade_date"    />
-        <result property="type"    column="type"    />
+        <result property="lhbDataType"    column="lhb_data_type"    />
         <result property="explanation"    column="explanation"    />
         <result property="operatedeptCode"    column="operatedept_code"    />
         <result property="operatedeptName"    column="operatedept_name"    />
@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectInvLhbStockVo">
-        select id, security_code, trade_date, type, explanation, operatedept_code, operatedept_name, buy, total_buyrio, sell, total_sellrio, net, total_buy, total_sell, total_buyriotop, total_net from inv_lhb_stock
+        select id, security_code, trade_date, lhb_data_type, explanation, operatedept_code, operatedept_name, buy, total_buyrio, sell, total_sellrio, net, total_buy, total_sell, total_buyriotop, total_net from inv_lhb_stock
     </sql>
 
     <select id="selectInvLhbStockList" parameterType="InvLhbStock" resultMap="InvLhbStockResult">
@@ -32,8 +32,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="securityCode != null  and securityCode != ''"> and security_code = #{securityCode}</if>
             <if test="tradeDate != null "> and trade_date = #{tradeDate}</if>
-            <if test="type != null  and type != ''"> and type = #{type}</if>
-            <if test="explanation != null  and explanation != ''"> and explanation = #{explanation}</if>
+            <if test="lhbDataType != null  and lhbDataType != ''"> and lhb_data_type = #{lhbDataType}</if>
+            <if test="explanation != null  and explanation != ''"> and explanation like concat('%', #{explanation}, '%')</if>
             <if test="operatedeptCode != null  and operatedeptCode != ''"> and operatedept_code = #{operatedeptCode}</if>
             <if test="operatedeptName != null  and operatedeptName != ''"> and operatedept_name like concat('%', #{operatedeptName}, '%')</if>
             <if test="buy != null "> and buy = #{buy}</if>
@@ -46,6 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="totalBuyriotop != null "> and total_buyriotop = #{totalBuyriotop}</if>
             <if test="totalNet != null "> and total_net = #{totalNet}</if>
         </where>
+        order by trade_date desc
     </select>
     
     <select id="selectInvLhbStockById" parameterType="Integer" resultMap="InvLhbStockResult">
@@ -58,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="securityCode != null and securityCode != ''">security_code,</if>
             <if test="tradeDate != null">trade_date,</if>
-            <if test="type != null and type != ''">type,</if>
+            <if test="lhbDataType != null and lhbDataType != ''">lhb_data_type,</if>
             <if test="explanation != null and explanation != ''">explanation,</if>
             <if test="operatedeptCode != null and operatedeptCode != ''">operatedept_code,</if>
             <if test="operatedeptName != null and operatedeptName != ''">operatedept_name,</if>
@@ -75,7 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="securityCode != null and securityCode != ''">#{securityCode},</if>
             <if test="tradeDate != null">#{tradeDate},</if>
-            <if test="type != null and type != ''">#{type},</if>
+            <if test="lhbDataType != null and lhbDataType != ''">#{lhbDataType},</if>
             <if test="explanation != null and explanation != ''">#{explanation},</if>
             <if test="operatedeptCode != null and operatedeptCode != ''">#{operatedeptCode},</if>
             <if test="operatedeptName != null and operatedeptName != ''">#{operatedeptName},</if>
@@ -96,7 +97,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="securityCode != null and securityCode != ''">security_code = #{securityCode},</if>
             <if test="tradeDate != null">trade_date = #{tradeDate},</if>
-            <if test="type != null and type != ''">type = #{type},</if>
+            <if test="lhbDataType != null and lhbDataType != ''">lhb_data_type = #{lhbDataType},</if>
             <if test="explanation != null and explanation != ''">explanation = #{explanation},</if>
             <if test="operatedeptCode != null and operatedeptCode != ''">operatedept_code = #{operatedeptCode},</if>
             <if test="operatedeptName != null and operatedeptName != ''">operatedept_name = #{operatedeptName},</if>

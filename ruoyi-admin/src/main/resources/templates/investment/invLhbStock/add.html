@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">日期：</label>
+                <label class="col-sm-3 control-label is-required">上榜日期：</label>
                 <div class="col-sm-8">
                     <div class="input-group date">
                         <input name="tradeDate" class="form-control" placeholder="yyyy-MM-dd" type="text" required>
@@ -23,7 +23,15 @@
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">龙虎榜类型类型：</label>
+                <label class="col-sm-3 control-label is-required">数据类型：</label>
+                <div class="col-sm-8">
+                    <select name="lhbDataType" class="form-control m-b" th:with="type=${@dict.getType('lhb_data_type')}" required>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">上榜说明：</label>
                 <div class="col-sm-8">
                     <input name="explanation" class="form-control" type="text" required>
                 </div>
@@ -71,25 +79,25 @@
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">(买入前5名与卖出前5名)买入金额合计(元)：</label>
+                <label class="col-sm-3 control-label">(前5名)买入金额合计(元)：</label>
                 <div class="col-sm-8">
                     <input name="totalBuy" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">(买入前5名与卖出前5名)卖出金额合计(元)：</label>
+                <label class="col-sm-3 control-label">(前5名)卖出金额合计(元)：</label>
                 <div class="col-sm-8">
                     <input name="totalSell" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">(买入前5名与卖出前5名)占总成交比例：</label>
+                <label class="col-sm-3 control-label">(前5名)占总成交比例：</label>
                 <div class="col-sm-8">
                     <input name="totalBuyriotop" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">(买入前5名与卖出前5名)净额合计(元)：</label>
+                <label class="col-sm-3 control-label">(前5名)净额合计(元)：</label>
                 <div class="col-sm-8">
                     <input name="totalNet" class="form-control" type="text">
                 </div>

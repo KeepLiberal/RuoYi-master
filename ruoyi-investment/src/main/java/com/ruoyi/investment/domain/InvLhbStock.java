@@ -13,7 +13,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 个股龙虎榜对象 inv_lhb_stock
  * 
  * @author yangwenyang
- * @date 2023-01-26
+ * @date 2023-01-27
  */
 public class InvLhbStock extends BaseEntity{
     private static final long serialVersionUID = 1L;
@@ -25,17 +25,17 @@ public class InvLhbStock extends BaseEntity{
     @Excel(name = "股票代码")
     private String securityCode;
 
-    /** 日期 */
+    /** 上榜日期 */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "日期", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "上榜日期", width = 30, dateFormat = "yyyy-MM-dd")
     private Date tradeDate;
 
-    /** 数据类型 b:买入 s:卖出 t:合计 */
-    @Excel(name = "数据类型 b:买入 s:卖出 t:合计")
-    private String type;
+    /** 数据类型 */
+    @Excel(name = "数据类型")
+    private String lhbDataType;
 
-    /** 龙虎榜类型类型 */
-    @Excel(name = "龙虎榜类型类型")
+    /** 上榜说明 */
+    @Excel(name = "上榜说明")
     private String explanation;
 
     /** 交易营业部代码 */
@@ -66,20 +66,20 @@ public class InvLhbStock extends BaseEntity{
     @Excel(name = "净额(元)")
     private Double net;
 
-    /** (买入前5名与卖出前5名)买入金额合计(元) */
-    @Excel(name = "(买入前5名与卖出前5名)买入金额合计(元)")
+    /** (前5名)买入金额合计(元) */
+    @Excel(name = "(前5名)买入金额合计(元)")
     private Double totalBuy;
 
-    /** (买入前5名与卖出前5名)卖出金额合计(元) */
-    @Excel(name = "(买入前5名与卖出前5名)卖出金额合计(元)")
+    /** (前5名)卖出金额合计(元) */
+    @Excel(name = "(前5名)卖出金额合计(元)")
     private Double totalSell;
 
-    /** (买入前5名与卖出前5名)占总成交比例 */
-    @Excel(name = "(买入前5名与卖出前5名)占总成交比例")
+    /** (前5名)占总成交比例 */
+    @Excel(name = "(前5名)占总成交比例")
     private Double totalBuyriotop;
 
-    /** (买入前5名与卖出前5名)净额合计(元) */
-    @Excel(name = "(买入前5名与卖出前5名)净额合计(元)")
+    /** (前5名)净额合计(元) */
+    @Excel(name = "(前5名)净额合计(元)")
     private Double totalNet;
 
     public void setId(Integer id){this.id = id;}
@@ -91,8 +91,8 @@ public class InvLhbStock extends BaseEntity{
     public void setTradeDate(Date tradeDate){this.tradeDate = tradeDate;}
     public Date getTradeDate(){return tradeDate;}
 
-    public void setType(String type){this.type = type;}
-    public String getType(){return type;}
+    public void setLhbDataType(String lhbDataType){this.lhbDataType = lhbDataType;}
+    public String getLhbDataType(){return lhbDataType;}
 
     public void setExplanation(String explanation){this.explanation = explanation;}
     public String getExplanation(){return explanation;}
@@ -130,6 +130,7 @@ public class InvLhbStock extends BaseEntity{
     public void setTotalNet(Double totalNet){this.totalNet = totalNet;}
     public Double getTotalNet(){return totalNet;}
 
+
     public InvLhbStock() {
         super();
     }
@@ -138,10 +139,10 @@ public class InvLhbStock extends BaseEntity{
         this.securityCode = securityCode;
     }
 
-    public InvLhbStock(String securityCode, Date tradeDate, String type) {
+    public InvLhbStock(String securityCode, Date tradeDate, String lhbDataType) {
         this.securityCode = securityCode;
         this.tradeDate = tradeDate;
-        this.type = type;
+        this.lhbDataType = lhbDataType;
     }
 
     @Override
@@ -149,11 +150,11 @@ public class InvLhbStock extends BaseEntity{
         if (this == o) return true;
         if (!(o instanceof InvLhbStock)) return false;
         InvLhbStock that = (InvLhbStock) o;
-        return Objects.equals(securityCode, that.securityCode) && Objects.equals(tradeDate, that.tradeDate) && Objects.equals(type, that.type) && Objects.equals(explanation, that.explanation) && Objects.equals(operatedeptCode, that.operatedeptCode) && Objects.equals(operatedeptName, that.operatedeptName) && Objects.equals(buy, that.buy) && Objects.equals(totalBuyrio, that.totalBuyrio) && Objects.equals(sell, that.sell) && Objects.equals(totalSellrio, that.totalSellrio) && Objects.equals(net, that.net) && Objects.equals(totalBuy, that.totalBuy) && Objects.equals(totalSell, that.totalSell) && Objects.equals(totalBuyriotop, that.totalBuyriotop) && Objects.equals(totalNet, that.totalNet);
+        return Objects.equals(securityCode, that.securityCode) && Objects.equals(tradeDate, that.tradeDate) && Objects.equals(lhbDataType, that.lhbDataType) && Objects.equals(explanation, that.explanation) && Objects.equals(operatedeptCode, that.operatedeptCode) && Objects.equals(operatedeptName, that.operatedeptName) && Objects.equals(buy, that.buy) && Objects.equals(totalBuyrio, that.totalBuyrio) && Objects.equals(sell, that.sell) && Objects.equals(totalSellrio, that.totalSellrio) && Objects.equals(net, that.net) && Objects.equals(totalBuy, that.totalBuy) && Objects.equals(totalSell, that.totalSell) && Objects.equals(totalBuyriotop, that.totalBuyriotop) && Objects.equals(totalNet, that.totalNet);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(securityCode, tradeDate, type, explanation, operatedeptCode, operatedeptName, buy, totalBuyrio, sell, totalSellrio, net, totalBuy, totalSell, totalBuyriotop, totalNet);
+        return Objects.hash(securityCode, tradeDate, lhbDataType, explanation, operatedeptCode, operatedeptName, buy, totalBuyrio, sell, totalSellrio, net, totalBuy, totalSell, totalBuyriotop, totalNet);
     }
 }

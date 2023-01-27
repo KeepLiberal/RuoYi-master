@@ -23,7 +23,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 个股龙虎榜Controller
  * 
  * @author yangwenyang
- * @date 2023-01-26
+ * @date 2023-01-27
  */
 @Controller
 @RequestMapping("/investment/invLhbStock")

@@ -1095,7 +1095,7 @@ public class InvestmentDataAsyncTask {
     /**
      * 公司大事-个股龙虎榜单 任务
      */
-    public void invLhbStockTask(InvStock stock, String url, Date reportDate, String reportDateStr, String type, int currentPages, int pages, AtomicInteger count) {
+    public void invLhbStockTask(InvStock stock, String url, Date reportDate, String reportDateStr, String lhbDataType, int currentPages, int pages, AtomicInteger count) {
         String urlStr = url;
         try {
             url = url.replace("code=", stock.getCode());
@@ -1109,10 +1109,10 @@ public class InvestmentDataAsyncTask {
                     pages = (Integer) jsonObject.getJSONObject("result").get("pages");
                     JSONArray dataArray = jsonObject.getJSONObject("result").getJSONArray("data");
                     if (!dataArray.isEmpty()) {
-                        List<InvLhbStock> entityList = invLhbStockMapper.selectInvLhbStockList(new InvLhbStock(stock.getCode(), reportDate, type));
+                        List<InvLhbStock> entityList = invLhbStockMapper.selectInvLhbStockList(new InvLhbStock(stock.getCode(), reportDate, lhbDataType));
                         Map<String, InvLhbStock> entityMap = new HashMap<>();
                         for (InvLhbStock entity : entityList) {
-                            if ("B".equals(type) || "S".equals(type)) {
+                            if ("B".equals(lhbDataType) || "S".equals(lhbDataType)) {
                                 entityMap.put(entity.getOperatedeptCode(), entity);
                             }
                         }
@@ -1140,8 +1140,8 @@ public class InvestmentDataAsyncTask {
                                     field.set(entity, valueString);
                                 }
                             }
-                            entity.setType(type);
-                            if ("B".equals(type) || "S".equals(type)) {
+                            entity.setLhbDataType(lhbDataType);
+                            if ("B".equals(lhbDataType) || "S".equals(lhbDataType)) {
                                 if (entityMap.containsKey(entity.getOperatedeptCode())) {
                                     InvLhbStock compare = entityMap.get(entity.getOperatedeptCode());
                                     if (!compare.equals(entity)) {
@@ -1152,7 +1152,7 @@ public class InvestmentDataAsyncTask {
                                     invLhbStockMapper.insertInvLhbStock(entity);
                                 }
                             }
-                            if ("T".equals(type)) {
+                            if ("T".equals(lhbDataType)) {
                                 if (null == entityList || entityList.size() == 0) {
                                     invLhbStockMapper.insertInvLhbStock(entity);
                                 } else {
@@ -1169,12 +1169,12 @@ public class InvestmentDataAsyncTask {
             }
             currentPages++;
             if (currentPages <= pages) {
-                invLhbStockTask(stock, urlStr, reportDate, reportDateStr, type, currentPages, pages, count);
+                invLhbStockTask(stock, urlStr, reportDate, reportDateStr, lhbDataType, currentPages, pages, count);
             }
         } catch (Exception e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
-                invLhbStockTask(stock, urlStr, reportDate, reportDateStr, type, currentPages, pages, count);
+                invLhbStockTask(stock, urlStr, reportDate, reportDateStr, lhbDataType, currentPages, pages, count);
             } else {
                 log.error(">>>异常:", e);
             }
