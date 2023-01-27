@@ -63,6 +63,8 @@ public class InvestmentDataAsyncTask {
     @Resource
     private InvLhbReportDateMapper invLhbReportDateMapper;
     @Resource
+    private InvLhbReportDateNewMapper invLhbReportDateNewMapper;
+    @Resource
     private InvLhbStockMapper invLhbStockMapper;
 
 
@@ -1023,7 +1025,6 @@ public class InvestmentDataAsyncTask {
         }
     }
 
-
     /**
      * 公司大事-龙虎榜单日期 任务
      */
@@ -1041,10 +1042,6 @@ public class InvestmentDataAsyncTask {
                     JSONArray dataArray = jsonObject.getJSONObject("result").getJSONArray("data");
                     if (!dataArray.isEmpty()) {
                         List<InvLhbReportDate> entityList = invLhbReportDateMapper.selectInvLhbReportDateList(new InvLhbReportDate(stock.getCode()));
-                        Map<String, InvLhbReportDate> entityMap = new HashMap<>();
-                        for (InvLhbReportDate entity : entityList) {
-                            entityMap.put(entity.getSecurityCode(), entity);
-                        }
                         Iterator<Object> iterator = dataArray.iterator();
                         while (iterator.hasNext()) {
                             JSONObject next = (JSONObject) iterator.next();
@@ -1065,14 +1062,8 @@ public class InvestmentDataAsyncTask {
                                     field.set(entity, valueString);
                                 }
                             }
-                            if (entityMap.containsKey(entity.getSecurityCode())) {
-                                InvLhbReportDate compare = entityMap.get(entity.getSecurityCode());
-                                if (!compare.equals(entity)) {
-                                    entity.setId(compare.getId());
-                                    invLhbReportDateMapper.updateInvLhbReportDate(entity);
-                                }
-                            } else {
-                                invLhbReportDateMapper.insertInvLhbReportDate(entity);
+                            if (!entityList.contains(entity)) {
+                                invLhbReportDateNewMapper.insertInvLhbReportDateNew(new InvLhbReportDateNew(entity.getSecurityCode(), entity.getTradeDate()));
                             }
                         }
                     }
@@ -1233,20 +1224,14 @@ public class InvestmentDataAsyncTask {
                                     field.set(entity, valueString);
                                 }
                             }
-                            if (entityMap.containsKey(entity.getNum().toString())) {
-                                InvDzjyMrmx compare = entityMap.get(entity.getNum().toString());
-                                if (!compare.equals(entity)) {
-                                    entity.setId(compare.getId());
-                                    invDzjyMrmxMapper.updateInvDzjyMrmx(entity);
-                                }
-                            } else {
+                            if (!entityList.contains(entity))  {
                                 invDzjyMrmxMapper.insertInvDzjyMrmx(entity);
                             }
                             if (StringUtils.isNotEmpty(entity.getBuyerCode()) && StringUtils.isNotEmpty(entity.getBuyerName())) {
-                                RyTask.invStockExchangeMap.put(entity.getBuyerCode(), new InvStockExchange(entity.getBuyerCode(), entity.getBuyerName()));
+                                RyTask.invStockExchangeSet.add(new InvStockExchange(entity.getBuyerCode(), entity.getBuyerName(), entity.getTradeDate()));
                             }
                             if (StringUtils.isNotEmpty(entity.getSellerCode()) && StringUtils.isNotEmpty(entity.getSellerName())) {
-                                RyTask.invStockExchangeMap.put(entity.getSellerCode(), new InvStockExchange(entity.getSellerCode(), entity.getSellerName()));
+                                RyTask.invStockExchangeSet.add(new InvStockExchange(entity.getSellerCode(), entity.getSellerName(), entity.getTradeDate()));
                             }
                         }
                     }
@@ -1283,10 +1268,6 @@ public class InvestmentDataAsyncTask {
                     JSONArray dataArray = jsonObject.getJSONObject("result").getJSONArray("data");
                     if (!dataArray.isEmpty()) {
                         List<InvDzjyMrtj> entityList = invDzjyMrtjMapper.selectInvDzjyMrtjList(new InvDzjyMrtj(stock.getCode()));
-                        Map<String, InvDzjyMrtj> entityMap = new HashMap<>();
-                        for (InvDzjyMrtj entity : entityList) {
-                            entityMap.put(entity.getTradeDate().toString(), entity);
-                        }
                         Iterator<Object> iterator = dataArray.iterator();
                         while (iterator.hasNext()) {
                             JSONObject next = (JSONObject) iterator.next();
@@ -1312,13 +1293,7 @@ public class InvestmentDataAsyncTask {
                                     field.set(entity, valueString);
                                 }
                             }
-                            if (entityMap.containsKey(entity.getTradeDate().toString())) {
-                                InvDzjyMrtj compare = entityMap.get(entity.getTradeDate().toString());
-                                if (!compare.equals(entity)) {
-                                    entity.setId(compare.getId());
-                                    invDzjyMrtjMapper.updateInvDzjyMrtj(entity);
-                                }
-                            } else {
+                            if (!entityList.contains(entity)) {
                                 invDzjyMrtjMapper.insertInvDzjyMrtj(entity);
                             }
                         }
@@ -1386,13 +1361,7 @@ public class InvestmentDataAsyncTask {
                                     }
                                 }
                             }
-                            if (entityMap.containsKey(entity.getDate().toString())) {
-                                InvRzrq compare = entityMap.get(entity.getDate().toString());
-                                if (!compare.equals(entity)) {
-                                    entity.setId(compare.getId());
-                                    invRzrqMapper.updateInvRzrq(entity);
-                                }
-                            } else {
+                            if (!entityList.contains(entity)) {
                                 invRzrqMapper.insertInvRzrq(entity);
                             }
                         }

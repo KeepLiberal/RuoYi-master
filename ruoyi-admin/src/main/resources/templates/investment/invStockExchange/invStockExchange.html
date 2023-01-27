@@ -19,6 +19,10 @@
                                 <input type="text" name="name"/>
                             </li>
                             <li>
+                                <label>创建日期：</label>
+                                <input type="text" class="time-input" placeholder="请选择创建日期" name="createDate"/>
+                            </li>
+                            <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
                             </li>
@@ -75,6 +79,10 @@
                 {
                     field: 'name',
                     title: '交易所名称'
+                },
+                {
+                    field: 'createDate',
+                    title: '创建日期'
                 },
                 {
                     title: '操作',

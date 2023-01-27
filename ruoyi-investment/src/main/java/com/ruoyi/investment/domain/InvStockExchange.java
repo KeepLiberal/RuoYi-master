@@ -1,17 +1,17 @@
 package com.ruoyi.investment.domain;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.util.Date;
 import java.util.Objects;
 
 /**
  * 证劵交易所对象 inv_stock_exchange
  * 
  * @author yangwenyang
- * @date 2023-01-26
+ * @date 2023-01-27
  */
 public class InvStockExchange extends BaseEntity{
     private static final long serialVersionUID = 1L;
@@ -27,6 +27,11 @@ public class InvStockExchange extends BaseEntity{
     @Excel(name = "交易所名称")
     private String name;
 
+    /** 创建日期 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "创建日期", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date createDate;
+
     public void setId(Integer id){this.id = id;}
     public Integer getId(){return id;}
 
@@ -36,14 +41,17 @@ public class InvStockExchange extends BaseEntity{
     public void setName(String name){this.name = name;}
     public String getName(){return name;}
 
+    public void setCreateDate(Date createDate){this.createDate = createDate;}
+    public Date getCreateDate(){return createDate;}
 
     public InvStockExchange() {
         super();
     }
 
-    public InvStockExchange(String code, String name) {
+    public InvStockExchange(String code, String name, Date createDate) {
         this.code = code;
         this.name = name;
+        this.createDate = createDate;
     }
 
     @Override

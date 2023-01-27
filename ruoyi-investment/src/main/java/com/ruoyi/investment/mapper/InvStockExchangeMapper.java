@@ -7,7 +7,7 @@ import com.ruoyi.investment.domain.InvStockExchange;
  * 证劵交易所Mapper接口
  * 
  * @author yangwenyang
- * @date 2023-01-26
+ * @date 2023-01-27
  */
 public interface InvStockExchangeMapper {
     /**

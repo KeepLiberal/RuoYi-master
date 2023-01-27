@@ -8,10 +8,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="code"    column="code"    />
         <result property="name"    column="name"    />
+        <result property="createDate"    column="create_date"    />
     </resultMap>
 
     <sql id="selectInvStockExchangeVo">
-        select id, code, name from inv_stock_exchange
+        select id, code, name, create_date from inv_stock_exchange
     </sql>
 
     <select id="selectInvStockExchangeList" parameterType="InvStockExchange" resultMap="InvStockExchangeResult">
@@ -19,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="code != null  and code != ''"> and code = #{code}</if>
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
         </where>
     </select>
     
@@ -32,10 +34,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="code != null and code != ''">code,</if>
             <if test="name != null and name != ''">name,</if>
+            <if test="createDate != null">create_date,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="code != null and code != ''">#{code},</if>
             <if test="name != null and name != ''">#{name},</if>
+            <if test="createDate != null">#{createDate},</if>
          </trim>
     </insert>
 
@@ -44,6 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="code != null and code != ''">code = #{code},</if>
             <if test="name != null and name != ''">name = #{name},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
         </trim>
         where id = #{id}
     </update>

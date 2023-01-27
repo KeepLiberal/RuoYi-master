@@ -50,6 +50,9 @@ public class RyTask {
     private InvStockExchangeMapper invStockExchangeMapper;
     @Resource
     private InvLhbReportDateMapper invLhbReportDateMapper;
+    @Resource
+    private InvLhbReportDateNewMapper invLhbReportDateNewMapper;
+
 
     /**
      * 容器中的线程池
@@ -74,7 +77,7 @@ public class RyTask {
     /**
      * 存放证券交易所
      */
-    public static Map<String, InvStockExchange> invStockExchangeMap = new HashMap<>();
+    public static Set<InvStockExchange> invStockExchangeSet = new HashSet<>();
 
 
     ///////////////////////////////////////////////////////个股信息//////////////////////////////////////////////////////
@@ -365,6 +368,7 @@ public class RyTask {
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
 
         log.info("========龙虎榜单日期 任务开始=========");
+        invLhbReportDateNewMapper.deleteInvLhbReportDateNewAll();
         for (InvStock stock : stockList) {
             investmentDataAsyncTask.invLhbReportTask(stock, ev.getProperty("inv.lhb-rq"), 1, 1, new AtomicInteger(10));
         }
@@ -373,14 +377,19 @@ public class RyTask {
 
         log.info("========个股龙虎榜单 任务开始=========");
         for (InvStock stock : stockList) {
-            List<InvLhbReportDate> invLhbReportDates = invLhbReportDateMapper.selectInvLhbReportDateList(new InvLhbReportDate(stock.getCode()));
-            for (InvLhbReportDate invLhbReportDate : invLhbReportDates) {
-                Date reportDate = invLhbReportDate.getTradeDate();
+            List<InvLhbReportDateNew> invLhbReportDateNews = invLhbReportDateNewMapper.selectInvLhbReportDateNewList(new InvLhbReportDateNew(stock.getCode()));
+            for (InvLhbReportDateNew invLhbReportDateNew : invLhbReportDateNews) {
+                Date reportDate = invLhbReportDateNew.getTradeDate();
                 String reportDateStr = DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD, reportDate);
                 investmentDataAsyncTask.invLhbStockTask(stock, ev.getProperty("inv.lhb-buy"), reportDate, reportDateStr, "B", 1, 1, new AtomicInteger(10));
                 investmentDataAsyncTask.invLhbStockTask(stock, ev.getProperty("inv.lhb-sell"), reportDate, reportDateStr, "S", 1, 1, new AtomicInteger(10));
                 investmentDataAsyncTask.invLhbStockTask(stock, ev.getProperty("inv.lhb-total"), reportDate, reportDateStr, "T", 1, 1, new AtomicInteger(10));
             }
+        }
+        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        List<InvLhbReportDateNew> invLhbReportDateNews = invLhbReportDateNewMapper.selectInvLhbReportDateNewList(null);
+        for (InvLhbReportDateNew invLhbReportDateNew : invLhbReportDateNews) {
+            invLhbReportDateMapper.insertInvLhbReportDate(new InvLhbReportDate(invLhbReportDateNew.getSecurityCode(), invLhbReportDateNew.getTradeDate()));
         }
         isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========个股龙虎榜单 任务完成=========");
@@ -398,10 +407,10 @@ public class RyTask {
         for (InvStockExchange entity : invStockExchanges) {
             entityMap.put(entity.getCode(), entity);
         }
-        for (InvStockExchange entity : invStockExchangeMap.values()) {
+        for (InvStockExchange entity : invStockExchangeSet) {
             if (entityMap.containsKey(entity.getCode())) {
                 InvStockExchange compare = entityMap.get(entity.getCode());
-                if (!compare.equals(entity)) {
+                if (!compare.equals(entity) && DateUtils.differentDaysByMillisecond(compare.getCreateDate(), entity.getCreateDate()) > 0) {
                     entity.setId(compare.getId());
                     invStockExchangeMapper.updateInvStockExchange(entity);
                 }
