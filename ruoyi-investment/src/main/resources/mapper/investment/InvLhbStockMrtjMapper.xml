@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.investment.mapper.InvLhbStockMrtjMapper">
+    
+    <resultMap type="InvLhbStockMrtj" id="InvLhbStockMrtjResult">
+        <result property="id"    column="id"    />
+        <result property="securityCode"    column="security_code"    />
+        <result property="tradeDate"    column="trade_date"    />
+        <result property="yybBuyAmt"    column="yyb_buy_amt"    />
+        <result property="yybSellAmt"    column="yyb_sell_amt"    />
+        <result property="yybNet"    column="yyb_net"    />
+        <result property="jgBuyCount"    column="jg_buy_count"    />
+        <result property="jgSellCount"    column="jg_sell_count"    />
+        <result property="jgBuyAmt"    column="jg_buy_amt"    />
+        <result property="jgSellAmt"    column="jg_sell_amt"    />
+        <result property="jgNet"    column="jg_net"    />
+        <result property="d1CloseAdjchrate"    column="d1_close_adjchrate"    />
+        <result property="d2CloseAdjchrate"    column="d2_close_adjchrate"    />
+        <result property="d3CloseAdjchrate"    column="d3_close_adjchrate"    />
+        <result property="d5CloseAdjchrate"    column="d5_close_adjchrate"    />
+        <result property="d10CloseAdjchrate"    column="d10_close_adjchrate"    />
+        <result property="d20CloseAdjchrate"    column="d20_close_adjchrate"    />
+        <result property="d30CloseAdjchrate"    column="d30_close_adjchrate"    />
+    </resultMap>
+
+    <sql id="selectInvLhbStockMrtjVo">
+        select id, security_code, trade_date, yyb_buy_amt, yyb_sell_amt, yyb_net, jg_buy_count, jg_sell_count, jg_buy_amt, jg_sell_amt, jg_net, d1_close_adjchrate, d2_close_adjchrate, d3_close_adjchrate, d5_close_adjchrate, d10_close_adjchrate, d20_close_adjchrate, d30_close_adjchrate from inv_lhb_stock_mrtj
+    </sql>
+
+    <select id="selectInvLhbStockMrtjList" parameterType="InvLhbStockMrtj" resultMap="InvLhbStockMrtjResult">
+        <include refid="selectInvLhbStockMrtjVo"/>
+        <where>  
+            <if test="securityCode != null  and securityCode != ''"> and security_code = #{securityCode}</if>
+            <if test="tradeDate != null "> and trade_date = #{tradeDate}</if>
+            <if test="yybBuyAmt != null "> and yyb_buy_amt = #{yybBuyAmt}</if>
+            <if test="yybSellAmt != null "> and yyb_sell_amt = #{yybSellAmt}</if>
+            <if test="yybNet != null "> and yyb_net = #{yybNet}</if>
+            <if test="jgBuyCount != null "> and jg_buy_count = #{jgBuyCount}</if>
+            <if test="jgSellCount != null "> and jg_sell_count = #{jgSellCount}</if>
+            <if test="jgBuyAmt != null "> and jg_buy_amt = #{jgBuyAmt}</if>
+            <if test="jgSellAmt != null "> and jg_sell_amt = #{jgSellAmt}</if>
+            <if test="jgNet != null "> and jg_net = #{jgNet}</if>
+            <if test="d1CloseAdjchrate != null "> and d1_close_adjchrate = #{d1CloseAdjchrate}</if>
+            <if test="d2CloseAdjchrate != null "> and d2_close_adjchrate = #{d2CloseAdjchrate}</if>
+            <if test="d3CloseAdjchrate != null "> and d3_close_adjchrate = #{d3CloseAdjchrate}</if>
+            <if test="d5CloseAdjchrate != null "> and d5_close_adjchrate = #{d5CloseAdjchrate}</if>
+            <if test="d10CloseAdjchrate != null "> and d10_close_adjchrate = #{d10CloseAdjchrate}</if>
+            <if test="d20CloseAdjchrate != null "> and d20_close_adjchrate = #{d20CloseAdjchrate}</if>
+            <if test="d30CloseAdjchrate != null "> and d30_close_adjchrate = #{d30CloseAdjchrate}</if>
+        </where>
+    </select>
+    
+    <select id="selectInvLhbStockMrtjById" parameterType="Integer" resultMap="InvLhbStockMrtjResult">
+        <include refid="selectInvLhbStockMrtjVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInvLhbStockMrtj" parameterType="InvLhbStockMrtj" useGeneratedKeys="true" keyProperty="id">
+        insert into inv_lhb_stock_mrtj
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code,</if>
+            <if test="tradeDate != null">trade_date,</if>
+            <if test="yybBuyAmt != null">yyb_buy_amt,</if>
+            <if test="yybSellAmt != null">yyb_sell_amt,</if>
+            <if test="yybNet != null">yyb_net,</if>
+            <if test="jgBuyCount != null">jg_buy_count,</if>
+            <if test="jgSellCount != null">jg_sell_count,</if>
+            <if test="jgBuyAmt != null">jg_buy_amt,</if>
+            <if test="jgSellAmt != null">jg_sell_amt,</if>
+            <if test="jgNet != null">jg_net,</if>
+            <if test="d1CloseAdjchrate != null">d1_close_adjchrate,</if>
+            <if test="d2CloseAdjchrate != null">d2_close_adjchrate,</if>
+            <if test="d3CloseAdjchrate != null">d3_close_adjchrate,</if>
+            <if test="d5CloseAdjchrate != null">d5_close_adjchrate,</if>
+            <if test="d10CloseAdjchrate != null">d10_close_adjchrate,</if>
+            <if test="d20CloseAdjchrate != null">d20_close_adjchrate,</if>
+            <if test="d30CloseAdjchrate != null">d30_close_adjchrate,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">#{securityCode},</if>
+            <if test="tradeDate != null">#{tradeDate},</if>
+            <if test="yybBuyAmt != null">#{yybBuyAmt},</if>
+            <if test="yybSellAmt != null">#{yybSellAmt},</if>
+            <if test="yybNet != null">#{yybNet},</if>
+            <if test="jgBuyCount != null">#{jgBuyCount},</if>
+            <if test="jgSellCount != null">#{jgSellCount},</if>
+            <if test="jgBuyAmt != null">#{jgBuyAmt},</if>
+            <if test="jgSellAmt != null">#{jgSellAmt},</if>
+            <if test="jgNet != null">#{jgNet},</if>
+            <if test="d1CloseAdjchrate != null">#{d1CloseAdjchrate},</if>
+            <if test="d2CloseAdjchrate != null">#{d2CloseAdjchrate},</if>
+            <if test="d3CloseAdjchrate != null">#{d3CloseAdjchrate},</if>
+            <if test="d5CloseAdjchrate != null">#{d5CloseAdjchrate},</if>
+            <if test="d10CloseAdjchrate != null">#{d10CloseAdjchrate},</if>
+            <if test="d20CloseAdjchrate != null">#{d20CloseAdjchrate},</if>
+            <if test="d30CloseAdjchrate != null">#{d30CloseAdjchrate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInvLhbStockMrtj" parameterType="InvLhbStockMrtj">
+        update inv_lhb_stock_mrtj
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code = #{securityCode},</if>
+            <if test="tradeDate != null">trade_date = #{tradeDate},</if>
+            <if test="yybBuyAmt != null">yyb_buy_amt = #{yybBuyAmt},</if>
+            <if test="yybSellAmt != null">yyb_sell_amt = #{yybSellAmt},</if>
+            <if test="yybNet != null">yyb_net = #{yybNet},</if>
+            <if test="jgBuyCount != null">jg_buy_count = #{jgBuyCount},</if>
+            <if test="jgSellCount != null">jg_sell_count = #{jgSellCount},</if>
+            <if test="jgBuyAmt != null">jg_buy_amt = #{jgBuyAmt},</if>
+            <if test="jgSellAmt != null">jg_sell_amt = #{jgSellAmt},</if>
+            <if test="jgNet != null">jg_net = #{jgNet},</if>
+            <if test="d1CloseAdjchrate != null">d1_close_adjchrate = #{d1CloseAdjchrate},</if>
+            <if test="d2CloseAdjchrate != null">d2_close_adjchrate = #{d2CloseAdjchrate},</if>
+            <if test="d3CloseAdjchrate != null">d3_close_adjchrate = #{d3CloseAdjchrate},</if>
+            <if test="d5CloseAdjchrate != null">d5_close_adjchrate = #{d5CloseAdjchrate},</if>
+            <if test="d10CloseAdjchrate != null">d10_close_adjchrate = #{d10CloseAdjchrate},</if>
+            <if test="d20CloseAdjchrate != null">d20_close_adjchrate = #{d20CloseAdjchrate},</if>
+            <if test="d30CloseAdjchrate != null">d30_close_adjchrate = #{d30CloseAdjchrate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInvLhbStockMrtjById" parameterType="Integer">
+        delete from inv_lhb_stock_mrtj where id = #{id}
+    </delete>
+
+    <delete id="deleteInvLhbStockMrtjByIds" parameterType="String">
+        delete from inv_lhb_stock_mrtj where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

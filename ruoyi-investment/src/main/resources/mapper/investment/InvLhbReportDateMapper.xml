@@ -59,4 +59,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
+    <select id="selectInvLhbReportDateListPendingMrmx" parameterType="String" resultMap="InvLhbReportDateResult">
+        select trade_date from inv_lhb_report_date
+        where security_code = #{securityCode}
+        and trade_date not in (select trade_date from inv_lhb_stock_mrmx where security_code = #{securityCode} and (lhb_buy_sell_type='B' or lhb_buy_sell_type='S'))
+    </select>
+
+    <select id="selectInvLhbReportDateListPendingMrtj" parameterType="String" resultMap="InvLhbReportDateResult">
+        select trade_date from inv_lhb_report_date
+        where security_code = #{securityCode}
+        and trade_date not in (select trade_date from inv_lhb_stock_mrtj where security_code = #{securityCode})
+    </select>
+
 </mapper>

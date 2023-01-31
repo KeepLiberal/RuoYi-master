@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -63,9 +64,7 @@ public class InvestmentDataAsyncTask {
     @Resource
     private InvLhbReportDateMapper invLhbReportDateMapper;
     @Resource
-    private InvLhbReportDateNewMapper invLhbReportDateNewMapper;
-    @Resource
-    private InvLhbStockMapper invLhbStockMapper;
+    private InvLhbStockMrmxMapper invLhbStockMrmxMapper;
 
 
     /**
@@ -1063,7 +1062,7 @@ public class InvestmentDataAsyncTask {
                                 }
                             }
                             if (!entityList.contains(entity)) {
-                                invLhbReportDateNewMapper.insertInvLhbReportDateNew(new InvLhbReportDateNew(entity.getSecurityCode(), entity.getTradeDate()));
+                                invLhbReportDateMapper.insertInvLhbReportDate(new InvLhbReportDate(entity.getSecurityCode(), entity.getTradeDate()));
                             }
                         }
                     }
@@ -1084,9 +1083,9 @@ public class InvestmentDataAsyncTask {
     }
 
     /**
-     * 公司大事-个股龙虎榜单 任务
+     * 公司大事-个股龙虎榜单-每日明细 任务
      */
-    public void invLhbStockTask(InvStock stock, String url, Date reportDate, String reportDateStr, String lhbDataType, int currentPages, int pages, AtomicInteger count) {
+    public void invLhbStockMrmxTask(InvStock stock, String url, Date reportDate, String reportDateStr, String lhbBuySellType, int currentPages, int pages, AtomicInteger count) {
         String urlStr = url;
         try {
             url = url.replace("code=", stock.getCode());
@@ -1100,18 +1099,12 @@ public class InvestmentDataAsyncTask {
                     pages = (Integer) jsonObject.getJSONObject("result").get("pages");
                     JSONArray dataArray = jsonObject.getJSONObject("result").getJSONArray("data");
                     if (!dataArray.isEmpty()) {
-                        List<InvLhbStock> entityList = invLhbStockMapper.selectInvLhbStockList(new InvLhbStock(stock.getCode(), reportDate, lhbDataType));
-                        Map<String, InvLhbStock> entityMap = new HashMap<>();
-                        for (InvLhbStock entity : entityList) {
-                            if ("B".equals(lhbDataType) || "S".equals(lhbDataType)) {
-                                entityMap.put(entity.getOperatedeptCode(), entity);
-                            }
-                        }
+                        List<InvLhbStockMrmx> entityList = invLhbStockMrmxMapper.selectInvLhbStockMrmxList(new InvLhbStockMrmx(stock.getCode(), reportDate, lhbBuySellType));
                         Iterator<Object> iterator = dataArray.iterator();
                         while (iterator.hasNext()) {
                             JSONObject next = (JSONObject) iterator.next();
-                            InvLhbStock entity = new InvLhbStock(stock.getCode());
-                            Class<? extends InvLhbStock> clazz = entity.getClass();
+                            InvLhbStockMrmx entity = new InvLhbStockMrmx(stock.getCode());
+                            Class<? extends InvLhbStockMrmx> clazz = entity.getClass();
                             Field[] declaredFields = clazz.getDeclaredFields();
                             for (Field field : declaredFields) {
                                 field.setAccessible(true);
@@ -1131,28 +1124,9 @@ public class InvestmentDataAsyncTask {
                                     field.set(entity, valueString);
                                 }
                             }
-                            entity.setLhbDataType(lhbDataType);
-                            if ("B".equals(lhbDataType) || "S".equals(lhbDataType)) {
-                                if (entityMap.containsKey(entity.getOperatedeptCode())) {
-                                    InvLhbStock compare = entityMap.get(entity.getOperatedeptCode());
-                                    if (!compare.equals(entity)) {
-                                        entity.setId(compare.getId());
-                                        invLhbStockMapper.updateInvLhbStock(entity);
-                                    }
-                                } else {
-                                    invLhbStockMapper.insertInvLhbStock(entity);
-                                }
-                            }
-                            if ("T".equals(lhbDataType)) {
-                                if (null == entityList || entityList.size() == 0) {
-                                    invLhbStockMapper.insertInvLhbStock(entity);
-                                } else {
-                                    InvLhbStock compare = entityList.get(0);
-                                    if (!compare.equals(entity)) {
-                                        entity.setId(compare.getId());
-                                        invLhbStockMapper.updateInvLhbStock(entity);
-                                    }
-                                }
+                            entity.setLhbBuySellType(lhbBuySellType);
+                            if (!entityList.contains(entity)) {
+                                invLhbStockMrmxMapper.insertInvLhbStockMrmx(entity);
                             }
                         }
                     }
@@ -1160,18 +1134,102 @@ public class InvestmentDataAsyncTask {
             }
             currentPages++;
             if (currentPages <= pages) {
-                invLhbStockTask(stock, urlStr, reportDate, reportDateStr, lhbDataType, currentPages, pages, count);
+                invLhbStockMrmxTask(stock, urlStr, reportDate, reportDateStr, lhbBuySellType, currentPages, pages, count);
             }
         } catch (Exception e) {
             if (count.get() > 0) {
                 count.decrementAndGet();
-                invLhbStockTask(stock, urlStr, reportDate, reportDateStr, lhbDataType, currentPages, pages, count);
+                invLhbStockMrmxTask(stock, urlStr, reportDate, reportDateStr, lhbBuySellType, currentPages, pages, count);
             } else {
                 log.error(">>>异常:", e);
             }
         }
     }
 
+    /**
+     * 公司大事-个股龙虎榜单-每日统计 任务
+     */
+    public void invLhbStockMrtjTask(InvStock stock, String url, String reportDateStr, String tjType, int currentPages, int pages, AtomicInteger count) {
+        String urlStr = url;
+        try {
+            url = url.replace("code=", stock.getCode());
+            if ("ALL".equals(tjType)) url = url.replace("reportDate=", reportDateStr);
+            url = url.replace("pageNumber=", "pageNumber=" + currentPages);
+            String result = HttpUtils.sendGet(url, new AtomicInteger(10));
+            if (StringUtils.isNotEmpty(result)) {
+                JSONObject jsonObject = JSONObject.parseObject(result);
+                Boolean success = (Boolean) jsonObject.get("success");
+                if (success) {
+                    pages = (Integer) jsonObject.getJSONObject("result").get("pages");
+                    JSONArray dataArray = jsonObject.getJSONObject("result").getJSONArray("data");
+                    if (!dataArray.isEmpty()) {
+                        Iterator<Object> iterator = dataArray.iterator();
+                        while (iterator.hasNext()) {
+                            JSONObject next = (JSONObject) iterator.next();
+                            String explanation = next.getString("EXPLANATION");
+                            InvLhbStockMrtj entity = new InvLhbStockMrtj(stock.getCode());
+                            if (StringUtils.isEmpty(reportDateStr)) {
+                                reportDateStr = next.getString("TRADE_DATE").substring(0, 10);
+                            }
+                            ConcurrentHashMap<String, Object> objectMap = RyTask.objectMap.get(stock.getCode());
+                            if (null != objectMap) {
+                                Object object = objectMap.get(reportDateStr+explanation);
+                                if (null != object) {
+                                    entity = (InvLhbStockMrtj) object;
+                                }
+                            }
+
+                            entity.setYybBuyAmt(NumFormatUtil.toDouble(next.getString("EXPLANATION")));
+
+                            if ("YYB".equals(tjType)) {
+                                entity.setYybBuyAmt(NumFormatUtil.toDouble(next.getString("NET_BUY_AMT")));
+                                entity.setYybSellAmt(NumFormatUtil.toDouble(next.getString("NET_SELL_AMT")));
+                                entity.setYybNet(NumFormatUtil.toDouble(next.getString("NET_OPERATEDEPT_AMT")));
+
+                                entity.setD1CloseAdjchrate(NumFormatUtil.toDouble(next.getString("D1_CLOSE_ADJCHRATE")));
+                                entity.setD2CloseAdjchrate(NumFormatUtil.toDouble(next.getString("D2_CLOSE_ADJCHRATE")));
+                                entity.setD3CloseAdjchrate(NumFormatUtil.toDouble(next.getString("D3_CLOSE_ADJCHRATE")));
+                                entity.setD5CloseAdjchrate(NumFormatUtil.toDouble(next.getString("D5_CLOSE_ADJCHRATE")));
+                                entity.setD10CloseAdjchrate(NumFormatUtil.toDouble(next.getString("D10_CLOSE_ADJCHRATE")));
+                                entity.setD20CloseAdjchrate(NumFormatUtil.toDouble(next.getString("D20_CLOSE_ADJCHRATE")));
+                                entity.setD30CloseAdjchrate(NumFormatUtil.toDouble(next.getString("D30_CLOSE_ADJCHRATE")));
+                            }
+                            if ("JG".equals(tjType)) {
+                                entity.setJgBuyCount(NumFormatUtil.toDouble(next.getString("BUY_COUNT")));
+                                entity.setJgSellCount(NumFormatUtil.toDouble(next.getString("SELL_COUNT")));
+                                entity.setJgBuyAmt(NumFormatUtil.toDouble(next.getString("BUY_AMT")));
+                                entity.setJgSellAmt(NumFormatUtil.toDouble(next.getString("SELL_AMT")));
+                                entity.setJgNet(NumFormatUtil.toDouble(next.getString("NET_BUY_AMT")));
+                            }
+                            if ("ALL".equals(tjType)) {
+
+                            }
+
+                            if (null != objectMap) {
+                                objectMap.put(reportDateStr, entity);
+                            } else {
+                                ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
+                                map.put(reportDateStr, entity);
+                                RyTask.objectMap.put(stock.getCode(), map);
+                            }
+                            reportDateStr = null;
+                        }
+                    }
+                }
+            }
+            currentPages++;
+            if (currentPages <= pages) {
+                invLhbStockMrtjTask(stock, urlStr, reportDateStr, tjType, currentPages, pages, count);
+            }
+        } catch (Exception e) {
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                invLhbStockMrtjTask(stock, urlStr, reportDateStr, tjType, currentPages, pages, count);
+            } else {
+                log.error(">>>异常:", e);
+            }
+        }
+    }
 
     /**
      * 公司大事-大宗交易-每日明细 任务
@@ -1224,7 +1282,7 @@ public class InvestmentDataAsyncTask {
                                     field.set(entity, valueString);
                                 }
                             }
-                            if (!entityList.contains(entity))  {
+                            if (!entityList.contains(entity)) {
                                 invDzjyMrmxMapper.insertInvDzjyMrmx(entity);
                             }
                             if (StringUtils.isNotEmpty(entity.getBuyerCode()) && StringUtils.isNotEmpty(entity.getBuyerName())) {

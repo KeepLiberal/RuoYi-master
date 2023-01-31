@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
-    <th:block th:include="include :: header('新增个股龙虎榜')" />
+    <th:block th:include="include :: header('新增个股龙虎榜统计')" />
     <th:block th:include="include :: datetimepicker-css" />
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-invLhbStock-add">
+        <form class="form-horizontal m" id="form-invLhbStockMrtj-add">
             <div class="form-group">    
                 <label class="col-sm-3 control-label is-required">股票代码：</label>
                 <div class="col-sm-8">
@@ -23,83 +23,93 @@
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">数据类型：</label>
+                <label class="col-sm-3 control-label">营业部买入合计：</label>
                 <div class="col-sm-8">
-                    <select name="lhbDataType" class="form-control m-b" th:with="type=${@dict.getType('lhb_data_type')}" required>
-                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
-                    </select>
+                    <input name="yybBuyAmt" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">上榜说明：</label>
+                <label class="col-sm-3 control-label">营业部卖出合计：</label>
                 <div class="col-sm-8">
-                    <input name="explanation" class="form-control" type="text" required>
+                    <input name="yybSellAmt" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">交易营业部代码：</label>
+                <label class="col-sm-3 control-label">营业部买卖净额：</label>
                 <div class="col-sm-8">
-                    <input name="operatedeptCode" class="form-control" type="text" required>
+                    <input name="yybNet" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">交易营业部名称：</label>
+                <label class="col-sm-3 control-label">买入机构数：</label>
                 <div class="col-sm-8">
-                    <input name="operatedeptName" class="form-control" type="text" required>
+                    <input name="jgBuyCount" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">买入金额(元)：</label>
+                <label class="col-sm-3 control-label">卖出机构数：</label>
                 <div class="col-sm-8">
-                    <input name="buy" class="form-control" type="text">
+                    <input name="jgSellCount" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">占总成交比例：</label>
+                <label class="col-sm-3 control-label">机构买入总额：</label>
                 <div class="col-sm-8">
-                    <input name="totalBuyrio" class="form-control" type="text">
+                    <input name="jgBuyAmt" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">卖出金额(元)：</label>
+                <label class="col-sm-3 control-label">机构卖出总额：</label>
                 <div class="col-sm-8">
-                    <input name="sell" class="form-control" type="text">
+                    <input name="jgSellAmt" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">占总成交比例：</label>
+                <label class="col-sm-3 control-label">机构买卖净额：</label>
                 <div class="col-sm-8">
-                    <input name="totalSellrio" class="form-control" type="text">
+                    <input name="jgNet" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">净额(元)：</label>
+                <label class="col-sm-3 control-label">后1日涨跌幅：</label>
                 <div class="col-sm-8">
-                    <input name="net" class="form-control" type="text">
+                    <input name="d1CloseAdjchrate" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">(前5名)买入金额合计(元)：</label>
+                <label class="col-sm-3 control-label">后2日涨跌幅：</label>
                 <div class="col-sm-8">
-                    <input name="totalBuy" class="form-control" type="text">
+                    <input name="d2CloseAdjchrate" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">(前5名)卖出金额合计(元)：</label>
+                <label class="col-sm-3 control-label">后3日涨跌幅：</label>
                 <div class="col-sm-8">
-                    <input name="totalSell" class="form-control" type="text">
+                    <input name="d3CloseAdjchrate" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">(前5名)占总成交比例：</label>
+                <label class="col-sm-3 control-label">后5日涨跌幅：</label>
                 <div class="col-sm-8">
-                    <input name="totalBuyriotop" class="form-control" type="text">
+                    <input name="d5CloseAdjchrate" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">(前5名)净额合计(元)：</label>
+                <label class="col-sm-3 control-label">后10日涨跌幅：</label>
                 <div class="col-sm-8">
-                    <input name="totalNet" class="form-control" type="text">
+                    <input name="d10CloseAdjchrate" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">后20日涨跌幅：</label>
+                <div class="col-sm-8">
+                    <input name="d20CloseAdjchrate" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">后30日涨跌幅：</label>
+                <div class="col-sm-8">
+                    <input name="d30CloseAdjchrate" class="form-control" type="text">
                 </div>
             </div>
         </form>
@@ -107,14 +117,14 @@
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: datetimepicker-js" />
     <script th:inline="javascript">
-        var prefix = ctx + "investment/invLhbStock"
-        $("#form-invLhbStock-add").validate({
+        var prefix = ctx + "investment/invLhbStockMrtj"
+        $("#form-invLhbStockMrtj-add").validate({
             focusCleanup: true
         });
 
         function submitHandler() {
             if ($.validate.form()) {
-                $.operate.save(prefix + "/add", $('#form-invLhbStock-add').serialize());
+                $.operate.save(prefix + "/add", $('#form-invLhbStockMrtj-add').serialize());
             }
         }
 

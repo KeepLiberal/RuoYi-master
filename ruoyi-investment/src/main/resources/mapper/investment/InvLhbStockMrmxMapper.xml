@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.investment.mapper.InvLhbStockMrmxMapper">
+    
+    <resultMap type="InvLhbStockMrmx" id="InvLhbStockMrmxResult">
+        <result property="id"    column="id"    />
+        <result property="securityCode"    column="security_code"    />
+        <result property="tradeDate"    column="trade_date"    />
+        <result property="lhbBuySellType"    column="lhb_buy_sell_type"    />
+        <result property="explanation"    column="explanation"    />
+        <result property="operatedeptCode"    column="operatedept_code"    />
+        <result property="operatedeptName"    column="operatedept_name"    />
+        <result property="buy"    column="buy"    />
+        <result property="totalBuyrio"    column="total_buyrio"    />
+        <result property="sell"    column="sell"    />
+        <result property="totalSellrio"    column="total_sellrio"    />
+        <result property="net"    column="net"    />
+    </resultMap>
+
+    <sql id="selectInvLhbStockMrmxVo">
+        select id, security_code, trade_date, lhb_buy_sell_type, explanation, operatedept_code, operatedept_name, buy, total_buyrio, sell, total_sellrio, net from inv_lhb_stock_mrmx
+    </sql>
+
+    <select id="selectInvLhbStockMrmxList" parameterType="InvLhbStockMrmx" resultMap="InvLhbStockMrmxResult">
+        <include refid="selectInvLhbStockMrmxVo"/>
+        <where>  
+            <if test="securityCode != null  and securityCode != ''"> and security_code = #{securityCode}</if>
+            <if test="tradeDate != null "> and trade_date = #{tradeDate}</if>
+            <if test="lhbBuySellType != null  and lhbBuySellType != ''"> and lhb_buy_sell_type = #{lhbBuySellType}</if>
+            <if test="explanation != null  and explanation != ''"> and explanation = #{explanation}</if>
+            <if test="operatedeptCode != null  and operatedeptCode != ''"> and operatedept_code = #{operatedeptCode}</if>
+            <if test="operatedeptName != null  and operatedeptName != ''"> and operatedept_name like concat('%', #{operatedeptName}, '%')</if>
+            <if test="buy != null "> and buy = #{buy}</if>
+            <if test="totalBuyrio != null "> and total_buyrio = #{totalBuyrio}</if>
+            <if test="sell != null "> and sell = #{sell}</if>
+            <if test="totalSellrio != null "> and total_sellrio = #{totalSellrio}</if>
+            <if test="net != null "> and net = #{net}</if>
+        </where>
+    </select>
+    
+    <select id="selectInvLhbStockMrmxById" parameterType="Integer" resultMap="InvLhbStockMrmxResult">
+        <include refid="selectInvLhbStockMrmxVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInvLhbStockMrmx" parameterType="InvLhbStockMrmx" useGeneratedKeys="true" keyProperty="id">
+        insert into inv_lhb_stock_mrmx
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code,</if>
+            <if test="tradeDate != null">trade_date,</if>
+            <if test="lhbBuySellType != null and lhbBuySellType != ''">lhb_buy_sell_type,</if>
+            <if test="explanation != null">explanation,</if>
+            <if test="operatedeptCode != null">operatedept_code,</if>
+            <if test="operatedeptName != null">operatedept_name,</if>
+            <if test="buy != null">buy,</if>
+            <if test="totalBuyrio != null">total_buyrio,</if>
+            <if test="sell != null">sell,</if>
+            <if test="totalSellrio != null">total_sellrio,</if>
+            <if test="net != null">net,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">#{securityCode},</if>
+            <if test="tradeDate != null">#{tradeDate},</if>
+            <if test="lhbBuySellType != null and lhbBuySellType != ''">#{lhbBuySellType},</if>
+            <if test="explanation != null">#{explanation},</if>
+            <if test="operatedeptCode != null">#{operatedeptCode},</if>
+            <if test="operatedeptName != null">#{operatedeptName},</if>
+            <if test="buy != null">#{buy},</if>
+            <if test="totalBuyrio != null">#{totalBuyrio},</if>
+            <if test="sell != null">#{sell},</if>
+            <if test="totalSellrio != null">#{totalSellrio},</if>
+            <if test="net != null">#{net},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInvLhbStockMrmx" parameterType="InvLhbStockMrmx">
+        update inv_lhb_stock_mrmx
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code = #{securityCode},</if>
+            <if test="tradeDate != null">trade_date = #{tradeDate},</if>
+            <if test="lhbBuySellType != null and lhbBuySellType != ''">lhb_buy_sell_type = #{lhbBuySellType},</if>
+            <if test="explanation != null">explanation = #{explanation},</if>
+            <if test="operatedeptCode != null">operatedept_code = #{operatedeptCode},</if>
+            <if test="operatedeptName != null">operatedept_name = #{operatedeptName},</if>
+            <if test="buy != null">buy = #{buy},</if>
+            <if test="totalBuyrio != null">total_buyrio = #{totalBuyrio},</if>
+            <if test="sell != null">sell = #{sell},</if>
+            <if test="totalSellrio != null">total_sellrio = #{totalSellrio},</if>
+            <if test="net != null">net = #{net},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInvLhbStockMrmxById" parameterType="Integer">
+        delete from inv_lhb_stock_mrmx where id = #{id}
+    </delete>
+
+    <delete id="deleteInvLhbStockMrmxByIds" parameterType="String">
+        delete from inv_lhb_stock_mrmx where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

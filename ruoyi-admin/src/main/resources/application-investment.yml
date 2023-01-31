@@ -45,11 +45,17 @@ inv:
   #########################################################财务分析 结束##################################################
 
   #########################################################公司大事 开始##################################################
-  #龙虎榜
-  lhb-rq: https://datacenter-web.eastmoney.com/api/data/v1/get?reportName=RPT_LHB_BOARDDATE&columns=SECURITY_CODE%2CTRADE_DATE%2CTR_DATE&filter=(SECURITY_CODE%3D%22code=%22)&sortTypes=-1&sortColumns=TRADE_DATE&source=WEB&client=WEB&pageSize=1000&pageNumber=
-  lhb-buy: https://datacenter-web.eastmoney.com/api/data/v1/get?reportName=RPT_BILLBOARD_DAILYDETAILSBUY&columns=ALL&filter=(TRADE_DATE%3D%27reportDate=%27)(SECURITY_CODE%3D%22code=%22)&sortTypes=-1&sortColumns=BUY&source=WEB&client=WEB&pageSize=50&pageNumber=
-  lhb-sell: https://datacenter-web.eastmoney.com/api/data/v1/get?reportName=RPT_BILLBOARD_DAILYDETAILSSELL&columns=ALL&filter=(TRADE_DATE%3D%27reportDate=%27)(SECURITY_CODE%3D%22code=%22)&sortTypes=-1&sortColumns=SELL&source=WEB&client=WEB&pageSize=50&pageNumber=
-  lhb-total: https://datacenter-web.eastmoney.com/api/data/v1/get?reportName=RPT_BILLBOARD_DAILYDETAILS&columns=ALL&filter=(TRADE_DATE%3D%27reportDate=%27)(SECURITY_CODE%3D%22code=%22)&sortTypes=-1&sortColumns=&source=WEB&client=WEB&pageSize=10&pageNumber=
+  #个股龙虎榜-日期
+  lhb-stock-rq: https://datacenter-web.eastmoney.com/api/data/v1/get?reportName=RPT_LHB_BOARDDATE&columns=SECURITY_CODE%2CTRADE_DATE%2CTR_DATE&filter=(SECURITY_CODE%3D%22code=%22)&sortTypes=-1&sortColumns=TRADE_DATE&source=WEB&client=WEB&pageSize=1000&pageNumber=
+  #个股龙虎榜-每日明细
+  lhb-stock-mrmx-buy: https://datacenter-web.eastmoney.com/api/data/v1/get?reportName=RPT_BILLBOARD_DAILYDETAILSBUY&columns=ALL&filter=(TRADE_DATE%3D%27reportDate=%27)(SECURITY_CODE%3D%22code=%22)&sortTypes=-1&sortColumns=BUY&source=WEB&client=WEB&pageSize=50&pageNumber=
+  lhb-stock-mrmx-sell: https://datacenter-web.eastmoney.com/api/data/v1/get?reportName=RPT_BILLBOARD_DAILYDETAILSSELL&columns=ALL&filter=(TRADE_DATE%3D%27reportDate=%27)(SECURITY_CODE%3D%22code=%22)&sortTypes=-1&sortColumns=SELL&source=WEB&client=WEB&pageSize=50&pageNumber=
+  #个股龙虎榜-每日统计-营业部
+  lhb-stock-mrtj-yyb: https://datacenter-web.eastmoney.com/api/data/v1/get?sortColumns=TRADE_DATE%2CTRADE_DATE&sortTypes=-1%2C-1&pageSize=5000&pageNumber=&reportName=RPT_BILLBOARD_PERFORMANCEHIS&columns=ALL&filter=(SECURITY_CODE%3D%22code=%22)(TRADE_DATE%3E%3D%271900-01-01%27)&source=WEB&client=WEB
+  #个股龙虎榜-每日统计-机构
+  lhb-stock-mrtj-jg: https://datacenter-web.eastmoney.com/api/data/v1/get?&sortColumns=TRADE_DATE%2CTRADE_DATE&sortTypes=-1%2C-1&pageSize=5000&pageNumber=&reportName=RPT_ORGANIZATION_TRADE_DETAILSNEW&columns=ALL&filter=(SECURITY_CODE%3D%22code=%22)&source=WEB&client=WEB
+  #个股龙虎榜-每日统计-所有
+  lhb-stock-mrtj-all: https://datacenter-web.eastmoney.com/api/data/v1/get?reportName=RPT_BILLBOARD_DAILYDETAILS&columns=ALL&filter=(TRADE_DATE%3D%27reportDate=%27)(SECURITY_CODE%3D%22code=%22)&sortTypes=-1&sortColumns=&source=WEB&client=WEB&pageSize=10&pageNumber=
 
   #大宗交易
   dzjy-mrmx: https://datacenter-web.eastmoney.com/api/data/v1/get?sortColumns=TRADE_DATE%2CDEAL_AMT&sortTypes=1%2C-1&filter=(SECURITY_CODE%3D%22code=%22)&columns=ALL&source=WEB&client=WEB&reportName=RPT_DATA_BLOCKTRADE&pageSize=&pageNumber=

@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -50,9 +51,6 @@ public class RyTask {
     private InvStockExchangeMapper invStockExchangeMapper;
     @Resource
     private InvLhbReportDateMapper invLhbReportDateMapper;
-    @Resource
-    private InvLhbReportDateNewMapper invLhbReportDateNewMapper;
-
 
     /**
      * 容器中的线程池
@@ -75,11 +73,13 @@ public class RyTask {
      */
     public static Set<InvIndustry> invIndustrySet = new HashSet<>();
     /**
-     * 存放证券交易所
+     * 存放营业部
      */
     public static Set<InvStockExchange> invStockExchangeSet = new HashSet<>();
-
-
+    /**
+     * 存放任意实体集合
+     */
+    public static ConcurrentHashMap<String, ConcurrentHashMap<String, Object>> objectMap = new ConcurrentHashMap<>();
     ///////////////////////////////////////////////////////个股信息//////////////////////////////////////////////////////
 
     /**
@@ -367,32 +367,42 @@ public class RyTask {
         log.info("========公司大事 任务开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
 
-        log.info("========龙虎榜单日期 任务开始=========");
-        invLhbReportDateNewMapper.deleteInvLhbReportDateNewAll();
+        log.info("========龙虎榜单-日期 任务开始=========");
         for (InvStock stock : stockList) {
-            investmentDataAsyncTask.invLhbReportTask(stock, ev.getProperty("inv.lhb-rq"), 1, 1, new AtomicInteger(10));
+            investmentDataAsyncTask.invLhbReportTask(stock, ev.getProperty("inv.lhb-stock-rq"), 1, 1, new AtomicInteger(10));
         }
         isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========龙虎榜单日期 任务完成=========");
+        log.info("========龙虎榜单-日期 任务完成=========");
 
-        log.info("========个股龙虎榜单 任务开始=========");
+        log.info("========个股龙虎榜单-每日明细 任务开始=========");
         for (InvStock stock : stockList) {
-            List<InvLhbReportDateNew> invLhbReportDateNews = invLhbReportDateNewMapper.selectInvLhbReportDateNewList(new InvLhbReportDateNew(stock.getCode()));
-            for (InvLhbReportDateNew invLhbReportDateNew : invLhbReportDateNews) {
-                Date reportDate = invLhbReportDateNew.getTradeDate();
-                String reportDateStr = DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD, reportDate);
-                investmentDataAsyncTask.invLhbStockTask(stock, ev.getProperty("inv.lhb-buy"), reportDate, reportDateStr, "B", 1, 1, new AtomicInteger(10));
-                investmentDataAsyncTask.invLhbStockTask(stock, ev.getProperty("inv.lhb-sell"), reportDate, reportDateStr, "S", 1, 1, new AtomicInteger(10));
-                investmentDataAsyncTask.invLhbStockTask(stock, ev.getProperty("inv.lhb-total"), reportDate, reportDateStr, "T", 1, 1, new AtomicInteger(10));
+            List<InvLhbReportDate> invLhbReportDates = invLhbReportDateMapper.selectInvLhbReportDateListPendingMrmx(stock.getCode());
+            for (InvLhbReportDate invLhbReportDate : invLhbReportDates) {
+                Date tradeDate = invLhbReportDate.getTradeDate();
+                String reportDateStr = DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD, tradeDate);
+                investmentDataAsyncTask.invLhbStockMrmxTask(stock, ev.getProperty("inv.lhb-stock-mrmx-buy"), tradeDate, reportDateStr, "B", 1, 1, new AtomicInteger(10));
+                investmentDataAsyncTask.invLhbStockMrmxTask(stock, ev.getProperty("inv.lhb-stock-mrmx-sell"), tradeDate, reportDateStr, "S", 1, 1, new AtomicInteger(10));
             }
         }
         isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        List<InvLhbReportDateNew> invLhbReportDateNews = invLhbReportDateNewMapper.selectInvLhbReportDateNewList(null);
-        for (InvLhbReportDateNew invLhbReportDateNew : invLhbReportDateNews) {
-            invLhbReportDateMapper.insertInvLhbReportDate(new InvLhbReportDate(invLhbReportDateNew.getSecurityCode(), invLhbReportDateNew.getTradeDate()));
+        log.info("========个股龙虎榜单-每日明细 任务完成=========");
+
+        log.info("========个股龙虎榜单-每日统计 任务开始=========");
+        for (InvStock stock : stockList) {
+            if ("000001".equals(stock.getCode())) {
+//                List<InvLhbReportDate> invLhbReportDates = invLhbReportDateMapper.selectInvLhbReportDateListPendingMrtj(stock.getCode());
+//                for (InvLhbReportDate invLhbReportDate : invLhbReportDates) {
+//                    String reportDateStr = DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD, invLhbReportDate.getTradeDate());
+//                    investmentDataAsyncTask.invLhbStockMrtjTask(stock, ev.getProperty("inv.lhb-stock-mrtj-all"), reportDateStr, "ALL", 1, 1, new AtomicInteger(10));
+//                }
+                investmentDataAsyncTask.invLhbStockMrtjTask(stock, ev.getProperty("inv.lhb-stock-mrtj-yyb"), null, "YYB", 1, 1, new AtomicInteger(10));
+                investmentDataAsyncTask.invLhbStockMrtjTask(stock, ev.getProperty("inv.lhb-stock-mrtj-jg"), null, "JG", 1, 1, new AtomicInteger(10));
+
+            }
         }
         isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========个股龙虎榜单 任务完成=========");
+        log.info("========个股龙虎榜单-每日统计 任务完成=========");
+
 
         log.info("========大宗交易-每日明细 任务开始=========");
         for (InvStock stock : stockList) {
@@ -433,7 +443,7 @@ public class RyTask {
         }
         isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========融资融券 任务完成=========");
-
+//
 
         log.info("========公司大事 任务完成=========");
     }
@@ -446,9 +456,9 @@ public class RyTask {
         isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("================数据初始化任务 开始=================");
 
-        invStock();
-        invCompany();
-        invFinance();
+//        invStock();
+//        invCompany();
+//        invFinance();
         invCompanyBigNews();
 
 

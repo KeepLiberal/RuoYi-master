@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
-    <th:block th:include="include :: header('修改个股龙虎榜')" />
+    <th:block th:include="include :: header('修改个股龙虎榜明细')" />
     <th:block th:include="include :: datetimepicker-css" />
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-invLhbStock-edit" th:object="${invLhbStock}">
+        <form class="form-horizontal m" id="form-invLhbStockMrmx-edit" th:object="${invLhbStockMrmx}">
             <input name="id" th:field="*{id}" type="hidden">
             <div class="form-group">    
                 <label class="col-sm-3 control-label is-required">股票代码：</label>
@@ -18,35 +18,35 @@
                 <label class="col-sm-3 control-label is-required">上榜日期：</label>
                 <div class="col-sm-8">
                     <div class="input-group date">
-                        <input name="tradeDate" th:value="${#dates.format(invLhbStock.tradeDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text" required>
+                        <input name="tradeDate" th:value="${#dates.format(invLhbStockMrmx.tradeDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text" required>
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">数据类型：</label>
+                <label class="col-sm-3 control-label is-required">交易类型：</label>
                 <div class="col-sm-8">
-                    <select name="lhbDataType" class="form-control m-b" th:with="type=${@dict.getType('lhb_data_type')}" required>
-                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{lhbDataType}"></option>
+                    <select name="lhbBuySellType" class="form-control m-b" th:with="type=${@dict.getType('lhb_buy_sell_type')}" required>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{lhbBuySellType}"></option>
                     </select>
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">上榜说明：</label>
+                <label class="col-sm-3 control-label">上榜类型：</label>
                 <div class="col-sm-8">
-                    <input name="explanation" th:field="*{explanation}" class="form-control" type="text" required>
+                    <input name="explanation" th:field="*{explanation}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">交易营业部代码：</label>
+                <label class="col-sm-3 control-label">交易营业部代码：</label>
                 <div class="col-sm-8">
-                    <input name="operatedeptCode" th:field="*{operatedeptCode}" class="form-control" type="text" required>
+                    <input name="operatedeptCode" th:field="*{operatedeptCode}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">交易营业部名称：</label>
+                <label class="col-sm-3 control-label">交易营业部名称：</label>
                 <div class="col-sm-8">
-                    <input name="operatedeptName" th:field="*{operatedeptName}" class="form-control" type="text" required>
+                    <input name="operatedeptName" th:field="*{operatedeptName}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
@@ -79,43 +79,19 @@
                     <input name="net" th:field="*{net}" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">(前5名)买入金额合计(元)：</label>
-                <div class="col-sm-8">
-                    <input name="totalBuy" th:field="*{totalBuy}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">(前5名)卖出金额合计(元)：</label>
-                <div class="col-sm-8">
-                    <input name="totalSell" th:field="*{totalSell}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">(前5名)占总成交比例：</label>
-                <div class="col-sm-8">
-                    <input name="totalBuyriotop" th:field="*{totalBuyriotop}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">(前5名)净额合计(元)：</label>
-                <div class="col-sm-8">
-                    <input name="totalNet" th:field="*{totalNet}" class="form-control" type="text">
-                </div>
-            </div>
         </form>
     </div>
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: datetimepicker-js" />
     <script th:inline="javascript">
-        var prefix = ctx + "investment/invLhbStock";
-        $("#form-invLhbStock-edit").validate({
+        var prefix = ctx + "investment/invLhbStockMrmx";
+        $("#form-invLhbStockMrmx-edit").validate({
             focusCleanup: true
         });
 
         function submitHandler() {
             if ($.validate.form()) {
-                $.operate.save(prefix + "/edit", $('#form-invLhbStock-edit').serialize());
+                $.operate.save(prefix + "/edit", $('#form-invLhbStockMrmx-edit').serialize());
             }
         }
 

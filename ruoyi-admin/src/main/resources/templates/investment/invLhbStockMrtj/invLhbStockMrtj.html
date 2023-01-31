@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('个股龙虎榜列表')" />
+    <th:block th:include="include :: header('个股龙虎榜统计列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -19,17 +19,6 @@
                                 <input type="text" class="time-input" placeholder="请选择上榜日期" name="tradeDate"/>
                             </li>
                             <li>
-                                <label>数据类型：</label>
-                                <select name="lhbDataType" th:with="type=${@dict.getType('lhb_data_type')}">
-                                    <option value="">所有</option>
-                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
-                                </select>
-                            </li>
-                            <li>
-                                <label>上榜说明：</label>
-                                <input type="text" name="explanation"/>
-                            </li>
-                            <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
                             </li>
@@ -39,16 +28,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="investment:invLhbStock:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="investment:invLhbStockMrtj:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="investment:invLhbStock:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="investment:invLhbStockMrtj:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="investment:invLhbStock:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="investment:invLhbStockMrtj:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="investment:invLhbStock:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="investment:invLhbStockMrtj:export">
                     <i class="fa fa-download"></i> 导出
                 </a>
             </div>
@@ -59,10 +48,9 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('investment:invLhbStock:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('investment:invLhbStock:remove')}]];
-        var lhbDataTypeDatas = [[${@dict.getType('lhb_data_type')}]];
-        var prefix = ctx + "investment/invLhbStock";
+        var editFlag = [[${@permission.hasPermi('investment:invLhbStockMrtj:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('investment:invLhbStockMrtj:remove')}]];
+        var prefix = ctx + "investment/invLhbStockMrtj";
 
         $(function() {
             var options = {
@@ -71,7 +59,7 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "个股龙虎榜",
+                modalName: "个股龙虎榜统计",
                 columns: [{
                     checkbox: true
                 },
@@ -89,59 +77,64 @@
                     title: '上榜日期'
                 },
                 {
-                    field: 'lhbDataType',
-                    title: '数据类型',
-                    formatter: function(value, row, index) {
-                       return $.table.selectDictLabel(lhbDataTypeDatas, value);
-                    }
+                    field: 'yybBuyAmt',
+                    title: '营业部买入合计'
                 },
                 {
-                    field: 'explanation',
-                    title: '上榜说明'
+                    field: 'yybSellAmt',
+                    title: '营业部卖出合计'
                 },
                 {
-                    field: 'operatedeptCode',
-                    title: '交易营业部代码'
+                    field: 'yybNet',
+                    title: '营业部买卖净额'
                 },
                 {
-                    field: 'operatedeptName',
-                    title: '交易营业部名称'
+                    field: 'jgBuyCount',
+                    title: '买入机构数'
                 },
                 {
-                    field: 'buy',
-                    title: '买入金额(元)'
+                    field: 'jgSellCount',
+                    title: '卖出机构数'
                 },
                 {
-                    field: 'totalBuyrio',
-                    title: '占总成交比例'
+                    field: 'jgBuyAmt',
+                    title: '机构买入总额'
                 },
                 {
-                    field: 'sell',
-                    title: '卖出金额(元)'
+                    field: 'jgSellAmt',
+                    title: '机构卖出总额'
                 },
                 {
-                    field: 'totalSellrio',
-                    title: '占总成交比例'
+                    field: 'jgNet',
+                    title: '机构买卖净额'
                 },
                 {
-                    field: 'net',
-                    title: '净额(元)'
+                    field: 'd1CloseAdjchrate',
+                    title: '后1日涨跌幅'
                 },
                 {
-                    field: 'totalBuy',
-                    title: '(前5名)买入金额合计(元)'
+                    field: 'd2CloseAdjchrate',
+                    title: '后2日涨跌幅'
                 },
                 {
-                    field: 'totalSell',
-                    title: '(前5名)卖出金额合计(元)'
+                    field: 'd3CloseAdjchrate',
+                    title: '后3日涨跌幅'
                 },
                 {
-                    field: 'totalBuyriotop',
-                    title: '(前5名)占总成交比例'
+                    field: 'd5CloseAdjchrate',
+                    title: '后5日涨跌幅'
                 },
                 {
-                    field: 'totalNet',
-                    title: '(前5名)净额合计(元)'
+                    field: 'd10CloseAdjchrate',
+                    title: '后10日涨跌幅'
+                },
+                {
+                    field: 'd20CloseAdjchrate',
+                    title: '后20日涨跌幅'
+                },
+                {
+                    field: 'd30CloseAdjchrate',
+                    title: '后30日涨跌幅'
                 },
                 {
                     title: '操作',

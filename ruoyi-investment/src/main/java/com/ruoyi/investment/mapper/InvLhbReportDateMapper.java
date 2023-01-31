@@ -1,5 +1,6 @@
 package com.ruoyi.investment.mapper;
 
+import java.util.Date;
 import java.util.List;
 import com.ruoyi.investment.domain.InvLhbReportDate;
 
@@ -57,4 +58,22 @@ public interface InvLhbReportDateMapper {
      * @return 结果
      */
     public int deleteInvLhbReportDateByIds(String[] ids);
+
+    /**
+     * 查询未抓取龙虎榜每日明细数据的龙虎榜日期
+     *
+     * @param securityCode 股票代码
+     * @return 上榜日期集合
+     */
+    public List<InvLhbReportDate> selectInvLhbReportDateListPendingMrmx(String securityCode);
+
+    /**
+     * 查询未抓取龙虎榜每日统计数据的龙虎榜日期
+     *
+     * @param securityCode 股票代码
+     * @return 上榜日期集合
+     */
+    public List<InvLhbReportDate> selectInvLhbReportDateListPendingMrtj(String securityCode);
+
+
 }
