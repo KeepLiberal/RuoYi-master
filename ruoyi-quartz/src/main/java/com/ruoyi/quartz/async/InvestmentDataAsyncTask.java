@@ -1431,10 +1431,6 @@ public class InvestmentDataAsyncTask {
                     JSONArray dataArray = jsonObject.getJSONObject("result").getJSONArray("data");
                     if (!dataArray.isEmpty()) {
                         List<InvRzrq> entityList = invRzrqMapper.selectInvRzrqList(new InvRzrq(stock.getCode()));
-                        Map<String, InvRzrq> entityMap = new HashMap<>();
-                        for (InvRzrq entity : entityList) {
-                            entityMap.put(entity.getDate().toString(), entity);
-                        }
                         Iterator<Object> iterator = dataArray.iterator();
                         while (iterator.hasNext()) {
                             JSONObject next = (JSONObject) iterator.next();
