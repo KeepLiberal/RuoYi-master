@@ -55,7 +55,7 @@ inv:
   #个股龙虎榜-每日统计-机构
   lhb-stock-mrtj-jg: https://datacenter-web.eastmoney.com/api/data/v1/get?&sortColumns=TRADE_DATE%2CTRADE_DATE&sortTypes=-1%2C-1&pageSize=5000&pageNumber=&reportName=RPT_ORGANIZATION_TRADE_DETAILSNEW&columns=ALL&filter=(SECURITY_CODE%3D%22code=%22)&source=WEB&client=WEB
   #个股龙虎榜-每日统计-所有
-  lhb-stock-mrtj-all: https://datacenter-web.eastmoney.com/api/data/v1/get?reportName=RPT_BILLBOARD_DAILYDETAILS&columns=ALL&filter=(TRADE_DATE%3D%27reportDate=%27)(SECURITY_CODE%3D%22code=%22)&sortTypes=-1&sortColumns=&source=WEB&client=WEB&pageSize=10&pageNumber=
+  lhb-stock-mrtj-all: https://datacenter-web.eastmoney.com/api/data/v1/get?reportName=RPT_BILLBOARD_DAILYDETAILS&columns=ALL&filter=(TRADE_DATE%3D%27reportDate=%27)(SECURITY_CODE%3D%22code=%22)&sortTypes=-1&sortColumns=&source=WEB&client=WEB&pageSize=5000&pageNumber=
 
   #大宗交易
   dzjy-mrmx: https://datacenter-web.eastmoney.com/api/data/v1/get?sortColumns=TRADE_DATE%2CDEAL_AMT&sortTypes=1%2C-1&filter=(SECURITY_CODE%3D%22code=%22)&columns=ALL&source=WEB&client=WEB&reportName=RPT_DATA_BLOCKTRADE&pageSize=&pageNumber=

@@ -26,10 +26,6 @@
                                 </select>
                             </li>
                             <li>
-                                <label>交易营业部代码：</label>
-                                <input type="text" name="operatedeptCode"/>
-                            </li>
-                            <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
                             </li>
@@ -61,6 +57,7 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('investment:invLhbStockMrmx:edit')}]];
         var removeFlag = [[${@permission.hasPermi('investment:invLhbStockMrmx:remove')}]];
+        var idDatas = [[${@dict.getType('${column.dictType}')}]];
         var lhbBuySellTypeDatas = [[${@dict.getType('lhb_buy_sell_type')}]];
         var prefix = ctx + "investment/invLhbStockMrmx";
 
@@ -89,15 +86,15 @@
                     title: '上榜日期'
                 },
                 {
+                    field: 'explanation',
+                    title: '上榜原因'
+                },
+                {
                     field: 'lhbBuySellType',
                     title: '交易类型',
                     formatter: function(value, row, index) {
                        return $.table.selectDictLabel(lhbBuySellTypeDatas, value);
                     }
-                },
-                {
-                    field: 'explanation',
-                    title: '上榜类型'
                 },
                 {
                     field: 'operatedeptCode',

@@ -30,6 +30,10 @@ public class InvLhbStockMrtj extends BaseEntity{
     @Excel(name = "上榜日期", width = 30, dateFormat = "yyyy-MM-dd")
     private Date tradeDate;
 
+    /** 上榜原因 */
+    @Excel(name = "上榜原因")
+    private String explanation;
+
     /** 营业部买入合计 */
     @Excel(name = "营业部买入合计")
     private Double yybBuyAmt;
@@ -61,6 +65,26 @@ public class InvLhbStockMrtj extends BaseEntity{
     /** 机构买卖净额 */
     @Excel(name = "机构买卖净额")
     private Double jgNet;
+
+    /** 买入合计 */
+    @Excel(name = "买入合计")
+    private Double totalBuy;
+
+    /** 买入占总成交比例 */
+    @Excel(name = "买入占总成交比例")
+    private Double totalBuyriotop;
+
+    /** 卖出合计 */
+    @Excel(name = "卖出合计")
+    private Double totalSell;
+
+    /** 卖出占总成交比例 */
+    @Excel(name = "卖出占总成交比例")
+    private Double totalSellriotop;
+
+    /** 买卖净额 */
+    @Excel(name = "买卖净额")
+    private Double totalNet;
 
     /** 后1日涨跌幅 */
     @Excel(name = "后1日涨跌幅")
@@ -99,6 +123,9 @@ public class InvLhbStockMrtj extends BaseEntity{
     public void setTradeDate(Date tradeDate){this.tradeDate = tradeDate;}
     public Date getTradeDate(){return tradeDate;}
 
+    public void setExplanation(String explanation){this.explanation = explanation;}
+    public String getExplanation(){return explanation;}
+
     public void setYybBuyAmt(Double yybBuyAmt){this.yybBuyAmt = yybBuyAmt;}
     public Double getYybBuyAmt(){return yybBuyAmt;}
 
@@ -122,6 +149,21 @@ public class InvLhbStockMrtj extends BaseEntity{
 
     public void setJgNet(Double jgNet){this.jgNet = jgNet;}
     public Double getJgNet(){return jgNet;}
+
+    public void setTotalBuy(Double totalBuy){this.totalBuy = totalBuy;}
+    public Double getTotalBuy(){return totalBuy;}
+
+    public void setTotalBuyriotop(Double totalBuyriotop){this.totalBuyriotop = totalBuyriotop;}
+    public Double getTotalBuyriotop(){return totalBuyriotop;}
+
+    public void setTotalSell(Double totalSell){this.totalSell = totalSell;}
+    public Double getTotalSell(){return totalSell;}
+
+    public void setTotalSellriotop(Double totalSellriotop){this.totalSellriotop = totalSellriotop;}
+    public Double getTotalSellriotop(){return totalSellriotop;}
+
+    public void setTotalNet(Double totalNet){this.totalNet = totalNet;}
+    public Double getTotalNet(){return totalNet;}
 
     public void setD1CloseAdjchrate(Double d1CloseAdjchrate){this.d1CloseAdjchrate = d1CloseAdjchrate;}
     public Double getD1CloseAdjchrate(){return d1CloseAdjchrate;}
@@ -157,16 +199,22 @@ public class InvLhbStockMrtj extends BaseEntity{
         this.tradeDate = tradeDate;
     }
 
+    public InvLhbStockMrtj(String securityCode, Date tradeDate, String explanation) {
+        this.securityCode = securityCode;
+        this.tradeDate = tradeDate;
+        this.explanation = explanation;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof InvLhbStockMrtj)) return false;
         InvLhbStockMrtj that = (InvLhbStockMrtj) o;
-        return Objects.equals(securityCode, that.securityCode) && Objects.equals(tradeDate, that.tradeDate) && Objects.equals(yybBuyAmt, that.yybBuyAmt) && Objects.equals(yybSellAmt, that.yybSellAmt) && Objects.equals(yybNet, that.yybNet) && Objects.equals(jgBuyCount, that.jgBuyCount) && Objects.equals(jgSellCount, that.jgSellCount) && Objects.equals(jgBuyAmt, that.jgBuyAmt) && Objects.equals(jgSellAmt, that.jgSellAmt) && Objects.equals(jgNet, that.jgNet) && Objects.equals(d1CloseAdjchrate, that.d1CloseAdjchrate) && Objects.equals(d2CloseAdjchrate, that.d2CloseAdjchrate) && Objects.equals(d3CloseAdjchrate, that.d3CloseAdjchrate) && Objects.equals(d5CloseAdjchrate, that.d5CloseAdjchrate) && Objects.equals(d10CloseAdjchrate, that.d10CloseAdjchrate) && Objects.equals(d20CloseAdjchrate, that.d20CloseAdjchrate) && Objects.equals(d30CloseAdjchrate, that.d30CloseAdjchrate);
+        return Objects.equals(securityCode, that.securityCode) && Objects.equals(tradeDate, that.tradeDate) && Objects.equals(explanation, that.explanation) && Objects.equals(yybBuyAmt, that.yybBuyAmt) && Objects.equals(yybSellAmt, that.yybSellAmt) && Objects.equals(yybNet, that.yybNet) && Objects.equals(jgBuyCount, that.jgBuyCount) && Objects.equals(jgSellCount, that.jgSellCount) && Objects.equals(jgBuyAmt, that.jgBuyAmt) && Objects.equals(jgSellAmt, that.jgSellAmt) && Objects.equals(jgNet, that.jgNet) && Objects.equals(totalBuy, that.totalBuy) && Objects.equals(totalBuyriotop, that.totalBuyriotop) && Objects.equals(totalSell, that.totalSell) && Objects.equals(totalSellriotop, that.totalSellriotop) && Objects.equals(totalNet, that.totalNet) && Objects.equals(d1CloseAdjchrate, that.d1CloseAdjchrate) && Objects.equals(d2CloseAdjchrate, that.d2CloseAdjchrate) && Objects.equals(d3CloseAdjchrate, that.d3CloseAdjchrate) && Objects.equals(d5CloseAdjchrate, that.d5CloseAdjchrate) && Objects.equals(d10CloseAdjchrate, that.d10CloseAdjchrate) && Objects.equals(d20CloseAdjchrate, that.d20CloseAdjchrate) && Objects.equals(d30CloseAdjchrate, that.d30CloseAdjchrate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(securityCode, tradeDate, yybBuyAmt, yybSellAmt, yybNet, jgBuyCount, jgSellCount, jgBuyAmt, jgSellAmt, jgNet, d1CloseAdjchrate, d2CloseAdjchrate, d3CloseAdjchrate, d5CloseAdjchrate, d10CloseAdjchrate, d20CloseAdjchrate, d30CloseAdjchrate);
+        return Objects.hash(securityCode, tradeDate, explanation, yybBuyAmt, yybSellAmt, yybNet, jgBuyCount, jgSellCount, jgBuyAmt, jgSellAmt, jgNet, totalBuy, totalBuyriotop, totalSell, totalSellriotop, totalNet, d1CloseAdjchrate, d2CloseAdjchrate, d3CloseAdjchrate, d5CloseAdjchrate, d10CloseAdjchrate, d20CloseAdjchrate, d30CloseAdjchrate);
     }
 }

@@ -65,6 +65,8 @@ public class InvestmentDataAsyncTask {
     private InvLhbReportDateMapper invLhbReportDateMapper;
     @Resource
     private InvLhbStockMrmxMapper invLhbStockMrmxMapper;
+    @Resource
+    private InvLhbStockMrtjMapper invLhbStockMrtjMapper;
 
 
     /**
@@ -1167,25 +1169,26 @@ public class InvestmentDataAsyncTask {
                         while (iterator.hasNext()) {
                             JSONObject next = (JSONObject) iterator.next();
                             String explanation = next.getString("EXPLANATION");
+                            if ("YYB".equals(tjType)) {
+                                explanation = next.getString("EXPLAIN");
+                            }
                             InvLhbStockMrtj entity = new InvLhbStockMrtj(stock.getCode());
                             if (StringUtils.isEmpty(reportDateStr)) {
                                 reportDateStr = next.getString("TRADE_DATE").substring(0, 10);
                             }
                             ConcurrentHashMap<String, Object> objectMap = RyTask.objectMap.get(stock.getCode());
                             if (null != objectMap) {
-                                Object object = objectMap.get(reportDateStr+explanation);
+                                Object object = objectMap.get(reportDateStr + explanation);
                                 if (null != object) {
                                     entity = (InvLhbStockMrtj) object;
                                 }
                             }
-
-                            entity.setYybBuyAmt(NumFormatUtil.toDouble(next.getString("EXPLANATION")));
-
+                            entity.setExplanation(explanation);
+                            entity.setTradeDate(DateUtils.parseDate(next.getString("TRADE_DATE")));
                             if ("YYB".equals(tjType)) {
                                 entity.setYybBuyAmt(NumFormatUtil.toDouble(next.getString("NET_BUY_AMT")));
                                 entity.setYybSellAmt(NumFormatUtil.toDouble(next.getString("NET_SELL_AMT")));
                                 entity.setYybNet(NumFormatUtil.toDouble(next.getString("NET_OPERATEDEPT_AMT")));
-
                                 entity.setD1CloseAdjchrate(NumFormatUtil.toDouble(next.getString("D1_CLOSE_ADJCHRATE")));
                                 entity.setD2CloseAdjchrate(NumFormatUtil.toDouble(next.getString("D2_CLOSE_ADJCHRATE")));
                                 entity.setD3CloseAdjchrate(NumFormatUtil.toDouble(next.getString("D3_CLOSE_ADJCHRATE")));
@@ -1202,14 +1205,17 @@ public class InvestmentDataAsyncTask {
                                 entity.setJgNet(NumFormatUtil.toDouble(next.getString("NET_BUY_AMT")));
                             }
                             if ("ALL".equals(tjType)) {
-
+                                entity.setTotalBuy(NumFormatUtil.toDouble(next.getString("TOTAL_BUY")));
+                                entity.setTotalBuyriotop(NumFormatUtil.toDouble(next.getString("TOTAL_BUYRIOTOP")));
+                                entity.setTotalSell(NumFormatUtil.toDouble(next.getString("TOTAL_SELL")));
+                                entity.setTotalSellriotop(NumFormatUtil.toDouble(next.getString("TOTAL_SELLRIOTOP")));
+                                entity.setTotalNet(NumFormatUtil.toDouble(next.getString("TOTAL_NET")));
                             }
-
                             if (null != objectMap) {
-                                objectMap.put(reportDateStr, entity);
+                                objectMap.put(reportDateStr + explanation, entity);
                             } else {
                                 ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
-                                map.put(reportDateStr, entity);
+                                map.put(reportDateStr + explanation, entity);
                                 RyTask.objectMap.put(stock.getCode(), map);
                             }
                             reportDateStr = null;
@@ -1225,6 +1231,42 @@ public class InvestmentDataAsyncTask {
             if (count.get() > 0) {
                 count.decrementAndGet();
                 invLhbStockMrtjTask(stock, urlStr, reportDateStr, tjType, currentPages, pages, count);
+            } else {
+                log.error(">>>异常:", e);
+            }
+        }
+    }
+
+    /**
+     * 公司大事-个股龙虎榜单-每日统计-落库 任务
+     */
+    public void invLhbStockMrtjSaveTask(InvStock stock, AtomicInteger count) {
+        try {
+            List<InvLhbStockMrtj> invLhbStockMrtjs = invLhbStockMrtjMapper.selectInvLhbStockMrtjList(new InvLhbStockMrtj(stock.getCode()));
+            Map<String, InvLhbStockMrtj> mrtjMap = new HashMap<>();
+            for (InvLhbStockMrtj entity : invLhbStockMrtjs) {
+                mrtjMap.put(entity.getSecurityCode() + entity.getTradeDate() + entity.getExplanation(), entity);
+            }
+            ConcurrentHashMap<String, Object> map = RyTask.objectMap.get(stock.getCode());
+            if (null != map) {
+                for (Object obj : map.values()) {
+                    InvLhbStockMrtj entity = (InvLhbStockMrtj) obj;
+                    String key = entity.getSecurityCode() + entity.getTradeDate() + entity.getExplanation();
+                    if (!mrtjMap.containsKey(key)) {
+                        invLhbStockMrtjMapper.insertInvLhbStockMrtj(entity);
+                    } else {
+                        InvLhbStockMrtj compare = mrtjMap.get(key);
+                        if (!entity.equals(compare)) {
+                            entity.setId(compare.getId());
+                            invLhbStockMrtjMapper.updateInvLhbStockMrtj(entity);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            if (count.get() > 0) {
+                count.decrementAndGet();
+                invLhbStockMrtjSaveTask(stock, count);
             } else {
                 log.error(">>>异常:", e);
             }

@@ -24,6 +24,12 @@
                 </div>
             </div>
             <div class="form-group">    
+                <label class="col-sm-3 control-label">上榜原因：</label>
+                <div class="col-sm-8">
+                    <input name="explanation" th:field="*{explanation}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
                 <label class="col-sm-3 control-label">营业部买入合计：</label>
                 <div class="col-sm-8">
                     <input name="yybBuyAmt" th:field="*{yybBuyAmt}" class="form-control" type="text">
@@ -69,6 +75,36 @@
                 <label class="col-sm-3 control-label">机构买卖净额：</label>
                 <div class="col-sm-8">
                     <input name="jgNet" th:field="*{jgNet}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">买入合计：</label>
+                <div class="col-sm-8">
+                    <input name="totalBuy" th:field="*{totalBuy}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">买入占总成交比例：</label>
+                <div class="col-sm-8">
+                    <input name="totalBuyriotop" th:field="*{totalBuyriotop}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">卖出合计：</label>
+                <div class="col-sm-8">
+                    <input name="totalSell" th:field="*{totalSell}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">卖出占总成交比例：</label>
+                <div class="col-sm-8">
+                    <input name="totalSellriotop" th:field="*{totalSellriotop}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">买卖净额：</label>
+                <div class="col-sm-8">
+                    <input name="totalNet" th:field="*{totalNet}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    

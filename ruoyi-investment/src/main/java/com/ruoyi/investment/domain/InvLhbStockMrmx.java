@@ -30,13 +30,13 @@ public class InvLhbStockMrmx extends BaseEntity{
     @Excel(name = "上榜日期", width = 30, dateFormat = "yyyy-MM-dd")
     private Date tradeDate;
 
+    /** 上榜原因 */
+    @Excel(name = "上榜原因")
+    private String explanation;
+
     /** 交易类型 */
     @Excel(name = "交易类型")
     private String lhbBuySellType;
-
-    /** 上榜类型 */
-    @Excel(name = "上榜类型")
-    private String explanation;
 
     /** 交易营业部代码 */
     @Excel(name = "交易营业部代码")
@@ -75,11 +75,11 @@ public class InvLhbStockMrmx extends BaseEntity{
     public void setTradeDate(Date tradeDate){this.tradeDate = tradeDate;}
     public Date getTradeDate(){return tradeDate;}
 
-    public void setLhbBuySellType(String lhbBuySellType){this.lhbBuySellType = lhbBuySellType;}
-    public String getLhbBuySellType(){return lhbBuySellType;}
-
     public void setExplanation(String explanation){this.explanation = explanation;}
     public String getExplanation(){return explanation;}
+
+    public void setLhbBuySellType(String lhbBuySellType){this.lhbBuySellType = lhbBuySellType;}
+    public String getLhbBuySellType(){return lhbBuySellType;}
 
     public void setOperatedeptCode(String operatedeptCode){this.operatedeptCode = operatedeptCode;}
     public String getOperatedeptCode(){return operatedeptCode;}

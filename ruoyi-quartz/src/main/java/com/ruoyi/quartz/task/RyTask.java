@@ -367,12 +367,12 @@ public class RyTask {
         log.info("========公司大事 任务开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
 
-        log.info("========龙虎榜单-日期 任务开始=========");
+        log.info("========个股龙虎榜单-日期 任务开始=========");
         for (InvStock stock : stockList) {
             investmentDataAsyncTask.invLhbReportTask(stock, ev.getProperty("inv.lhb-stock-rq"), 1, 1, new AtomicInteger(10));
         }
         isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========龙虎榜单-日期 任务完成=========");
+        log.info("========个股龙虎榜单-日期 任务完成=========");
 
         log.info("========个股龙虎榜单-每日明细 任务开始=========");
         for (InvStock stock : stockList) {
@@ -388,28 +388,31 @@ public class RyTask {
         log.info("========个股龙虎榜单-每日明细 任务完成=========");
 
         log.info("========个股龙虎榜单-每日统计 任务开始=========");
+        objectMap.clear();
         for (InvStock stock : stockList) {
-            if ("000001".equals(stock.getCode())) {
-//                List<InvLhbReportDate> invLhbReportDates = invLhbReportDateMapper.selectInvLhbReportDateListPendingMrtj(stock.getCode());
-//                for (InvLhbReportDate invLhbReportDate : invLhbReportDates) {
-//                    String reportDateStr = DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD, invLhbReportDate.getTradeDate());
-//                    investmentDataAsyncTask.invLhbStockMrtjTask(stock, ev.getProperty("inv.lhb-stock-mrtj-all"), reportDateStr, "ALL", 1, 1, new AtomicInteger(10));
-//                }
-                investmentDataAsyncTask.invLhbStockMrtjTask(stock, ev.getProperty("inv.lhb-stock-mrtj-yyb"), null, "YYB", 1, 1, new AtomicInteger(10));
-                investmentDataAsyncTask.invLhbStockMrtjTask(stock, ev.getProperty("inv.lhb-stock-mrtj-jg"), null, "JG", 1, 1, new AtomicInteger(10));
-
+            List<InvLhbReportDate> invLhbReportDates = invLhbReportDateMapper.selectInvLhbReportDateListPendingMrtj(stock.getCode());
+            for (InvLhbReportDate invLhbReportDate : invLhbReportDates) {
+                String reportDateStr = DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD, invLhbReportDate.getTradeDate());
+                investmentDataAsyncTask.invLhbStockMrtjTask(stock, ev.getProperty("inv.lhb-stock-mrtj-all"), reportDateStr, "ALL", 1, 1, new AtomicInteger(10));
             }
+            investmentDataAsyncTask.invLhbStockMrtjTask(stock, ev.getProperty("inv.lhb-stock-mrtj-yyb"), null, "YYB", 1, 1, new AtomicInteger(10));
+            investmentDataAsyncTask.invLhbStockMrtjTask(stock, ev.getProperty("inv.lhb-stock-mrtj-jg"), null, "JG", 1, 1, new AtomicInteger(10));
         }
         isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        for (InvStock stock : stockList) {
+            investmentDataAsyncTask.invLhbStockMrtjSaveTask(stock, new AtomicInteger(10));
+        }
+        isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
+        objectMap.clear();
         log.info("========个股龙虎榜单-每日统计 任务完成=========");
 
 
-        log.info("========大宗交易-每日明细 任务开始=========");
+        log.info("========个股大宗交易-每日明细 任务开始=========");
         for (InvStock stock : stockList) {
             investmentDataAsyncTask.invDzjyMrmxTask(stock, ev.getProperty("inv.dzjy-mrmx"), 1, 1, 500, new AtomicInteger(10));
         }
         isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========大宗交易-每日明细 任务结束=========");
+        log.info("========个股大宗交易-每日明细 任务结束=========");
 
         log.info("========证券交易所 任务开始=========");
         List<InvStockExchange> invStockExchanges = invStockExchangeMapper.selectInvStockExchangeList(null);
@@ -430,12 +433,12 @@ public class RyTask {
         }
         log.info("========证券交易所 任务结束=========");
 
-        log.info("========大宗交易-每日统计 任务开始=========");
+        log.info("========个股大宗交易-每日统计 任务开始=========");
         for (InvStock stock : stockList) {
             investmentDataAsyncTask.invDzjyMrtjTask(stock, ev.getProperty("inv.dzjy-mrtj"), 1, 1, new AtomicInteger(10));
         }
         isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
-        log.info("========大宗交易-每日统计 任务结束=========");
+        log.info("========个股大宗交易-每日统计 任务结束=========");
 
         log.info("========融资融券 任务开始=========");
         for (InvStock stock : stockList) {
@@ -443,7 +446,7 @@ public class RyTask {
         }
         isCompletedByTaskCount(investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor(), 0);
         log.info("========融资融券 任务完成=========");
-//
+
 
         log.info("========公司大事 任务完成=========");
     }

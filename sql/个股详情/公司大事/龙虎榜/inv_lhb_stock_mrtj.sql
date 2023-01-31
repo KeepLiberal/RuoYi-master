@@ -18,6 +18,12 @@ create table inv_lhb_stock_mrtj
     jg_sell_amt         double       default null comment '机构卖出总额',
     jg_net              double       default null comment '机构买卖净额',
 
+    total_buy           double       default null comment '买入合计',
+    total_buyriotop     double       default null comment '买入占总成交比例',
+    total_sell          double       default null comment '卖出合计',
+    total_sellriotop    double       default null comment '卖出占总成交比例',
+    total_net           double       default null comment '买卖净额',
+
     d1_close_adjchrate  double       default null comment '后1日涨跌幅',
     d2_close_adjchrate  double       default null comment '后2日涨跌幅',
     d3_close_adjchrate  double       default null comment '后3日涨跌幅',

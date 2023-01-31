@@ -50,6 +50,7 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('investment:invLhbStockMrtj:edit')}]];
         var removeFlag = [[${@permission.hasPermi('investment:invLhbStockMrtj:remove')}]];
+        var idDatas = [[${@dict.getType('${column.dictType}')}]];
         var prefix = ctx + "investment/invLhbStockMrtj";
 
         $(function() {
@@ -75,6 +76,10 @@
                 {
                     field: 'tradeDate',
                     title: '上榜日期'
+                },
+                {
+                    field: 'explanation',
+                    title: '上榜原因'
                 },
                 {
                     field: 'yybBuyAmt',
@@ -107,6 +112,26 @@
                 {
                     field: 'jgNet',
                     title: '机构买卖净额'
+                },
+                {
+                    field: 'totalBuy',
+                    title: '买入合计'
+                },
+                {
+                    field: 'totalBuyriotop',
+                    title: '买入占总成交比例'
+                },
+                {
+                    field: 'totalSell',
+                    title: '卖出合计'
+                },
+                {
+                    field: 'totalSellriotop',
+                    title: '卖出占总成交比例'
+                },
+                {
+                    field: 'totalNet',
+                    title: '买卖净额'
                 },
                 {
                     field: 'd1CloseAdjchrate',
