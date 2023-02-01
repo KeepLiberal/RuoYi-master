@@ -27,17 +27,16 @@ public class RyTask {
 
 
     /**
-     * 财务分析数据抓取
+     * 数据初始化
      */
     public void initDataTask() {
         log.info("================数据初始化任务 等待=================");
         InvConstants.isCompletedByTaskCount(0);
         log.info("================数据初始化任务 开始=================");
-//        invDataStockTask.invStock();//沪深A股基础数据抓取
-//        invDataCompanyTask.invCompany();//沪深A股公司概况
-//        invDataFinanceTask.invFinance();//财务分析
+        invDataStockTask.invStock();//沪深A股基础数据
+        invDataCompanyTask.invCompany();//公司概况
+        invDataFinanceTask.invFinance();//财务分析
         invDataRzrqTask.invCompanyBigNews();//公司大事
-
         log.info("================数据初始化任务 完成=================");
     }
 

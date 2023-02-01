@@ -36,24 +36,26 @@ public class InvDataCompanyBigNewsTask {
 
 
     public void invCompanyBigNews() {
+        log.info("========公司大事=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
         invDataLhb(stockList);
-//        invDataDzjy(stockList);
-//        invDataRzrq(stockList);
+        invDataDzjy(stockList);
+        invDataRzrq(stockList);
+        log.info("========公司大事=========");
     }
 
     /**
-     * 个股龙虎榜单
+     * 龙虎榜单
      */
     private void invDataLhb(List<InvStock> stockList) {
-        log.info("========个股龙虎榜单-日期 任务开始=========");
+        log.info("========龙虎榜单-日期 任务开始=========");
         for (InvStock stock : stockList) {
             invDataCompanyNewsAsyncTask.invLhbReportTask(stock, ev.getProperty("inv.lhb-stock-rq"), 1, 1, new AtomicInteger(10));
         }
         InvConstants.isCompletedByTaskCount(0);
-        log.info("========个股龙虎榜单-日期 任务完成=========");
+        log.info("========龙虎榜单-日期 任务完成=========");
 
-        log.info("========个股龙虎榜单-每日明细 任务开始=========");
+        log.info("========龙虎榜单-每日明细 任务开始=========");
         for (InvStock stock : stockList) {
             List<InvLhbReportDate> invLhbReportDates = invLhbReportDateMapper.selectInvLhbReportDateListPendingMrmx(stock.getCode());
             for (InvLhbReportDate invLhbReportDate : invLhbReportDates) {
@@ -64,9 +66,9 @@ public class InvDataCompanyBigNewsTask {
             }
         }
         InvConstants.isCompletedByTaskCount(0);
-        log.info("========个股龙虎榜单-每日明细 任务完成=========");
+        log.info("========龙虎榜单-每日明细 任务完成=========");
 
-        log.info("========个股龙虎榜单-每日统计 任务开始=========");
+        log.info("========龙虎榜单-每日统计 任务开始=========");
         InvConstants.objectMap.clear();
         for (InvStock stock : stockList) {
             List<InvLhbReportDate> invLhbReportDates = invLhbReportDateMapper.selectInvLhbReportDateListPendingMrtj(stock.getCode());
@@ -83,19 +85,19 @@ public class InvDataCompanyBigNewsTask {
         }
         InvConstants.isCompletedByTaskCount(0);
         InvConstants.objectMap.clear();
-        log.info("========个股龙虎榜单-每日统计 任务完成=========");
+        log.info("========龙虎榜单-每日统计 任务完成=========");
     }
 
     /**
-     * 个股大宗交易
+     * 大宗交易
      */
     private void invDataDzjy(List<InvStock> stockList) {
-        log.info("========个股大宗交易-每日明细 任务开始=========");
+        log.info("========大宗交易-每日明细 任务开始=========");
         for (InvStock stock : stockList) {
             invDataCompanyNewsAsyncTask.invDzjyMrmxTask(stock, ev.getProperty("inv.dzjy-mrmx"), 1, 1, 500, new AtomicInteger(10));
         }
         InvConstants.isCompletedByTaskCount(0);
-        log.info("========个股大宗交易-每日明细 任务结束=========");
+        log.info("========大宗交易-每日明细 任务结束=========");
 
         log.info("========证券交易所 任务开始=========");
         List<InvStockExchange> invStockExchanges = invStockExchangeMapper.selectInvStockExchangeList(null);
@@ -116,12 +118,12 @@ public class InvDataCompanyBigNewsTask {
         }
         log.info("========证券交易所 任务结束=========");
 
-        log.info("========个股大宗交易-每日统计 任务开始=========");
+        log.info("========大宗交易-每日统计 任务开始=========");
         for (InvStock stock : stockList) {
             invDataCompanyNewsAsyncTask.invDzjyMrtjTask(stock, ev.getProperty("inv.dzjy-mrtj"), 1, 1, new AtomicInteger(10));
         }
         InvConstants.isCompletedByTaskCount(0);
-        log.info("========个股大宗交易-每日统计 任务结束=========");
+        log.info("========大宗交易-每日统计 任务结束=========");
     }
 
     /**

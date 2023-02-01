@@ -43,13 +43,13 @@ public class InvDataCompanyTask {
      * 公司概况
      */
     public void invCompany() {
-        log.info("========沪深A股-公司概况 任务开始=========");
+        log.info("========公司概况 任务开始=========");
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
         for (InvStock stock : stockList) {
             invDataCompanyAsyncTask.invCompanyTask(stock, ev.getProperty("inv.company-company-ajax"), new AtomicInteger(10));
         }
         InvConstants.isCompletedByTaskCount(0);
-        log.info("========沪深A股-公司概况 任务完成=========");
+        log.info("========公司概况 任务完成=========");
 
         List<InvCompany> companyList = invCompanyMapper.selectInvCompanyShortList();
         invIndustry(companyList);
