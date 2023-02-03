@@ -9,6 +9,8 @@ import com.ruoyi.common.annotation.Excel.ColumnType;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.util.Objects;
+
 /**
  * 字典数据表 sys_dict_data
  *
@@ -157,28 +159,31 @@ public class SysDictData extends BaseEntity {
         super();
     }
 
+    public SysDictData(String dictType) {
+        this.dictType = dictType;
+    }
+
     public SysDictData(String dictLabel, String dictType) {
         this.dictLabel = dictLabel;
         this.dictType = dictType;
     }
 
+    public SysDictData(String dictLabel, String dictValue, String dictType) {
+        this.dictLabel = dictLabel;
+        this.dictValue = dictValue;
+        this.dictType = dictType;
+    }
+
     @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("dictCode", getDictCode())
-                .append("dictSort", getDictSort())
-                .append("dictLabel", getDictLabel())
-                .append("dictValue", getDictValue())
-                .append("dictType", getDictType())
-                .append("cssClass", getCssClass())
-                .append("listClass", getListClass())
-                .append("isDefault", getIsDefault())
-                .append("status", getStatus())
-                .append("createBy", getCreateBy())
-                .append("createTime", getCreateTime())
-                .append("updateBy", getUpdateBy())
-                .append("updateTime", getUpdateTime())
-                .append("remark", getRemark())
-                .toString();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SysDictData)) return false;
+        SysDictData that = (SysDictData) o;
+        return Objects.equals(dictLabel, that.dictLabel) && Objects.equals(dictValue, that.dictValue) && Objects.equals(dictType, that.dictType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(dictLabel, dictValue, dictType);
     }
 }

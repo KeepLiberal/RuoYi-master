@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.investment.mapper.InvJjgMxMapper">
+    
+    <resultMap type="InvJjgMx" id="InvJjgMxResult">
+        <result property="id"    column="id"    />
+        <result property="securityCode"    column="security_code"    />
+        <result property="freeDate"    column="free_date"    />
+        <result property="limitedHolderName"    column="limited_holder_name"    />
+        <result property="addListingShares"    column="add_listing_shares"    />
+        <result property="freeSharesType"    column="free_shares_type"    />
+        <result property="planFeature"    column="plan_feature"    />
+    </resultMap>
+
+    <sql id="selectInvJjgMxVo">
+        select id, security_code, free_date, limited_holder_name, add_listing_shares, free_shares_type, plan_feature from inv_jjg_mx
+    </sql>
+
+    <select id="selectInvJjgMxList" parameterType="InvJjgMx" resultMap="InvJjgMxResult">
+        <include refid="selectInvJjgMxVo"/>
+        <where>  
+            <if test="securityCode != null  and securityCode != ''"> and security_code = #{securityCode}</if>
+            <if test="freeDate != null "> and free_date = #{freeDate}</if>
+            <if test="limitedHolderName != null  and limitedHolderName != ''"> and limited_holder_name like concat('%', #{limitedHolderName}, '%')</if>
+            <if test="addListingShares != null "> and add_listing_shares = #{addListingShares}</if>
+            <if test="freeSharesType != null  and freeSharesType != ''"> and free_shares_type = #{freeSharesType}</if>
+            <if test="planFeature != null  and planFeature != ''"> and plan_feature = #{planFeature}</if>
+        </where>
+    </select>
+    
+    <select id="selectInvJjgMxById" parameterType="Integer" resultMap="InvJjgMxResult">
+        <include refid="selectInvJjgMxVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInvJjgMx" parameterType="InvJjgMx" useGeneratedKeys="true" keyProperty="id">
+        insert into inv_jjg_mx
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code,</if>
+            <if test="freeDate != null">free_date,</if>
+            <if test="limitedHolderName != null and limitedHolderName != ''">limited_holder_name,</if>
+            <if test="addListingShares != null">add_listing_shares,</if>
+            <if test="freeSharesType != null">free_shares_type,</if>
+            <if test="planFeature != null">plan_feature,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">#{securityCode},</if>
+            <if test="freeDate != null">#{freeDate},</if>
+            <if test="limitedHolderName != null and limitedHolderName != ''">#{limitedHolderName},</if>
+            <if test="addListingShares != null">#{addListingShares},</if>
+            <if test="freeSharesType != null">#{freeSharesType},</if>
+            <if test="planFeature != null">#{planFeature},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInvJjgMx" parameterType="InvJjgMx">
+        update inv_jjg_mx
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code = #{securityCode},</if>
+            <if test="freeDate != null">free_date = #{freeDate},</if>
+            <if test="limitedHolderName != null and limitedHolderName != ''">limited_holder_name = #{limitedHolderName},</if>
+            <if test="addListingShares != null">add_listing_shares = #{addListingShares},</if>
+            <if test="freeSharesType != null">free_shares_type = #{freeSharesType},</if>
+            <if test="planFeature != null">plan_feature = #{planFeature},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInvJjgMxById" parameterType="Integer">
+        delete from inv_jjg_mx where id = #{id}
+    </delete>
+
+    <delete id="deleteInvJjgMxByIds" parameterType="String">
+        delete from inv_jjg_mx where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

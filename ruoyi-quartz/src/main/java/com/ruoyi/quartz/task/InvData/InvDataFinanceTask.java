@@ -33,9 +33,7 @@ public class InvDataFinanceTask {
         log.info("========财务分析=========");
 
         List<InvStock> stockList = invStockMapper.selectInvStockVoNoDelisting();
-        SysDictData dictData = new SysDictData();
-        dictData.setDictType("opinion_type");
-        List<SysDictData> dictDatas = dictDataMapper.selectDictDataList(dictData);
+        List<SysDictData> dictDatas = dictDataMapper.selectDictDataList(new SysDictData("opinion_type"));
 
         invFinanceReportDateTask(stockList);
         invFinanceZyzbTask(stockList);

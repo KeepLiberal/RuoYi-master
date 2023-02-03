@@ -1,5 +1,6 @@
 package com.ruoyi.quartz.constant;
 
+import com.ruoyi.common.core.domain.entity.SysDictData;
 import com.ruoyi.common.utils.spring.SpringUtils;
 import com.ruoyi.investment.domain.InvIndustry;
 import com.ruoyi.investment.domain.InvStockExchange;
@@ -39,6 +40,10 @@ public class InvConstants {
      * 存放营业部
      */
     public static Set<InvStockExchange> invStockExchangeSet = new HashSet<>();
+    /**
+     * 存放字典
+     */
+    public static Set<SysDictData> sysDictDataSet = new HashSet<>();
     /**
      * 存放任意实体集合
      */
