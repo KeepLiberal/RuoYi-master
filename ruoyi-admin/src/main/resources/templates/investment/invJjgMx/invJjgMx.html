@@ -15,7 +15,7 @@
                                 <input type="text" name="securityCode"/>
                             </li>
                             <li>
-                                <label>解除限售日期：</label>
+                                <label>解禁日期：</label>
                                 <input type="text" class="time-input" placeholder="请选择解除限售日期" name="freeDate"/>
                             </li>
                             <li>
@@ -23,11 +23,7 @@
                                 <input type="text" name="limitedHolderName"/>
                             </li>
                             <li>
-                                <label>新增可上市股份：</label>
-                                <input type="text" name="addListingShares"/>
-                            </li>
-                            <li>
-                                <label>限售股类型：</label>
+                                <label>限售类型：</label>
                                 <select name="freeSharesType" th:with="type=${@dict.getType('free_shares_type')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
@@ -98,7 +94,7 @@
                 },
                 {
                     field: 'freeDate',
-                    title: '解除限售日期'
+                    title: '解禁日期'
                 },
                 {
                     field: 'limitedHolderName',
@@ -110,7 +106,7 @@
                 },
                 {
                     field: 'freeSharesType',
-                    title: '限售股类型',
+                    title: '限售类型',
                     formatter: function(value, row, index) {
                        return $.table.selectDictLabel(freeSharesTypeDatas, value);
                     }
