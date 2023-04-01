@@ -19,7 +19,7 @@ public class InvConstants {
     /**
      * 容器中的线程池
      */
-    public static ThreadPoolTaskExecutor investmentDataThreadPoolTaskExecutor = SpringUtils.getBean("investmentDataThreadPoolTaskExecutor");
+    public static ThreadPoolTaskExecutor invDataThreadPoolTaskExecutor = SpringUtils.getBean("invDataThreadPoolTaskExecutor");
     /**
      * 存放接口所有字段
      */
@@ -56,7 +56,7 @@ public class InvConstants {
      * 判断线程池状态
      */
     public static void isCompletedByTaskCount(Integer value) {
-        while (investmentDataThreadPoolTaskExecutor.getThreadPoolExecutor().getActiveCount() > value) ;
+        while (invDataThreadPoolTaskExecutor.getThreadPoolExecutor().getActiveCount() > value) ;
     }
 
 

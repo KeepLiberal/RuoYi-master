@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.investment.mapper.InvKLineMapper">
+    
+    <resultMap type="InvKLine" id="InvKLineResult">
+        <result property="id"    column="id"    />
+        <result property="securityCode"    column="security_code"    />
+        <result property="reportDate"    column="report_date"    />
+        <result property="open"    column="open"    />
+        <result property="close"    column="close"    />
+        <result property="high"    column="high"    />
+        <result property="lower"    column="lower"    />
+        <result property="upDownRange"    column="up_down_range"    />
+        <result property="upDownQuota"    column="up_down_quota"    />
+        <result property="turnoverSize"    column="turnover_size"    />
+        <result property="turnoverQuota"    column="turnover_quota"    />
+        <result property="vibrateRange"    column="vibrate_range"    />
+        <result property="changeHandRange"    column="change_hand_range"    />
+    </resultMap>
+
+    <sql id="selectInvKLineVo">
+        select id, security_code, report_date, open, close, high, lower, up_down_range, up_down_quota, turnover_size, turnover_quota, vibrate_range, change_hand_range from inv_k_line
+    </sql>
+
+    <select id="selectInvKLineList" parameterType="InvKLine" resultMap="InvKLineResult">
+        <include refid="selectInvKLineVo"/>
+        <where>  
+            <if test="securityCode != null  and securityCode != ''"> and security_code = #{securityCode}</if>
+            <if test="reportDate != null "> and report_date = #{reportDate}</if>
+            <if test="open != null "> and open = #{open}</if>
+            <if test="close != null "> and close = #{close}</if>
+            <if test="high != null "> and high = #{high}</if>
+            <if test="lower != null "> and lower = #{lower}</if>
+            <if test="upDownRange != null "> and up_down_range = #{upDownRange}</if>
+            <if test="upDownQuota != null "> and up_down_quota = #{upDownQuota}</if>
+            <if test="turnoverSize != null "> and turnover_size = #{turnoverSize}</if>
+            <if test="turnoverQuota != null "> and turnover_quota = #{turnoverQuota}</if>
+            <if test="vibrateRange != null "> and vibrate_range = #{vibrateRange}</if>
+            <if test="changeHandRange != null "> and change_hand_range = #{changeHandRange}</if>
+        </where>
+    </select>
+    
+    <select id="selectInvKLineById" parameterType="Integer" resultMap="InvKLineResult">
+        <include refid="selectInvKLineVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInvKLine" parameterType="InvKLine" useGeneratedKeys="true" keyProperty="id">
+        insert into inv_k_line
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code,</if>
+            <if test="reportDate != null">report_date,</if>
+            <if test="open != null">open,</if>
+            <if test="close != null">close,</if>
+            <if test="high != null">high,</if>
+            <if test="lower != null">lower,</if>
+            <if test="upDownRange != null">up_down_range,</if>
+            <if test="upDownQuota != null">up_down_quota,</if>
+            <if test="turnoverSize != null">turnover_size,</if>
+            <if test="turnoverQuota != null">turnover_quota,</if>
+            <if test="vibrateRange != null">vibrate_range,</if>
+            <if test="changeHandRange != null">change_hand_range,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">#{securityCode},</if>
+            <if test="reportDate != null">#{reportDate},</if>
+            <if test="open != null">#{open},</if>
+            <if test="close != null">#{close},</if>
+            <if test="high != null">#{high},</if>
+            <if test="lower != null">#{lower},</if>
+            <if test="upDownRange != null">#{upDownRange},</if>
+            <if test="upDownQuota != null">#{upDownQuota},</if>
+            <if test="turnoverSize != null">#{turnoverSize},</if>
+            <if test="turnoverQuota != null">#{turnoverQuota},</if>
+            <if test="vibrateRange != null">#{vibrateRange},</if>
+            <if test="changeHandRange != null">#{changeHandRange},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInvKLine" parameterType="InvKLine">
+        update inv_k_line
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code = #{securityCode},</if>
+            <if test="reportDate != null">report_date = #{reportDate},</if>
+            <if test="open != null">open = #{open},</if>
+            <if test="close != null">close = #{close},</if>
+            <if test="high != null">high = #{high},</if>
+            <if test="lower != null">lower = #{lower},</if>
+            <if test="upDownRange != null">up_down_range = #{upDownRange},</if>
+            <if test="upDownQuota != null">up_down_quota = #{upDownQuota},</if>
+            <if test="turnoverSize != null">turnover_size = #{turnoverSize},</if>
+            <if test="turnoverQuota != null">turnover_quota = #{turnoverQuota},</if>
+            <if test="vibrateRange != null">vibrate_range = #{vibrateRange},</if>
+            <if test="changeHandRange != null">change_hand_range = #{changeHandRange},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInvKLineById" parameterType="Integer">
+        delete from inv_k_line where id = #{id}
+    </delete>
+
+    <delete id="deleteInvKLineByIds" parameterType="String">
+        delete from inv_k_line where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

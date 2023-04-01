@@ -61,9 +61,6 @@ public class Server {
     private List<SysFile> sysFiles = new LinkedList<SysFile>();
 
 
-
-
-
     public Cpu getCpu() {
         return cpu;
     }
@@ -195,7 +192,7 @@ public class Server {
      * 设置东财数据初始化专用线程池相关信息
      */
     private void setThreadPoolInfo() {
-        ThreadPoolTaskExecutor threadPoolTaskExecutor = SpringUtils.getBean("investmentDataThreadPoolTaskExecutor");
+        ThreadPoolTaskExecutor threadPoolTaskExecutor = SpringUtils.getBean("invDataThreadPoolTaskExecutor");
         ThreadPoolExecutor pool = threadPoolTaskExecutor.getThreadPoolExecutor();
         threadPool.setTaskCount(pool.getTaskCount());
         threadPool.setCompletedTaskCount(pool.getCompletedTaskCount());

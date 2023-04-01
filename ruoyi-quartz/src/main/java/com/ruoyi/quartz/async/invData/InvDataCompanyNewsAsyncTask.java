@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @Component
-@Async("investmentDataThreadPoolTaskExecutor")
+@Async("invDataThreadPoolTaskExecutor")
 public class InvDataCompanyNewsAsyncTask {
     @Resource
     private InvLhbReportDateMapper invLhbReportDateMapper;

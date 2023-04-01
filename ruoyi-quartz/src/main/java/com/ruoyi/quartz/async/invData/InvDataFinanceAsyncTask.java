@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @Component
-@Async("investmentDataThreadPoolTaskExecutor")
+@Async("invDataThreadPoolTaskExecutor")
 public class InvDataFinanceAsyncTask {
     @Resource
     private InvStockMapper invStockMapper;

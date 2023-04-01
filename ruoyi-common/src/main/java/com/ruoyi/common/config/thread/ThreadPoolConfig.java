@@ -35,14 +35,14 @@ public class ThreadPoolConfig {
     /**
      * 智能投顾专用线程池
      */
-    @Bean(name = "investmentPolicyThreadPoolTaskExecutor")
-    public ThreadPoolTaskExecutor investmentPolicyThreadPoolTaskExecutor() {
+    @Bean(name = "invPolicyThreadPoolTaskExecutor")
+    public ThreadPoolTaskExecutor invPolicyThreadPoolTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(corePoolSize); //核心线程数
         executor.setMaxPoolSize(maxPoolSize);//最大线程数
         executor.setQueueCapacity(queueCapacity);//缓存队列
         executor.setKeepAliveSeconds(keepAliveSeconds);//允许的空闲时间
-        executor.setThreadNamePrefix("myThread-");//设置线程名称前缀
+        executor.setThreadNamePrefix("invPolicyThread-");//设置线程名称前缀
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());//设置拒绝策略
         executor.setWaitForTasksToCompleteOnShutdown(true);//等待所有任务结束后再关闭线程池
         return executor;
@@ -51,14 +51,14 @@ public class ThreadPoolConfig {
     /**
      * 东财数据初始化专用线程池
      */
-    @Bean(name = "investmentDataThreadPoolTaskExecutor")
-    public ThreadPoolTaskExecutor investmentDataThreadPoolTaskExecutor() {
+    @Bean(name = "invDataThreadPoolTaskExecutor")
+    public ThreadPoolTaskExecutor invDataThreadPoolTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(corePoolSize); //核心线程数
         executor.setMaxPoolSize(maxPoolSize);//最大线程数
         executor.setQueueCapacity(queueCapacity);//缓存队列
         executor.setKeepAliveSeconds(keepAliveSeconds);//允许的空闲时间
-        executor.setThreadNamePrefix("myThread-");//设置线程名称前缀
+        executor.setThreadNamePrefix("invDataThread-");//设置线程名称前缀
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());//设置拒绝策略
         executor.setWaitForTasksToCompleteOnShutdown(true);//等待所有任务结束后再关闭线程池
         return executor;
