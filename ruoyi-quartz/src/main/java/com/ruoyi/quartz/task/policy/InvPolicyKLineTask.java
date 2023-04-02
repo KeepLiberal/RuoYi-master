@@ -64,7 +64,7 @@ public class InvPolicyKLineTask {
         //筛选出全部正常开市的日期
         Date reportDate = DateUtils.parseDate("1999-12-31");
         StringBuilder sb = new StringBuilder();
-        sb.append("select report_data from inv_k_line where security_code in(");
+        sb.append("select report_date from inv_k_line where security_code in(");
         for (InvCompany invCompany : companyList) {
             sb.append("'").append(invCompany.getCode()).append("'").append(",");
         }
@@ -75,7 +75,7 @@ public class InvPolicyKLineTask {
             String dataStr = DateUtils.dateTime(reportDate);
             String sq = sb.toString();
             sq = sq.substring(0, sq.length() - 1);
-            sq += ") and listing_date='" + dataStr + "' order by listing_date";
+            sq += ") and report_date='" + dataStr + "' order by report_date, security_code";
             List<InvKLine> invKLines = invKLineMapper.commonSelect(sq);
             if (invKLines.size() == companyList.size()) {
                 dataList.add(dataStr);
