@@ -1,4 +1,4 @@
-package com.ruoyi.quartz.async.invData;
+package com.ruoyi.quartz.async.data;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;

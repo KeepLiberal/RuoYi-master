@@ -1,28 +1,17 @@
-package com.ruoyi.quartz.task.InvData;
+package com.ruoyi.quartz.task.data;
 
 import com.ruoyi.common.core.domain.entity.SysDictData;
-import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.investment.domain.InvCompany;
-import com.ruoyi.investment.domain.InvIndustry;
 import com.ruoyi.investment.domain.InvStock;
-import com.ruoyi.investment.mapper.InvCompanyMapper;
-import com.ruoyi.investment.mapper.InvIndustryMapper;
 import com.ruoyi.investment.mapper.InvStockMapper;
-import com.ruoyi.quartz.async.invData.InvDataCompanyAsyncTask;
-import com.ruoyi.quartz.async.invData.InvDataShareholderResearchAsyncTask;
+import com.ruoyi.quartz.async.data.InvDataShareholderResearchAsyncTask;
 import com.ruoyi.quartz.constant.InvConstants;
-import com.ruoyi.system.domain.SysArea;
-import com.ruoyi.system.mapper.SysAreaMapper;
 import com.ruoyi.system.mapper.SysDictDataMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 

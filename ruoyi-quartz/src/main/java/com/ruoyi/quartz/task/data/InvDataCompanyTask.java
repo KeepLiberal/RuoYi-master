@@ -1,4 +1,4 @@
-package com.ruoyi.quartz.task.InvData;
+package com.ruoyi.quartz.task.data;
 
 import com.ruoyi.investment.domain.InvCompany;
 import com.ruoyi.investment.domain.InvIndustry;
@@ -6,7 +6,7 @@ import com.ruoyi.investment.domain.InvStock;
 import com.ruoyi.investment.mapper.InvCompanyMapper;
 import com.ruoyi.investment.mapper.InvIndustryMapper;
 import com.ruoyi.investment.mapper.InvStockMapper;
-import com.ruoyi.quartz.async.invData.InvDataCompanyAsyncTask;
+import com.ruoyi.quartz.async.data.InvDataCompanyAsyncTask;
 import com.ruoyi.quartz.constant.InvConstants;
 import com.ruoyi.system.domain.SysArea;
 import com.ruoyi.system.mapper.SysAreaMapper;

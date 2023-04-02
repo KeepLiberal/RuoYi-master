@@ -1,4 +1,4 @@
-package com.ruoyi.quartz.task.InvData;
+package com.ruoyi.quartz.task.data;
 
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.investment.domain.InvLhbReportDate;
@@ -7,7 +7,7 @@ import com.ruoyi.investment.domain.InvStockExchange;
 import com.ruoyi.investment.mapper.InvLhbReportDateMapper;
 import com.ruoyi.investment.mapper.InvStockExchangeMapper;
 import com.ruoyi.investment.mapper.InvStockMapper;
-import com.ruoyi.quartz.async.invData.InvDataCompanyNewsAsyncTask;
+import com.ruoyi.quartz.async.data.InvDataCompanyNewsAsyncTask;
 import com.ruoyi.quartz.constant.InvConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;

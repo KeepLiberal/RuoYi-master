@@ -1,9 +1,9 @@
-package com.ruoyi.quartz.task.InvData;
+package com.ruoyi.quartz.task.data;
 
 import com.ruoyi.common.core.domain.entity.SysDictData;
 import com.ruoyi.investment.domain.InvStock;
 import com.ruoyi.investment.mapper.InvStockMapper;
-import com.ruoyi.quartz.async.invData.InvDataFinanceAsyncTask;
+import com.ruoyi.quartz.async.data.InvDataFinanceAsyncTask;
 import com.ruoyi.quartz.constant.InvConstants;
 import com.ruoyi.system.mapper.SysDictDataMapper;
 import lombok.extern.slf4j.Slf4j;

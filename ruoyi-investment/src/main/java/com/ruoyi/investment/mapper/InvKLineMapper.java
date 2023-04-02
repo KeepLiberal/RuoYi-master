@@ -57,4 +57,14 @@ public interface InvKLineMapper {
      * @return 结果
      */
     public int deleteInvKLineByIds(String[] ids);
+
+
+
+    /**
+     * 查询个股K线数据列表
+     *
+     * @param sql 自定义sql
+     * @return 个股K线数据集合
+     */
+    public List<InvKLine> commonSelect(String sql);
 }

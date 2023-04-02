@@ -1,7 +1,8 @@
 package com.ruoyi.quartz.task;
 
 import com.ruoyi.quartz.constant.InvConstants;
-import com.ruoyi.quartz.task.InvData.*;
+import com.ruoyi.quartz.task.data.*;
+import com.ruoyi.quartz.task.policy.InvPolicyKLineTask;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +26,8 @@ public class RyTask {
     private InvDataCompanyBigNewsTask invDataRzrqTask;
     @Resource
     private InvDataShareholderResearchTask invDataShareholderResearchTask;
+    @Resource
+    private InvPolicyKLineTask invPolicyKLineTask;
 
     /**
      * 数据初始化
@@ -33,13 +36,21 @@ public class RyTask {
         log.info("================数据初始化任务 等待=================");
         InvConstants.isCompletedByTaskCount(0);
         log.info("================数据初始化任务 开始=================");
-        invDataKLineTask.invDataKLine();//KLine数据
         invDataStockTask.invStock();//沪深A股基础数据
         invDataCompanyTask.invCompany();//公司概况
         invDataFinanceTask.invFinance();//财务分析
         invDataRzrqTask.invCompanyBigNews();//公司大事
         invDataShareholderResearchTask.shareholderResearch();//股东研究
+        invDataKLineTask.invDataKLine();//KLine数据
         log.info("================数据初始化任务 完成=================");
+    }
+
+    /**
+     * 策略任务
+     */
+    public void policyTask() {
+        InvConstants.isCompletedByTaskCount(0);
+        invPolicyKLineTask.policyKLine();
     }
 
 }

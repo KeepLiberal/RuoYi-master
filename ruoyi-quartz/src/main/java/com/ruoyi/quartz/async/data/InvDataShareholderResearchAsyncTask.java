@@ -1,4 +1,4 @@
-package com.ruoyi.quartz.async.invData;
+package com.ruoyi.quartz.async.data;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -10,7 +10,6 @@ import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.investment.domain.*;
 import com.ruoyi.investment.mapper.*;
 import com.ruoyi.quartz.constant.InvConstants;
-import com.ruoyi.system.mapper.SysDictDataMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.lang.reflect.Field;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 

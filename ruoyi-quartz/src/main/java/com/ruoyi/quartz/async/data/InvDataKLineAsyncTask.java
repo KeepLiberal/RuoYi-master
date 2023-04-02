@@ -1,4 +1,4 @@
-package com.ruoyi.quartz.async.invData;
+package com.ruoyi.quartz.async.data;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -9,8 +9,6 @@ import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.investment.domain.InvKLine;
 import com.ruoyi.investment.domain.InvStock;
 import com.ruoyi.investment.mapper.InvKLineMapper;
-import com.ruoyi.investment.mapper.InvStockMapper;
-import com.ruoyi.quartz.constant.InvConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
