@@ -2,6 +2,7 @@ package com.ruoyi.quartz.task;
 
 import com.ruoyi.quartz.constant.InvConstants;
 import com.ruoyi.quartz.task.data.*;
+import com.ruoyi.quartz.task.policy.InvPickStockTask;
 import com.ruoyi.quartz.task.policy.InvPolicyKLineTask;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,8 @@ public class RyTask {
     private InvDataShareholderResearchTask invDataShareholderResearchTask;
     @Resource
     private InvPolicyKLineTask invPolicyKLineTask;
+    @Resource
+    private InvPickStockTask invPickStockTask;
 
     /**
      * 数据初始化
@@ -51,6 +54,13 @@ public class RyTask {
     public void policyTask() {
         InvConstants.isCompletedByTaskCount(0);
         invPolicyKLineTask.policyKLine();
+    }
+
+    /**
+     * 选股
+     */
+    public void pickStock() {
+        invPickStockTask.pickStock();
     }
 
 }

@@ -100,7 +100,6 @@ public class InvPolicyKLineTask {
                         }
                     }
                 }
-                ;
                 upDownRangeList.add(list.toString().substring(0,list.length()-1) + lib);
             }
         }
