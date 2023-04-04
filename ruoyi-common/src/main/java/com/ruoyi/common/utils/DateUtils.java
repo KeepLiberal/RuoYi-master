@@ -167,15 +167,27 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 
 
     /**
-     * 日期加+1天
+     * 年份加加减N年
      */
-    public static Date dateAddOne(Date date) {
+    public static Date yearAddOrSub(Date date, int amount) {
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(date);
-        calendar.add(calendar.DATE, 1);
+        calendar.add(calendar.YEAR, amount);
         date = calendar.getTime();
         return date;
     }
+
+    /**
+     * 日期加加减N天
+     */
+    public static Date dateAddOrSub(Date date, int amount) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        calendar.add(calendar.DATE, amount);
+        date = calendar.getTime();
+        return date;
+    }
+
 
 
 }

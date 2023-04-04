@@ -59,12 +59,4 @@ public interface InvFinanceZyzbMapper {
      */
     public int deleteInvFinanceZyzbByIds(String[] ids);
 
-
-    /**
-     * 查询财务分析-主要指标列表
-     *
-     * @param sql 自定义sql
-     * @return 主要指标列表
-     */
-    public List<InvFinanceZyzb> commonSelect(String sql);
 }

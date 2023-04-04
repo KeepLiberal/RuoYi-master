@@ -1,51 +1,51 @@
 package com.ruoyi.quartz.task.policy;
 
-import com.ruoyi.investment.domain.InvFinanceZyzb;
-import com.ruoyi.investment.mapper.InvCompanyMapper;
-import com.ruoyi.investment.mapper.InvFinanceZyzbMapper;
-import com.ruoyi.investment.mapper.InvKLineMapper;
+import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.investment.mapper.InvCommonMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 @Slf4j
 @Component
 public class InvPickStockTask {
     @Resource
-    private InvCompanyMapper invCompanyMapper;
-    @Resource
-    private InvKLineMapper invKLineMapper;
-    @Resource
-    private InvFinanceZyzbMapper invFinanceZyzbMapper;
+    private InvCommonMapper invCommonMapper;
 
 
     /**
      * 海选条件
      * 1、连续5年的ROE大于20%
-     * 2、连续5年的净利润现金含量 大于80%     (净利润现金含量=经营性现金净流量╱净利润)  经营性现金净流量-取主要指标  净利润-取主要指标
+     * 2、连续5年的净利润现金含量大于80%
      * 3、连续5年的毛利率大于40%
      * 4、上市大于3年-公司
      * <p>
+     * <p>
+     * <p>
      * 精选条件
      * 1、连续5年的平均净利润现金含量大于100%
-     * 2、连续5年的资产负债率小于60%         资产负债率-取主要指标
+     * 2、连续5年的资产负债率小于60%
      * 3、连续5年分红比例大于25%
      */
     public void pickStock() {
 
         List<String> dateList = Arrays.asList("2022-12-31", "2021-12-31", "2020-12-31", "2019-12-31", "2018-12-31");
 
+        //连续5年的ROE大于20%
         List<String> list1 = roe(dateList, 20);
-        List<String> list2 = grossMargin(dateList, 40);
+        //连续5年的净利润现金含量大于80%
+        List<String> list2 = netProfitCashContent(dateList, 80);
+        //连续5年的毛利率大于40%
+        List<String> list3 = grossMargin(dateList, 40);
+        //上市大于3年
+        List<String> list4 = listingDate(-3);
 
         List<String> codeList = new ArrayList<>();
         for (String code : list1) {
-            if (list2.contains(code))
+            if (list2.contains(code) && list3.contains(code) && list4.contains(code))
                 codeList.add(code);
         }
 
@@ -55,9 +55,8 @@ public class InvPickStockTask {
 
     /**
      * 连续N年的ROE大于N%
-     *
-     * ROE(净资产收益率)
-     * 主要指标-roejq
+     * <p>
+     * ROE(净资产收益率)-主要指标(roejq-净资产收益率(加权))
      */
     private List<String> roe(List<String> dateList, double num) {
         List<String> codeList = new ArrayList<>();
@@ -66,11 +65,13 @@ public class InvPickStockTask {
             String sql = null;
             if (time == 1) {
                 sql = "select security_code from inv_finance_zyzb where report_date='" + date + "' and report_type='nd' and roejq>" + num;
-                for (InvFinanceZyzb zyzb : invFinanceZyzbMapper.commonSelect(sql)) {
-                    codeList.add(zyzb.getSecurityCode());
+                List<Map<String, Object>> maps = invCommonMapper.commonSelect(sql);
+                for (Map<String, Object> map : maps) {
+                    String code = (String) map.get("security_code");
+                    codeList.add(code);
                 }
             } else {
-                if(codeList.size()>0){
+                if (codeList.size() > 0) {
                     sql = "select security_code from inv_finance_zyzb where report_date='" + date + "' and report_type='nd' and roejq>" + num + " and security_code in (";
                     StringBuilder sb = new StringBuilder();
                     for (String code : codeList) {
@@ -81,10 +82,12 @@ public class InvPickStockTask {
                     sql = sql + sbStr;
 
                     codeList.clear();
-                    for (InvFinanceZyzb zyzb : invFinanceZyzbMapper.commonSelect(sql)) {
-                        codeList.add(zyzb.getSecurityCode());
+                    List<Map<String, Object>> maps = invCommonMapper.commonSelect(sql);
+                    for (Map<String, Object> map : maps) {
+                        String code = (String) map.get("security_code");
+                        codeList.add(code);
                     }
-                }else {
+                } else {
                     break;
                 }
             }
@@ -95,23 +98,47 @@ public class InvPickStockTask {
 
 
     /**
-     * 连续N年的毛利率大于N%
-     *
-     * 主要指标-xsmll
+     * 连续N年的净利润现金含量大于N%
+     * <p>
+     * (净利润现金含量=经营性现金净流量╱净利润)
+     * 经营性现金净流量-现金流量表(netcash_operatenote-经营活动产生的现金流量净额)
+     * 净利润-利润表(parent_netprofit-归属于母公司股东的净利润)
      */
-    private List<String> grossMargin(List<String> dateList, double num) {
+    private List<String> netProfitCashContent(List<String> dateList, double num) {
         List<String> codeList = new ArrayList<>();
         int time = 1;
         for (String date : dateList) {
-            String sql = null;
             if (time == 1) {
-                sql = "select security_code from inv_finance_zyzb where report_date='" + date + "' and report_type='nd' and xsmll>" + num;
-                for (InvFinanceZyzb zyzb : invFinanceZyzbMapper.commonSelect(sql)) {
-                    codeList.add(zyzb.getSecurityCode());
+                String sql = "select xjll.security_code, xjll.report_date, xjll.netcash_operatenote, lr.parent_netprofit " +
+                        "from inv_finance_xjll xjll, inv_finance_lr lr " +
+                        "where xjll.report_date='" + date + "' " +
+                        "and lr.report_date='" + date + "' " +
+                        "and xjll.report_type='nd' " +
+                        "and lr.report_type='nd' " +
+                        "and xjll.security_code=lr.security_code";
+                List<Map<String, Object>> maps = invCommonMapper.commonSelect(sql);
+
+                for (Map<String, Object> map : maps) {
+                    if (map.containsKey("parent_netprofit") && map.containsKey("netcash_operatenote")) {
+                        Double parent_netprofit = (Double) map.get("parent_netprofit");
+                        Double netcash_operatenote = (Double) map.get("netcash_operatenote");
+                        Double ratio = (netcash_operatenote / parent_netprofit) * 100;
+                        if (ratio > num) {
+                            String code = (String) map.get("security_code");
+                            codeList.add(code);
+                        }
+                    }
                 }
             } else {
-                if(codeList.size()>0){
-                    sql = "select security_code from inv_finance_zyzb where report_date='" + date + "' and report_type='nd' and xsmll>" + num + " and security_code in (";
+                if (codeList.size() > 0) {
+                    String sql = "select xjll.security_code, xjll.report_date, xjll.netcash_operatenote, lr.parent_netprofit " +
+                            "from inv_finance_xjll xjll, inv_finance_lr lr " +
+                            "where xjll.report_date='" + date + "' " +
+                            "and lr.report_date='" + date + "' " +
+                            "and xjll.report_type='nd' " +
+                            "and lr.report_type='nd' " +
+                            "and xjll.security_code=lr.security_code " +
+                            "and xjll.security_code in (";
                     StringBuilder sb = new StringBuilder();
                     for (String code : codeList) {
                         sb.append("'").append(code).append("',");
@@ -121,15 +148,88 @@ public class InvPickStockTask {
                     sql = sql + sbStr;
 
                     codeList.clear();
-                    for (InvFinanceZyzb zyzb : invFinanceZyzbMapper.commonSelect(sql)) {
-                        codeList.add(zyzb.getSecurityCode());
+                    List<Map<String, Object>> maps = invCommonMapper.commonSelect(sql);
+
+                    for (Map<String, Object> map : maps) {
+                        if (map.containsKey("parent_netprofit") && map.containsKey("netcash_operatenote")) {
+                            Double parent_netprofit = (Double) map.get("parent_netprofit");
+                            Double netcash_operatenote = (Double) map.get("netcash_operatenote");
+                            Double ratio = (netcash_operatenote / parent_netprofit) * 100;
+                            if (ratio > num) {
+                                String code = (String) map.get("security_code");
+                                codeList.add(code);
+                            }
+                        }
                     }
-                }else{
+                } else {
                     break;
                 }
             }
             time++;
         }
+
+        return codeList;
+    }
+
+    /**
+     * 连续N年的毛利率大于N%
+     * <p>
+     * 主要指标(xsmll-毛利率)
+     */
+    private List<String> grossMargin(List<String> dateList, double num) {
+        List<String> codeList = new ArrayList<>();
+        int time = 1;
+        for (String date : dateList) {
+            if (time == 1) {
+                String sql = "select security_code from inv_finance_zyzb where report_date='" + date + "' and report_type='nd' and xsmll>" + num;
+                List<Map<String, Object>> maps = invCommonMapper.commonSelect(sql);
+                for (Map<String, Object> map : maps) {
+                    String code = (String) map.get("security_code");
+                    codeList.add(code);
+                }
+            } else {
+                if (codeList.size() > 0) {
+                    String sql = "select security_code from inv_finance_zyzb where report_date='" + date + "' and report_type='nd' and xsmll>" + num + " and security_code in (";
+                    StringBuilder sb = new StringBuilder();
+                    for (String code : codeList) {
+                        sb.append("'").append(code).append("',");
+                    }
+                    String sbStr = sb.toString();
+                    sbStr = sbStr.substring(0, sbStr.length() - 1) + ")";
+                    sql = sql + sbStr;
+
+                    codeList.clear();
+                    List<Map<String, Object>> maps = invCommonMapper.commonSelect(sql);
+                    for (Map<String, Object> map : maps) {
+                        String code = (String) map.get("security_code");
+                        codeList.add(code);
+                    }
+                } else {
+                    break;
+                }
+            }
+            time++;
+        }
+        return codeList;
+    }
+
+
+    /**
+     * 上市时间大于N年
+     * <p>
+     * 公司概况(listing_date-上市日期)
+     */
+    private List<String> listingDate(int num) {
+        List<String> codeList = new ArrayList<>();
+
+        String date = DateUtils.dateTime(DateUtils.yearAddOrSub(new Date(), num));
+        String sql = "select code from inv_company where listing_date<'" + date + "'";
+        List<Map<String, Object>> maps = invCommonMapper.commonSelect(sql);
+        for (Map<String, Object> map : maps) {
+            String code = (String) map.get("code");
+            codeList.add(code);
+        }
+
         return codeList;
     }
 

@@ -7,6 +7,7 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.investment.domain.InvCompany;
 import com.ruoyi.investment.domain.InvKLine;
+import com.ruoyi.investment.mapper.InvCommonMapper;
 import com.ruoyi.investment.mapper.InvCompanyMapper;
 import com.ruoyi.investment.mapper.InvKLineMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -17,10 +18,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -28,9 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Component
 public class InvPolicyKLineTask {
     @Resource
-    private InvCompanyMapper invCompanyMapper;
-    @Resource
-    private InvKLineMapper invKLineMapper;
+    private InvCommonMapper invCommonMapper;
 
     /**
      * K_Line
@@ -60,36 +56,39 @@ public class InvPolicyKLineTask {
         }
         String sql = sqlBuilder.toString();
         sql = sql.substring(0, sql.length() - 1) + ") and listing_date<'2000-01-01' order by code";
-        List<InvCompany> companyList = invCompanyMapper.commonSelect(sql);
+        List<Map<String, Object>> maps1 = invCommonMapper.commonSelect(sql);
 
         //筛选出全部正常开市的日期
         Date reportDate = DateUtils.parseDate("1999-12-31");
         StringBuilder sb = new StringBuilder();
         sb.append("select security_code, up_down_range from inv_k_line where security_code in(");
-        for (InvCompany invCompany : companyList) {
-            sb.append("'").append(invCompany.getCode()).append("'").append(",");
+        for (Map<String, Object> map : maps1) {
+            String code = (String) map.get("security_code");
+            sb.append("'").append(code).append("'").append(",");
         }
 
         List<String> upDownRangeList = new ArrayList<>();
         while (DateUtils.differentDaysByMillisecond(reportDate, new Date()) > 0) {
-            reportDate = DateUtils.dateAddOne(reportDate);
+            reportDate = DateUtils.dateAddOrSub(reportDate, 1);
             String dataStr = DateUtils.dateTime(reportDate);
             String sq = sb.toString();
             sq = sq.substring(0, sq.length() - 1);
             sq += ") and report_date='" + dataStr + "' order by security_code";
-            List<InvKLine> invKLines = invKLineMapper.commonSelect(sq);
-            if (invKLines.size() == companyList.size()) {
+            List<Map<String, Object>> maps2 = invCommonMapper.commonSelect(sql);
+            if (maps1.size() == maps2.size()) {
                 String lib = "-0,0";
                 StringBuilder list = new StringBuilder();
                 int time = 0;
-                for (InvKLine invKLine : invKLines) {
-                    if ("000002".equals(invKLine.getSecurityCode())) {
-                        if (invKLine.getUpDownRange() > 0) {
+                for (Map<String, Object> map : maps2) {
+                    String code = (String) map.get("security_code");
+                    Double up_down_range = (Double) map.get("up_down_range");
+                    if ("000002".equals(code)) {
+                        if (up_down_range > 0) {
                             lib = "-1,0";
                         }
                     } else {
                         if (time<3){
-                            if (invKLine.getUpDownRange() > 0) {
+                            if (up_down_range > 0) {
                                 list.append("1,");
                             } else {
                                 list.append("0,");

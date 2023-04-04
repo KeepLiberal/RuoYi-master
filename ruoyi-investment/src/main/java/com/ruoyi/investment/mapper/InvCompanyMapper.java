@@ -74,12 +74,4 @@ public interface InvCompanyMapper {
      */
     public int deleteInvCompanyByIds(String[] ids);
 
-
-    /**
-     * 查询公司概况列表
-     *
-     * @param sql 自定义sql
-     * @return 沪深A股公司概况集合
-     */
-    List<InvCompany> commonSelect(String sql);
 }
