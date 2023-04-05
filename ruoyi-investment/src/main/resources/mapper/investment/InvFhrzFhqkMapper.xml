@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.investment.mapper.InvFhrzFhqkMapper">
+    
+    <resultMap type="InvFhrzFhqk" id="InvFhrzFhqkResult">
+        <result property="id"    column="id"    />
+        <result property="securityCode"    column="security_code"    />
+        <result property="noticeDate"    column="notice_date"    />
+        <result property="implPlanProfile"    column="impl_plan_profile"    />
+        <result property="equityRecordDate"    column="equity_record_date"    />
+        <result property="exDividendDate"    column="ex_dividend_date"    />
+        <result property="payCashDate"    column="pay_cash_date"    />
+        <result property="assignProgress"    column="assign_progress"    />
+    </resultMap>
+
+    <sql id="selectInvFhrzFhqkVo">
+        select id, security_code, notice_date, impl_plan_profile, equity_record_date, ex_dividend_date, pay_cash_date, assign_progress from inv_fhrz_fhqk
+    </sql>
+
+    <select id="selectInvFhrzFhqkList" parameterType="InvFhrzFhqk" resultMap="InvFhrzFhqkResult">
+        <include refid="selectInvFhrzFhqkVo"/>
+        <where>  
+            <if test="securityCode != null  and securityCode != ''"> and security_code = #{securityCode}</if>
+            <if test="noticeDate != null "> and notice_date = #{noticeDate}</if>
+            <if test="implPlanProfile != null  and implPlanProfile != ''"> and impl_plan_profile = #{implPlanProfile}</if>
+            <if test="equityRecordDate != null "> and equity_record_date = #{equityRecordDate}</if>
+            <if test="exDividendDate != null "> and ex_dividend_date = #{exDividendDate}</if>
+            <if test="payCashDate != null "> and pay_cash_date = #{payCashDate}</if>
+            <if test="assignProgress != null  and assignProgress != ''"> and assign_progress = #{assignProgress}</if>
+        </where>
+    </select>
+    
+    <select id="selectInvFhrzFhqkById" parameterType="Integer" resultMap="InvFhrzFhqkResult">
+        <include refid="selectInvFhrzFhqkVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInvFhrzFhqk" parameterType="InvFhrzFhqk" useGeneratedKeys="true" keyProperty="id">
+        insert into inv_fhrz_fhqk
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code,</if>
+            <if test="noticeDate != null">notice_date,</if>
+            <if test="implPlanProfile != null and implPlanProfile != ''">impl_plan_profile,</if>
+            <if test="equityRecordDate != null">equity_record_date,</if>
+            <if test="exDividendDate != null">ex_dividend_date,</if>
+            <if test="payCashDate != null">pay_cash_date,</if>
+            <if test="assignProgress != null and assignProgress != ''">assign_progress,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">#{securityCode},</if>
+            <if test="noticeDate != null">#{noticeDate},</if>
+            <if test="implPlanProfile != null and implPlanProfile != ''">#{implPlanProfile},</if>
+            <if test="equityRecordDate != null">#{equityRecordDate},</if>
+            <if test="exDividendDate != null">#{exDividendDate},</if>
+            <if test="payCashDate != null">#{payCashDate},</if>
+            <if test="assignProgress != null and assignProgress != ''">#{assignProgress},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInvFhrzFhqk" parameterType="InvFhrzFhqk">
+        update inv_fhrz_fhqk
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code = #{securityCode},</if>
+            <if test="noticeDate != null">notice_date = #{noticeDate},</if>
+            <if test="implPlanProfile != null and implPlanProfile != ''">impl_plan_profile = #{implPlanProfile},</if>
+            <if test="equityRecordDate != null">equity_record_date = #{equityRecordDate},</if>
+            <if test="exDividendDate != null">ex_dividend_date = #{exDividendDate},</if>
+            <if test="payCashDate != null">pay_cash_date = #{payCashDate},</if>
+            <if test="assignProgress != null and assignProgress != ''">assign_progress = #{assignProgress},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInvFhrzFhqkById" parameterType="Integer">
+        delete from inv_fhrz_fhqk where id = #{id}
+    </delete>
+
+    <delete id="deleteInvFhrzFhqkByIds" parameterType="String">
+        delete from inv_fhrz_fhqk where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

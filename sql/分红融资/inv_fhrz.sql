@@ -13,7 +13,7 @@ create table inv_fhrz_fhqk
     pay_cash_date      datetime    not null comment '派息日',
     assign_progress    varchar(10) not null comment '方案进度',
     primary key (id) using btree,
-    key                inv_fhrz_fhqk_index (security_code,report_type)
+    key                inv_fhrz_fhqk_index (security_code,notice_date)
 ) engine=innodb default charset=utf8mb4 collate=utf8mb4_general_ci comment='分红情况';
 
 
@@ -31,7 +31,7 @@ create table inv_fhrz_lnfhrz
     allotment_num   double default null comment '配股(万股)',
     ipo_num         double default null comment '新股发行(万股)',
     primary key (id) using btree,
-    key             inv_fhrz_lnfhrz_index (security_code,report_type)
+    key             inv_fhrz_lnfhrz_index (security_code,statistics_year)
 ) engine=innodb default charset=utf8mb4 collate=utf8mb4_general_ci comment='历年分红融资';
 
 
@@ -53,7 +53,7 @@ create table inv_fhrz_zfmx
     listing_date      datetime    not null comment '增发上市日',
     receive_date      datetime    not null comment '资金到账日',
     primary key (id) using btree,
-    key               inv_fhrz_zfmx_index (security_code,report_type)
+    key               inv_fhrz_zfmx_index (security_code,notice_date)
 ) engine=innodb default charset=utf8mb4 collate=utf8mb4_general_ci comment='增发明细';
 
 
@@ -73,7 +73,7 @@ create table inv_fhrz_pgmx
     ex_dividend_datee  datetime    not null comment '除权基准日',
     event_explain      varchar(20) not null comment '配股方案',
     primary key (id) using btree,
-    key                inv_fhrz_pgmx_index (security_code,report_type)
+    key                inv_fhrz_pgmx_index (security_code,notice_date)
 ) engine=innodb default charset=utf8mb4 collate=utf8mb4_general_ci comment='配股明细';
 
 

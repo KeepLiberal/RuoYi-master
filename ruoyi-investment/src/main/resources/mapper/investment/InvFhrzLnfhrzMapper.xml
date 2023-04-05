@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.investment.mapper.InvFhrzLnfhrzMapper">
+    
+    <resultMap type="InvFhrzLnfhrz" id="InvFhrzLnfhrzResult">
+        <result property="id"    column="id"    />
+        <result property="securityCode"    column="security_code"    />
+        <result property="statisticsYear"    column="statistics_year"    />
+        <result property="totalDividend"    column="total_dividend"    />
+        <result property="seoNum"    column="seo_num"    />
+        <result property="allotmentNum"    column="allotment_num"    />
+        <result property="ipoNum"    column="ipo_num"    />
+    </resultMap>
+
+    <sql id="selectInvFhrzLnfhrzVo">
+        select id, security_code, statistics_year, total_dividend, seo_num, allotment_num, ipo_num from inv_fhrz_lnfhrz
+    </sql>
+
+    <select id="selectInvFhrzLnfhrzList" parameterType="InvFhrzLnfhrz" resultMap="InvFhrzLnfhrzResult">
+        <include refid="selectInvFhrzLnfhrzVo"/>
+        <where>  
+            <if test="securityCode != null  and securityCode != ''"> and security_code = #{securityCode}</if>
+            <if test="statisticsYear != null  and statisticsYear != ''"> and statistics_year = #{statisticsYear}</if>
+            <if test="totalDividend != null "> and total_dividend = #{totalDividend}</if>
+            <if test="seoNum != null "> and seo_num = #{seoNum}</if>
+            <if test="allotmentNum != null "> and allotment_num = #{allotmentNum}</if>
+            <if test="ipoNum != null "> and ipo_num = #{ipoNum}</if>
+        </where>
+    </select>
+    
+    <select id="selectInvFhrzLnfhrzById" parameterType="Integer" resultMap="InvFhrzLnfhrzResult">
+        <include refid="selectInvFhrzLnfhrzVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInvFhrzLnfhrz" parameterType="InvFhrzLnfhrz" useGeneratedKeys="true" keyProperty="id">
+        insert into inv_fhrz_lnfhrz
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code,</if>
+            <if test="statisticsYear != null and statisticsYear != ''">statistics_year,</if>
+            <if test="totalDividend != null">total_dividend,</if>
+            <if test="seoNum != null">seo_num,</if>
+            <if test="allotmentNum != null">allotment_num,</if>
+            <if test="ipoNum != null">ipo_num,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">#{securityCode},</if>
+            <if test="statisticsYear != null and statisticsYear != ''">#{statisticsYear},</if>
+            <if test="totalDividend != null">#{totalDividend},</if>
+            <if test="seoNum != null">#{seoNum},</if>
+            <if test="allotmentNum != null">#{allotmentNum},</if>
+            <if test="ipoNum != null">#{ipoNum},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInvFhrzLnfhrz" parameterType="InvFhrzLnfhrz">
+        update inv_fhrz_lnfhrz
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code = #{securityCode},</if>
+            <if test="statisticsYear != null and statisticsYear != ''">statistics_year = #{statisticsYear},</if>
+            <if test="totalDividend != null">total_dividend = #{totalDividend},</if>
+            <if test="seoNum != null">seo_num = #{seoNum},</if>
+            <if test="allotmentNum != null">allotment_num = #{allotmentNum},</if>
+            <if test="ipoNum != null">ipo_num = #{ipoNum},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInvFhrzLnfhrzById" parameterType="Integer">
+        delete from inv_fhrz_lnfhrz where id = #{id}
+    </delete>
+
+    <delete id="deleteInvFhrzLnfhrzByIds" parameterType="String">
+        delete from inv_fhrz_lnfhrz where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

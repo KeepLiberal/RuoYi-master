@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.investment.mapper.InvFhrzZfmxMapper">
+    
+    <resultMap type="InvFhrzZfmx" id="InvFhrzZfmxResult">
+        <result property="id"    column="id"    />
+        <result property="securityCode"    column="security_code"    />
+        <result property="noticeDate"    column="notice_date"    />
+        <result property="issueNum"    column="issue_num"    />
+        <result property="netRaiseFunds"    column="net_raise_funds"    />
+        <result property="issuePrice"    column="issue_price"    />
+        <result property="ipoNum"    column="ipo_num"    />
+        <result property="issueWayExplain"    column="issue_way_explain"    />
+        <result property="regDate"    column="reg_date"    />
+        <result property="listingDate"    column="listing_date"    />
+        <result property="receiveDate"    column="receive_date"    />
+    </resultMap>
+
+    <sql id="selectInvFhrzZfmxVo">
+        select id, security_code, notice_date, issue_num, net_raise_funds, issue_price, ipo_num, issue_way_explain, reg_date, listing_date, receive_date from inv_fhrz_zfmx
+    </sql>
+
+    <select id="selectInvFhrzZfmxList" parameterType="InvFhrzZfmx" resultMap="InvFhrzZfmxResult">
+        <include refid="selectInvFhrzZfmxVo"/>
+        <where>  
+            <if test="securityCode != null  and securityCode != ''"> and security_code = #{securityCode}</if>
+            <if test="noticeDate != null "> and notice_date = #{noticeDate}</if>
+            <if test="issueNum != null "> and issue_num = #{issueNum}</if>
+            <if test="netRaiseFunds != null "> and net_raise_funds = #{netRaiseFunds}</if>
+            <if test="issuePrice != null "> and issue_price = #{issuePrice}</if>
+            <if test="ipoNum != null "> and ipo_num = #{ipoNum}</if>
+            <if test="issueWayExplain != null  and issueWayExplain != ''"> and issue_way_explain = #{issueWayExplain}</if>
+            <if test="regDate != null "> and reg_date = #{regDate}</if>
+            <if test="listingDate != null "> and listing_date = #{listingDate}</if>
+            <if test="receiveDate != null "> and receive_date = #{receiveDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectInvFhrzZfmxById" parameterType="Integer" resultMap="InvFhrzZfmxResult">
+        <include refid="selectInvFhrzZfmxVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertInvFhrzZfmx" parameterType="InvFhrzZfmx" useGeneratedKeys="true" keyProperty="id">
+        insert into inv_fhrz_zfmx
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code,</if>
+            <if test="noticeDate != null">notice_date,</if>
+            <if test="issueNum != null">issue_num,</if>
+            <if test="netRaiseFunds != null">net_raise_funds,</if>
+            <if test="issuePrice != null">issue_price,</if>
+            <if test="ipoNum != null">ipo_num,</if>
+            <if test="issueWayExplain != null and issueWayExplain != ''">issue_way_explain,</if>
+            <if test="regDate != null">reg_date,</if>
+            <if test="listingDate != null">listing_date,</if>
+            <if test="receiveDate != null">receive_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">#{securityCode},</if>
+            <if test="noticeDate != null">#{noticeDate},</if>
+            <if test="issueNum != null">#{issueNum},</if>
+            <if test="netRaiseFunds != null">#{netRaiseFunds},</if>
+            <if test="issuePrice != null">#{issuePrice},</if>
+            <if test="ipoNum != null">#{ipoNum},</if>
+            <if test="issueWayExplain != null and issueWayExplain != ''">#{issueWayExplain},</if>
+            <if test="regDate != null">#{regDate},</if>
+            <if test="listingDate != null">#{listingDate},</if>
+            <if test="receiveDate != null">#{receiveDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInvFhrzZfmx" parameterType="InvFhrzZfmx">
+        update inv_fhrz_zfmx
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="securityCode != null and securityCode != ''">security_code = #{securityCode},</if>
+            <if test="noticeDate != null">notice_date = #{noticeDate},</if>
+            <if test="issueNum != null">issue_num = #{issueNum},</if>
+            <if test="netRaiseFunds != null">net_raise_funds = #{netRaiseFunds},</if>
+            <if test="issuePrice != null">issue_price = #{issuePrice},</if>
+            <if test="ipoNum != null">ipo_num = #{ipoNum},</if>
+            <if test="issueWayExplain != null and issueWayExplain != ''">issue_way_explain = #{issueWayExplain},</if>
+            <if test="regDate != null">reg_date = #{regDate},</if>
+            <if test="listingDate != null">listing_date = #{listingDate},</if>
+            <if test="receiveDate != null">receive_date = #{receiveDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteInvFhrzZfmxById" parameterType="Integer">
+        delete from inv_fhrz_zfmx where id = #{id}
+    </delete>
+
+    <delete id="deleteInvFhrzZfmxByIds" parameterType="String">
+        delete from inv_fhrz_zfmx where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
