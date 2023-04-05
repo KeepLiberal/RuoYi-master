@@ -45,6 +45,14 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     }
 
     /**
+     * 获取当前日期年
+     */
+    public static final String getNowYearStr() {
+        Date now = new Date();
+        return DateFormatUtils.format(now, YYYY);
+    }
+
+    /**
      * 获取当前日期, 默认格式为yyyy-MM-dd
      *
      * @return String

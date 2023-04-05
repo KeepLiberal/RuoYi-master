@@ -1,6 +1,8 @@
 package com.ruoyi.investment.domain;
 
 import java.util.Date;
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -115,6 +117,18 @@ public class InvKLine extends BaseEntity{
     public void setChangeHandRange(Double changeHandRange){this.changeHandRange = changeHandRange;}
     public Double getChangeHandRange(){return changeHandRange;}
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof InvKLine)) return false;
+        InvKLine invKLine = (InvKLine) o;
+        return Objects.equals(securityCode, invKLine.securityCode) && Objects.equals(reportDate, invKLine.reportDate) && Objects.equals(open, invKLine.open) && Objects.equals(close, invKLine.close) && Objects.equals(high, invKLine.high) && Objects.equals(lower, invKLine.lower) && Objects.equals(upDownRange, invKLine.upDownRange) && Objects.equals(upDownQuota, invKLine.upDownQuota) && Objects.equals(turnoverSize, invKLine.turnoverSize) && Objects.equals(turnoverQuota, invKLine.turnoverQuota) && Objects.equals(vibrateRange, invKLine.vibrateRange) && Objects.equals(changeHandRange, invKLine.changeHandRange);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(securityCode, reportDate, open, close, high, lower, upDownRange, upDownQuota, turnoverSize, turnoverQuota, vibrateRange, changeHandRange);
+    }
 
     @Override
     public String toString() {
