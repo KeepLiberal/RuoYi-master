@@ -48,34 +48,34 @@
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">发行方式：</label>
+                <label class="col-sm-3 control-label">发行方式：</label>
                 <div class="col-sm-8">
-                    <input name="issueWayExplain" th:field="*{issueWayExplain}" class="form-control" type="text" required>
+                    <input name="issueWayExplain" th:field="*{issueWayExplain}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">股权登记日：</label>
+                <label class="col-sm-3 control-label">股权登记日：</label>
                 <div class="col-sm-8">
                     <div class="input-group date">
-                        <input name="regDate" th:value="${#dates.format(invFhrzZfmx.regDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text" required>
+                        <input name="regDate" th:value="${#dates.format(invFhrzZfmx.regDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">增发上市日：</label>
+                <label class="col-sm-3 control-label">增发上市日：</label>
                 <div class="col-sm-8">
                     <div class="input-group date">
-                        <input name="listingDate" th:value="${#dates.format(invFhrzZfmx.listingDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text" required>
+                        <input name="listingDate" th:value="${#dates.format(invFhrzZfmx.listingDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">资金到账日：</label>
+                <label class="col-sm-3 control-label">资金到账日：</label>
                 <div class="col-sm-8">
                     <div class="input-group date">
-                        <input name="receiveDate" th:value="${#dates.format(invFhrzZfmx.receiveDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text" required>
+                        <input name="receiveDate" th:value="${#dates.format(invFhrzZfmx.receiveDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                     </div>
                 </div>

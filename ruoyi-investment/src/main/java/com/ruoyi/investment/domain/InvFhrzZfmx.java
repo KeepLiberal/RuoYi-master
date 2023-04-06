@@ -1,6 +1,8 @@
 package com.ruoyi.investment.domain;
 
 import java.util.Date;
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -96,21 +98,24 @@ public class InvFhrzZfmx extends BaseEntity{
     public void setReceiveDate(Date receiveDate){this.receiveDate = receiveDate;}
     public Date getReceiveDate(){return receiveDate;}
 
+    public InvFhrzZfmx() {
+        super();
+    }
+
+    public InvFhrzZfmx(String securityCode) {
+        this.securityCode = securityCode;
+    }
 
     @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("securityCode", getSecurityCode())
-            .append("noticeDate", getNoticeDate())
-            .append("issueNum", getIssueNum())
-            .append("netRaiseFunds", getNetRaiseFunds())
-            .append("issuePrice", getIssuePrice())
-            .append("ipoNum", getIpoNum())
-            .append("issueWayExplain", getIssueWayExplain())
-            .append("regDate", getRegDate())
-            .append("listingDate", getListingDate())
-            .append("receiveDate", getReceiveDate())
-            .toString();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof InvFhrzZfmx)) return false;
+        InvFhrzZfmx that = (InvFhrzZfmx) o;
+        return Objects.equals(securityCode, that.securityCode) && Objects.equals(noticeDate, that.noticeDate) && Objects.equals(issueNum, that.issueNum) && Objects.equals(netRaiseFunds, that.netRaiseFunds) && Objects.equals(issuePrice, that.issuePrice) && Objects.equals(ipoNum, that.ipoNum) && Objects.equals(issueWayExplain, that.issueWayExplain) && Objects.equals(regDate, that.regDate) && Objects.equals(listingDate, that.listingDate) && Objects.equals(receiveDate, that.receiveDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(securityCode, noticeDate, issueNum, netRaiseFunds, issuePrice, ipoNum, issueWayExplain, regDate, listingDate, receiveDate);
     }
 }

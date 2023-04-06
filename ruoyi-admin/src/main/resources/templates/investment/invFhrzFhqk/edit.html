@@ -3,7 +3,6 @@
 <head>
     <th:block th:include="include :: header('修改分红情况')" />
     <th:block th:include="include :: datetimepicker-css" />
-    <th:block th:include="include :: bootstrap-fileinput-css"/>
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
@@ -25,52 +24,48 @@
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">分红方案：</label>
+                <label class="col-sm-3 control-label">分红方案：</label>
                 <div class="col-sm-8">
-                    <input type="hidden" name="implPlanProfile" th:field="*{implPlanProfile}">
-                    <div class="file-loading">
-                        <input class="form-control file-upload" id="implPlanProfile" name="file" type="file">
-                    </div>
+                    <input name="implPlanProfile" th:field="*{implPlanProfile}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">股权登记日：</label>
+                <label class="col-sm-3 control-label">股权登记日：</label>
                 <div class="col-sm-8">
                     <div class="input-group date">
-                        <input name="equityRecordDate" th:value="${#dates.format(invFhrzFhqk.equityRecordDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text" required>
+                        <input name="equityRecordDate" th:value="${#dates.format(invFhrzFhqk.equityRecordDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">除权除息日：</label>
+                <label class="col-sm-3 control-label">除权除息日：</label>
                 <div class="col-sm-8">
                     <div class="input-group date">
-                        <input name="exDividendDate" th:value="${#dates.format(invFhrzFhqk.exDividendDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text" required>
+                        <input name="exDividendDate" th:value="${#dates.format(invFhrzFhqk.exDividendDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">派息日：</label>
+                <label class="col-sm-3 control-label">派息日：</label>
                 <div class="col-sm-8">
                     <div class="input-group date">
-                        <input name="payCashDate" th:value="${#dates.format(invFhrzFhqk.payCashDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text" required>
+                        <input name="payCashDate" th:value="${#dates.format(invFhrzFhqk.payCashDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">方案进度：</label>
+                <label class="col-sm-3 control-label">方案进度：</label>
                 <div class="col-sm-8">
-                    <input name="assignProgress" th:field="*{assignProgress}" class="form-control" type="text" required>
+                    <input name="assignProgress" th:field="*{assignProgress}" class="form-control" type="text">
                 </div>
             </div>
         </form>
     </div>
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: datetimepicker-js" />
-    <th:block th:include="include :: bootstrap-fileinput-js"/>
     <script th:inline="javascript">
         var prefix = ctx + "investment/invFhrzFhqk";
         $("#form-invFhrzFhqk-edit").validate({
@@ -105,22 +100,6 @@
             format: "yyyy-mm-dd",
             minView: "month",
             autoclose: true
-        });
-
-        $(".file-upload").each(function (i) {
-            var val = $("input[name='" + this.id + "']").val()
-            $(this).fileinput({
-                'uploadUrl': ctx + 'common/upload',
-                initialPreviewAsData: true,
-                initialPreview: [val],
-                maxFileCount: 1,
-                autoReplace: true
-            }).on('fileuploaded', function (event, data, previewId, index) {
-                $("input[name='" + event.currentTarget.id + "']").val(data.response.url)
-            }).on('fileremoved', function (event, id, index) {
-                $("input[name='" + event.currentTarget.id + "']").val('')
-            })
-            $(this).fileinput('_initFileActions');
         });
     </script>
 </body>

@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.util.Objects;
+
 /**
  * 历年分红融资对象 inv_fhrz_lnfhrz
  * 
@@ -62,17 +64,24 @@ public class InvFhrzLnfhrz extends BaseEntity{
     public void setIpoNum(Double ipoNum){this.ipoNum = ipoNum;}
     public Double getIpoNum(){return ipoNum;}
 
+    public InvFhrzLnfhrz() {
+        super();
+    }
+
+    public InvFhrzLnfhrz(String securityCode) {
+        this.securityCode = securityCode;
+    }
 
     @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("securityCode", getSecurityCode())
-            .append("statisticsYear", getStatisticsYear())
-            .append("totalDividend", getTotalDividend())
-            .append("seoNum", getSeoNum())
-            .append("allotmentNum", getAllotmentNum())
-            .append("ipoNum", getIpoNum())
-            .toString();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof InvFhrzLnfhrz)) return false;
+        InvFhrzLnfhrz that = (InvFhrzLnfhrz) o;
+        return Objects.equals(securityCode, that.securityCode) && Objects.equals(statisticsYear, that.statisticsYear) && Objects.equals(totalDividend, that.totalDividend) && Objects.equals(seoNum, that.seoNum) && Objects.equals(allotmentNum, that.allotmentNum) && Objects.equals(ipoNum, that.ipoNum);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(securityCode, statisticsYear, totalDividend, seoNum, allotmentNum, ipoNum);
     }
 }

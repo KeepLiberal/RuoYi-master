@@ -1,6 +1,8 @@
 package com.ruoyi.investment.domain;
 
 import java.util.Date;
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -75,18 +77,24 @@ public class InvFhrzFhqk extends BaseEntity{
     public void setAssignProgress(String assignProgress){this.assignProgress = assignProgress;}
     public String getAssignProgress(){return assignProgress;}
 
+    public InvFhrzFhqk() {
+        super();
+    }
+
+    public InvFhrzFhqk(String securityCode) {
+        this.securityCode = securityCode;
+    }
 
     @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("securityCode", getSecurityCode())
-            .append("noticeDate", getNoticeDate())
-            .append("implPlanProfile", getImplPlanProfile())
-            .append("equityRecordDate", getEquityRecordDate())
-            .append("exDividendDate", getExDividendDate())
-            .append("payCashDate", getPayCashDate())
-            .append("assignProgress", getAssignProgress())
-            .toString();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof InvFhrzFhqk)) return false;
+        InvFhrzFhqk that = (InvFhrzFhqk) o;
+        return Objects.equals(securityCode, that.securityCode) && Objects.equals(noticeDate, that.noticeDate) && Objects.equals(implPlanProfile, that.implPlanProfile) && Objects.equals(equityRecordDate, that.equityRecordDate) && Objects.equals(exDividendDate, that.exDividendDate) && Objects.equals(payCashDate, that.payCashDate) && Objects.equals(assignProgress, that.assignProgress);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(securityCode, noticeDate, implPlanProfile, equityRecordDate, exDividendDate, payCashDate, assignProgress);
     }
 }

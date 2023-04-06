@@ -1,6 +1,8 @@
 package com.ruoyi.investment.domain;
 
 import java.util.Date;
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -81,19 +83,24 @@ public class InvFhrzPgmx extends BaseEntity{
     public void setEventExplain(String eventExplain){this.eventExplain = eventExplain;}
     public String getEventExplain(){return eventExplain;}
 
+    public InvFhrzPgmx() {
+        super();
+    }
+
+    public InvFhrzPgmx(String securityCode) {
+        this.securityCode = securityCode;
+    }
 
     @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("securityCode", getSecurityCode())
-            .append("noticeDate", getNoticeDate())
-            .append("issuePrice", getIssuePrice())
-            .append("issueNum", getIssueNum())
-            .append("totalRaiseFunds", getTotalRaiseFunds())
-            .append("equityRecordDate", getEquityRecordDate())
-            .append("exDividendDatee", getExDividendDatee())
-            .append("eventExplain", getEventExplain())
-            .toString();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof InvFhrzPgmx)) return false;
+        InvFhrzPgmx that = (InvFhrzPgmx) o;
+        return Objects.equals(securityCode, that.securityCode) && Objects.equals(noticeDate, that.noticeDate) && Objects.equals(issuePrice, that.issuePrice) && Objects.equals(issueNum, that.issueNum) && Objects.equals(totalRaiseFunds, that.totalRaiseFunds) && Objects.equals(equityRecordDate, that.equityRecordDate) && Objects.equals(exDividendDatee, that.exDividendDatee) && Objects.equals(eventExplain, that.eventExplain);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(securityCode, noticeDate, issuePrice, issueNum, totalRaiseFunds, equityRecordDate, exDividendDatee, eventExplain);
     }
 }

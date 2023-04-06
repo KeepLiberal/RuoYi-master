@@ -31,7 +31,7 @@ public class InvDataKLineAsyncTask {
     /**
      * K_Line
      */
-    public void invDataKLine(InvStock invStock) {
+    public void invKLine(InvStock invStock) {
         String code = invStock.getCode();
         String market = invStock.getMarket();
         try {
