@@ -27,6 +27,7 @@ create table inv_fhrz_lnfhrz
     security_code   varchar(10) not null comment '股票代码',
     statistics_year varchar(10) not null comment '年份',
     total_dividend  double default null comment '分红总额(万元)',
+    dividend_ratio  double default null comment '分红比例(%)',
     seo_num         double default null comment '增发(万股)',
     allotment_num   double default null comment '配股(万股)',
     ipo_num         double default null comment '新股发行(万股)',

@@ -9,13 +9,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="securityCode"    column="security_code"    />
         <result property="statisticsYear"    column="statistics_year"    />
         <result property="totalDividend"    column="total_dividend"    />
+        <result property="dividendRatio"    column="dividend_ratio"    />
         <result property="seoNum"    column="seo_num"    />
         <result property="allotmentNum"    column="allotment_num"    />
         <result property="ipoNum"    column="ipo_num"    />
     </resultMap>
 
     <sql id="selectInvFhrzLnfhrzVo">
-        select id, security_code, statistics_year, total_dividend, seo_num, allotment_num, ipo_num from inv_fhrz_lnfhrz
+        select id, security_code, statistics_year, total_dividend, dividend_ratio, seo_num, allotment_num, ipo_num from inv_fhrz_lnfhrz
     </sql>
 
     <select id="selectInvFhrzLnfhrzList" parameterType="InvFhrzLnfhrz" resultMap="InvFhrzLnfhrzResult">
@@ -24,6 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="securityCode != null  and securityCode != ''"> and security_code = #{securityCode}</if>
             <if test="statisticsYear != null  and statisticsYear != ''"> and statistics_year = #{statisticsYear}</if>
             <if test="totalDividend != null "> and total_dividend = #{totalDividend}</if>
+            <if test="dividendRatio != null "> and dividend_ratio = #{dividendRatio}</if>
             <if test="seoNum != null "> and seo_num = #{seoNum}</if>
             <if test="allotmentNum != null "> and allotment_num = #{allotmentNum}</if>
             <if test="ipoNum != null "> and ipo_num = #{ipoNum}</if>
@@ -41,6 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="securityCode != null and securityCode != ''">security_code,</if>
             <if test="statisticsYear != null and statisticsYear != ''">statistics_year,</if>
             <if test="totalDividend != null">total_dividend,</if>
+            <if test="dividendRatio != null">dividend_ratio,</if>
             <if test="seoNum != null">seo_num,</if>
             <if test="allotmentNum != null">allotment_num,</if>
             <if test="ipoNum != null">ipo_num,</if>
@@ -49,6 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="securityCode != null and securityCode != ''">#{securityCode},</if>
             <if test="statisticsYear != null and statisticsYear != ''">#{statisticsYear},</if>
             <if test="totalDividend != null">#{totalDividend},</if>
+            <if test="dividendRatio != null">#{dividendRatio},</if>
             <if test="seoNum != null">#{seoNum},</if>
             <if test="allotmentNum != null">#{allotmentNum},</if>
             <if test="ipoNum != null">#{ipoNum},</if>
@@ -61,6 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="securityCode != null and securityCode != ''">security_code = #{securityCode},</if>
             <if test="statisticsYear != null and statisticsYear != ''">statistics_year = #{statisticsYear},</if>
             <if test="totalDividend != null">total_dividend = #{totalDividend},</if>
+            <if test="dividendRatio != null">dividend_ratio = #{dividendRatio},</if>
             <if test="seoNum != null">seo_num = #{seoNum},</if>
             <if test="allotmentNum != null">allotment_num = #{allotmentNum},</if>
             <if test="ipoNum != null">ipo_num = #{ipoNum},</if>

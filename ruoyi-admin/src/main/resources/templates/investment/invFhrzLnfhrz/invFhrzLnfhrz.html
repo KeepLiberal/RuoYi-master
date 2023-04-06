@@ -50,6 +50,7 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('investment:invFhrzLnfhrz:edit')}]];
         var removeFlag = [[${@permission.hasPermi('investment:invFhrzLnfhrz:remove')}]];
+        var idDatas = [[${@dict.getType('${column.dictType}')}]];
         var prefix = ctx + "investment/invFhrzLnfhrz";
 
         $(function() {
@@ -79,6 +80,10 @@
                 {
                     field: 'totalDividend',
                     title: '分红总额(万元)'
+                },
+                {
+                    field: 'dividendRatio',
+                    title: '分红比例(%)'
                 },
                 {
                     field: 'seoNum',

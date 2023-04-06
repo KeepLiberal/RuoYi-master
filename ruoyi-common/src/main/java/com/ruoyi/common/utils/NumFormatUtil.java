@@ -15,17 +15,17 @@ public class NumFormatUtil {
     public static Integer toInteger(String strNum) {
         String reg = "[^\u4e00-\u9fa5]";// 中文正则
         Integer result = null;
-        if(StringUtils.isEmpty(strNum) || "null".equals(strNum) || "-".equals(strNum) || "--".equals(strNum)){
+        if (StringUtils.isEmpty(strNum) || "null".equals(strNum) || "-".equals(strNum) || "--".equals(strNum)) {
             return result;
         }
         try {
             String newNum = strNum.replace(",", "").replace("%", "")
                     .replace("次", "").replace("天", "")
                     .replace("倍", "").replace("-", "").replace("--", "");
-            if(!"".equals(newNum)){
+            if (!"".equals(newNum)) {
                 String chine = newNum.replaceAll(reg, "");
                 Float fv = Float.valueOf(newNum.replace(chine, ""));
-                if(!"".equals(chine)){
+                if (!"".equals(chine)) {
                     for (int i = 0; i < chine.length(); i++) {
                         String num = chine.substring(i, i + 1);
                         if ("亿".equals(num)) {
@@ -34,17 +34,18 @@ public class NumFormatUtil {
                             result = Integer.valueOf((int) (fv * 10000));
                         }
                     }
-                }else{
+                } else {
                     result = Integer.valueOf(newNum.replace(chine, ""));
                 }
             }
         } catch (Exception e) {
             log.error("调用NumFormatUtil.toInteger Exception, strNum=" + strNum, e);
         }
-
+        if (result == 0) {
+            return null;
+        }
         return result;
     }
-
 
 
     /**
@@ -56,14 +57,14 @@ public class NumFormatUtil {
     public static Double toDouble(String strNum) {
         String reg = "[^\u4e00-\u9fa5]";// 中文正则
         Double result = null;
-        if(StringUtils.isEmpty(strNum) || "null".equals(strNum) || "-".equals(strNum) || "--".equals(strNum)){
+        if (StringUtils.isEmpty(strNum) || "null".equals(strNum) || "-".equals(strNum) || "--".equals(strNum)) {
             return result;
         }
         try {
             String newNum = strNum.replace(",", "").replace("%", "")
                     .replace("次", "").replace("天", "")
                     .replace("倍", "").replace("--", "");
-            if(!"".equals(newNum)){
+            if (!"".equals(newNum)) {
                 String chine = newNum.replaceAll(reg, "");
                 result = Double.valueOf(newNum.replace(chine, ""));
                 for (int i = 0; i < chine.length(); i++) {
@@ -77,6 +78,9 @@ public class NumFormatUtil {
             }
         } catch (Exception e) {
             log.error("调用NumFormatUtil.toDouble Exception, strNum=" + strNum, e);
+        }
+        if (result == 0) {
+            return null;
         }
         return result;
     }

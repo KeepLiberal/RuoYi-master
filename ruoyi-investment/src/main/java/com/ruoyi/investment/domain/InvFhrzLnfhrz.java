@@ -1,7 +1,5 @@
 package com.ruoyi.investment.domain;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
@@ -31,6 +29,10 @@ public class InvFhrzLnfhrz extends BaseEntity{
     @Excel(name = "分红总额(万元)")
     private Double totalDividend;
 
+    /** 分红比例(%) */
+    @Excel(name = "分红比例(%)")
+    private Double dividendRatio;
+
     /** 增发(万股) */
     @Excel(name = "增发(万股)")
     private Double seoNum;
@@ -54,6 +56,9 @@ public class InvFhrzLnfhrz extends BaseEntity{
 
     public void setTotalDividend(Double totalDividend){this.totalDividend = totalDividend;}
     public Double getTotalDividend(){return totalDividend;}
+
+    public void setDividendRatio(Double dividendRatio){this.dividendRatio = dividendRatio;}
+    public Double getDividendRatio(){return dividendRatio;}
 
     public void setSeoNum(Double seoNum){this.seoNum = seoNum;}
     public Double getSeoNum(){return seoNum;}
