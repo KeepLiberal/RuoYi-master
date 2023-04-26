@@ -1,12 +1,14 @@
 package com.ruoyi.quartz.task.policy;
 
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.investment.mapper.InvCommonMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 @Slf4j
@@ -32,7 +34,6 @@ public class InvPickStockTask {
      */
     public void pickStock() {
         List<String> dateList = new ArrayList<>();
-
         String nowYearStr = DateUtils.getNowYearStr();
         dateList.add((Integer.valueOf(nowYearStr) - 1) + "-12-31");
         dateList.add((Integer.valueOf(nowYearStr) - 2) + "-12-31");
@@ -52,15 +53,24 @@ public class InvPickStockTask {
         List<String> list5 = netProfitCashContentAverage(dateList, 100);
         //6、连续5年的资产负债率小于60%
         List<String> list6 = zcfzRatio(dateList, 60);
+        //7、连续5年分红比例大于25%
+        List<String> list7 = dividendRatio(dateList, 25);
 
         List<String> codeList = new ArrayList<>();
         for (String code : list1) {
-            if (list2.contains(code) && list3.contains(code) && list4.contains(code) && list5.contains(code))
+            if (list2.contains(code) && list3.contains(code) && list4.contains(code) && list5.contains(code) && list6.contains(code) && list7.contains(code)) {
                 codeList.add(code);
+            }
         }
 
-
-        System.out.println(codeList);
+        log.info("连续5年的ROE大于20% >>> " + list1);
+        log.info("连续5年的净利润现金含量大于80% >>> " + list2);
+        log.info("连续5年的毛利率大于40% >>> " + list3);
+        log.info("上市大于3年 >>> " + list4);
+        log.info("连续5年的平均净利润现金含量大于100% >>> " + list5);
+        log.info("连续5年的资产负债率小于60% >>> " + list6);
+        log.info("连续5年分红比例大于25% >>> " + list7);
+        log.info("综合选股 >>> "+codeList);
     }
 
     ////////////////////////////////////////////////////////////海选/////////////////////////////////////////////////////
@@ -348,7 +358,6 @@ public class InvPickStockTask {
         return codeList;
     }
 
-
     /**
      * 连续N年的资产负债率小于N%
      * <p>
@@ -366,7 +375,7 @@ public class InvPickStockTask {
                         double total_assets = (Double) map.get("total_assets");
                         double total_liabilities = (Double) map.get("total_liabilities");
                         double ratio = (total_liabilities / total_assets) * 100;
-                        if (ratio > num) {
+                        if (ratio < num) {
                             String code = (String) map.get("security_code");
                             codeList.add(code);
                         }
@@ -390,7 +399,7 @@ public class InvPickStockTask {
                             double total_assets = (Double) map.get("total_assets");
                             double total_liabilities = (Double) map.get("total_liabilities");
                             double ratio = (total_liabilities / total_assets) * 100;
-                            if (ratio > num) {
+                            if (ratio < num) {
                                 String code = (String) map.get("security_code");
                                 codeList.add(code);
                             }
@@ -405,5 +414,45 @@ public class InvPickStockTask {
         return codeList;
     }
 
+    /**
+     * 连续N年分红比例大于N%
+     * <p>
+     * 历年分红融资(dividend_ratio-分红比例)
+     */
+    private List<String> dividendRatio(List<String> dateList, double num) {
+        List<String> codeList = new ArrayList<>();
+        int time = 1;
+        for (String date : dateList) {
+            if (time == 1) {
+                String sql = "select security_code from inv_fhrz_lnfhrz where statistics_year='" + date.substring(0, 4) + "' and dividend_ratio>" + num;
+                List<Map<String, Object>> maps = invCommonMapper.commonSelect(sql);
+                for (Map<String, Object> map : maps) {
+                    String code = (String) map.get("security_code");
+                    codeList.add(code);
+                }
+            } else {
+                if (codeList.size() > 0) {
+                    String sql = "select security_code from inv_fhrz_lnfhrz where statistics_year='" + date.substring(0, 4) + "' and dividend_ratio>" + num + " and security_code in (";
+                    StringBuilder sb = new StringBuilder();
+                    for (String code : codeList) {
+                        sb.append("'").append(code).append("',");
+                    }
+                    String sbStr = sb.toString();
+                    sbStr = sbStr.substring(0, sbStr.length() - 1) + ")";
+                    sql = sql + sbStr;
 
+                    codeList.clear();
+                    List<Map<String, Object>> maps = invCommonMapper.commonSelect(sql);
+                    for (Map<String, Object> map : maps) {
+                        String code = (String) map.get("security_code");
+                        codeList.add(code);
+                    }
+                } else {
+                    break;
+                }
+            }
+            time++;
+        }
+        return codeList;
+    }
 }

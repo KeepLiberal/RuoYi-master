@@ -81,7 +81,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         return new SimpleDateFormat(format).format(date);
     }
 
-    public static final Date dateTime(final String format, final String ts) {
+    public static final Date dateTime(final String ts, final String format) {
         try {
             return new SimpleDateFormat(format).parse(ts);
         } catch (ParseException e) {

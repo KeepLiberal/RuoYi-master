@@ -74,7 +74,7 @@ public class InvDataFinanceAsyncTask {
                                 while (iterator.hasNext()) {
                                     String report_date = ((JSONObject) iterator.next()).getString("REPORT_DATE").substring(0, 10);
                                     if (!dateList.contains(report_date)) {
-                                        invFinanceReportDateMapper.insertInvFinanceReportDate(new InvFinanceReportDate(stock.getCode(), financeType, reportType, DateUtils.dateTime(DateUtils.YYYY_MM_DD, report_date)));
+                                        invFinanceReportDateMapper.insertInvFinanceReportDate(new InvFinanceReportDate(stock.getCode(), financeType, reportType, DateUtils.dateTime(report_date, DateUtils.YYYY_MM_DD)));
                                     }
                                 }
                             }
@@ -110,7 +110,7 @@ public class InvDataFinanceAsyncTask {
                                     while (iterator.hasNext()) {
                                         String report_date = ((JSONObject) iterator.next()).getString("REPORT_DATE").substring(0, 10);
                                         if (!dateList.contains(report_date)) {
-                                            invFinanceReportDateMapper.insertInvFinanceReportDate(new InvFinanceReportDate(stock.getCode(), financeType, reportType, DateUtils.dateTime(DateUtils.YYYY_MM_DD, report_date)));
+                                            invFinanceReportDateMapper.insertInvFinanceReportDate(new InvFinanceReportDate(stock.getCode(), financeType, reportType, DateUtils.dateTime(report_date, DateUtils.YYYY_MM_DD)));
                                         }
                                     }
                                     break;

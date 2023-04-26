@@ -7,11 +7,9 @@ import com.ruoyi.common.utils.NumFormatUtil;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.investment.domain.*;
-import com.ruoyi.investment.mapper.InvFhrzFhqkMapper;
-import com.ruoyi.investment.mapper.InvFhrzLnfhrzMapper;
-import com.ruoyi.investment.mapper.InvFhrzPgmxMapper;
-import com.ruoyi.investment.mapper.InvFhrzZfmxMapper;
+import com.ruoyi.investment.mapper.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -37,6 +35,8 @@ public class InvDataFhrzAsyncTask {
     private InvFhrzZfmxMapper invFhrzZfmxMapper;
     @Resource
     private InvFhrzPgmxMapper invFhrzPgmxMapper;
+    @Resource
+    private InvCommonMapper invCommonMapper;
 
     /**
      * 分红融资
@@ -156,11 +156,39 @@ public class InvDataFhrzAsyncTask {
                         }
                         if (map.containsKey(entity.getStatisticsYear())) {
                             InvFhrzLnfhrz compare = map.get(entity.getStatisticsYear());
+                            if (null != entity.getTotalDividend()) {
+                                String sql = "select parent_netprofit from inv_finance_lr where security_code='" + code + "' and report_type='nd' and report_date='" + entity.getStatisticsYear() + "-12-31'";
+                                List<Map<String, Object>> maps = invCommonMapper.commonSelect(sql);
+                                if (!CollectionUtils.isEmpty(maps)) {
+                                    Map<String, Object> mp = maps.get(0);
+                                    if (mp.containsKey("parent_netprofit")) {
+                                        double parent_netprofit = (Double) maps.get(0).get("parent_netprofit");
+                                        if (0 != parent_netprofit) {
+                                            double ratio = (entity.getTotalDividend() / parent_netprofit) * 100;
+                                            entity.setDividendRatio(ratio);
+                                        }
+                                    }
+                                }
+                            }
                             if (!compare.equals(entity)) {
                                 entity.setId(compare.getId());
                                 invFhrzLnfhrzMapper.updateInvFhrzLnfhrz(entity);
                             }
                         } else {
+                            if (null != entity.getTotalDividend()) {
+                                String sql = "select parent_netprofit from inv_finance_lr where security_code='" + code + "' and report_type='nd' and report_date='" + entity.getStatisticsYear() + "-12-31'";
+                                List<Map<String, Object>> maps = invCommonMapper.commonSelect(sql);
+                                if (!CollectionUtils.isEmpty(maps)) {
+                                    Map<String, Object> mp = maps.get(0);
+                                    if (mp.containsKey("parent_netprofit")) {
+                                        double parent_netprofit = (Double) maps.get(0).get("parent_netprofit");
+                                        if (0 != parent_netprofit) {
+                                            double ratio = (entity.getTotalDividend() / parent_netprofit) * 100;
+                                            entity.setDividendRatio(ratio);
+                                        }
+                                    }
+                                }
+                            }
                             invFhrzLnfhrzMapper.insertInvFhrzLnfhrz(entity);
                         }
                     }

@@ -82,11 +82,11 @@ public class InvFhrzLnfhrz extends BaseEntity{
         if (this == o) return true;
         if (!(o instanceof InvFhrzLnfhrz)) return false;
         InvFhrzLnfhrz that = (InvFhrzLnfhrz) o;
-        return Objects.equals(securityCode, that.securityCode) && Objects.equals(statisticsYear, that.statisticsYear) && Objects.equals(totalDividend, that.totalDividend) && Objects.equals(seoNum, that.seoNum) && Objects.equals(allotmentNum, that.allotmentNum) && Objects.equals(ipoNum, that.ipoNum);
+        return Objects.equals(securityCode, that.securityCode) && Objects.equals(statisticsYear, that.statisticsYear) && Objects.equals(totalDividend, that.totalDividend) && Objects.equals(dividendRatio, that.dividendRatio) && Objects.equals(seoNum, that.seoNum) && Objects.equals(allotmentNum, that.allotmentNum) && Objects.equals(ipoNum, that.ipoNum);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(securityCode, statisticsYear, totalDividend, seoNum, allotmentNum, ipoNum);
+        return Objects.hash(securityCode, statisticsYear, totalDividend, dividendRatio, seoNum, allotmentNum, ipoNum);
     }
 }

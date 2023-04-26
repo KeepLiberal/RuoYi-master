@@ -31,6 +31,8 @@ public class RyTask {
     private InvPolicyKLineTask invPolicyKLineTask;
     @Resource
     private InvPickStockTask invPickStockTask;
+    @Resource
+    private InvDataFhrzTask invDataFhrzTask;
 
     /**
      * 数据初始化
@@ -44,7 +46,8 @@ public class RyTask {
         invDataFinanceTask.invFinance();//财务分析
         invDataRzrqTask.invCompanyBigNews();//公司大事
         invDataShareholderResearchTask.shareholderResearch();//股东研究
-        invDataKLineTask.invDataKLine();//KLine数据
+        invDataFhrzTask.invFhrz();//分红融资
+        invDataKLineTask.invKLine();//KLine数据
         log.info("================数据初始化任务 完成=================");
     }
 
